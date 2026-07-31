@@ -1,0 +1,17 @@
+<template>
+  <BaseLayout :menus="menus" />
+</template>
+<script setup>
+import BaseLayout from './BaseLayout.vue'
+const menus = [
+  { path: '/admin/dashboard', title: '数据大屏', icon: 'DataLine' },
+  { path: '/admin/user', title: '用户管理', icon: 'User' },
+  { path: '/admin/role', title: '角色权限', icon: 'Lock' },
+  { path: '/admin/class', title: '班级管理', icon: 'OfficeBuilding' },
+  { path: '/admin/course', title: '课程管理', icon: 'Reading' },
+  { path: '/admin/aiConfig', title: 'AI配置', icon: 'MagicStick' },
+  { path: '/admin/notice', title: '公告管理', icon: 'Bell' },
+  { path: '/admin/moderation', title: '内容风控', icon: 'WarnTriangleFilled' },
+  { path: '/admin/log', title: '系统日志', icon: 'List' }
+]
+</script>

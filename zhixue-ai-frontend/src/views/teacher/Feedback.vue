@@ -1,0 +1,43 @@
+<template>
+  <el-card>
+    <template #header><span>智能家校反馈</span></template>
+    <el-form :inline="true" class="mb-20">
+      <el-form-item label="选择学生">
+        <el-select v-model="studentId" filterable placeholder="请选择学生" @change="loadFeedback">
+          <el-option v-for="s in students" :key="s.id" :label="s.realName + '(' + s.username + ')'" :value="s.id" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div v-if="feedback" class="feedback-box">{{ feedback }}</div>
+    <el-empty v-else description="请选择学生查看 AI 生成的学情反馈单" />
+  </el-card>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { getClasses, classStudents, feedback } from '@/api'
+
+const classes = ref([])
+const students = ref([])
+const studentId = ref(null)
+const feedbackText = ref('')
+
+onMounted(async () => {
+  const c = await getClasses()
+  classes.value = c.data
+  if (classes.value.length) {
+    const s = await classStudents(classes.value[0].id)
+    students.value = s.data
+  }
+})
+
+const loadFeedback = async () => {
+  if (!studentId.value) return
+  const res = await feedback(studentId.value)
+  feedbackText.value = res.data
+}
+</script>
+
+<style scoped>
+.feedback-box { background: #fffbe6; padding: 24px; border-radius: 8px; line-height: 1.8; white-space: pre-wrap; border: 1px dashed #e6a23c; }
+</style>
