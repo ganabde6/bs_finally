@@ -38,8 +38,9 @@ public class ExamService {
                 new LambdaQueryWrapper<ExamQuestion>()
                         .eq(subjectId != null, ExamQuestion::getSubjectId, subjectId)
                         .eq(questionType != null, ExamQuestion::getQuestionType, questionType)
-                        .and(w -> w.like(StringUtils.hasText(keyword), ExamQuestion::getContent, keyword)
-                                .or().like(StringUtils.hasText(keyword), ExamQuestion::getKnowledgePoint, keyword))
+                        .and(StringUtils.hasText(keyword),
+                                w -> w.like(ExamQuestion::getContent, keyword)
+                                        .or().like(ExamQuestion::getKnowledgePoint, keyword))
                         .orderByDesc(ExamQuestion::getCreateTime));
     }
 
@@ -92,12 +93,33 @@ public class ExamService {
                         .orderByDesc(ExamPaper::getCreateTime));
     }
 
-    /** 学生端:查询本班已发布试卷 */
+    /** 学生端:查询本班已发布试卷(排除已提交的) */
     public List<ExamPaper> listStudentPapers(Long classId) {
-        return paperMapper.selectList(new LambdaQueryWrapper<ExamPaper>()
+        return listStudentPapers(classId, null);
+    }
+
+    /** 学生端:查询本班已发布试卷(排除已提交的) */
+    public List<ExamPaper> listStudentPapers(Long classId, Long studentId) {
+        List<ExamPaper> papers = paperMapper.selectList(new LambdaQueryWrapper<ExamPaper>()
                 .eq(ExamPaper::getClassId, classId)
                 .eq(ExamPaper::getStatus, SystemConstants.PAPER_STATUS_PUBLISHED)
                 .orderByDesc(ExamPaper::getPublishTime));
+        // 排除学生已提交的试卷
+        if (studentId != null && !papers.isEmpty()) {
+            List<ExamAnswer> submitted = answerMapper.selectList(
+                    new LambdaQueryWrapper<ExamAnswer>()
+                            .eq(ExamAnswer::getStudentId, studentId)
+                            .ge(ExamAnswer::getStatus, SystemConstants.ANSWER_STATUS_SUBMITTED));
+            if (!submitted.isEmpty()) {
+                Set<Long> submittedPaperIds = submitted.stream()
+                        .map(ExamAnswer::getPaperId)
+                        .collect(Collectors.toSet());
+                papers = papers.stream()
+                        .filter(p -> !submittedPaperIds.contains(p.getId()))
+                        .collect(Collectors.toList());
+            }
+        }
+        return papers;
     }
 
     public ExamPaper getPaper(Long id) {

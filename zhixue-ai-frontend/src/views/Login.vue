@@ -56,27 +56,16 @@
         <div v-if="tab === 'login'" class="form-body">
           <el-form :model="loginForm" :rules="loginRules" ref="loginRef" size="large" @keyup.enter="handleLogin">
             <el-form-item prop="username">
-              <el-input v-model="loginForm.username" placeholder="账号/手机号/学号" :prefix-icon="User" />
+              <el-input v-model="loginForm.username" placeholder="请输入账号" :prefix-icon="User" />
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="loginForm.password" type="password" placeholder="密码" :prefix-icon="Lock" show-password />
             </el-form-item>
             <el-form-item>
               <el-checkbox v-model="remember">记住账号</el-checkbox>
-              <el-link type="primary" :underline="false" style="float:right">忘记密码？</el-link>
             </el-form-item>
             <el-button type="primary" size="large" style="width:100%" :loading="loginLoading" @click="handleLogin">登 录</el-button>
           </el-form>
-
-          <!-- 第三方登录 -->
-          <div class="third-party">
-            <el-divider>其他方式登录</el-divider>
-            <div class="third-icons">
-              <div class="third-icon" title="微信登录"><span>💬</span></div>
-              <div class="third-icon" title="QQ登录"><span>🐧</span></div>
-              <div class="third-icon" title="微博登录"><span>📱</span></div>
-            </div>
-          </div>
 
           <!-- 演示账号 -->
           <div class="demo-section">
@@ -122,7 +111,7 @@
             <el-button type="primary" size="large" style="width:100%" :loading="regLoading" @click="handleRegister">注 册</el-button>
           </el-form>
           <div class="switch-hint">
-            已有账号？<el-link type="primary" :underline="false" @click="tab = 'login'">立即登录</el-link>
+            已有账号？<el-link type="primary" underline="never" @click="tab = 'login'">立即登录</el-link>
           </div>
         </div>
       </div>
@@ -131,11 +120,11 @@
       <div class="footer-info">
         <span>© 2024 智学AI学习测评系统</span>
         <el-divider direction="vertical" />
-        <el-link :underline="false" type="info" style="font-size:12px">用户协议</el-link>
+        <el-link underline="never" type="info" style="font-size:12px">用户协议</el-link>
         <el-divider direction="vertical" />
-        <el-link :underline="false" type="info" style="font-size:12px">隐私政策</el-link>
+        <el-link underline="never" type="info" style="font-size:12px">隐私政策</el-link>
         <el-divider direction="vertical" />
-        <el-link :underline="false" type="info" style="font-size:12px">帮助中心</el-link>
+        <el-link underline="never" type="info" style="font-size:12px">帮助中心</el-link>
       </div>
     </div>
   </div>
@@ -475,41 +464,6 @@ const handleRegister = async () => {
 .link-text {
   color: #ff6700;
   cursor: pointer;
-}
-
-/* 第三方登录 */
-.third-party {
-  margin-top: 24px;
-}
-
-.third-party :deep(.el-divider__text) {
-  font-size: 12px;
-  color: #bbb;
-}
-
-.third-icons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 8px;
-}
-
-.third-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 20px;
-  transition: all 0.3s;
-}
-
-.third-icon:hover {
-  background: #eee;
-  transform: scale(1.1);
 }
 
 /* 演示账号 */

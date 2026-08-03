@@ -24,11 +24,11 @@
         <div class="mt-20">
           <!-- 单选/判断 -->
           <el-radio-group v-if="q.questionType === 1 || q.questionType === 3" v-model="answers[q.id]">
-            <el-radio v-for="opt in parseOptions(q.options)" :key="opt.key" :label="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-radio>
+            <el-radio v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-radio>
           </el-radio-group>
           <!-- 多选 -->
           <el-checkbox-group v-else-if="q.questionType === 2" v-model="answers[q.id]">
-            <el-checkbox v-for="opt in parseOptions(q.options)" :key="opt.key" :label="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-checkbox>
+            <el-checkbox v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-checkbox>
           </el-checkbox-group>
           <!-- 填空 -->
           <el-input v-else-if="q.questionType === 4" v-model="answers[q.id]" placeholder="请输入答案" style="max-width:400px" />
@@ -96,6 +96,10 @@ onMounted(async () => {
     }, 1000)
     // 切屏风控监测
     window.addEventListener('blur', handleBlur)
+  } catch (e) {
+    // request.js 拦截器已弹出具体错误提示,这里兜底:加载失败返回列表页
+    // (常见原因:试卷不存在/已过期/重复开考,startAnswer 被后端拒绝)
+    setTimeout(() => router.replace('/student/paper'), 1200)
   } finally {
     loading.value = false
   }
@@ -106,18 +110,26 @@ const handleBlur = () => {
   blurCount++
   import('@/api').then(({ reportRisk }) => {
     reportRisk({ answerId: answerId.value, riskType: 1, description: `第${blurCount}次切屏` })
+        .catch(() => { /* 风控上报失败不影响作答,静默吞掉 */ })
   })
   ElMessage.warning(`检测到切屏,已记录第${blurCount}次`)
 }
 
 const handleSubmit = async () => {
-  await ElMessageBox.confirm('确定提交作答吗?提交后将自动批改。', '提示', { type: 'warning' })
+  // ElMessageBox.confirm 在用户点"取消"时会 reject('cancel'),必须捕获,静默退出即可
+  try {
+    await ElMessageBox.confirm('确定提交作答吗?提交后将自动批改。', '提示', { type: 'warning' })
+  } catch {
+    return
+  }
   submitting.value = true
   try {
     const duration = Math.floor((Date.now() - startTime.value) / 1000)
     const res = await submitAnswer(answerId.value, { answers, duration })
     ElMessage.success(`批改完成!总分:${res.data.totalScore},对${res.data.correctCount}题,错${res.data.wrongCount}题`)
     router.push('/student/paper')
+  } catch (e) {
+    // request.js 已弹出后端错误信息,这里恢复按钮状态即可(finally 中处理)
   } finally {
     submitting.value = false
   }

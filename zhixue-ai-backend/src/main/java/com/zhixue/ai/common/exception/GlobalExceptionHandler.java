@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.stream.Collectors;
 
@@ -52,6 +53,12 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining(";"));
         return Result.error(ResultCode.PARAM_ERROR.getCode(), msg);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public Result<?> handleNoHandlerFound(NoHandlerFoundException e) {
+        log.warn("接口不存在(404): {} {}", e.getHttpMethod(), e.getRequestURL());
+        return Result.error(ResultCode.NOT_FOUND.getCode(), "接口不存在: " + e.getHttpMethod() + " " + e.getRequestURL());
     }
 
     @ExceptionHandler(Exception.class)

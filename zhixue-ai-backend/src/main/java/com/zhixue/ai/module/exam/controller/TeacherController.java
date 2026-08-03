@@ -3,9 +3,11 @@ package com.zhixue.ai.module.exam.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhixue.ai.common.result.Result;
 import com.zhixue.ai.module.ai.service.AiService;
+import com.zhixue.ai.module.ai.service.SelfPracticeService;
 import com.zhixue.ai.module.exam.entity.ExamPaper;
 import com.zhixue.ai.module.exam.entity.ExamQuestion;
 import com.zhixue.ai.module.exam.service.ExamService;
+import com.zhixue.ai.module.system.service.SystemService;
 import com.zhixue.ai.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ public class TeacherController {
 
     private final ExamService examService;
     private final AiService aiService;
+    private final SelfPracticeService selfPracticeService;
+    private final SystemService systemService;
 
     /** 教师首页统计 */
     @GetMapping("/dashboard")
@@ -183,8 +187,20 @@ public class TeacherController {
 
     // ============== 家校反馈 ==============
 
+    @GetMapping("/class/{classId}/students")
+    public Result<?> classStudents(@PathVariable Long classId) {
+        return Result.success(systemService.listClassStudents(classId));
+    }
+
     @GetMapping("/feedback/{studentId}")
     public Result<String> feedback(@PathVariable Long studentId) {
         return Result.success(aiService.generateComment(studentId));
+    }
+
+    // ============== 班级自主学习概况 ==============
+
+    @GetMapping("/class/self-study/stats")
+    public Result<List<Map<String, Object>>> classSelfStudyStats(@RequestParam Long classId) {
+        return Result.success(selfPracticeService.getClassSelfStudyStats(classId));
     }
 }

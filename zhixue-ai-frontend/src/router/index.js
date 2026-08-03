@@ -16,7 +16,10 @@ const routes = [
       { path: 'paper/:id', name: 'StudentTakeExam', component: () => import('@/views/student/TakeExam.vue'), meta: { title: '作答' } },
       { path: 'tutor', name: 'StudentTutor', component: () => import('@/views/student/Tutor.vue'), meta: { title: 'AI助学' } },
       { path: 'errorbook', name: 'StudentErrorBook', component: () => import('@/views/student/ErrorBook.vue'), meta: { title: '错题本' } },
-      { path: 'study', name: 'StudentStudy', component: () => import('@/views/student/StudyCenter.vue'), meta: { title: '学情中心' } }
+      { path: 'study', name: 'StudentStudy', component: () => import('@/views/student/StudyCenter.vue'), meta: { title: '学情中心' } },
+      { path: 'selfPractice', name: 'StudentSelfPractice', component: () => import('@/views/student/PracticeConfig.vue'), meta: { title: '自主智练' } },
+      { path: 'practicePaper', name: 'StudentPracticePaper', component: () => import('@/views/student/PracticePaper.vue'), meta: { title: '练习作答' } },
+      { path: 'pkArena', name: 'StudentPkArena', component: () => import('@/views/student/PkArena.vue'), meta: { title: '同学PK' } }
     ]
   },
 

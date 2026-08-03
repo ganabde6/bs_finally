@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 本地规则版 AI 服务实现(默认)
+ * 本地规则版 AI 服务实现(默认降级方案)
  * <p>无需第三方接口,基于关键词、模板、规则完成答疑/润色/评语/风控</p>
- * <p>当 ai_provider 配置为 local 时启用</p>
+ * <p>当 ai_provider 配置为 local 时由 ApiAiServiceProvider 内部调用</p>
+ * <p>注意: 已移除 @Component, 不再作为独立 Spring Bean, 避免与 ApiAiServiceProvider 冲突</p>
  */
-@Component
 public class LocalRuleAiServiceProvider implements AiServiceProvider {
 
     /** 违规关键词(简化版,实际可扩展) */
@@ -141,5 +141,48 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
             sb.append("  4. 每周专项练习 30 分钟\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    public String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType) {
+        // 本地规则版:基于原题目改写,生成变式题
+        String typeLabel;
+        switch (questionType == null ? 0 : questionType) {
+            case 1: typeLabel = "单选题"; break;
+            case 2: typeLabel = "多选题"; break;
+            case 3: typeLabel = "判断题"; break;
+            case 4: typeLabel = "填空题"; break;
+            case 5: typeLabel = "简答题"; break;
+            case 6: typeLabel = "作文题"; break;
+            default: typeLabel = "练习题";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("【AI 变式题生成】\n\n");
+        sb.append("知识点:").append(knowledgePoint == null ? "通用" : knowledgePoint).append("\n");
+        sb.append("题型:").append(typeLabel).append("\n\n");
+        sb.append("【原题目】\n").append(originalQuestion).append("\n\n");
+        sb.append("【变式题】\n");
+        sb.append("请根据以下知识点「").append(knowledgePoint == null ? "相关知识点" : knowledgePoint).append("」,");
+        sb.append("设计一道与原题考查相同底层知识但题型或逻辑发生变化的练习题。\n\n");
+        sb.append(" 提示:当前为本地规则模式,变式题由 AI 接口生成效果更佳。");
+        sb.append("请在管理端配置通义千问或 DeepSeek API Key 以启用 AI 生成。");
+        return sb.toString();
+    }
+
+    @Override
+    public String correctVariant(String questionContent, String standardAnswer, String studentAnswer) {
+        // 本地规则版:仅支持与标准答案做文本比对,无法判定时返回 null
+        if (studentAnswer == null || studentAnswer.trim().isEmpty()) {
+            return "错误\n未作答";
+        }
+        if (standardAnswer == null || standardAnswer.trim().isEmpty()) {
+            return null;
+        }
+        String std = standardAnswer.replaceAll("\\s", "").toLowerCase();
+        String stu = studentAnswer.replaceAll("\\s", "").toLowerCase();
+        if (stu.equals(std) || (std.length() <= 10 && stu.contains(std))) {
+            return "正确\n回答与标准答案一致";
+        }
+        return "错误\n与标准答案不符。标准答案:" + standardAnswer.trim();
     }
 }

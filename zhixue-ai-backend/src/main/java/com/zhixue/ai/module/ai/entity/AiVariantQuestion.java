@@ -18,5 +18,7 @@ public class AiVariantQuestion {
     private String standardAnswer;
     private String knowledgePoint;
     private Integer isSolved;
+    private String studentAnswer;
+    private Integer isCorrect;
     private LocalDateTime createTime;
 }

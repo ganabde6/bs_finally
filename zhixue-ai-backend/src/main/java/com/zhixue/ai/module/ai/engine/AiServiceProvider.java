@@ -35,4 +35,22 @@ public interface AiServiceProvider {
      * 生成学情提升建议
      */
     String generateStudySuggestion(String weakPoints, String strongPoints);
+
+    /**
+     * AI 生成变式题
+     * @param originalQuestion 原题目内容
+     * @param knowledgePoint 知识点
+     * @param questionType 题型 (1单选/2多选/3判断/4填空/5简答/6作文)
+     * @return 变式题内容(含题目、选项、答案、解析)
+     */
+    String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType);
+
+    /**
+     * 变式题作答批改
+     * @param questionContent 题目内容(AI 生成的变式题可能内含【答案】【解析】段)
+     * @param standardAnswer 标准答案(可能为空)
+     * @param studentAnswer 学生答案
+     * @return 批改结论,以「正确」或「错误」开头后接简评;无法判定返回 null
+     */
+    String correctVariant(String questionContent, String standardAnswer, String studentAnswer);
 }

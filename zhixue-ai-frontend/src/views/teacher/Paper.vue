@@ -20,7 +20,7 @@
       <el-table-column prop="totalScore" label="总分" width="80" />
       <el-table-column prop="duration" label="时长(分)" width="100" />
       <el-table-column label="状态" width="100">
-        <template #default="{row}"><el-tag :type="['info','','success'][row.status]">{{ ['草稿','已发布','已结束'][row.status] }}</el-tag></template>
+        <template #default="{row}"><el-tag :type="['info','primary','success'][row.status]">{{ ['草稿','已发布','已结束'][row.status] }}</el-tag></template>
       </el-table-column>
       <el-table-column prop="deadline" label="截止时间" width="180" />
       <el-table-column label="操作" width="280">
@@ -48,7 +48,6 @@ const total = ref(0)
 const loading = ref(false)
 const query = reactive({ current: 1, size: 10, paperType: null })
 
-onMounted(loadData)
 const loadData = async () => {
   loading.value = true
   try {
@@ -57,6 +56,8 @@ const loadData = async () => {
     total.value = res.data.total
   } finally { loading.value = false }
 }
+
+onMounted(loadData)
 
 const publish = async (id) => {
   await ElMessageBox.confirm('发布后学生即可作答,确定?', '提示', { type: 'warning' })

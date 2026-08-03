@@ -232,20 +232,69 @@ public class AiService {
         errorBookMapper.updateById(eb);
     }
 
-    /** AI 推送变式题 */
+    /** AI 推送变式题(优先题库匹配,无则 AI 生成) */
     public AiVariantQuestion pushVariant(Long errorBookId) {
         AiErrorBook eb = errorBookMapper.selectById(errorBookId);
         if (eb == null) throw new BizException("错题不存在");
         ExamQuestion q = questionMapper.selectById(eb.getQuestionId());
+        // 优先从题库匹配变式题
         AiVariantQuestion vq = variantEngine.pushVariant(q, eb.getStudentId());
-        if (vq == null) throw new BizException("暂无合适变式题");
-        variantMapper.insert(vq);
-        return vq;
+        if (vq != null) {
+            variantMapper.insert(vq);
+            return vq;
+        }
+        // 题库无匹配,调用 AI 生成变式题
+        log.info("题库无合适变式题,调用 AI 生成, 知识点:{}, 题型:{}", q.getKnowledgePoint(), q.getQuestionType());
+        String aiVariant = aiServiceProvider.generateVariant(q.getContent(), q.getKnowledgePoint(), q.getQuestionType());
+        AiVariantQuestion aiVq = new AiVariantQuestion();
+        aiVq.setSourceQuestionId(q.getId());
+        aiVq.setStudentId(eb.getStudentId());
+        aiVq.setContent(aiVariant);
+        aiVq.setKnowledgePoint(q.getKnowledgePoint());
+        aiVq.setIsSolved(0);
+        variantMapper.insert(aiVq);
+        return aiVq;
+    }
+
+    /** 变式题作答 + AI 批改 */
+    public Map<String, Object> submitVariantAnswer(Long variantId, Long studentId, String answer) {
+        AiVariantQuestion vq = variantMapper.selectById(variantId);
+        if (vq == null) throw new BizException("变式题不存在");
+        if (!vq.getStudentId().equals(studentId)) throw new BizException("无权操作他人的变式题");
+        if (vq.getIsSolved() != null && vq.getIsSolved() == 1) throw new BizException("该变式题已作答");
+        if (answer == null || answer.trim().isEmpty()) throw new BizException("请先填写答案");
+
+        // 标准答案优先取字段;AI 生成的变式题答案内嵌在 content 的【答案】段中
+        String std = vq.getStandardAnswer();
+        if (std == null || std.trim().isEmpty()) {
+            std = extractAnswerFromContent(vq.getContent());
+        }
+        String result = aiServiceProvider.correctVariant(vq.getContent(), std, answer.trim());
+        boolean correct = result != null && result.startsWith("正确");
+
+        vq.setStudentAnswer(answer.trim());
+        vq.setIsSolved(1);
+        vq.setIsCorrect(correct ? 1 : 0);
+        variantMapper.updateById(vq);
+
+        Map<String, Object> r = new HashMap<>();
+        r.put("correct", correct);
+        r.put("feedback", result == null ? "AI 暂时无法判定,请对照答案自查" : result);
+        return r;
+    }
+
+    /** 从 AI 生成的变式题内容中提取【答案】段 */
+    private String extractAnswerFromContent(String content) {
+        if (content == null) return null;
+        int a = content.indexOf("【答案】");
+        if (a < 0) return null;
+        int b = content.indexOf("【解析】", a);
+        String s = b > a ? content.substring(a + 4, b) : content.substring(a + 4);
+        return s.trim();
     }
 
     /** 学生变式题列表 */
-    public List<AiVariantQuestion> listVariants(Long studentId) {
-        return variantMapper.selectList(new LambdaQueryWrapper<AiVariantQuestion>()
+    public List<AiVariantQuestion> listVariants(Long studentId) {        return variantMapper.selectList(new LambdaQueryWrapper<AiVariantQuestion>()
                 .eq(AiVariantQuestion::getStudentId, studentId)
                 .orderByDesc(AiVariantQuestion::getCreateTime));
     }

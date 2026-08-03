@@ -7,7 +7,7 @@
           <el-option v-for="p in papers" :key="p.id" :label="p.paperName" :value="p.id" />
         </el-select>
       </el-form-item>
-      <el-button type="primary" :disabled="!paperId" @click="batchCorrect">批量 AI 批改</el-button>
+      <el-button type="primary" :disabled="!paperId" @click="batchC">批量 AI 批改</el-button>
       <el-button type="warning" :disabled="!paperId" @click="similarity">答案雷同查重</el-button>
     </el-form>
     <el-table :data="answers" stripe v-loading="loading">

@@ -10,6 +10,12 @@ server:
 spring:
   application:
     name: zhixue-ai-backend
+  mvc:
+    # 无匹配路由时抛出异常,便于全局异常处理记录 404 路径
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/zhixue_ai?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
@@ -52,3 +58,20 @@ logging:
   level:
     com.zhixue.ai: debug
     org.springframework.security: info
+
+# AI 服务配置
+ai:
+  # AI 服务提供者: local(本地规则) / dashscope(通义千问) / deepseek
+  provider: dashscope
+
+  # 通义千问(DashScope)配置
+  dashscope:
+    api-key: ${DASHSCOPE_API_KEY:sk-ws-H.ELMDYLL.1pb6.MEUCIG1i8kr33RxoEtPG6CDUZ8QeuFwWRt1ub-QPjmb_XQDLAiEA6oMLVZcIMQ4ZrTZPfrZ6HRhVAaOylXHjB8sRLE1v9os}
+    base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    model: qwen-plus
+
+  # DeepSeek 配置
+  deepseek:
+    api-key: ${DEEPSEEK_API_KEY:}
+    base-url: https://api.deepseek.com/v1
+    model: deepseek-chat

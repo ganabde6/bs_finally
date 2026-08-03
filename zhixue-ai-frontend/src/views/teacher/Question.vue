@@ -14,7 +14,7 @@
       </el-form-item>
       <el-form-item label="题型">
         <el-select v-model="query.questionType" placeholder="全部" clearable style="width:120px">
-          <el-option v-for="t in types" :key="v" :label="t.label" :value="t.value" />
+          <el-option v-for="t in types" :key="t.value" :label="t.label" :value="t.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="关键词">

@@ -30,11 +30,29 @@ export const errorBooks = () => request.get('/api/student/errorbooks')
 export const reviewError = (id, status) => request.put(`/api/student/errorbook/${id}/review?status=${status}`)
 export const pushVariant = (id) => request.post(`/api/student/errorbook/${id}/variant`)
 export const myVariants = () => request.get('/api/student/variants')
+export const answerVariant = (id, answer) => request.post(`/api/student/variant/${id}/answer`, { answer })
 export const studyAnalysis = (subjectId) => request.get('/api/student/study/analysis', { params: { subjectId } })
 export const tutorChat = (data) => request.post('/api/student/tutor/chat', data)
 export const polishEssay = (content) => request.post('/api/student/tutor/polish', { content })
 export const chatHistory = () => request.get('/api/student/tutor/history')
 export const reportRisk = (data) => request.post('/api/student/risk/report', data)
+
+// ============ 自主智练与自律打卡 ============
+export const generatePractice = () => request.post('/api/student/practice/generate')
+export const generatePracticeConfig = (data) => request.post('/api/student/practice/generate-config', data)
+export const getKnowledgePoints = (subjectId) => request.get('/api/student/practice/knowledge-points', { params: { subjectId } })
+export const getRecentPracticeRecords = () => request.get('/api/student/practice/recent-records')
+export const submitPractice = (data) => request.post('/api/student/practice/submit', data)
+export const checkInStatus = () => request.get('/api/student/checkin/status')
+export const doCheckIn = () => request.post('/api/student/checkin/do')
+
+// ============ 同学PK ============
+export const pkCreateRoom = (data) => request.post('/api/student/pk/create', data)
+export const pkJoinRoom = (data) => request.post('/api/student/pk/join', data)
+export const pkGetQuestions = (roomCode) => request.get('/api/student/pk/questions', { params: { roomCode } })
+export const pkSubmitAnswer = (data) => request.post('/api/student/pk/answer', data)
+export const pkGetRanking = (roomCode) => request.get('/api/student/pk/ranking', { params: { roomCode } })
+export const pkGetRoomStatus = (roomCode) => request.get('/api/student/pk/status', { params: { roomCode } })
 
 // ============ 教师端 ============
 export const teacherDashboard = () => request.get('/api/teacher/dashboard')
@@ -58,6 +76,7 @@ export const adjustCorrect = (correctId, data) => request.put(`/api/teacher/corr
 export const similarityCheck = (paperId) => request.post(`/api/teacher/correct/${paperId}/similarity`)
 export const classAnalysis = (classId, subjectId) => request.get(`/api/teacher/class/${classId}/analysis`, { params: { subjectId } })
 export const feedback = (studentId) => request.get(`/api/teacher/feedback/${studentId}`)
+export const teacherClassStudents = (classId) => request.get(`/api/teacher/class/${classId}/students`)
 
 // ============ 管理端 ============
 export const adminDashboard = () => request.get('/api/admin/dashboard')

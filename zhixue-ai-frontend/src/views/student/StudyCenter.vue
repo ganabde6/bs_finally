@@ -32,17 +32,53 @@
       </el-col>
     </el-row>
     <el-card class="mt-20" v-if="analysis">
-      <template #header><span>AI 个性化提升建议</span></template>
+      <template #header>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span>AI 个性化提升建议</span>
+          <el-button 
+            v-if="weakPoints.length > 0" 
+            type="primary" 
+            size="small"
+            @click="goToPractice"
+          >
+            🎯 针对薄弱点智能出题
+          </el-button>
+        </div>
+      </template>
       <div style="white-space:pre-wrap;line-height:1.8">{{ analysis.suggestion }}</div>
+      
+      <el-divider v-if="weakPoints.length > 0" />
+      
+      <div v-if="weakPoints.length > 0" style="margin-top:16px">
+        <div style="margin-bottom:12px;color:#606266;font-size:14px">
+          <strong> 你的薄弱知识点：</strong>
+        </div>
+        <el-tag 
+          v-for="wp in weakPoints" 
+          :key="wp" 
+          type="danger" 
+          style="margin:4px"
+          closable
+          @close="removeWeakPoint(wp)"
+        >
+          {{ wp }}
+        </el-tag>
+        <div style="margin-top:16px;color:#909399;font-size:13px">
+          💡 点击「针对薄弱点智能出题」，AI 将根据你的薄弱知识点生成专项练习题，底层知识不变但题型和逻辑会变化，帮助你真正掌握这些知识点。
+        </div>
+      </div>
     </el-card>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
 import { studyAnalysis } from '@/api'
 
+const router = useRouter()
 const analysis = ref(null)
 const loading = ref(false)
 const trendChart = ref()
@@ -70,6 +106,7 @@ onMounted(async () => {
 })
 
 const drawTrend = () => {
+  if (!trendChart.value) return
   const chart = echarts.init(trendChart.value)
   chart.setOption({
     tooltip: { trigger: 'axis' },
@@ -80,6 +117,7 @@ const drawTrend = () => {
 }
 
 const drawRadar = () => {
+  if (!radarChart.value) return
   const allPoints = [...weakPoints.value, ...strongPoints.value]
   const chart = echarts.init(radarChart.value)
   chart.setOption({
@@ -96,4 +134,28 @@ const drawRadar = () => {
     }]
   })
 }
+
+function removeWeakPoint(wp) {
+  weakPoints.value = weakPoints.value.filter(p => p !== wp)
+}
+
+function goToPractice() {
+  if (weakPoints.value.length === 0) {
+    ElMessage.warning('没有可训练的薄弱知识点')
+    return
+  }
+  // 将薄弱知识点和学科ID存入 sessionStorage，供 PracticeConfig 读取
+  sessionStorage.setItem('weakPointsForPractice', JSON.stringify({
+    knowledgePoints: weakPoints.value,
+    subjectId: analysis.value.subjectId
+  }))
+  router.push('/student/selfPractice')
+}
 </script>
+
+<style scoped>
+.mt-20 { margin-top: 20px; }
+.stat-card { text-align: center; }
+.stat-card .num { font-size: 28px; font-weight: 700; color: #409EFF; }
+.stat-card .label { font-size: 13px; color: #909399; margin-top: 4px; }
+</style>

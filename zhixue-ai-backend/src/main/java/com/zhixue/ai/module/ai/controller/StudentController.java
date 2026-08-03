@@ -27,17 +27,18 @@ public class StudentController {
         Long studentId = SecurityUtils.getCurrentUserId();
         Long classId = SecurityUtils.getCurrentClassId();
         Map<String, Object> result = new java.util.HashMap<>();
-        result.put("paperCount", examService.listStudentPapers(classId).size());
+        result.put("paperCount", examService.listStudentPapers(classId, studentId).size());
         result.put("answerCount", examService.listStudentAnswers(studentId).size());
         result.put("errorCount", aiService.listErrorBooks(studentId).size());
         return Result.success(result);
     }
 
-    /** 查询本人班级已发布试卷 */
+    /** 查询本人班级已发布试卷(排除已提交的) */
     @GetMapping("/papers")
     public Result<?> papers() {
+        Long studentId = SecurityUtils.getCurrentUserId();
         Long classId = SecurityUtils.getCurrentClassId();
-        return Result.success(examService.listStudentPapers(classId));
+        return Result.success(examService.listStudentPapers(classId, studentId));
     }
 
     /** 试卷详情(含题目,不含答案) */
@@ -93,6 +94,12 @@ public class StudentController {
     @PostMapping("/errorbook/{id}/variant")
     public Result<?> pushVariant(@PathVariable Long id) {
         return Result.success(aiService.pushVariant(id));
+    }
+
+    /** 变式题作答批改 */
+    @PostMapping("/variant/{id}/answer")
+    public Result<?> answerVariant(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        return Result.success(aiService.submitVariantAnswer(id, SecurityUtils.getCurrentUserId(), body.get("answer")));
     }
 
     /** 我的变式题 */

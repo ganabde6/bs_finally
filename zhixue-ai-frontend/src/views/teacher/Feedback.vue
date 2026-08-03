@@ -8,14 +8,14 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <div v-if="feedback" class="feedback-box">{{ feedback }}</div>
+    <div v-if="feedbackText" class="feedback-box">{{ feedbackText }}</div>
     <el-empty v-else description="请选择学生查看 AI 生成的学情反馈单" />
   </el-card>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getClasses, classStudents, feedback } from '@/api'
+import { getClasses, teacherClassStudents, feedback } from '@/api'
 
 const classes = ref([])
 const students = ref([])
@@ -26,7 +26,7 @@ onMounted(async () => {
   const c = await getClasses()
   classes.value = c.data
   if (classes.value.length) {
-    const s = await classStudents(classes.value[0].id)
+    const s = await teacherClassStudents(classes.value[0].id)
     students.value = s.data
   }
 })
