@@ -19,6 +19,7 @@ public class AiVariantQuestion {
     private String knowledgePoint;
     private Integer isSolved;
     private String studentAnswer;
+    private String studentImages; // 学生上传的图片答案(base64 JSON数组)
     private Integer isCorrect;
     private LocalDateTime createTime;
 }

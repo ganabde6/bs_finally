@@ -14,8 +14,8 @@ export const uploadFile = (file) => {
   fd.append('file', file)
   return request.post('/api/common/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
-export const getSubjects = () => request.get('/api/common/subjects')
-export const getClasses = () => request.get('/api/common/classes')
+export const getSubjects = (gradeLevel) => request.get('/api/common/subjects', { params: { gradeLevel } })
+export const getClasses = (gradeLevel) => request.get('/api/common/classes', { params: { gradeLevel } })
 export const getRoles = () => request.get('/api/common/roles')
 
 // ============ 学生端 ============
@@ -28,12 +28,17 @@ export const myAnswers = () => request.get('/api/student/answers')
 export const correctDetail = (answerId) => request.get(`/api/student/answer/${answerId}/correct`)
 export const errorBooks = () => request.get('/api/student/errorbooks')
 export const reviewError = (id, status) => request.put(`/api/student/errorbook/${id}/review?status=${status}`)
-export const pushVariant = (id) => request.post(`/api/student/errorbook/${id}/variant`)
+export const deleteErrorBook = (id) => request.delete(`/api/student/errorbook/${id}`)
+export const pushVariant = (id, count = 1) => request.post(`/api/student/errorbook/${id}/variant`, null, { 
+  params: { count },
+  timeout: 120000 // AI 生成变式题需要更长时间，设置为 120 秒
+})
 export const myVariants = () => request.get('/api/student/variants')
-export const answerVariant = (id, answer) => request.post(`/api/student/variant/${id}/answer`, { answer })
+export const deleteVariant = (id) => request.delete(`/api/student/variant/${id}`)
+export const answerVariant = (id, answer, images = []) => request.post(`/api/student/variant/${id}/answer`, { answer, images }, { timeout: 120000 })
 export const studyAnalysis = (subjectId) => request.get('/api/student/study/analysis', { params: { subjectId } })
-export const tutorChat = (data) => request.post('/api/student/tutor/chat', data)
-export const polishEssay = (content) => request.post('/api/student/tutor/polish', { content })
+export const tutorChat = (data) => request.post('/api/student/tutor/chat', data, { timeout: 120000 })
+export const polishEssay = (content) => request.post('/api/student/tutor/polish', { content }, { timeout: 120000 })
 export const chatHistory = () => request.get('/api/student/tutor/history')
 export const reportRisk = (data) => request.post('/api/student/risk/report', data)
 

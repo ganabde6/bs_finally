@@ -10,6 +10,13 @@
       <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="className" label="班级名称" width="160" />
       <el-table-column prop="grade" label="年级" width="120" />
+      <el-table-column label="学段" width="100">
+        <template #default="{row}">
+          <el-tag :type="['','success','warning','danger'][row.gradeLevel || 0]" size="small">
+            {{ ['通用','小学','初中','高中'][row.gradeLevel || 0] }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="班主任" width="140"><template #default="{row}">{{ teacherText(row.headTeacherId) }}</template></el-table-column>
       <el-table-column label="状态" width="80">
         <template #default="{row}">
@@ -29,6 +36,13 @@
       <el-form :model="form" label-width="100px">
         <el-form-item label="班级名称"><el-input v-model="form.className" /></el-form-item>
         <el-form-item label="年级"><el-input v-model="form.grade" placeholder="如:高一" /></el-form-item>
+        <el-form-item label="学段">
+          <el-select v-model="form.gradeLevel" placeholder="请选择学段" style="width:100%">
+            <el-option label="小学" :value="1" />
+            <el-option label="初中" :value="2" />
+            <el-option label="高中" :value="3" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="班主任">
           <el-select v-model="form.headTeacherId" clearable filterable>
             <el-option v-for="t in teachers" :key="t.id" :label="t.realName + '(' + t.username + ')'" :value="t.id" />

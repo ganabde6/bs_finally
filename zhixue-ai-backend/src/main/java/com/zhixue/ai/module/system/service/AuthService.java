@@ -81,7 +81,7 @@ public class AuthService {
     /**
      * 学生注册(仅允许注册学生身份,roleId 固定为 4)
      */
-    public void registerStudent(String username, String password, String realName, Long classId) {
+    public void registerStudent(String username, String password, String realName, Long classId, Integer gradeLevel) {
         if (username == null || username.trim().isEmpty()) {
             throw new BizException("用户名不能为空");
         }
@@ -97,6 +97,7 @@ public class AuthService {
         user.setRealName(realName);
         user.setRoleId(4L); // 固定为学生角色
         user.setClassId(classId);
+        user.setGradeLevel(gradeLevel != null ? gradeLevel : 0);
         user.setStatus(1);
         userMapper.insert(user);
     }
@@ -117,6 +118,7 @@ public class AuthService {
         result.put("roleCode", lu.getRoleCode());
         result.put("classId", lu.getClassId());
         result.put("avatar", lu.getAvatar());
+        result.put("gradeLevel", lu.getGradeLevel());
         // 查询权限
         List<SysPermission> perms = permissionMapper.selectByRoleId(lu.getRoleId());
         result.put("permissions", perms);

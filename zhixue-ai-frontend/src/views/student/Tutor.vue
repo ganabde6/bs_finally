@@ -37,6 +37,25 @@
         <el-button type="primary" :loading="polishing" @click="doPolish">AI 润色</el-button>
       </div>
       <el-input v-if="polishResult" v-model="polishResult" type="textarea" :rows="10" readonly class="mt-20" />
+      
+      <!-- 润色后对话区 -->
+      <div v-if="polishResult" class="mt-20" style="border-top:1px solid #ebeef5;padding-top:16px">
+        <div style="font-weight:600;margin-bottom:12px;color:#303133">💬 与 AI 继续讨论作文</div>
+        <div class="polish-chat-box" ref="polishChatBox">
+          <div v-for="msg in polishChatMessages" :key="msg.id" :class="['msg', msg.role]">
+            <div class="bubble">
+              {{ msg.content }}
+            </div>
+          </div>
+          <div v-if="!polishChatMessages.length" style="color:#909399;font-size:13px;text-align:center;padding:20px">
+            针对润色结果向 AI 提问，例如：「帮我改一下结尾段」「这段描写可以更生动吗」
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <el-input v-model="polishChatInput" type="textarea" :rows="2" placeholder="输入你想修改或讨论的内容... Ctrl+Enter 发送" @keyup.ctrl.enter="sendPolishChat" />
+          <el-button type="primary" :loading="polishChatLoading" @click="sendPolishChat" style="align-self:flex-end;height:60px">发送</el-button>
+        </div>
+      </div>
     </el-card>
   </div>
 </template>
@@ -56,6 +75,13 @@ const polishResult = ref('')
 const polishing = ref(false)
 const uploadedFile = ref('')
 const isRecording = ref(false)
+
+// 润色后对话
+const polishChatMessages = ref([])
+const polishChatInput = ref('')
+const polishChatLoading = ref(false)
+const polishChatBox = ref()
+let msgId = 0
 let recognition = null
 
 onMounted(async () => {
@@ -199,9 +225,51 @@ const doPolish = async () => {
   try {
     const res = await polishEssay(polishContent.value)
     polishResult.value = res.data
+    // 重置对话区
+    polishChatMessages.value = []
+    msgId = 0
   } finally {
     polishing.value = false
   }
+}
+
+const sendPolishChat = async () => {
+  if (!polishChatInput.value.trim()) {
+    ElMessage.warning('请输入内容')
+    return
+  }
+  polishChatLoading.value = true
+  const userMsg = polishChatInput.value.trim()
+  polishChatInput.value = ''
+  
+  // 添加用户消息
+  polishChatMessages.value.push({
+    id: ++msgId,
+    role: 'user',
+    content: userMsg
+  })
+  scrollPolishChatBottom()
+  
+  try {
+    // 将原文 + 润色结果 + 用户问题一起发给 AI
+    const context = `【原文】\n${polishContent.value}\n\n【AI润色结果】\n${polishResult.value}\n\n【学生问题】\n${userMsg}`
+    const res = await tutorChat({ question: context, chatType: 1 })
+    polishChatMessages.value.push({
+      id: ++msgId,
+      role: 'assistant',
+      content: res.data.answer
+    })
+    scrollPolishChatBottom()
+  } catch (err) {
+    ElMessage.error('对话失败，请重试')
+  } finally {
+    polishChatLoading.value = false
+  }
+}
+
+const scrollPolishChatBottom = async () => {
+  await nextTick()
+  if (polishChatBox.value) polishChatBox.value.scrollTop = polishChatBox.value.scrollHeight
 }
 
 const scrollBottom = async () => {
@@ -212,6 +280,7 @@ const scrollBottom = async () => {
 
 <style scoped>
 .chat-box { max-height: 400px; overflow-y: auto; padding: 10px; background: #f5f7fa; border-radius: 4px; min-height: 200px; }
+.polish-chat-box { max-height: 300px; overflow-y: auto; padding: 10px; background: #f5f7fa; border-radius: 4px; min-height: 80px; }
 .msg { margin: 12px 0; }
 .msg.user { text-align: right; }
 .msg.assistant .bubble { background: #fff; border: 1px solid #dcdfe6; }

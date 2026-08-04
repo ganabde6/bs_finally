@@ -14,6 +14,7 @@ public class SysClass {
     private String className;
     private String grade;
     private Long headTeacherId;
+    private Integer gradeLevel; // 学段: 0=通用, 1=小学, 2=初中, 3=高中
     private Integer status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;

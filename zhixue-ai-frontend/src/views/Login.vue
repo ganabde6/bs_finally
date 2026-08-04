@@ -92,6 +92,13 @@
             <el-form-item prop="realName">
               <el-input v-model="regForm.realName" placeholder="请输入真实姓名" :prefix-icon="UserFilled" />
             </el-form-item>
+            <el-form-item prop="gradeLevel">
+              <el-select v-model="regForm.gradeLevel" placeholder="请选择学段" style="width:100%">
+                <el-option label="小学" :value="1" />
+                <el-option label="初中" :value="2" />
+                <el-option label="高中" :value="3" />
+              </el-select>
+            </el-form-item>
             <el-form-item prop="classId">
               <el-select v-model="regForm.classId" placeholder="请选择班级" style="width:100%">
                 <el-option v-for="c in classes" :key="c.id" :label="c.className" :value="c.id" />
@@ -131,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { User, Lock, UserFilled } from '@element-plus/icons-vue'
@@ -159,7 +166,7 @@ const regRef = ref()
 const regLoading = ref(false)
 const agreeTerms = ref(false)
 const classes = ref([])
-const regForm = reactive({ username: '', realName: '', classId: null, password: '', confirmPwd: '' })
+const regForm = reactive({ username: '', realName: '', gradeLevel: null, classId: null, password: '', confirmPwd: '' })
 
 const validateConfirmPwd = (rule, value, callback) => {
   if (value !== regForm.password) {
@@ -175,6 +182,7 @@ const regRules = {
     { min: 3, max: 20, message: '长度在3-20个字符', trigger: 'blur' }
   ],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
+  gradeLevel: [{ required: true, message: '请选择学段', trigger: 'change' }],
   classId: [{ required: true, message: '请选择班级', trigger: 'change' }],
   password: [
     { required: true, message: '请设置密码', trigger: 'blur' },
@@ -187,9 +195,19 @@ const regRules = {
 }
 
 onMounted(async () => {
+  // 不预加载班级，等选择学段后再加载
+})
+
+// 选择学段后自动加载对应班级
+watch(() => regForm.gradeLevel, async (val) => {
+  regForm.classId = null
+  if (!val) {
+    classes.value = []
+    return
+  }
   try {
-    const res = await getClasses()
-    classes.value = res.data
+    const res = await getClasses(val)
+    classes.value = res.data || []
   } catch {}
 })
 
@@ -226,7 +244,8 @@ const handleRegister = async () => {
       username: regForm.username,
       password: regForm.password,
       realName: regForm.realName,
-      classId: regForm.classId
+      classId: regForm.classId,
+      gradeLevel: regForm.gradeLevel
     })
     ElMessage.success('注册成功，请登录')
     // 自动填充登录表单

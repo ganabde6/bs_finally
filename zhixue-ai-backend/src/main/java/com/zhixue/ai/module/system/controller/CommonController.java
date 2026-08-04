@@ -36,15 +36,21 @@ public class CommonController {
         return Result.success(sysFile);
     }
 
-    /** 学科列表 */
+    /** 学科列表（支持按学段过滤） */
     @GetMapping("/subjects")
-    public Result<?> subjects() {
+    public Result<?> subjects(@RequestParam(required = false) Integer gradeLevel) {
+        if (gradeLevel != null && gradeLevel > 0) {
+            return Result.success(systemService.listSubjectsByGradeLevel(gradeLevel));
+        }
         return Result.success(systemService.listSubjects());
     }
 
-    /** 班级列表 */
+    /** 班级列表（支持按学段过滤） */
     @GetMapping("/classes")
-    public Result<?> classes() {
+    public Result<?> classes(@RequestParam(required = false) Integer gradeLevel) {
+        if (gradeLevel != null && gradeLevel > 0) {
+            return Result.success(systemService.listClassesByGradeLevel(gradeLevel));
+        }
         return Result.success(systemService.listClasses());
     }
 

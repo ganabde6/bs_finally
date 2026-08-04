@@ -55,6 +55,8 @@ public class SecurityConfig {
                 // 放行:登录、注册、静态资源、swagger、上传文件访问
                 .antMatchers(
                         "/api/auth/**",
+                        "/api/common/subjects",
+                        "/api/common/classes",
                         "/upload/**",
                         "/ws/**",
                         "/favicon.ico",

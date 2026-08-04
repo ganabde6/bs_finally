@@ -144,7 +144,7 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
     }
 
     @Override
-    public String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType) {
+    public String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType, int variantIndex) {
         // 本地规则版:基于原题目改写,生成变式题
         String typeLabel;
         switch (questionType == null ? 0 : questionType) {
@@ -157,11 +157,11 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
             default: typeLabel = "练习题";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("【AI 变式题生成】\n\n");
+        sb.append("【AI 变式题 #").append(variantIndex).append("】\n\n");
         sb.append("知识点:").append(knowledgePoint == null ? "通用" : knowledgePoint).append("\n");
         sb.append("题型:").append(typeLabel).append("\n\n");
         sb.append("【原题目】\n").append(originalQuestion).append("\n\n");
-        sb.append("【变式题】\n");
+        sb.append("【变式题 #").append(variantIndex).append("】\n");
         sb.append("请根据以下知识点「").append(knowledgePoint == null ? "相关知识点" : knowledgePoint).append("」,");
         sb.append("设计一道与原题考查相同底层知识但题型或逻辑发生变化的练习题。\n\n");
         sb.append(" 提示:当前为本地规则模式,变式题由 AI 接口生成效果更佳。");
@@ -184,5 +184,14 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
             return "正确\n回答与标准答案一致";
         }
         return "错误\n与标准答案不符。标准答案:" + standardAnswer.trim();
+    }
+
+    @Override
+    public String correctVariantWithImages(String questionContent, String standardAnswer, String studentAnswer, java.util.List<String> images) {
+        // 本地规则版无法识别图片,降级到纯文本批改
+        if (images != null && !images.isEmpty()) {
+            return "错误\n本地规则模式无法识别图片内容,请在管理端配置通义千问 API Key 以启用 AI 图片识别批改。";
+        }
+        return correctVariant(questionContent, standardAnswer, studentAnswer);
     }
 }

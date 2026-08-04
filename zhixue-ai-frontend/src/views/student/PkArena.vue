@@ -185,6 +185,9 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getSubjects, pkCreateRoom, pkJoinRoom, pkGetQuestions, pkSubmitAnswer, pkGetRanking, pkGetRoomStatus } from '@/api'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 const router = useRouter()
 
@@ -226,7 +229,8 @@ const currentQuestion = computed(() => pkQuestions.value[currentQuestionIndex.va
 onMounted(async () => {
   pageLoading.value = true
   try {
-    const res = await getSubjects()
+    const gradeLevel = userStore.userInfo?.gradeLevel || 0
+    const res = await getSubjects(gradeLevel)
     subjects.value = res.data || []
   } catch {}
   pageLoading.value = false

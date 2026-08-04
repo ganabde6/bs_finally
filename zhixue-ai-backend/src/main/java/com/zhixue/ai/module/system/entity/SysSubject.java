@@ -13,6 +13,7 @@ public class SysSubject {
     private Long id;
     private String subjectName;
     private String subjectCode;
+    private Integer gradeLevel; // 学段: 0=通用, 1=小学, 2=初中, 3=高中
     private Integer sort;
     private LocalDateTime createTime;
 }

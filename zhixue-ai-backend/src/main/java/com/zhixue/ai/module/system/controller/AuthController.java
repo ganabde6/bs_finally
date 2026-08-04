@@ -33,7 +33,8 @@ public class AuthController {
                 body.get("username"),
                 body.get("password"),
                 body.get("realName"),
-                body.get("classId") != null ? Long.valueOf(body.get("classId")) : null);
+                body.get("classId") != null ? Long.valueOf(body.get("classId")) : null,
+                body.get("gradeLevel") != null ? Integer.valueOf(body.get("gradeLevel")) : null);
         return Result.success();
     }
 

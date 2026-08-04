@@ -1,0 +1,180 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.zhixue:zhixue-ai-backend >--------------------
+[INFO] Building zhixue-ai-backend 1.0.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:2.7.18:run (default-cli) > test-compile @ zhixue-ai-backend >>>
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ zhixue-ai-backend ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ zhixue-ai-backend ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ zhixue-ai-backend ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory D:\bs_finally\zhixue-ai-backend\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ zhixue-ai-backend ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:2.7.18:run (default-cli) < test-compile @ zhixue-ai-backend <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.18:run (default-cli) @ zhixue-ai-backend ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-08-03 17:49:38.077  INFO 74176 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Starting ZhixueAiApplication using Java 11.0.6 on WIN-BASRU4J68C3 with PID 74176 (D:\bs_finally\zhixue-ai-backend\target\classes started by Administrator in D:\bs_finally\zhixue-ai-backend)
+2026-08-03 17:49:38.078 DEBUG 74176 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-08-03 17:49:38.078  INFO 74176 --- [           main] com.zhixue.ai.ZhixueAiApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-08-03 17:49:39.201  INFO 74176 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
+2026-08-03 17:49:39.207  INFO 74176 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-03 17:49:39.207  INFO 74176 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-08-03 17:49:39.301  INFO 74176 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-08-03 17:49:39.301  INFO 74176 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1195 ms
+Logging initialized using 'class org.apache.ibatis.logging.stdout.StdOutImpl' adapter.
+Initialization Sequence datacenterId:19 workerId:11
+ _ _   |_  _ _|_. ___ _ |    _ 
+| | |\/|_)(_| | |_\  |_)||_|_\ 
+     /               |         
+                        3.5.5 
+2026-08-03 17:49:39.928 DEBUG 74176 --- [           main] c.z.ai.security.JwtAuthenticationFilter  : Filter 'jwtAuthenticationFilter' configured for use
+2026-08-03 17:49:40.308  INFO 74176 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6ffd4c0d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@74c9e11, org.springframework.security.web.context.SecurityContextPersistenceFilter@44e4cb76, org.springframework.security.web.header.HeaderWriterFilter@3a1b36a1, org.springframework.web.filter.CorsFilter@5eabff6b, org.springframework.security.web.authentication.logout.LogoutFilter@6274f21c, com.zhixue.ai.security.JwtAuthenticationFilter@d7bbf12, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2f9a10df, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@773c2214, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@9fe720a, org.springframework.security.web.session.SessionManagementFilter@601eb4af, org.springframework.security.web.access.ExceptionTranslationFilter@44aa2e13, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@445bce9a]
+2026-08-03 17:49:40.749  INFO 74176 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
+2026-08-03 17:49:40.765  INFO 74176 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Started ZhixueAiApplication in 2.927 seconds (JVM running for 3.279)
+
+========================================
+  智学AI学习测评系统 启动成功
+  访问地址: http://localhost:8080
+========================================
+2026-08-03 17:50:16.583  INFO 74176 --- [nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-03 17:50:16.585  INFO 74176 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-03 17:50:16.586  INFO 74176 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@448b1cdd] was not registered for synchronization because synchronization is not active
+2026-08-03 17:54:27.202  INFO 74176 --- [nio-9000-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-03 17:54:27.366  INFO 74176 --- [nio-9000-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+JDBC Connection [HikariProxyConnection@1009534779 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_user WHERE username = ? AND deleted = 0
+==> Parameters: admin(String)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, last_login, create_time, update_time, deleted, grade_level
+<==        Row: 1, admin, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 系统管理员, 1, null, 1, null, null, null, 2026-08-03 17:45:59, 2026-07-30 17:29:45, 2026-08-03 17:45:59, 0, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@448b1cdd]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@58f82ad6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@367546800 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 1(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 1, SUPER_ADMIN, 超级管理员, 系统最高权限, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@58f82ad6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@466bc86] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1593844209 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: UPDATE sys_user SET last_login=?, update_time=? WHERE id=? AND deleted=0
+==> Parameters: 2026-08-03T17:54:27.550739100(LocalDateTime), 2026-08-03T17:54:27.614370400(LocalDateTime), 1(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@466bc86]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6b3fe10e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1190117086 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT p.* FROM sys_permission p INNER JOIN sys_role_permission rp ON rp.permission_id = p.id WHERE rp.role_id = ? ORDER BY p.sort
+==> Parameters: 1(Long)
+<==    Columns: id, parent_id, perm_code, perm_name, perm_type, path, component, icon, sort, create_time
+<==        Row: 301, 0, admin:dashboard, 数据大屏, 1, /admin/dashboard, admin/Dashboard, DataLine, 1, 2026-07-30 17:29:45
+<==        Row: 302, 0, admin:user, 用户管理, 1, /admin/user, admin/User, User, 2, 2026-07-30 17:29:45
+<==        Row: 303, 0, admin:role, 角色权限, 1, /admin/role, admin/Role, Lock, 3, 2026-07-30 17:29:45
+<==        Row: 304, 0, admin:class, 班级管理, 1, /admin/class, admin/Class, OfficeBuilding, 4, 2026-07-30 17:29:45
+<==        Row: 305, 0, admin:course, 课程管理, 1, /admin/course, admin/Course, Reading, 5, 2026-07-30 17:29:45
+<==        Row: 306, 0, admin:aiConfig, AI配置, 1, /admin/aiConfig, admin/AiConfig, MagicStick, 6, 2026-07-30 17:29:45
+<==        Row: 307, 0, admin:notice, 公告管理, 1, /admin/notice, admin/Notice, Bell, 7, 2026-07-30 17:29:45
+<==        Row: 308, 0, admin:moderation, 内容风控, 1, /admin/moderation, admin/Moderation, WarnTriangleFilled, 8, 2026-07-30 17:29:45
+<==        Row: 309, 0, admin:log, 系统日志, 1, /admin/log, admin/Log, List, 9, 2026-07-30 17:29:45
+<==      Total: 9
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6b3fe10e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7f9be33b] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1487304742 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_user WHERE username = ? AND deleted = 0
+==> Parameters: admin(String)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, last_login, create_time, update_time, deleted, grade_level
+<==        Row: 1, admin, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 系统管理员, 1, null, 1, null, null, null, 2026-08-03 17:54:28, 2026-07-30 17:29:45, 2026-08-03 17:54:28, 0, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7f9be33b]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29b0b456] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@108443473 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 1(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 1, SUPER_ADMIN, 超级管理员, 系统最高权限, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29b0b456]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2d6c82a1] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@22188382 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: UPDATE sys_user SET last_login=?, update_time=? WHERE id=? AND deleted=0
+==> Parameters: 2026-08-03T17:55:27.929984200(LocalDateTime), 2026-08-03T17:55:27.933777700(LocalDateTime), 1(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2d6c82a1]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52ee9a1c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@935666033 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT p.* FROM sys_permission p INNER JOIN sys_role_permission rp ON rp.permission_id = p.id WHERE rp.role_id = ? ORDER BY p.sort
+==> Parameters: 1(Long)
+<==    Columns: id, parent_id, perm_code, perm_name, perm_type, path, component, icon, sort, create_time
+<==        Row: 301, 0, admin:dashboard, 数据大屏, 1, /admin/dashboard, admin/Dashboard, DataLine, 1, 2026-07-30 17:29:45
+<==        Row: 302, 0, admin:user, 用户管理, 1, /admin/user, admin/User, User, 2, 2026-07-30 17:29:45
+<==        Row: 303, 0, admin:role, 角色权限, 1, /admin/role, admin/Role, Lock, 3, 2026-07-30 17:29:45
+<==        Row: 304, 0, admin:class, 班级管理, 1, /admin/class, admin/Class, OfficeBuilding, 4, 2026-07-30 17:29:45
+<==        Row: 305, 0, admin:course, 课程管理, 1, /admin/course, admin/Course, Reading, 5, 2026-07-30 17:29:45
+<==        Row: 306, 0, admin:aiConfig, AI配置, 1, /admin/aiConfig, admin/AiConfig, MagicStick, 6, 2026-07-30 17:29:45
+<==        Row: 307, 0, admin:notice, 公告管理, 1, /admin/notice, admin/Notice, Bell, 7, 2026-07-30 17:29:45
+<==        Row: 308, 0, admin:moderation, 内容风控, 1, /admin/moderation, admin/Moderation, WarnTriangleFilled, 8, 2026-07-30 17:29:45
+<==        Row: 309, 0, admin:log, 系统日志, 1, /admin/log, admin/Log, List, 9, 2026-07-30 17:29:45
+<==      Total: 9
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52ee9a1c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64099264] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@346131834 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 1(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 1, admin, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 系统管理员, 1, null, 1, null, null, null, 0, 2026-08-03 17:55:28, 2026-07-30 17:29:45, 2026-08-03 17:55:28, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64099264]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@bf3ab5d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@599884533 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 1(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 1, SUPER_ADMIN, 超级管理员, 系统最高权限, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@bf3ab5d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@583b871d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@743419338 wrapping com.mysql.cj.jdbc.ConnectionImpl@3f3dc099] will not be managed by Spring
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class WHERE (grade_level = ?) ORDER BY create_time DESC
+==> Parameters: 3(Integer)
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 1, 高三(1)班, 高三, 3, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==        Row: 2, 高三(2)班, 高三, 4, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@583b871d]
+^C

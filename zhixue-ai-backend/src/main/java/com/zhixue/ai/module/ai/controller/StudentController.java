@@ -90,22 +90,39 @@ public class StudentController {
         return Result.success();
     }
 
-    /** 推送变式题 */
+    /** 删除错题 */
+    @DeleteMapping("/errorbook/{id}")
+    public Result<Void> deleteErrorBook(@PathVariable Long id) {
+        aiService.deleteErrorBook(id, SecurityUtils.getCurrentUserId());
+        return Result.success();
+    }
+
+    /** 推送变式题(支持指定数量) */
     @PostMapping("/errorbook/{id}/variant")
-    public Result<?> pushVariant(@PathVariable Long id) {
-        return Result.success(aiService.pushVariant(id));
+    public Result<?> pushVariant(@PathVariable Long id, @RequestParam(defaultValue = "1") Integer count) {
+        return Result.success(aiService.pushVariant(id, count));
     }
 
     /** 变式题作答批改 */
     @PostMapping("/variant/{id}/answer")
-    public Result<?> answerVariant(@PathVariable Long id, @RequestBody Map<String, String> body) {
-        return Result.success(aiService.submitVariantAnswer(id, SecurityUtils.getCurrentUserId(), body.get("answer")));
+    public Result<?> answerVariant(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        String answer = (String) body.get("answer");
+        @SuppressWarnings("unchecked")
+        java.util.List<String> images = (java.util.List<String>) body.get("images");
+        return Result.success(aiService.submitVariantAnswer(id, SecurityUtils.getCurrentUserId(), answer, images));
     }
 
     /** 我的变式题 */
     @GetMapping("/variants")
     public Result<?> myVariants() {
         return Result.success(aiService.listVariants(SecurityUtils.getCurrentUserId()));
+    }
+
+    /** 删除变式题 */
+    @DeleteMapping("/variant/{id}")
+    public Result<Void> deleteVariant(@PathVariable Long id) {
+        aiService.deleteVariant(id, SecurityUtils.getCurrentUserId());
+        return Result.success();
     }
 
     /** 个人学情分析 */

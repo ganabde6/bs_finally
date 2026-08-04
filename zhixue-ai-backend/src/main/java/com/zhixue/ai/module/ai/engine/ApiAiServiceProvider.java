@@ -33,6 +33,9 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     @Value("${ai.dashscope.model:qwen-plus}")
     private String dashScopeModel;
 
+    @Value("${ai.dashscope.vision-model:qwen-vl-plus}")
+    private String dashScopeVisionModel;
+
     @Value("${ai.deepseek.api-key:}")
     private String deepSeekApiKey;
 
@@ -105,6 +108,14 @@ public class ApiAiServiceProvider implements AiServiceProvider {
      * 统一调用 AI API
      */
     private String callAiApi(String systemPrompt, String userMessage) {
+        return callAiApi(systemPrompt, userMessage, null);
+    }
+
+    /**
+     * 统一调用 AI API(支持图片)
+     * @param images 图片 base64 列表(data:image/xxx;base64,xxx 格式),可为 null
+     */
+    private String callAiApi(String systemPrompt, String userMessage, java.util.List<String> images) {
         if ("local".equals(provider)) {
             log.warn("AI provider 为 local，未接入真实 API");
             return null;
@@ -117,11 +128,17 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         if ("dashscope".equals(provider) || "tongyi".equals(provider) || "qwen".equals(provider)) {
             apiKey = dashScopeApiKey;
             baseUrl = dashScopeBaseUrl;
-            model = dashScopeModel;
+            // 有图片时使用视觉模型,无图片时使用文本模型
+            model = (images != null && !images.isEmpty()) ? dashScopeVisionModel : dashScopeModel;
         } else if ("deepseek".equals(provider)) {
             apiKey = deepSeekApiKey;
             baseUrl = deepSeekBaseUrl;
             model = deepSeekModel;
+            // DeepSeek 暂不支持多模态,有图片时返回 null
+            if (images != null && !images.isEmpty()) {
+                log.warn("DeepSeek 暂不支持图片识别,降级到本地规则");
+                return null;
+            }
         } else {
             log.error("未知的 AI provider: {}", provider);
             return null;
@@ -146,12 +163,33 @@ public class ApiAiServiceProvider implements AiServiceProvider {
 
             JSONObject userMsg = new JSONObject();
             userMsg.put("role", "user");
-            userMsg.put("content", userMessage);
+
+            // 有图片时使用多模态消息格式
+            if (images != null && !images.isEmpty()) {
+                JSONArray contentArray = new JSONArray();
+                // 文字部分
+                JSONObject textPart = new JSONObject();
+                textPart.put("type", "text");
+                textPart.put("text", userMessage);
+                contentArray.add(textPart);
+                // 图片部分
+                for (String img : images) {
+                    JSONObject imgPart = new JSONObject();
+                    imgPart.put("type", "image_url");
+                    JSONObject imgUrl = new JSONObject();
+                    imgUrl.put("url", img);
+                    imgPart.put("image_url", imgUrl);
+                    contentArray.add(imgPart);
+                }
+                userMsg.put("content", contentArray);
+            } else {
+                userMsg.put("content", userMessage);
+            }
             messages.add(userMsg);
 
             requestBody.put("messages", messages);
             requestBody.put("temperature", 0.7);
-            requestBody.put("max_tokens", 1024);
+            requestBody.put("max_tokens", 2048);
 
             // 设置请求头
             HttpHeaders headers = new HttpHeaders();
@@ -162,7 +200,8 @@ public class ApiAiServiceProvider implements AiServiceProvider {
 
             // 发送请求
             String url = baseUrl + "/chat/completions";
-            log.info("调用 AI API: provider={}, model={}, url={}", provider, model, url);
+            log.info("调用 AI API: provider={}, model={}, url={}, 图片数={}", provider, model, url,
+                    images == null ? 0 : images.size());
 
             ResponseEntity<String> response = restTemplate.exchange(
                     url, HttpMethod.POST, entity, String.class);
@@ -183,7 +222,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             return null;
 
         } catch (Exception e) {
-            log.error("调用 AI API 失败: provider={}, error={}", provider, e.getMessage(), e);
+            log.error("调用 AI API 失败: provider={}, model={}, error={}", provider, model, e.getMessage(), e);
             return null;
         }
     }
@@ -281,7 +320,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     }
 
     @Override
-    public String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType) {
+    public String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType, int variantIndex) {
         if (originalQuestion == null || originalQuestion.trim().isEmpty()) {
             return "原题目为空，无法生成变式题";
         }
@@ -298,10 +337,11 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         }
 
         StringBuilder userMsg = new StringBuilder();
-        userMsg.append("请根据以下原题目，设计一道变式题：\n\n");
+        userMsg.append("请根据以下原题目，设计第 ").append(variantIndex).append(" 道变式题：\n\n");
         userMsg.append("【原题目】\n").append(originalQuestion).append("\n\n");
         userMsg.append("【知识点】").append(knowledgePoint == null ? "相关知识点" : knowledgePoint).append("\n");
-        userMsg.append("【题型】").append(typeLabel).append("\n\n");
+        userMsg.append("【题型】").append(typeLabel).append("\n");
+        userMsg.append("【当前是第 ").append(variantIndex).append(" 道变式题，请确保与前面生成的变式题在题型或逻辑上有所不同】\n\n");
         userMsg.append("要求：\n");
         userMsg.append("1. 考查相同的底层知识点，但题型或逻辑要发生变化\n");
         userMsg.append("2. 难度略高于原题\n");
@@ -318,7 +358,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             return result;
         }
         log.warn("AI API 调用失败，降级到本地规则变式题");
-        return new LocalRuleAiServiceProvider().generateVariant(originalQuestion, knowledgePoint, questionType);
+        return new LocalRuleAiServiceProvider().generateVariant(originalQuestion, knowledgePoint, questionType, variantIndex);
     }
 
     @Override
@@ -340,5 +380,32 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         }
         log.warn("AI API 调用失败，降级到本地规则批改变式题");
         return new LocalRuleAiServiceProvider().correctVariant(questionContent, standardAnswer, studentAnswer);
+    }
+
+    @Override
+    public String correctVariantWithImages(String questionContent, String standardAnswer, String studentAnswer, java.util.List<String> images) {
+        // 构建系统提示词：要求 AI 识别图片中的解题过程
+        String imageGradePrompt = GRADE_VARIANT_SYSTEM_PROMPT +
+                "\n\n特别注意：学生上传了草稿纸照片，请仔细识别图片中的手写解题过程和答案。" +
+                "如果图片中有清晰的解题步骤，请逐步检查每一步是否正确，然后给出最终判定。" +
+                "如果图片模糊无法识别，请根据文字答案进行判定，并在简评中说明图片无法识别。";
+
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("【题目】\n").append(questionContent).append("\n\n");
+        if (standardAnswer != null && !standardAnswer.trim().isEmpty()) {
+            userMsg.append("【标准答案】\n").append(standardAnswer).append("\n\n");
+        }
+        if (studentAnswer != null && !studentAnswer.trim().isEmpty()) {
+            userMsg.append("【学生文字答案】\n").append(studentAnswer).append("\n\n");
+        }
+        userMsg.append("学生还上传了 ").append(images.size()).append(" 张草稿纸照片，请识别其中的解题过程和答案。");
+
+        String result = callAiApi(imageGradePrompt, userMsg.toString(), images);
+        if (result != null) {
+            return result;
+        }
+        // AI 图片识别失败，降级到纯文本批改
+        log.warn("AI 图片识别批改失败，降级到纯文本批改");
+        return correctVariant(questionContent, standardAnswer, studentAnswer);
     }
 }

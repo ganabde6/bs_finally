@@ -22,6 +22,7 @@ public class SysUser {
     private String avatar;
     private String phone;
     private String email;
+    private Integer gradeLevel; // 学段: 0=通用, 1=小学, 2=初中, 3=高中
     private LocalDateTime lastLogin;
 
     @TableField(fill = FieldFill.INSERT)

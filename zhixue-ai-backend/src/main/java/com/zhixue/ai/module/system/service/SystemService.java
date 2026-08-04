@@ -190,6 +190,16 @@ public class SystemService {
                 .orderByDesc(SysClass::getCreateTime));
     }
 
+    /** 按学段过滤班级列表 */
+    public List<SysClass> listClassesByGradeLevel(Integer gradeLevel) {
+        if (gradeLevel == null || gradeLevel == 0) {
+            return listClasses();
+        }
+        return classMapper.selectList(new LambdaQueryWrapper<SysClass>()
+                .eq(SysClass::getGradeLevel, gradeLevel)
+                .orderByDesc(SysClass::getCreateTime));
+    }
+
     public void addClass(SysClass cls) {
         if (cls.getStatus() == null) cls.setStatus(1);
         classMapper.insert(cls);
@@ -217,6 +227,16 @@ public class SystemService {
 
     public List<SysSubject> listSubjects() {
         return subjectMapper.selectList(new LambdaQueryWrapper<SysSubject>()
+                .orderByAsc(SysSubject::getSort));
+    }
+
+    /** 按学段过滤学科列表（gradeLevel=0 表示通用学科） */
+    public List<SysSubject> listSubjectsByGradeLevel(Integer gradeLevel) {
+        if (gradeLevel == null || gradeLevel == 0) {
+            return listSubjects();
+        }
+        return subjectMapper.selectList(new LambdaQueryWrapper<SysSubject>()
+                .and(w -> w.eq(SysSubject::getGradeLevel, 0).or().eq(SysSubject::getGradeLevel, gradeLevel))
                 .orderByAsc(SysSubject::getSort));
     }
 

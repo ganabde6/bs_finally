@@ -41,9 +41,10 @@ public interface AiServiceProvider {
      * @param originalQuestion 原题目内容
      * @param knowledgePoint 知识点
      * @param questionType 题型 (1单选/2多选/3判断/4填空/5简答/6作文)
+     * @param variantIndex 第几道变式题(从1开始),用于区分每次生成的内容
      * @return 变式题内容(含题目、选项、答案、解析)
      */
-    String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType);
+    String generateVariant(String originalQuestion, String knowledgePoint, Integer questionType, int variantIndex);
 
     /**
      * 变式题作答批改
@@ -53,4 +54,15 @@ public interface AiServiceProvider {
      * @return 批改结论,以「正确」或「错误」开头后接简评;无法判定返回 null
      */
     String correctVariant(String questionContent, String standardAnswer, String studentAnswer);
+
+    /**
+     * 变式题作答批改(含图片识别)
+     * <p>AI 通过多模态接口识别学生上传的草稿纸照片中的解题过程和答案,结合文字答案一起判定</p>
+     * @param questionContent 题目内容
+     * @param standardAnswer 标准答案
+     * @param studentAnswer 学生文字答案(可为空)
+     * @param images 图片 base64 列表(data:image/xxx;base64,xxx 格式)
+     * @return 批改结论
+     */
+    String correctVariantWithImages(String questionContent, String standardAnswer, String studentAnswer, java.util.List<String> images);
 }

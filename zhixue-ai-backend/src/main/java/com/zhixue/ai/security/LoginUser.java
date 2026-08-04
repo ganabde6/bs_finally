@@ -26,6 +26,7 @@ public class LoginUser implements UserDetails {
     private Integer status;
     private Long classId;
     private String avatar;
+    private Integer gradeLevel; // 学段: 0=通用, 1=小学, 2=初中, 3=高中
 
     public static LoginUser from(SysUser u, String roleCode) {
         LoginUser lu = new LoginUser();
@@ -38,6 +39,7 @@ public class LoginUser implements UserDetails {
         lu.setStatus(u.getStatus());
         lu.setClassId(u.getClassId());
         lu.setAvatar(u.getAvatar());
+        lu.setGradeLevel(u.getGradeLevel());
         return lu;
     }
 

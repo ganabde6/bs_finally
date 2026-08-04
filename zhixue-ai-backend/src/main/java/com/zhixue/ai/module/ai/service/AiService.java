@@ -232,47 +232,82 @@ public class AiService {
         errorBookMapper.updateById(eb);
     }
 
-    /** AI 推送变式题(优先题库匹配,无则 AI 生成) */
-    public AiVariantQuestion pushVariant(Long errorBookId) {
+    /** 删除错题 */
+    public void deleteErrorBook(Long id, Long studentId) {
+        AiErrorBook eb = errorBookMapper.selectById(id);
+        if (eb == null) throw new BizException("错题不存在");
+        if (!eb.getStudentId().equals(studentId)) throw new BizException("无权操作");
+        errorBookMapper.deleteById(id);
+    }
+
+    /** AI 推送变式题(优先题库匹配,无则 AI 生成,支持批量) */
+    public List<AiVariantQuestion> pushVariant(Long errorBookId, Integer count) {
         AiErrorBook eb = errorBookMapper.selectById(errorBookId);
         if (eb == null) throw new BizException("错题不存在");
         ExamQuestion q = questionMapper.selectById(eb.getQuestionId());
-        // 优先从题库匹配变式题
-        AiVariantQuestion vq = variantEngine.pushVariant(q, eb.getStudentId());
-        if (vq != null) {
-            variantMapper.insert(vq);
-            return vq;
+        int n = count == null || count < 1 ? 1 : Math.min(count, 10);
+        List<AiVariantQuestion> result = new ArrayList<>();
+        Set<Long> usedVariantIds = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+            // 优先从题库匹配变式题(跳过已用过的)
+            AiVariantQuestion vq = variantEngine.pushVariant(q, eb.getStudentId());
+            if (vq != null && !usedVariantIds.contains(vq.getId())) {
+                usedVariantIds.add(vq.getId());
+                variantMapper.insert(vq);
+                result.add(vq);
+                continue;
+            }
+            // 题库无匹配或已用完,调用 AI 生成变式题
+            log.info("题库无合适变式题,调用 AI 生成第{}道, 知识点:{}, 题型:{}", i + 1, q.getKnowledgePoint(), q.getQuestionType());
+            String aiVariant = aiServiceProvider.generateVariant(q.getContent(), q.getKnowledgePoint(), q.getQuestionType(), i + 1);
+            AiVariantQuestion aiVq = new AiVariantQuestion();
+            aiVq.setSourceQuestionId(q.getId());
+            aiVq.setStudentId(eb.getStudentId());
+            aiVq.setContent(aiVariant);
+            aiVq.setKnowledgePoint(q.getKnowledgePoint());
+            aiVq.setIsSolved(0);
+            variantMapper.insert(aiVq);
+            result.add(aiVq);
         }
-        // 题库无匹配,调用 AI 生成变式题
-        log.info("题库无合适变式题,调用 AI 生成, 知识点:{}, 题型:{}", q.getKnowledgePoint(), q.getQuestionType());
-        String aiVariant = aiServiceProvider.generateVariant(q.getContent(), q.getKnowledgePoint(), q.getQuestionType());
-        AiVariantQuestion aiVq = new AiVariantQuestion();
-        aiVq.setSourceQuestionId(q.getId());
-        aiVq.setStudentId(eb.getStudentId());
-        aiVq.setContent(aiVariant);
-        aiVq.setKnowledgePoint(q.getKnowledgePoint());
-        aiVq.setIsSolved(0);
-        variantMapper.insert(aiVq);
-        return aiVq;
+        return result;
     }
 
     /** 变式题作答 + AI 批改 */
-    public Map<String, Object> submitVariantAnswer(Long variantId, Long studentId, String answer) {
+    public Map<String, Object> submitVariantAnswer(Long variantId, Long studentId, String answer, java.util.List<String> images) {
         AiVariantQuestion vq = variantMapper.selectById(variantId);
         if (vq == null) throw new BizException("变式题不存在");
         if (!vq.getStudentId().equals(studentId)) throw new BizException("无权操作他人的变式题");
         if (vq.getIsSolved() != null && vq.getIsSolved() == 1) throw new BizException("该变式题已作答");
-        if (answer == null || answer.trim().isEmpty()) throw new BizException("请先填写答案");
+        if ((answer == null || answer.trim().isEmpty()) && (images == null || images.isEmpty())) {
+            throw new BizException("请先填写答案或上传草稿纸照片");
+        }
 
         // 标准答案优先取字段;AI 生成的变式题答案内嵌在 content 的【答案】段中
         String std = vq.getStandardAnswer();
         if (std == null || std.trim().isEmpty()) {
             std = extractAnswerFromContent(vq.getContent());
         }
-        String result = aiServiceProvider.correctVariant(vq.getContent(), std, answer.trim());
+        
+        // 如果有图片，使用多模态接口让 AI 识别图片中的解题过程
+        String result;
+        if (images != null && !images.isEmpty()) {
+            result = aiServiceProvider.correctVariantWithImages(vq.getContent(), std, answer, images);
+        } else {
+            result = aiServiceProvider.correctVariant(vq.getContent(), std, answer != null ? answer.trim() : "");
+        }
         boolean correct = result != null && result.startsWith("正确");
 
-        vq.setStudentAnswer(answer.trim());
+        // 保存学生答案和图片
+        String fullAnswer = answer != null ? answer.trim() : "";
+        vq.setStudentAnswer(fullAnswer);
+        
+        // 保存图片数据
+        if (images != null && !images.isEmpty()) {
+            vq.setStudentImages(com.alibaba.fastjson2.JSON.toJSONString(images));
+        } else {
+            vq.setStudentImages(null);
+        }
         vq.setIsSolved(1);
         vq.setIsCorrect(correct ? 1 : 0);
         variantMapper.updateById(vq);
@@ -297,6 +332,14 @@ public class AiService {
     public List<AiVariantQuestion> listVariants(Long studentId) {        return variantMapper.selectList(new LambdaQueryWrapper<AiVariantQuestion>()
                 .eq(AiVariantQuestion::getStudentId, studentId)
                 .orderByDesc(AiVariantQuestion::getCreateTime));
+    }
+
+    /** 删除变式题 */
+    public void deleteVariant(Long variantId, Long studentId) {
+        AiVariantQuestion vq = variantMapper.selectById(variantId);
+        if (vq == null) throw new BizException("变式题不存在");
+        if (!vq.getStudentId().equals(studentId)) throw new BizException("无权删除他人的变式题");
+        variantMapper.deleteById(variantId);
     }
 
     // ===================== 学情分析 =====================

@@ -52,7 +52,7 @@
       <el-form :model="form1" label-width="100px" label-position="left">
         <el-form-item label="选择学科" required>
           <el-select v-model="form1.subjectId" placeholder="请选择学科" style="width:100%" @change="loadKnowledgePoints">
-            <el-option v-for="s in subjects" :key="s.id" :label="s.name" :value="s.id" />
+            <el-option v-for="s in subjects" :key="s.id" :label="s.subjectName" :value="s.id" />
           </el-select>
         </el-form-item>
 
@@ -120,7 +120,7 @@
           <el-col :span="8">
             <el-form-item label="选择学科" required>
               <el-select v-model="form2.subjectId" placeholder="请选择学科" style="width:100%">
-                <el-option v-for="s in subjects" :key="s.id" :label="s.name" :value="s.id" />
+                <el-option v-for="s in subjects" :key="s.id" :label="s.subjectName" :value="s.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -241,6 +241,9 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { EditPen, Document } from '@element-plus/icons-vue'
 import { getSubjects, checkInStatus, generatePracticeConfig, getRecentPracticeRecords, getKnowledgePoints } from '@/api'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 const router = useRouter()
 
@@ -351,7 +354,8 @@ async function loadCheckInStatus() {
 
 async function loadSubjects() {
   try {
-    const res = await getSubjects()
+    const gradeLevel = userStore.userInfo?.gradeLevel || 0
+    const res = await getSubjects(gradeLevel)
     subjects.value = res.data || []
   } catch {}
 }
