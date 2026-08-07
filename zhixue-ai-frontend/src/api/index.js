@@ -59,6 +59,25 @@ export const pkSubmitAnswer = (data) => request.post('/api/student/pk/answer', d
 export const pkGetRanking = (roomCode) => request.get('/api/student/pk/ranking', { params: { roomCode } })
 export const pkGetRoomStatus = (roomCode) => request.get('/api/student/pk/status', { params: { roomCode } })
 
+// ============ 高考英语听说练习 ============
+export const listeningSpeakingList = (gradeLevel) => request.get('/api/student/listening-speaking/list', { params: { gradeLevel } })
+export const listeningSpeakingDetail = (id) => request.get(`/api/student/listening-speaking/${id}`)
+export const submitListeningSpeaking = (id, file, supplementText) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  if (supplementText) fd.append('supplementText', supplementText)
+  return request.post(`/api/student/listening-speaking/${id}/submit`, fd, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 120000 // AI 语音识别 + 评分耗时较长
+  })
+}
+export const listeningSpeakingRecords = () => request.get('/api/student/listening-speaking/records')
+export const uploadAudioFile = (file) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  return request.post('/api/common/upload/audio', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
 // ============ 教师端 ============
 export const teacherDashboard = () => request.get('/api/teacher/dashboard')
 export const pageQuestions = (params) => request.get('/api/teacher/questions', { params })

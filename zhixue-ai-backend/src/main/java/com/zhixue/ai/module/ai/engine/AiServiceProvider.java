@@ -65,4 +65,23 @@ public interface AiServiceProvider {
      * @return 批改结论
      */
     String correctVariantWithImages(String questionContent, String standardAnswer, String studentAnswer, java.util.List<String> images);
+
+    /**
+     * 语音识别(音频转文本)
+     * <p>通过通义千问 qwen-audio-turbo 多模态模型识别学生录音中的英文内容</p>
+     * @param base64Audio 音频 base64(不含 data: 前缀)
+     * @param format 音频格式(wav/mp3/m4a)
+     * @return 识别文本;识别失败返回 null
+     */
+    String recognizeAudio(String base64Audio, String format);
+
+    /**
+     * 英语听说作答评分
+     * <p>将 AI 识别文本与参考答案交给文本模型,返回四项评分与改进建议</p>
+     * @param recognizedText AI 识别出的学生语音文本
+     * @param referenceText 参考文本/标准答案
+     * @param questionContent 题目内容
+     * @return JSON 字符串: {"pronunciationScore":0-25,"fluencyScore":0-25,"grammarScore":0-25,"contentScore":0-25,"totalScore":0-100,"feedback":"..."};失败返回 null
+     */
+    String gradeListeningSpeaking(String recognizedText, String referenceText, String questionContent);
 }

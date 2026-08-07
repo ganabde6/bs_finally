@@ -36,6 +36,9 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     @Value("${ai.dashscope.vision-model:qwen-vl-plus}")
     private String dashScopeVisionModel;
 
+    @Value("${ai.dashscope.audio-model:qwen-audio-turbo}")
+    private String dashScopeAudioModel;
+
     @Value("${ai.deepseek.api-key:}")
     private String deepSeekApiKey;
 
@@ -407,5 +410,131 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         // AI 图片识别失败，降级到纯文本批改
         log.warn("AI 图片识别批改失败，降级到纯文本批改");
         return correctVariant(questionContent, standardAnswer, studentAnswer);
+    }
+
+    // ===================== 英语听说(语音识别 + 评分) =====================
+
+    private static final String ASR_SYSTEM_PROMPT =
+            "你是专业的英语语音识别引擎。请将用户提供的音频中的英文内容完整、准确地转写成文本。\n" +
+            "要求：\n" +
+            "1. 只输出转写出的英文文本，不要输出任何其他解释或备注\n" +
+            "2. 保留正确的单词拼写、标点和大小写\n" +
+            "3. 如果音频中有口误、重复或停顿词(如 um/uh)，保留原样但去掉无意义的语气词\n" +
+            "4. 如果音频为空或无法识别，只输出「无法识别」";
+
+    private static final String GRADE_LISTENING_SPEAKING_SYSTEM_PROMPT =
+            "你是一位专业的高考英语听说考试阅卷老师。请根据学生的语音识别文本，对照参考文本，从四个方面评分：\n" +
+            "1. pronunciationScore(发音,满分25): 依据识别文本与参考文本的单词发音匹配程度\n" +
+            "2. fluencyScore(流利度,满分25): 依据文本长度、句子完整性、有无明显卡顿或重复\n" +
+            "3. grammarScore(语法,满分25): 依据句式结构、时态、主谓一致、冠词介词使用\n" +
+            "4. contentScore(内容,满分25): 依据要点覆盖程度，内容是否完整传达参考文本核心信息\n" +
+            "评分要求：\n" +
+            "1. 四项均为 0-25 的整数或一位小数\n" +
+            "2. 学生识别文本与参考文本完全一致时，各项给 22-25 分\n" +
+            "3. 部分匹配(大意正确但用词/句式不同)时，给 15-21 分\n" +
+            "4. 严重偏离或几乎未作答时，给 0-10 分\n" +
+            "5. 最后输出 feedback(改进建议)，用中文写 100-150 字，指出发音/流利度/语法/内容方面的具体问题与提升方法\n" +
+            "6. 只输出 JSON，格式：{\"pronunciationScore\":0,\"fluencyScore\":0,\"grammarScore\":0,\"contentScore\":0,\"feedback\":\"\"}，不要输出任何其他内容";
+
+    /**
+     * 调用通义千问 qwen-audio-turbo 语音识别
+     * @param base64Audio 音频 base64(不含 data: 前缀)
+     * @param format 音频格式(wav/mp3/m4a)
+     * @return 识别文本;失败返回 null
+     */
+    private String callAiAudioApi(String base64Audio, String format) {
+        if ("local".equals(provider)) {
+            log.warn("AI provider 为 local，未接入真实 API，无法语音识别");
+            return null;
+        }
+        if (dashScopeApiKey == null || dashScopeApiKey.isEmpty()) {
+            log.error("DashScope API Key 未配置，无法语音识别");
+            return null;
+        }
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("model", dashScopeAudioModel);
+
+            JSONArray messages = new JSONArray();
+            JSONObject systemMsg = new JSONObject();
+            systemMsg.put("role", "system");
+            systemMsg.put("content", ASR_SYSTEM_PROMPT);
+            messages.add(systemMsg);
+
+            JSONObject userMsg = new JSONObject();
+            userMsg.put("role", "user");
+            JSONArray contentArray = new JSONArray();
+            // 音频部分(OpenAI 兼容的 input_audio 格式)
+            JSONObject audioPart = new JSONObject();
+            audioPart.put("type", "input_audio");
+            JSONObject audioObj = new JSONObject();
+            audioObj.put("data", base64Audio);
+            audioObj.put("format", format);
+            audioPart.put("input_audio", audioObj);
+            contentArray.add(audioPart);
+            // 文字指令
+            JSONObject textPart = new JSONObject();
+            textPart.put("type", "text");
+            textPart.put("text", "请识别这段音频中的英文内容，只输出转写文本。");
+            contentArray.add(textPart);
+            userMsg.put("content", contentArray);
+            messages.add(userMsg);
+
+            requestBody.put("messages", messages);
+            requestBody.put("max_tokens", 2048);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + dashScopeApiKey);
+
+            HttpEntity<String> entity = new HttpEntity<>(requestBody.toJSONString(), headers);
+            String url = dashScopeBaseUrl + "/chat/completions";
+            log.info("调用 AI 语音识别: model={}, format={}", dashScopeAudioModel, format);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JSONObject respJson = JSON.parseObject(response.getBody());
+                JSONArray choices = respJson.getJSONArray("choices");
+                if (choices != null && !choices.isEmpty()) {
+                    JSONObject message = choices.getJSONObject(0).getJSONObject("message");
+                    if (message != null) {
+                        return message.getString("content");
+                    }
+                }
+            }
+            log.error("AI 语音识别响应异常: {}", response.getBody());
+            return null;
+        } catch (Exception e) {
+            log.error("调用 AI 语音识别失败: error={}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
+    public String recognizeAudio(String base64Audio, String format) {
+        if (base64Audio == null || base64Audio.isEmpty()) {
+            return null;
+        }
+        return callAiAudioApi(base64Audio, format);
+    }
+
+    @Override
+    public String gradeListeningSpeaking(String recognizedText, String referenceText, String questionContent) {
+        if (recognizedText == null || recognizedText.trim().isEmpty()) {
+            return null;
+        }
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("【题目内容】\n").append(questionContent == null ? "英语听说练习" : questionContent).append("\n\n");
+        if (referenceText != null && !referenceText.trim().isEmpty()) {
+            userMsg.append("【参考文本】\n").append(referenceText).append("\n\n");
+        }
+        userMsg.append("【学生语音识别文本】\n").append(recognizedText);
+
+        String result = callAiApi(GRADE_LISTENING_SPEAKING_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) {
+            return result;
+        }
+        log.warn("AI 听说评分失败，降级到本地规则评分");
+        return new LocalRuleAiServiceProvider().gradeListeningSpeaking(recognizedText, referenceText, questionContent);
     }
 }

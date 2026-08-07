@@ -2,6 +2,7 @@ package com.zhixue.ai.module.system.controller;
 
 import com.zhixue.ai.common.result.Result;
 import com.zhixue.ai.common.utils.FileUploadUtils;
+import com.zhixue.ai.module.ai.service.ListeningSpeakingService;
 import com.zhixue.ai.module.system.entity.SysFile;
 import com.zhixue.ai.module.system.mapper.SysFileMapper;
 import com.zhixue.ai.module.system.service.SystemService;
@@ -21,6 +22,7 @@ public class CommonController {
     private final FileUploadUtils fileUploadUtils;
     private final SysFileMapper fileMapper;
     private final SystemService systemService;
+    private final ListeningSpeakingService listeningSpeakingService;
 
     /** 文件上传 */
     @PostMapping("/upload")
@@ -34,6 +36,12 @@ public class CommonController {
         sysFile.setUploaderId(SecurityUtils.getCurrentUserId());
         fileMapper.insert(sysFile);
         return Result.success(sysFile);
+    }
+
+    /** 音频文件上传(听说练习,保存到 upload/audio/ 目录) */
+    @PostMapping("/upload/audio")
+    public Result<String> uploadAudio(@RequestParam("file") MultipartFile file) {
+        return Result.success(listeningSpeakingService.uploadAudio(file));
     }
 
     /** 学科列表（支持按学段过滤） */

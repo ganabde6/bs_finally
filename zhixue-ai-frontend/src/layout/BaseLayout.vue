@@ -13,10 +13,24 @@
         text-color="#bbb"
         active-text-color="#fff"
       >
-        <el-menu-item v-for="m in menus" :key="m.path" :index="m.path">
-          <el-icon><component :is="m.icon" /></el-icon>
-          <template #title>{{ m.title }}</template>
-        </el-menu-item>
+        <template v-for="m in menus" :key="m.path">
+          <!-- 有子菜单时渲染为二级菜单 -->
+          <el-sub-menu v-if="m.children && m.children.length" :index="m.path">
+            <template #title>
+              <el-icon><component :is="m.icon" /></el-icon>
+              <span>{{ m.title }}</span>
+            </template>
+            <el-menu-item v-for="c in m.children" :key="c.path" :index="c.path">
+              <el-icon><component :is="c.icon || m.icon" /></el-icon>
+              <template #title>{{ c.title }}</template>
+            </el-menu-item>
+          </el-sub-menu>
+          <!-- 无子菜单时渲染为普通菜单项 -->
+          <el-menu-item v-else :index="m.path">
+            <el-icon><component :is="m.icon" /></el-icon>
+            <template #title>{{ m.title }}</template>
+          </el-menu-item>
+        </template>
       </el-menu>
     </el-aside>
     <el-container>

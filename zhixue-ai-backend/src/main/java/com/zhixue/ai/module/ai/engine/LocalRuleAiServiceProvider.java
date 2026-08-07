@@ -194,4 +194,40 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
         }
         return correctVariant(questionContent, standardAnswer, studentAnswer);
     }
+
+    @Override
+    public String recognizeAudio(String base64Audio, String format) {
+        // 本地规则版无法进行语音识别,返回 null 由上层提示配置 API
+        return null;
+    }
+
+    @Override
+    public String gradeListeningSpeaking(String recognizedText, String referenceText, String questionContent) {
+        // 本地规则版:基于文本相似度做基础评分,无法精确判断语音质量
+        if (recognizedText == null || recognizedText.trim().isEmpty()) {
+            return null;
+        }
+        String std = (referenceText == null ? "" : referenceText)
+                .replaceAll("[^a-zA-Z\\s]", "").toLowerCase().trim();
+        String stu = recognizedText.replaceAll("[^a-zA-Z\\s]", "").toLowerCase().trim();
+        if (std.isEmpty() || stu.isEmpty()) {
+            return "{\"pronunciationScore\":10,\"fluencyScore\":10,\"grammarScore\":10,\"contentScore\":5,\"feedback\":\"本地规则模式无法精确评分,请在管理端配置通义千问 API Key 以启用 AI 听说评分。\"}";
+        }
+        // 单词重叠率作为内容/发音近似度
+        java.util.Set<String> stdWords = new java.util.HashSet<>(java.util.Arrays.asList(std.split("\\s+")));
+        java.util.Set<String> stuWords = new java.util.HashSet<>(java.util.Arrays.asList(stu.split("\\s+")));
+        if (stdWords.isEmpty() || stuWords.isEmpty()) {
+            return null;
+        }
+        long hit = stdWords.stream().filter(stuWords::contains).count();
+        double ratio = (double) hit / stdWords.size();
+        int content = (int) Math.round(ratio * 25);
+        int pronunciation = (int) Math.round(Math.min(1.0, ratio * 1.2) * 25);
+        int fluency = Math.min(25, (int) Math.round((stu.split("\\s+").length / (double) Math.max(1, stdWords.size())) * 25));
+        int grammar = Math.min(25, content + 2);
+        String feedback = "本地规则模式评分(基于文本相似度)。建议配置通义千问 API Key 后获得更精准的发音/流利度评分。";
+        return "{\"pronunciationScore\":" + pronunciation + ",\"fluencyScore\":" + fluency
+                + ",\"grammarScore\":" + grammar + ",\"contentScore\":" + content
+                + ",\"feedback\":\"" + feedback + "\"}";
+    }
 }

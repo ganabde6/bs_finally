@@ -1,5 +1,6 @@
 com\zhixue\ai\config\WebSocketConfig.class
 com\zhixue\ai\module\ai\entity\AiErrorBook.class
+com\zhixue\ai\module\ai\service\impl\ListeningSpeakingServiceImpl.class
 com\zhixue\ai\module\ai\mapper\PkRoomMapper.class
 com\zhixue\ai\module\system\entity\SysClass.class
 com\zhixue\ai\module\ai\mapper\AiVariantQuestionMapper.class
@@ -18,6 +19,7 @@ com\zhixue\ai\module\ai\engine\CorrectEngine.class
 com\zhixue\ai\module\exam\service\ExamService.class
 com\zhixue\ai\module\system\entity\SysTeacherClass.class
 com\zhixue\ai\module\system\service\AuthService.class
+com\zhixue\ai\module\ai\service\ListeningSpeakingService.class
 com\zhixue\ai\module\system\entity\SysRole.class
 com\zhixue\ai\module\exam\controller\TeacherController.class
 com\zhixue\ai\module\exam\entity\ExamQuestion.class
@@ -30,11 +32,14 @@ com\zhixue\ai\common\result\Result.class
 com\zhixue\ai\module\system\entity\SysFile.class
 com\zhixue\ai\module\ai\service\impl\PkServiceImpl.class
 com\zhixue\ai\common\utils\JwtUtils.class
+com\zhixue\ai\module\ai\entity\AiListeningSpeakingRecord.class
 com\zhixue\ai\module\ai\entity\PkRoom.class
+com\zhixue\ai\module\ai\mapper\AiListeningSpeakingRecordMapper.class
 com\zhixue\ai\module\ai\mapper\AiModelConfigMapper.class
 com\zhixue\ai\module\ai\entity\SelfPracticeRecord.class
 com\zhixue\ai\module\exam\mapper\ExamPaperMapper.class
 com\zhixue\ai\module\system\entity\SysLog.class
+com\zhixue\ai\module\ai\entity\AiListeningSpeaking.class
 com\zhixue\ai\module\monitor\service\DashboardService.class
 com\zhixue\ai\config\MybatisPlusConfig.class
 com\zhixue\ai\module\system\service\SystemService.class
@@ -59,6 +64,7 @@ com\zhixue\ai\config\SecurityConfig.class
 com\zhixue\ai\module\ai\mapper\AiTutorChatMapper.class
 com\zhixue\ai\security\SecurityUtils.class
 com\zhixue\ai\module\ai\mapper\PkAnswerRecordMapper.class
+com\zhixue\ai\module\ai\controller\ListeningSpeakingController.class
 com\zhixue\ai\module\system\entity\SysSubject.class
 com\zhixue\ai\module\exam\mapper\ExamAnswerMapper.class
 com\zhixue\ai\security\JwtAuthenticationFilter.class
@@ -80,6 +86,7 @@ com\zhixue\ai\module\system\mapper\SysFileMapper.class
 com\zhixue\ai\module\ai\mapper\ExamRiskLogMapper.class
 com\zhixue\ai\module\ai\engine\WebSocketServer.class
 com\zhixue\ai\module\system\controller\CommonController.class
+com\zhixue\ai\module\ai\mapper\AiListeningSpeakingMapper.class
 com\zhixue\ai\module\exam\mapper\ExamQuestionMapper.class
 com\zhixue\ai\module\ai\entity\ExamRiskLog.class
 com\zhixue\ai\module\ai\entity\AiStudyAnalysis.class
