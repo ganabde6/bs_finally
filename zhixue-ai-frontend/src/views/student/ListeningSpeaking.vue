@@ -1,22 +1,45 @@
 <template>
   <div class="listening-speaking">
-    <!-- 顶部:题目列表 + 学段过滤 -->
+    <!-- 顶部:题目列表 + 学段过滤 + 出题按钮 -->
     <el-card shadow="never" class="q-card">
       <div class="q-header">
-        <div class="q-title">高考英语听说练习</div>
+        <div class="q-title">英语听说练习</div>
         <div class="q-filter">
           <span class="filter-label">学段</span>
           <el-select v-model="gradeLevel" size="small" style="width: 110px" @change="loadQuestions">
             <el-option label="全部" :value="0" />
-            <el-option label="小学" :value="1" />
             <el-option label="初中" :value="2" />
             <el-option label="高中" :value="3" />
           </el-select>
         </div>
       </div>
+      <!-- 出题按钮组 -->
+      <div class="generate-btns">
+        <el-button type="primary" size="small" @click="showTextDialog = true"> 自定义文本出题</el-button>
+        <el-button type="success" size="small" @click="showImageDialog = true">🖼️ 图片出题</el-button>
+      </div>
+      <!-- 话题筛选 -->
+      <div class="topic-filter" v-if="topics.length">
+        <span class="filter-label">话题</span>
+        <el-select v-model="filterTopic" size="small" style="width: 120px" clearable placeholder="全部话题" @change="loadQuestions">
+          <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
+        </el-select>
+        <span class="filter-label" style="margin-left: 10px">题型</span>
+        <el-select v-model="filterType" size="small" style="width: 110px" clearable placeholder="全部题型" @change="loadQuestions">
+          <el-option label="模仿朗读" value="模仿朗读" />
+          <el-option label="故事复述" value="故事复述" />
+          <el-option label="角色扮演" value="角色扮演" />
+        </el-select>
+        <span class="filter-label" style="margin-left: 10px">难度</span>
+        <el-select v-model="filterDiff" size="small" style="width: 100px" clearable placeholder="全部" @change="loadQuestions">
+          <el-option label="简单" :value="1" />
+          <el-option label="中等" :value="2" />
+          <el-option label="困难" :value="3" />
+        </el-select>
+      </div>
       <div class="q-list">
         <div
-          v-for="q in questions"
+          v-for="q in filteredQuestions"
           :key="q.id"
           class="q-item"
           :class="{ active: currentQuestion && currentQuestion.id === q.id }"
@@ -26,11 +49,64 @@
           <div class="q-item-tags">
             <el-tag size="small" type="info" effect="plain">{{ typeLabel(q.questionType) }}</el-tag>
             <el-tag size="small" :type="diffType(q.difficulty)" effect="plain">{{ diffLabel(q.difficulty) }}</el-tag>
+            <el-tag v-if="q.topic" size="small" type="warning" effect="plain">{{ q.topic }}</el-tag>
           </div>
         </div>
-        <el-empty v-if="!questions.length" description="暂无题目" :image-size="60" />
+        <el-empty v-if="!filteredQuestions.length" description="暂无题目" :image-size="60" />
       </div>
     </el-card>
+
+    <!-- 自定义文本出题弹窗 -->
+    <el-dialog v-model="showTextDialog" title="自定义文本出题" width="500px">
+      <el-form label-width="80px">
+        <el-form-item label="英文文本">
+          <el-input v-model="textGenInput" type="textarea" :rows="6" placeholder="粘贴或输入英文文本..." />
+        </el-form-item>
+        <el-form-item label="题型">
+          <el-select v-model="textGenType" style="width: 100%">
+            <el-option label="模仿朗读" value="模仿朗读" />
+            <el-option label="故事复述" value="故事复述" />
+            <el-option label="角色扮演" value="角色扮演" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showTextDialog = false">取消</el-button>
+        <el-button type="primary" :loading="textGenLoading" @click="handleTextGenerate">AI 生成题目</el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 图片出题弹窗 -->
+    <el-dialog v-model="showImageDialog" title="图片出题" width="500px">
+      <el-form label-width="80px">
+        <el-form-item label="上传图片">
+          <el-upload
+            :auto-upload="false"
+            :limit="1"
+            accept="image/*"
+            :on-change="onImageChange"
+            :on-remove="onImageRemove"
+            :file-list="imageFileList"
+          >
+            <el-button size="small">选择图片</el-button>
+            <template #tip>
+              <div class="el-upload__tip">支持 JPG/PNG 格式</div>
+            </template>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="题型">
+          <el-select v-model="imageGenType" style="width: 100%">
+            <el-option label="故事复述" value="故事复述" />
+            <el-option label="角色扮演" value="角色扮演" />
+            <el-option label="模仿朗读" value="模仿朗读" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showImageDialog = false">取消</el-button>
+        <el-button type="primary" :loading="imageGenLoading" @click="handleImageGenerate">AI 生成题目</el-button>
+      </template>
+    </el-dialog>
 
     <!-- 中间:题目详情 + 作答区 -->
     <el-card shadow="never" class="main-card" v-loading="submitting">
@@ -167,9 +243,10 @@
           <template #default="{ row }">{{ row.contentScore }}</template>
         </el-table-column>
         <el-table-column prop="createTime" label="时间" width="160" />
-        <el-table-column label="操作" width="80" fixed="right">
+        <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
             <el-button v-if="row.audioPath" link type="primary" size="small" @click="playRecordAudio(row.audioPath)">听录音</el-button>
+            <el-button link type="success" size="small" @click="handleGenerateSimilar(row)">生成同类</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -181,22 +258,39 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
-import { listeningSpeakingList, listeningSpeakingDetail, submitListeningSpeaking, listeningSpeakingRecords } from '@/api'
+import { listeningSpeakingList, listeningSpeakingDetail, submitListeningSpeaking, listeningSpeakingRecords, lsGenerateFromText, lsGenerateFromImage, lsGenerateSimilar, lsGetTopics } from '@/api'
 
 // ============ 题目 ============
 const questions = ref([])
 const currentQuestion = ref(null)
 const gradeLevel = ref(0)
+const topics = ref([])
+const filterTopic = ref('')
+const filterType = ref('')
+const filterDiff = ref(null)
 
 const typeLabel = (t) => t || '模仿朗读'
 const diffLabel = (d) => ({ 1: '简单', 2: '中等', 3: '困难' })[d] || '中等'
 const diffType = (d) => ({ 1: 'success', 2: 'warning', 3: 'danger' })[d] || 'warning'
 
+// 筛选后的题目列表
+const filteredQuestions = computed(() => {
+  return questions.value.filter(q => {
+    if (filterTopic.value && q.topic !== filterTopic.value) return false
+    if (filterType.value && q.questionType !== filterType.value) return false
+    if (filterDiff.value && q.difficulty !== filterDiff.value) return false
+    return true
+  })
+})
+
 const loadQuestions = async () => {
   const res = await listeningSpeakingList(gradeLevel.value || undefined)
   questions.value = res.data || []
-  if (questions.value.length) {
-    selectQuestion(questions.value[0])
+  // 加载话题列表
+  const topicRes = await lsGetTopics(gradeLevel.value || undefined)
+  topics.value = topicRes.data || []
+  if (filteredQuestions.value.length) {
+    selectQuestion(filteredQuestions.value[0])
   } else {
     currentQuestion.value = null
   }
@@ -206,6 +300,100 @@ const selectQuestion = async (q) => {
   const res = await listeningSpeakingDetail(q.id)
   currentQuestion.value = res.data
   resetAnswer()
+}
+
+// ============ 自定义文本出题 ============
+const showTextDialog = ref(false)
+const textGenInput = ref('')
+const textGenType = ref('模仿朗读')
+const textGenLoading = ref(false)
+
+const handleTextGenerate = async () => {
+  if (!textGenInput.value.trim()) {
+    ElMessage.warning('请输入英文文本')
+    return
+  }
+  textGenLoading.value = true
+  try {
+    const res = await lsGenerateFromText({
+      text: textGenInput.value,
+      questionType: textGenType.value,
+      gradeLevel: gradeLevel.value || undefined
+    })
+    ElMessage.success('题目生成成功')
+    showTextDialog.value = false
+    textGenInput.value = ''
+    await loadQuestions()
+    // 自动选中新题目
+    const newQ = questions.value.find(q => q.id === res.data.id)
+    if (newQ) selectQuestion(newQ)
+  } catch (e) {
+    // 拦截器已提示
+  } finally {
+    textGenLoading.value = false
+  }
+}
+
+// ============ 图片出题 ============
+const showImageDialog = ref(false)
+const imageGenType = ref('故事复述')
+const imageGenLoading = ref(false)
+const imageFileList = ref([])
+const imageBase64 = ref('')
+
+const onImageChange = (file) => {
+  const f = file.raw
+  if (!f) return
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    imageBase64.value = e.target.result.split(',')[1] // 去掉 data:image/xxx;base64, 前缀
+  }
+  reader.readAsDataURL(f)
+  imageFileList.value = [file]
+}
+
+const onImageRemove = () => {
+  imageFileList.value = []
+  imageBase64.value = ''
+}
+
+const handleImageGenerate = async () => {
+  if (!imageBase64.value) {
+    ElMessage.warning('请上传图片')
+    return
+  }
+  imageGenLoading.value = true
+  try {
+    const res = await lsGenerateFromImage({
+      imageBase64: imageBase64.value,
+      questionType: imageGenType.value,
+      gradeLevel: gradeLevel.value || undefined
+    })
+    ElMessage.success('题目生成成功')
+    showImageDialog.value = false
+    imageFileList.value = []
+    imageBase64.value = ''
+    await loadQuestions()
+    const newQ = questions.value.find(q => q.id === res.data.id)
+    if (newQ) selectQuestion(newQ)
+  } catch (e) {
+    // 拦截器已提示
+  } finally {
+    imageGenLoading.value = false
+  }
+}
+
+// ============ 生成同类练习 ============
+const handleGenerateSimilar = async (row) => {
+  try {
+    const res = await lsGenerateSimilar({ previousQuestionId: row.questionId })
+    ElMessage.success('同类题目生成成功')
+    await loadQuestions()
+    const newQ = questions.value.find(q => q.id === res.data.id)
+    if (newQ) selectQuestion(newQ)
+  } catch (e) {
+    // 拦截器已提示
+  }
 }
 
 // ============ 录音(MediaRecorder + Web Audio) ============
@@ -623,6 +811,8 @@ const handleResize = () => {
 .q-title { font-size: 16px; font-weight: 600; }
 .q-filter { display: flex; align-items: center; gap: 6px; }
 .filter-label { font-size: 12px; color: #909399; }
+.generate-btns { display: flex; gap: 8px; margin-bottom: 10px; }
+.topic-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .q-list { max-height: 620px; overflow-y: auto; }
 .q-item { padding: 10px 12px; border: 1px solid #ebeef5; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
 .q-item:hover { border-color: #409eff; }

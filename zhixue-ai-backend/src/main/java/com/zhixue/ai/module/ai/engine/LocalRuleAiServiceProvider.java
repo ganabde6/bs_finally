@@ -77,6 +77,15 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
     }
 
     @Override
+    public String tutorAnswerWithImages(String question, String context, java.util.List<String> images) {
+        // 本地规则版:忽略图片,基于文字做回答
+        if (images != null && !images.isEmpty()) {
+            return "本地规则模式无法识别图片,请在管理端配置通义千问 API Key 以启用 AI 图片识别。";
+        }
+        return tutorAnswer(question, context);
+    }
+
+    @Override
     public String polishText(String original) {
         if (original == null || original.trim().isEmpty()) {
             return "原文为空,无法润色";
@@ -107,8 +116,16 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
         if (!polished.endsWith("。") && !polished.endsWith("!") && !polished.endsWith("?")) {
             polished = polished + "。";
         }
-        sb.append("　　").append(polished);
+        sb.append("  ").append(polished);
         return sb.toString();
+    }
+
+    @Override
+    public String polishTextWithImage(String original, java.util.List<String> images) {
+        if (images != null && !images.isEmpty()) {
+            return "本地规则模式无法识别手写作文图片,请在管理端配置通义千问 API Key 以启用 AI 图片识别润色。";
+        }
+        return polishText(original);
     }
 
     @Override
@@ -229,5 +246,30 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
         return "{\"pronunciationScore\":" + pronunciation + ",\"fluencyScore\":" + fluency
                 + ",\"grammarScore\":" + grammar + ",\"contentScore\":" + content
                 + ",\"feedback\":\"" + feedback + "\"}";
+    }
+
+    @Override
+    public String generateLsFromText(String text, String questionType, Integer gradeLevel) {
+        return null; // 本地规则模式不支持 AI 出题
+    }
+
+    @Override
+    public String generateLsFromTopic(String topic, String questionType, Integer difficulty, Integer gradeLevel) {
+        return null;
+    }
+
+    @Override
+    public String generateLsFromImage(String imageBase64, String questionType, Integer gradeLevel) {
+        return null;
+    }
+
+    @Override
+    public String generateSimilarLs(String previousQuestion, String questionType, String topic, Integer gradeLevel) {
+        return null;
+    }
+
+    @Override
+    public String generateLsHomework(String mode, String params) {
+        return null;
     }
 }

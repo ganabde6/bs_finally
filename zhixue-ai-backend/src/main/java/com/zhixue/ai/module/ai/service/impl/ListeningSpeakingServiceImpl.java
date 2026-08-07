@@ -250,4 +250,128 @@ public class ListeningSpeakingServiceImpl implements ListeningSpeakingService {
         String suffix = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase();
         return AUDIO_TYPES.contains(suffix) ? suffix : "wav";
     }
+
+    // ===================== 学生自主出题 =====================
+
+    @Override
+    public Map<String, Object> generateFromText(Long userId, String text, String questionType, Integer gradeLevel) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new BizException("请输入英文文本");
+        }
+        String resultJson = aiServiceProvider.generateLsFromText(text, questionType, gradeLevel);
+        if (resultJson == null) {
+            throw new BizException("AI 生成题目失败，请检查 AI 服务配置或稍后重试");
+        }
+        AiListeningSpeaking question = parseAndSaveQuestion(resultJson, userId, "AI_TEXT", null, null);
+        return questionToMap(question);
+    }
+
+    @Override
+    public Map<String, Object> generateFromTopic(Long userId, String topic, String questionType, Integer difficulty, Integer gradeLevel) {
+        String resultJson = aiServiceProvider.generateLsFromTopic(topic, questionType, difficulty, gradeLevel);
+        if (resultJson == null) {
+            throw new BizException("AI 生成题目失败，请检查 AI 服务配置或稍后重试");
+        }
+        AiListeningSpeaking question = parseAndSaveQuestion(resultJson, userId, "AI_TOPIC", topic, difficulty);
+        return questionToMap(question);
+    }
+
+    @Override
+    public Map<String, Object> generateFromImage(Long userId, String imageBase64, String questionType, Integer gradeLevel) {
+        if (imageBase64 == null || imageBase64.isEmpty()) {
+            throw new BizException("请上传图片");
+        }
+        String resultJson = aiServiceProvider.generateLsFromImage(imageBase64, questionType, gradeLevel);
+        if (resultJson == null) {
+            throw new BizException("AI 生成题目失败，请检查 AI 服务配置或稍后重试");
+        }
+        AiListeningSpeaking question = parseAndSaveQuestion(resultJson, userId, "AI_IMAGE", null, null);
+        question.setImageUrl("data:image/png;base64," + imageBase64.substring(0, Math.min(100, imageBase64.length())) + "...");
+        listeningSpeakingMapper.updateById(question);
+        return questionToMap(question);
+    }
+
+    @Override
+    public Map<String, Object> generateSimilar(Long userId, Long previousQuestionId) {
+        AiListeningSpeaking prev = listeningSpeakingMapper.selectById(previousQuestionId);
+        if (prev == null) {
+            throw new BizException("上一题不存在");
+        }
+        String resultJson = aiServiceProvider.generateSimilarLs(
+                prev.getContent(), prev.getQuestionType(), prev.getTopic(), prev.getGradeLevel());
+        if (resultJson == null) {
+            throw new BizException("AI 生成同类题目失败，请检查 AI 服务配置或稍后重试");
+        }
+        AiListeningSpeaking question = parseAndSaveQuestion(resultJson, userId, "AI_SIMILAR", prev.getTopic(), prev.getDifficulty());
+        return questionToMap(question);
+    }
+
+    @Override
+    public List<String> getTopics(Integer gradeLevel) {
+        LambdaQueryWrapper<AiListeningSpeaking> wrapper = new LambdaQueryWrapper<AiListeningSpeaking>()
+                .eq(AiListeningSpeaking::getStatus, 1)
+                .isNotNull(AiListeningSpeaking::getTopic)
+                .ne(AiListeningSpeaking::getTopic, "");
+        if (gradeLevel != null && gradeLevel > 0) {
+            wrapper.and(w -> w.eq(AiListeningSpeaking::getGradeLevel, gradeLevel)
+                    .or().eq(AiListeningSpeaking::getGradeLevel, 0));
+        }
+        List<AiListeningSpeaking> questions = listeningSpeakingMapper.selectList(wrapper);
+        return questions.stream()
+                .map(AiListeningSpeaking::getTopic)
+                .filter(t -> t != null && !t.isEmpty())
+                .distinct()
+                .sorted()
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    /**
+     * 解析 AI 返回的 JSON 并保存为题目
+     */
+    private AiListeningSpeaking parseAndSaveQuestion(String json, Long userId, String sourceType, String topic, Integer difficulty) {
+        try {
+            String cleanJson = json;
+            int start = cleanJson.indexOf('{');
+            int end = cleanJson.lastIndexOf('}');
+            if (start >= 0 && end > start) {
+                cleanJson = cleanJson.substring(start, end + 1);
+            }
+            JSONObject obj = JSON.parseObject(cleanJson);
+            AiListeningSpeaking q = new AiListeningSpeaking();
+            q.setTitle(obj.getString("title"));
+            q.setContent(obj.getString("content"));
+            q.setReferenceText(obj.getString("referenceText"));
+            q.setQuestionType(obj.getString("questionType"));
+            q.setDifficulty(obj.getInteger("difficulty") != null ? obj.getInteger("difficulty") : (difficulty != null ? difficulty : 2));
+            q.setGradeLevel(0); // 自主出题通用
+            q.setTopic(topic);
+            q.setSourceType(sourceType);
+            q.setStudentId(userId);
+            q.setScorePoints(obj.getString("scorePoints"));
+            q.setStatus(1);
+            listeningSpeakingMapper.insert(q);
+            return q;
+        } catch (Exception e) {
+            log.error("解析 AI 生成题目失败: {}", json, e);
+            throw new BizException("AI 生成题目格式异常，请重试");
+        }
+    }
+
+    /**
+     * 将题目转为 Map 返回
+     */
+    private Map<String, Object> questionToMap(AiListeningSpeaking q) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", q.getId());
+        map.put("title", q.getTitle());
+        map.put("content", q.getContent());
+        map.put("referenceText", q.getReferenceText());
+        map.put("questionType", q.getQuestionType());
+        map.put("difficulty", q.getDifficulty());
+        map.put("topic", q.getTopic());
+        map.put("sourceType", q.getSourceType());
+        map.put("scorePoints", q.getScorePoints());
+        map.put("gradeLevel", q.getGradeLevel());
+        return map;
+    }
 }

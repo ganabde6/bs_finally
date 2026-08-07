@@ -35,6 +35,21 @@ public class AiListeningSpeaking {
     /** 题型(模仿朗读/角色扮演/故事复述) */
     private String questionType;
 
+    /** 话题标签(如:旅行、动物、健康生活) */
+    private String topic;
+
+    /** 题目来源: PRESET=预设, AI_TEXT=自定义文本, AI_IMAGE=图片出题, AI_TOPIC=话题出题, AI_SIMILAR=同类生成 */
+    private String sourceType;
+
+    /** 所属学生ID(自主出题时记录) */
+    private Long studentId;
+
+    /** 评分要点(教师可编辑) */
+    private String scorePoints;
+
+    /** 出题图片URL(图片出题时) */
+    private String imageUrl;
+
     /** 状态: 0=下架, 1=上架 */
     private Integer status;
 

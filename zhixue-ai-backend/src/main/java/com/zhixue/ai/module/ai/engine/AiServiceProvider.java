@@ -22,9 +22,28 @@ public interface AiServiceProvider {
     String tutorAnswer(String question, String context);
 
     /**
+     * AI 助学答疑(含图片识别)
+     * <p>AI 通过多模态接口识别学生上传的图片内容,结合文字问题一起回答</p>
+     * @param question 学生提问
+     * @param context  学情上下文
+     * @param images   图片 base64 列表(data:image/xxx;base64,xxx 格式)
+     * @return AI 回答
+     */
+    String tutorAnswerWithImages(String question, String context, java.util.List<String> images);
+
+    /**
      * 作文/简答题智能润色
      */
     String polishText(String original);
+
+    /**
+     * 作文/简答题智能润色(含图片识别)
+     * <p>AI 通过多模态接口识别学生上传的手写作文图片,结合文字内容进行润色</p>
+     * @param original 文字内容(可为空)
+     * @param images   图片 base64 列表(data:image/xxx;base64,xxx 格式)
+     * @return 润色结果
+     */
+    String polishTextWithImage(String original, java.util.List<String> images);
 
     /**
      * 生成个性化评语(家校反馈)
@@ -84,4 +103,52 @@ public interface AiServiceProvider {
      * @return JSON 字符串: {"pronunciationScore":0-25,"fluencyScore":0-25,"grammarScore":0-25,"contentScore":0-25,"totalScore":0-100,"feedback":"..."};失败返回 null
      */
     String gradeListeningSpeaking(String recognizedText, String referenceText, String questionContent);
+
+    /**
+     * AI 生成英语听说题目(自定义文本出题)
+     * <p>学生粘贴英文文本,选择题型,AI 生成完整听说练习题目</p>
+     * @param text 学生输入的英文文本
+     * @param questionType 题型(模仿朗读/故事复述/角色扮演)
+     * @param gradeLevel 学段
+     * @return JSON: {"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}
+     */
+    String generateLsFromText(String text, String questionType, Integer gradeLevel);
+
+    /**
+     * AI 按话题生成听说题目
+     * @param topic 话题(如:旅行、动物)
+     * @param questionType 题型
+     * @param difficulty 难度(1-3)
+     * @param gradeLevel 学段
+     * @return JSON: {"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}
+     */
+    String generateLsFromTopic(String topic, String questionType, Integer difficulty, Integer gradeLevel);
+
+    /**
+     * AI 基于图片生成听说题目
+     * @param imageBase64 图片 base64
+     * @param questionType 题型
+     * @param gradeLevel 学段
+     * @return JSON: {"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}
+     */
+    String generateLsFromImage(String imageBase64, String questionType, Integer gradeLevel);
+
+    /**
+     * AI 生成同类薄弱练习
+     * <p>基于已完成题目的话题/题型/难度,生成同类型新题</p>
+     * @param previousQuestion 上一题内容
+     * @param questionType 题型
+     * @param topic 话题
+     * @param gradeLevel 学段
+     * @return JSON: {"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}
+     */
+    String generateSimilarLs(String previousQuestion, String questionType, String topic, Integer gradeLevel);
+
+    /**
+     * 教师AI组题(批量生成)
+     * @param mode 组题模式(STANDARD/TOPIC/CLASS_ANALYSIS/CUSTOM)
+     * @param params 组题参数JSON
+     * @return JSON数组: [{"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}, ...]
+     */
+    String generateLsHomework(String mode, String params);
 }

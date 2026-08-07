@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 学生端 - 高考英语听说练习 Controller
+ * 学生端 - 英语听说练习 Controller
  */
 @RestController
 @RequestMapping("/api/student/listening-speaking")
@@ -47,5 +47,52 @@ public class ListeningSpeakingController {
     public Result<List<Map<String, Object>>> records() {
         Long userId = SecurityUtils.getCurrentUserId();
         return Result.success(listeningSpeakingService.listMyRecords(userId));
+    }
+
+    // ===================== 学生自主出题 =====================
+
+    /** AI 自定义文本出题 */
+    @PostMapping("/generate/text")
+    public Result<Map<String, Object>> generateFromText(@RequestBody Map<String, Object> params) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        String text = (String) params.get("text");
+        String questionType = (String) params.get("questionType");
+        Integer gradeLevel = params.get("gradeLevel") != null ? Integer.valueOf(params.get("gradeLevel").toString()) : null;
+        return Result.success(listeningSpeakingService.generateFromText(userId, text, questionType, gradeLevel));
+    }
+
+    /** AI 按话题出题 */
+    @PostMapping("/generate/topic")
+    public Result<Map<String, Object>> generateFromTopic(@RequestBody Map<String, Object> params) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        String topic = (String) params.get("topic");
+        String questionType = (String) params.get("questionType");
+        Integer difficulty = params.get("difficulty") != null ? Integer.valueOf(params.get("difficulty").toString()) : null;
+        Integer gradeLevel = params.get("gradeLevel") != null ? Integer.valueOf(params.get("gradeLevel").toString()) : null;
+        return Result.success(listeningSpeakingService.generateFromTopic(userId, topic, questionType, difficulty, gradeLevel));
+    }
+
+    /** AI 图片出题 */
+    @PostMapping("/generate/image")
+    public Result<Map<String, Object>> generateFromImage(@RequestBody Map<String, Object> params) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        String imageBase64 = (String) params.get("imageBase64");
+        String questionType = (String) params.get("questionType");
+        Integer gradeLevel = params.get("gradeLevel") != null ? Integer.valueOf(params.get("gradeLevel").toString()) : null;
+        return Result.success(listeningSpeakingService.generateFromImage(userId, imageBase64, questionType, gradeLevel));
+    }
+
+    /** AI 生成同类薄弱练习 */
+    @PostMapping("/generate/similar")
+    public Result<Map<String, Object>> generateSimilar(@RequestBody Map<String, Object> params) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        Long previousQuestionId = Long.valueOf(params.get("previousQuestionId").toString());
+        return Result.success(listeningSpeakingService.generateSimilar(userId, previousQuestionId));
+    }
+
+    /** 获取话题列表 */
+    @GetMapping("/topics")
+    public Result<List<String>> topics(@RequestParam(required = false) Integer gradeLevel) {
+        return Result.success(listeningSpeakingService.getTopics(gradeLevel));
     }
 }

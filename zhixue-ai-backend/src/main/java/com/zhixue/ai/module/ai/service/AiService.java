@@ -366,7 +366,7 @@ public class AiService {
 
     /** AI 答疑(文字/拍照/语音) */
     @Transactional
-    public Map<String, Object> tutorChat(Long studentId, String question, Integer chatType) {
+    public Map<String, Object> tutorChat(Long studentId, String question, Integer chatType, String imageBase64) {
         // 内容风控
         String risk = aiServiceProvider.moderateContent(question);
         if (risk != null) {
@@ -381,8 +381,14 @@ public class AiService {
                 .eq(AiStudyAnalysis::getStudentId, studentId).last("LIMIT 1"));
         String context = sa == null ? "" :
                 "薄弱点:" + sa.getWeakPoints() + ",优势:" + sa.getStrongPoints();
-        // AI 回答
-        String answer = aiServiceProvider.tutorAnswer(question, context);
+        // AI 回答（有图片时使用多模态接口）
+        String answer;
+        if (imageBase64 != null && !imageBase64.trim().isEmpty()) {
+            java.util.List<String> images = java.util.Collections.singletonList(imageBase64);
+            answer = aiServiceProvider.tutorAnswerWithImages(question, context, images);
+        } else {
+            answer = aiServiceProvider.tutorAnswer(question, context);
+        }
         // 保存对话记录
         AiTutorChat userMsg = new AiTutorChat();
         userMsg.setStudentId(studentId);
@@ -403,9 +409,14 @@ public class AiService {
     }
 
     /** AI 作文润色 */
-    public String polishEssay(String original) {
+    public String polishEssay(String original, String imageBase64) {
         if (!isAiFeatureEnabled("enable_polish")) {
             throw new BizException("智能润色功能已关闭");
+        }
+        // 如果有图片，使用多模态接口识别手写内容后再润色
+        if (imageBase64 != null && !imageBase64.trim().isEmpty()) {
+            java.util.List<String> images = java.util.Collections.singletonList(imageBase64);
+            return aiServiceProvider.polishTextWithImage(original, images);
         }
         return aiServiceProvider.polishText(original);
     }

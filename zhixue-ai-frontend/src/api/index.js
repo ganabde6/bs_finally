@@ -39,6 +39,7 @@ export const answerVariant = (id, answer, images = []) => request.post(`/api/stu
 export const studyAnalysis = (subjectId) => request.get('/api/student/study/analysis', { params: { subjectId } })
 export const tutorChat = (data) => request.post('/api/student/tutor/chat', data, { timeout: 120000 })
 export const polishEssay = (content) => request.post('/api/student/tutor/polish', { content }, { timeout: 120000 })
+export const polishEssayWithImage = (imageBase64, content) => request.post('/api/student/tutor/polish', { content, imageBase64 }, { timeout: 120000 })
 export const chatHistory = () => request.get('/api/student/tutor/history')
 export const reportRisk = (data) => request.post('/api/student/risk/report', data)
 
@@ -59,7 +60,7 @@ export const pkSubmitAnswer = (data) => request.post('/api/student/pk/answer', d
 export const pkGetRanking = (roomCode) => request.get('/api/student/pk/ranking', { params: { roomCode } })
 export const pkGetRoomStatus = (roomCode) => request.get('/api/student/pk/status', { params: { roomCode } })
 
-// ============ 高考英语听说练习 ============
+// ============ 英语听说练习 ============
 export const listeningSpeakingList = (gradeLevel) => request.get('/api/student/listening-speaking/list', { params: { gradeLevel } })
 export const listeningSpeakingDetail = (id) => request.get(`/api/student/listening-speaking/${id}`)
 export const submitListeningSpeaking = (id, file, supplementText) => {
@@ -77,6 +78,50 @@ export const uploadAudioFile = (file) => {
   fd.append('file', file)
   return request.post('/api/common/upload/audio', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
+
+// 学生自主出题
+export const lsGenerateFromText = (data) => request.post('/api/student/listening-speaking/generate/text', data, { timeout: 120000 })
+export const lsGenerateFromTopic = (data) => request.post('/api/student/listening-speaking/generate/topic', data, { timeout: 120000 })
+export const lsGenerateFromImage = (data) => request.post('/api/student/listening-speaking/generate/image', data, { timeout: 120000 })
+export const lsGenerateSimilar = (data) => request.post('/api/student/listening-speaking/generate/similar', data, { timeout: 120000 })
+export const lsGetTopics = (gradeLevel) => request.get('/api/student/listening-speaking/topics', { params: { gradeLevel } })
+
+// 教师听说作业
+export const lsHomeworkCreate = (data) => request.post('/api/teacher/listening-speaking-homework/create', data)
+export const lsHomeworkGenerate = (data) => request.post('/api/teacher/listening-speaking-homework/generate', data, { timeout: 120000 })
+export const lsHomeworkSaveQuestions = (homeworkId, questions) => request.post(`/api/teacher/listening-speaking-homework/${homeworkId}/questions`, questions)
+export const lsHomeworkDetail = (homeworkId) => request.get(`/api/teacher/listening-speaking-homework/${homeworkId}`)
+export const lsHomeworkPublish = (homeworkId) => request.post(`/api/teacher/listening-speaking-homework/${homeworkId}/publish`)
+export const lsHomeworkList = () => request.get('/api/teacher/listening-speaking-homework/list')
+export const lsHomeworkCopy = (homeworkId, regenerate) => request.post(`/api/teacher/listening-speaking-homework/${homeworkId}/copy`, null, { params: { regenerate } })
+export const lsHomeworkReport = (homeworkId) => request.get(`/api/teacher/listening-speaking-homework/${homeworkId}/report`)
+export const lsHomeworkSubmit = (questionId, file, supplementText) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  if (supplementText) fd.append('supplementText', supplementText)
+  return request.post(`/api/teacher/listening-speaking-homework/submit/${questionId}`, fd, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 120000
+  })
+}
+export const lsStudentHomeworkList = () => request.get('/api/teacher/listening-speaking-homework/student/list')
+export const lsStudentHomeworkRecords = (homeworkId) => request.get(`/api/teacher/listening-speaking-homework/student/${homeworkId}/records`)
+
+// 英语听说 PK
+export const pkLsCreate = (data) => request.post('/api/student/pk-ls/create', data)
+export const pkLsAccept = (roomCode) => request.post('/api/student/pk-ls/accept', { roomCode })
+export const pkLsDetail = (roomCode) => request.get('/api/student/pk-ls/detail', { params: { roomCode } })
+export const pkLsSubmit = (roomCode, file, supplementText) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  if (supplementText) fd.append('supplementText', supplementText)
+  return request.post(`/api/student/pk-ls/submit?roomCode=${roomCode}`, fd, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 120000
+  })
+}
+export const pkLsResult = (roomCode) => request.get('/api/student/pk-ls/result', { params: { roomCode } })
+export const pkLsList = () => request.get('/api/student/pk-ls/list')
 
 // ============ 教师端 ============
 export const teacherDashboard = () => request.get('/api/teacher/dashboard')

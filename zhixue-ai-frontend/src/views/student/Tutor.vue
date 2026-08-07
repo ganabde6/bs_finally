@@ -32,7 +32,15 @@
     </el-card>
     <el-card class="mt-20">
       <template #header><span>作文/简答题智能润色</span></template>
-      <el-input v-model="polishContent" type="textarea" :rows="6" placeholder="请输入需要润色的作文或简答题内容" />
+      <el-input v-model="polishContent" type="textarea" :rows="6" placeholder="请输入需要润色的作文或简答题内容（也可拍照上传手写作文）" />
+      <!-- 润色图片上传区 -->
+      <div class="mt-20" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <el-upload :show-file-list="false" :before-upload="handlePolishUpload" accept="image/*" action="#">
+          <el-button :icon="Camera">📷 拍照/上传手写作文</el-button>
+        </el-upload>
+        <el-tag v-if="polishImageName" type="info" closable @close="clearPolishImage">📎 {{ polishImageName }}</el-tag>
+        <img v-if="polishImagePreview" :src="polishImagePreview" style="max-height:120px;max-width:200px;border-radius:4px;border:1px solid #dcdfe6" />
+      </div>
       <div class="mt-20" style="text-align:right">
         <el-button type="primary" :loading="polishing" @click="doPolish">AI 润色</el-button>
       </div>
@@ -63,8 +71,8 @@
 <script setup>
 import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Paperclip, Promotion, Microphone, VideoPause } from '@element-plus/icons-vue'
-import { tutorChat, chatHistory, polishEssay } from '@/api'
+import { Paperclip, Promotion, Microphone, VideoPause, Camera } from '@element-plus/icons-vue'
+import { tutorChat, chatHistory, polishEssay, polishEssayWithImage } from '@/api'
 
 const messages = ref([])
 const question = ref('')
@@ -73,7 +81,11 @@ const chatBox = ref()
 const polishContent = ref('')
 const polishResult = ref('')
 const polishing = ref(false)
+const polishImageName = ref('')
+const polishImageBase64 = ref('')
+const polishImagePreview = ref('')
 const uploadedFile = ref('')
+const uploadedImageBase64 = ref('') // 图片 base64 数据
 const isRecording = ref(false)
 
 // 润色后对话
@@ -167,10 +179,12 @@ const send = async () => {
     createTime: new Date().toLocaleString()
   })
   const q = content
+  const imgBase64 = uploadedImageBase64.value || null
   question.value = ''
   uploadedFile.value = ''
+  uploadedImageBase64.value = ''
   try {
-    const res = await tutorChat({ question: q, chatType: 1 })
+    const res = await tutorChat({ question: q, chatType: 1, imageBase64: imgBase64 })
     messages.value.push({ role: 'assistant', content: res.data.answer, createTime: new Date().toLocaleString() })
     scrollBottom()
   } finally {
@@ -190,6 +204,14 @@ const handleUpload = (file) => {
     return false
   }
   uploadedFile.value = file.name
+  // 如果是图片，转换为 base64
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageBase64.value = e.target.result // data:image/xxx;base64,xxx
+    }
+    reader.readAsDataURL(file)
+  }
   return false
 }
 
@@ -209,6 +231,12 @@ const handlePaste = (event) => {
         }
         const fileName = `粘贴图片_${new Date().getTime()}.png`
         uploadedFile.value = fileName
+        // 转换为 base64
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          uploadedImageBase64.value = e.target.result
+        }
+        reader.readAsDataURL(file)
         ElMessage.success('📎 已粘贴图片，可直接发送')
       }
       break
@@ -217,13 +245,19 @@ const handlePaste = (event) => {
 }
 
 const doPolish = async () => {
-  if (!polishContent.value.trim()) {
-    ElMessage.warning('请输入内容')
+  if (!polishContent.value.trim() && !polishImageBase64.value) {
+    ElMessage.warning('请输入内容或上传手写作文图片')
     return
   }
   polishing.value = true
   try {
-    const res = await polishEssay(polishContent.value)
+    let res
+    if (polishImageBase64.value) {
+      // 有图片时使用多模态接口
+      res = await polishEssayWithImage(polishImageBase64.value, polishContent.value)
+    } else {
+      res = await polishEssay(polishContent.value)
+    }
     polishResult.value = res.data
     // 重置对话区
     polishChatMessages.value = []
@@ -231,6 +265,32 @@ const doPolish = async () => {
   } finally {
     polishing.value = false
   }
+}
+
+const handlePolishUpload = (file) => {
+  const maxSize = 10 * 1024 * 1024 // 10MB
+  if (file.size > maxSize) {
+    ElMessage.error('图片大小不能超过 10MB')
+    return false
+  }
+  if (!file.type.startsWith('image/')) {
+    ElMessage.error('仅支持图片格式')
+    return false
+  }
+  polishImageName.value = file.name
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    polishImageBase64.value = e.target.result
+    polishImagePreview.value = e.target.result
+  }
+  reader.readAsDataURL(file)
+  return false
+}
+
+const clearPolishImage = () => {
+  polishImageName.value = ''
+  polishImageBase64.value = ''
+  polishImagePreview.value = ''
 }
 
 const sendPolishChat = async () => {

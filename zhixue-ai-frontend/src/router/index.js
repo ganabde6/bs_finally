@@ -20,7 +20,8 @@ const routes = [
       { path: 'study', name: 'StudentStudy', component: () => import('@/views/student/StudyCenter.vue'), meta: { title: '学情中心' } },
       { path: 'selfPractice', name: 'StudentSelfPractice', component: () => import('@/views/student/PracticeConfig.vue'), meta: { title: '自主智练' } },
       { path: 'practicePaper', name: 'StudentPracticePaper', component: () => import('@/views/student/PracticePaper.vue'), meta: { title: '练习作答' } },
-      { path: 'pkArena', name: 'StudentPkArena', component: () => import('@/views/student/PkArena.vue'), meta: { title: '同学PK' } }
+      { path: 'pk', name: 'StudentPk', component: () => import('@/views/student/PkArena.vue'), meta: { title: '同学PK' } },
+      { path: 'pkLs', name: 'StudentPkLs', component: () => import('@/views/student/PkLs.vue'), meta: { title: '听说PK' } }
     ]
   },
 
@@ -37,7 +38,8 @@ const routes = [
       { path: 'correct', name: 'TeacherCorrect', component: () => import('@/views/teacher/Correct.vue'), meta: { title: '批改管理' } },
       { path: 'correct/:answerId', name: 'TeacherCorrectDetail', component: () => import('@/views/teacher/CorrectDetail.vue'), meta: { title: '批改详情' } },
       { path: 'classAnalysis', name: 'TeacherClassAnalysis', component: () => import('@/views/teacher/ClassAnalysis.vue'), meta: { title: '班级学情' } },
-      { path: 'feedback', name: 'TeacherFeedback', component: () => import('@/views/teacher/Feedback.vue'), meta: { title: '家校反馈' } }
+      { path: 'feedback', name: 'TeacherFeedback', component: () => import('@/views/teacher/Feedback.vue'), meta: { title: '家校反馈' } },
+      { path: 'lsHomework', name: 'TeacherLsHomework', component: () => import('@/views/teacher/LsHomework.vue'), meta: { title: '听说作业' } }
     ]
   },
 

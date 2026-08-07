@@ -136,13 +136,16 @@ public class StudentController {
     public Result<?> tutorChat(@RequestBody Map<String, Object> body) {
         String question = (String) body.get("question");
         Integer chatType = (Integer) body.get("chatType");
-        return Result.success(aiService.tutorChat(SecurityUtils.getCurrentUserId(), question, chatType));
+        String imageBase64 = (String) body.get("imageBase64");
+        return Result.success(aiService.tutorChat(SecurityUtils.getCurrentUserId(), question, chatType, imageBase64));
     }
 
     /** AI 作文润色 */
     @PostMapping("/tutor/polish")
     public Result<?> polish(@RequestBody Map<String, String> body) {
-        return Result.success(aiService.polishEssay(body.get("content")));
+        String content = body.get("content");
+        String imageBase64 = body.get("imageBase64");
+        return Result.success(aiService.polishEssay(content, imageBase64));
     }
 
     /** AI 历史对话 */

@@ -9,7 +9,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -192,7 +194,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
 
             requestBody.put("messages", messages);
             requestBody.put("temperature", 0.7);
-            requestBody.put("max_tokens", 2048);
+            requestBody.put("max_tokens", 8192);
 
             // 设置请求头
             HttpHeaders headers = new HttpHeaders();
@@ -271,6 +273,28 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     }
 
     @Override
+    public String tutorAnswerWithImages(String question, String context, java.util.List<String> images) {
+        if (question == null || question.trim().isEmpty()) {
+            return "请输入您的问题";
+        }
+
+        StringBuilder userMsg = new StringBuilder();
+        if (context != null && !context.isEmpty()) {
+            userMsg.append("【学生学情档案】").append(context).append("\n\n");
+        }
+        userMsg.append("【学生提问】").append(question);
+        userMsg.append("\n\n请结合学生上传的图片一起回答。");
+
+        String result = callAiApi(TUTOR_SYSTEM_PROMPT, userMsg.toString(), images);
+        if (result != null) {
+            return result;
+        }
+        // API 调用失败或模型不支持图片时降级到本地规则
+        log.warn("AI 图片问答调用失败，降级到本地规则回答");
+        return new LocalRuleAiServiceProvider().tutorAnswerWithImages(question, context, images);
+    }
+
+    @Override
     public String polishText(String original) {
         if (original == null || original.trim().isEmpty()) {
             return "原文为空，无法润色";
@@ -282,6 +306,23 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         }
         log.warn("AI API 调用失败，降级到本地规则润色");
         return new LocalRuleAiServiceProvider().polishText(original);
+    }
+
+    @Override
+    public String polishTextWithImage(String original, java.util.List<String> images) {
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请识别图片中的手写作文内容，并结合以下文字内容进行润色：\n\n");
+        if (original != null && !original.trim().isEmpty()) {
+            userMsg.append("【文字内容】").append(original).append("\n\n");
+        }
+        userMsg.append("请输出完整的润色结果。");
+
+        String result = callAiApi(POLISH_SYSTEM_PROMPT, userMsg.toString(), images);
+        if (result != null) {
+            return result;
+        }
+        log.warn("AI 图片润色调用失败，降级到本地规则润色");
+        return new LocalRuleAiServiceProvider().polishTextWithImage(original, images);
     }
 
     @Override
@@ -456,27 +497,16 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             requestBody.put("model", dashScopeAudioModel);
 
             JSONArray messages = new JSONArray();
-            JSONObject systemMsg = new JSONObject();
-            systemMsg.put("role", "system");
-            systemMsg.put("content", ASR_SYSTEM_PROMPT);
-            messages.add(systemMsg);
-
             JSONObject userMsg = new JSONObject();
             userMsg.put("role", "user");
             JSONArray contentArray = new JSONArray();
-            // 音频部分(OpenAI 兼容的 input_audio 格式)
+            // 音频部分(OpenAI 兼容的 input_audio 格式,data 必须为 Data URL: data:audio/<mediatype>;base64,<data>)
             JSONObject audioPart = new JSONObject();
             audioPart.put("type", "input_audio");
             JSONObject audioObj = new JSONObject();
-            audioObj.put("data", base64Audio);
-            audioObj.put("format", format);
+            audioObj.put("data", toAudioDataUrl(base64Audio, format));
             audioPart.put("input_audio", audioObj);
             contentArray.add(audioPart);
-            // 文字指令
-            JSONObject textPart = new JSONObject();
-            textPart.put("type", "text");
-            textPart.put("text", "请识别这段音频中的英文内容，只输出转写文本。");
-            contentArray.add(textPart);
             userMsg.put("content", contentArray);
             messages.add(userMsg);
 
@@ -518,6 +548,22 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         return callAiAudioApi(base64Audio, format);
     }
 
+    /**
+     * 将音频 base64 转为 Data URL 格式(data:audio/<mediatype>;base64,<data>),
+     * Qwen-ASR 的 OpenAI 兼容模式要求 input_audio.data 使用该格式。
+     */
+    private String toAudioDataUrl(String base64Audio, String format) {
+        String mime;
+        if ("mp3".equalsIgnoreCase(format)) {
+            mime = "audio/mpeg";
+        } else if ("m4a".equalsIgnoreCase(format)) {
+            mime = "audio/mp4";
+        } else {
+            mime = "audio/wav";
+        }
+        return "data:" + mime + ";base64," + base64Audio;
+    }
+
     @Override
     public String gradeListeningSpeaking(String recognizedText, String referenceText, String questionContent) {
         if (recognizedText == null || recognizedText.trim().isEmpty()) {
@@ -536,5 +582,109 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         }
         log.warn("AI 听说评分失败，降级到本地规则评分");
         return new LocalRuleAiServiceProvider().gradeListeningSpeaking(recognizedText, referenceText, questionContent);
+    }
+
+    // ===================== 英语听说 AI 出题 =====================
+
+    private static final String LS_GENERATE_SYSTEM_PROMPT =
+            "你是一位专业的英语听说考试命题老师。请根据用户提供的素材生成一道完整的英语听说练习题。\n" +
+            "输出必须为严格的 JSON 格式，不要输出任何其他内容：\n" +
+            "{\"title\":\"题目标题\",\"content\":\"题目说明和任务描述(英文)\",\"referenceText\":\"参考文本/标准答案(英文)\",\"questionType\":\"题型\",\"difficulty\":1-3,\"scorePoints\":\"评分要点(中文,JSON数组格式)\"}\n" +
+            "要求：\n" +
+            "1. content 是给学生看的题目说明，用英文写，描述任务要求\n" +
+            "2. referenceText 是标准参考文本，用英文写\n" +
+            "3. questionType 必须是以下之一：模仿朗读、故事复述、角色扮演\n" +
+            "4. difficulty: 1=简单, 2=中等, 3=困难\n" +
+            "5. scorePoints 是中文的评分要点，JSON 数组格式，如 [\"发音准确\",\"流利度好\",\"内容完整\"]";
+
+    @Override
+    public String generateLsFromText(String text, String questionType, Integer gradeLevel) {
+        if (text == null || text.trim().isEmpty()) {
+            return null;
+        }
+        String gradeLabel = gradeLevel == 1 ? "小学" : gradeLevel == 2 ? "初中" : "高中";
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请根据以下英文文本，生成一道").append(gradeLabel).append("水平的英语听说练习题：\n\n");
+        userMsg.append("【原始文本】\n").append(text).append("\n\n");
+        userMsg.append("【题型要求】").append(questionType == null ? "模仿朗读" : questionType).append("\n");
+        userMsg.append("【学段】").append(gradeLabel).append("\n");
+        userMsg.append("请输出严格的 JSON 格式。");
+
+        String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) return result;
+        log.warn("AI 文本出题失败");
+        return null;
+    }
+
+    @Override
+    public String generateLsFromTopic(String topic, String questionType, Integer difficulty, Integer gradeLevel) {
+        String gradeLabel = gradeLevel == 1 ? "小学" : gradeLevel == 2 ? "初中" : "高中";
+        String diffLabel = difficulty == 1 ? "简单" : difficulty == 2 ? "中等" : "困难";
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请生成一道").append(gradeLabel).append("水平的英语听说练习题：\n\n");
+        userMsg.append("【话题】").append(topic == null ? "日常生活" : topic).append("\n");
+        userMsg.append("【题型】").append(questionType == null ? "模仿朗读" : questionType).append("\n");
+        userMsg.append("【难度】").append(diffLabel).append("\n");
+        userMsg.append("请输出严格的 JSON 格式。");
+
+        String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) return result;
+        log.warn("AI 话题出题失败");
+        return null;
+    }
+
+    @Override
+    public String generateLsFromImage(String imageBase64, String questionType, Integer gradeLevel) {
+        String gradeLabel = gradeLevel == 1 ? "小学" : gradeLevel == 2 ? "初中" : "高中";
+        String userMsg = "请观察这张图片，为" + gradeLabel + "学生生成一道英语听说练习题。\n" +
+                "题型要求：" + (questionType == null ? "看图描述/故事复述" : questionType) + "\n" +
+                "请输出严格的 JSON 格式。";
+
+        List<String> images = new ArrayList<>();
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            // 确保 base64 有 data URI 前缀
+            String img = imageBase64.startsWith("data:") ? imageBase64 : "data:image/png;base64," + imageBase64;
+            images.add(img);
+        }
+
+        String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg, images);
+        if (result != null) return result;
+        log.warn("AI 图片出题失败");
+        return null;
+    }
+
+    @Override
+    public String generateSimilarLs(String previousQuestion, String questionType, String topic, Integer gradeLevel) {
+        String gradeLabel = gradeLevel == 1 ? "小学" : gradeLevel == 2 ? "初中" : "高中";
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请基于以下已完成的听说题目，生成一道同类型的新题（话题相似、难度相当）：\n\n");
+        userMsg.append("【已完成题目】\n").append(previousQuestion == null ? "英语听说练习" : previousQuestion).append("\n\n");
+        userMsg.append("【题型】").append(questionType == null ? "模仿朗读" : questionType).append("\n");
+        if (topic != null && !topic.isEmpty()) {
+            userMsg.append("【话题】").append(topic).append("\n");
+        }
+        userMsg.append("【学段】").append(gradeLabel).append("\n");
+        userMsg.append("请输出严格的 JSON 格式。");
+
+        String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) return result;
+        log.warn("AI 同类出题失败");
+        return null;
+    }
+
+    @Override
+    public String generateLsHomework(String mode, String params) {
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请作为英语听说考试命题老师，根据以下组题要求生成一套听说练习题（3-5道）：\n\n");
+        userMsg.append("【组题模式】").append(mode == null ? "STANDARD" : mode).append("\n");
+        userMsg.append("【组题参数】\n").append(params == null ? "{}" : params).append("\n\n");
+        userMsg.append("请输出严格的 JSON 数组格式，每道题格式如下：\n");
+        userMsg.append("[{\"title\":\"...\",\"content\":\"...\",\"referenceText\":\"...\",\"questionType\":\"...\",\"difficulty\":1-3,\"scorePoints\":\"...\"}, ...]\n");
+        userMsg.append("题型必须从以下选择：模仿朗读、故事复述、角色扮演");
+
+        String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) return result;
+        log.warn("AI 组题失败");
+        return null;
     }
 }

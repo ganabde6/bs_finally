@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 高考英语听说练习服务
+ * 英语听说练习服务
  */
 public interface ListeningSpeakingService {
 
@@ -25,4 +25,21 @@ public interface ListeningSpeakingService {
 
     /** 上传音频文件到 upload/audio/ 目录,返回相对路径 */
     String uploadAudio(MultipartFile file);
+
+    // ===================== 学生自主出题 =====================
+
+    /** AI 自定义文本出题 */
+    Map<String, Object> generateFromText(Long userId, String text, String questionType, Integer gradeLevel);
+
+    /** AI 按话题出题 */
+    Map<String, Object> generateFromTopic(Long userId, String topic, String questionType, Integer difficulty, Integer gradeLevel);
+
+    /** AI 图片出题 */
+    Map<String, Object> generateFromImage(Long userId, String imageBase64, String questionType, Integer gradeLevel);
+
+    /** AI 生成同类薄弱练习 */
+    Map<String, Object> generateSimilar(Long userId, Long previousQuestionId);
+
+    /** 获取话题列表 */
+    List<String> getTopics(Integer gradeLevel);
 }
