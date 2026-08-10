@@ -1,11 +1,15 @@
 <template>
-  <el-card>
-    <template #header>
-      <div class="card-header">
-        <span>公告管理</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">公告管理</h1>
+        <p class="page-subtitle">向学生与教师发布平台公告</p>
+      </div>
+      <div class="page-header-right">
         <el-button type="primary" :icon="Plus" @click="openAdd">发布公告</el-button>
       </div>
-    </template>
+    </div>
+    <el-card class="content-card">
     <el-table :data="list" stripe v-loading="loading">
       <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="title" label="标题" show-overflow-tooltip />
@@ -43,7 +47,8 @@
         <el-button type="primary" @click="save">保存</el-button>
       </template>
     </el-dialog>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

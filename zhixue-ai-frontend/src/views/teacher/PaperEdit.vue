@@ -1,11 +1,15 @@
 <template>
-  <el-card v-loading="loading">
-    <template #header>
-      <div class="card-header">
-        <span>{{ isEdit ? '编辑试卷' : '新建试卷/作业' }}</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">{{ isEdit ? '编辑试卷' : '新建试卷/作业' }}</h1>
+        <p class="page-subtitle">配置试卷信息并从题库选题组卷</p>
+      </div>
+      <div class="page-header-right">
         <el-button @click="$router.back()">返回</el-button>
       </div>
-    </template>
+    </div>
+    <el-card v-loading="loading" class="content-card">
     <el-form :model="form" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="12"><el-form-item label="名称"><el-input v-model="form.paperName" /></el-form-item></el-col>
@@ -44,7 +48,8 @@
       <el-button @click="$router.back()">取消</el-button>
       <el-button type="primary" :loading="submitting" @click="save">保存试卷</el-button>
     </div>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

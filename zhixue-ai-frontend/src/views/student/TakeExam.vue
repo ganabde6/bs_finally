@@ -1,6 +1,6 @@
 <template>
-  <div v-loading="loading">
-    <el-card v-if="paper">
+  <div v-loading="loading" class="page-container">
+    <el-card v-if="paper" class="content-card">
       <template #header>
         <div class="card-header">
           <div>
@@ -144,7 +144,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.question-item { padding: 16px 0; border-bottom: 1px dashed #ebeef5; }
+.question-item { padding: 16px 0; border-bottom: 1px dashed #E8F1F4; }
 .question-title { font-size: 15px; line-height: 1.8; }
 .option-item { display: block; margin: 8px 0; }
 .ml-10 { margin-left: 10px; }

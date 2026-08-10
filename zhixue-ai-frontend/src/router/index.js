@@ -39,7 +39,8 @@ const routes = [
       { path: 'correct/:answerId', name: 'TeacherCorrectDetail', component: () => import('@/views/teacher/CorrectDetail.vue'), meta: { title: '批改详情' } },
       { path: 'classAnalysis', name: 'TeacherClassAnalysis', component: () => import('@/views/teacher/ClassAnalysis.vue'), meta: { title: '班级学情' } },
       { path: 'feedback', name: 'TeacherFeedback', component: () => import('@/views/teacher/Feedback.vue'), meta: { title: '家校反馈' } },
-      { path: 'lsHomework', name: 'TeacherLsHomework', component: () => import('@/views/teacher/LsHomework.vue'), meta: { title: '听说作业' } }
+      { path: 'lsHomework', name: 'TeacherLsHomework', component: () => import('@/views/teacher/LsHomework.vue'), meta: { title: '听说作业' } },
+      { path: 'studentManage', name: 'TeacherStudentManage', component: () => import('@/views/teacher/StudentManage.vue'), meta: { title: '学员管理' } }
     ]
   },
 

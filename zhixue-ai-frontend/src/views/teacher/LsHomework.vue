@@ -2,7 +2,10 @@
   <div class="ls-homework">
     <el-card shadow="never">
       <div class="page-header">
-        <div class="page-title">英语听说作业管理</div>
+        <div class="page-header-left">
+          <h1 class="page-title">英语听说作业管理</h1>
+          <p class="page-subtitle">创建并发布听说作业,查看完成报告</p>
+        </div>
         <el-button type="primary" @click="showCreateDialog = true">创建听说作业</el-button>
       </div>
 
@@ -114,7 +117,7 @@
           <el-tag size="small" type="info">{{ currentQuestion.questionType }}</el-tag>
           <el-tag size="small" :type="diffType(currentQuestion.difficulty)" style="margin-left: 8px">{{ diffLabel(currentQuestion.difficulty) }}</el-tag>
         </div>
-        <div style="background: #f5f7fa; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap">{{ currentQuestion.content }}</div>
+        <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap">{{ currentQuestion.content }}</div>
         <div v-if="currentQuestion.referenceText">
           <div style="font-weight: 600; margin-bottom: 6px">参考文本：</div>
           <div style="background: #ecf5ff; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentQuestion.referenceText }}</div>

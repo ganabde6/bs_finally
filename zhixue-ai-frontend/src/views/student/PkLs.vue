@@ -2,7 +2,10 @@
   <div class="pk-ls-container">
     <el-card shadow="never">
       <div class="page-header">
-        <div class="page-title">英语听说 PK</div>
+        <div class="page-header-left">
+          <h1 class="page-title">英语听说 PK</h1>
+          <p class="page-subtitle">与同学发起听说挑战,比拼发音与表达</p>
+        </div>
         <el-button type="primary" @click="showCreateDialog = true">发起挑战</el-button>
       </div>
 
@@ -86,7 +89,7 @@
       <div v-if="currentChallenge">
         <div style="margin-bottom: 16px">
           <div style="font-weight: 600; margin-bottom: 8px">题目：{{ currentChallenge.questionTitle }}</div>
-          <div style="background: #f5f7fa; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentChallenge.questionContent }}</div>
+          <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentChallenge.questionContent }}</div>
         </div>
         <el-upload
           :auto-upload="false"

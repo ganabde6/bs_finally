@@ -1,60 +1,310 @@
 <template>
   <div class="listening-speaking">
-    <!-- 顶部:题目列表 + 学段过滤 + 出题按钮 -->
-    <el-card shadow="never" class="q-card">
-      <div class="q-header">
-        <div class="q-title">英语听说练习</div>
-        <div class="q-filter">
-          <span class="filter-label">学段</span>
-          <el-select v-model="gradeLevel" size="small" style="width: 110px" @change="loadQuestions">
-            <el-option label="全部" :value="0" />
-            <el-option label="初中" :value="2" />
-            <el-option label="高中" :value="3" />
-          </el-select>
-        </div>
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-left">
+        <h1 class="page-title">英语听说练习</h1>
+        <p class="page-subtitle">AI 智能评分 · 实时反馈 · 随题设计</p>
       </div>
-      <!-- 出题按钮组 -->
-      <div class="generate-btns">
-        <el-button type="primary" size="small" @click="showTextDialog = true"> 自定义文本出题</el-button>
-        <el-button type="success" size="small" @click="showImageDialog = true">🖼️ 图片出题</el-button>
+      <div class="header-actions">
+        <el-button type="primary" @click="showTextDialog = true">
+          <el-icon><Edit /></el-icon>自定义文本出题
+        </el-button>
+        <el-button @click="showImageDialog = true">
+          <el-icon><PictureFilled /></el-icon>图片出题
+        </el-button>
       </div>
-      <!-- 话题筛选 -->
-      <div class="topic-filter" v-if="topics.length">
-        <span class="filter-label">话题</span>
-        <el-select v-model="filterTopic" size="small" style="width: 120px" clearable placeholder="全部话题" @change="loadQuestions">
-          <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
-        </el-select>
-        <span class="filter-label" style="margin-left: 10px">题型</span>
-        <el-select v-model="filterType" size="small" style="width: 110px" clearable placeholder="全部题型" @change="loadQuestions">
-          <el-option label="模仿朗读" value="模仿朗读" />
-          <el-option label="故事复述" value="故事复述" />
-          <el-option label="角色扮演" value="角色扮演" />
-        </el-select>
-        <span class="filter-label" style="margin-left: 10px">难度</span>
-        <el-select v-model="filterDiff" size="small" style="width: 100px" clearable placeholder="全部" @change="loadQuestions">
-          <el-option label="简单" :value="1" />
-          <el-option label="中等" :value="2" />
-          <el-option label="困难" :value="3" />
-        </el-select>
-      </div>
-      <div class="q-list">
-        <div
-          v-for="q in filteredQuestions"
-          :key="q.id"
-          class="q-item"
-          :class="{ active: currentQuestion && currentQuestion.id === q.id }"
-          @click="selectQuestion(q)"
-        >
-          <div class="q-item-title">{{ q.title }}</div>
-          <div class="q-item-tags">
-            <el-tag size="small" type="info" effect="plain">{{ typeLabel(q.questionType) }}</el-tag>
-            <el-tag size="small" :type="diffType(q.difficulty)" effect="plain">{{ diffLabel(q.difficulty) }}</el-tag>
-            <el-tag v-if="q.topic" size="small" type="warning" effect="plain">{{ q.topic }}</el-tag>
+    </div>
+
+    <!-- 主体：两栏布局 -->
+    <div class="main-content">
+      <!-- 左侧：题目列表 -->
+      <div class="left-panel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h2>题目列表</h2>
+            <span class="question-count">{{ filteredQuestions.length }} 题</span>
+          </div>
+
+          <!-- 筛选区 -->
+          <div class="filter-section">
+            <div class="filter-row">
+              <span class="filter-label">学段</span>
+              <el-select v-model="gradeLevel" size="small" style="width:100%" @change="loadQuestions">
+                <el-option label="全部" :value="0" />
+                <el-option label="初中" :value="2" />
+                <el-option label="高中" :value="3" />
+              </el-select>
+            </div>
+            <div class="filter-row">
+              <span class="filter-label">题型</span>
+              <el-select v-model="filterType" size="small" style="width:100%" clearable placeholder="全部题型" @change="loadQuestions">
+                <el-option label="模仿朗读" value="模仿朗读" />
+                <el-option label="故事复述" value="故事复述" />
+                <el-option label="角色扮演" value="角色扮演" />
+              </el-select>
+            </div>
+            <div class="filter-row">
+              <span class="filter-label">难度</span>
+              <el-select v-model="filterDiff" size="small" style="width:100%" clearable placeholder="全部" @change="loadQuestions">
+                <el-option label="简单" :value="1" />
+                <el-option label="中等" :value="2" />
+                <el-option label="困难" :value="3" />
+              </el-select>
+            </div>
+          </div>
+
+          <!-- 题目列表 -->
+          <div class="question-list">
+            <div
+              v-for="q in filteredQuestions"
+              :key="q.id"
+              class="question-item"
+              :class="{ active: currentQuestion && currentQuestion.id === q.id }"
+              @click="selectQuestion(q)"
+            >
+              <div class="question-title">{{ q.title }}</div>
+              <div class="meta-tags">
+                <span class="tag tag-type">{{ typeLabel(q.questionType) }}</span>
+                <span class="tag" :class="'tag-diff-' + q.difficulty">{{ diffLabel(q.difficulty) }}</span>
+              </div>
+            </div>
+            <el-empty v-if="!filteredQuestions.length" description="暂无题目" :image-size="60" />
           </div>
         </div>
-        <el-empty v-if="!filteredQuestions.length" description="暂无题目" :image-size="60" />
       </div>
-    </el-card>
+
+      <!-- 右侧：作答区 -->
+      <div class="right-area" v-loading="submitting">
+        <template v-if="currentQuestion">
+          <!-- 题目信息 -->
+          <div class="question-header">
+            <h2>{{ currentQuestion.title }}</h2>
+            <div class="question-tags">
+              <span class="tag tag-type">{{ typeLabel(currentQuestion.questionType) }}</span>
+              <span class="tag" :class="'tag-diff-' + currentQuestion.difficulty">{{ diffLabel(currentQuestion.difficulty) }}</span>
+            </div>
+          </div>
+
+          <!-- 题目内容卡片 -->
+          <div class="question-content-card">
+            <div class="content-label">题目内容</div>
+            <div class="content-text">{{ currentQuestion.content }}</div>
+          </div>
+
+          <!-- 参考音频 -->
+          <div class="reference-row">
+            <div class="ref-audio">
+              <el-button v-if="currentQuestion.referenceAudio" type="primary" plain @click="toggleRefAudio">
+                <el-icon v-if="refPlaying"><VideoPause /></el-icon>
+                <el-icon v-else><VideoPlay /></el-icon>
+                {{ refPlaying ? '暂停' : '播放参考音频' }}
+              </el-button>
+              <el-button v-else type="info" plain disabled>暂无参考音频</el-button>
+            </div>
+          </div>
+
+          <!-- 查看参考文本 -->
+          <div class="ref-text-collapse" v-if="currentQuestion.referenceText">
+            <el-collapse>
+              <el-collapse-item title="查看参考文本" name="ref">
+                <pre class="ref-text-content">{{ currentQuestion.referenceText }}</pre>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+
+          <!-- 录音区和提交区 -->
+          <div class="answer-area">
+            <!-- 录音区 -->
+            <div class="record-section">
+              <div class="section-header">
+                <span class="section-icon"></span>
+                <h3>在线录音作答</h3>
+              </div>
+              <div class="record-controls">
+                <el-button
+                  v-if="!recording"
+                  type="danger"
+                  @click="startRecord"
+                  class="record-btn"
+                >
+                  <el-icon><Microphone /></el-icon>开始录音
+                </el-button>
+                <el-button
+                  v-else
+                  type="danger"
+                  @click="stopRecord"
+                  class="record-btn recording"
+                >
+                  <el-icon><VideoPause /></el-icon>停止录音
+                </el-button>
+                <el-button
+                  v-if="recordUrl"
+                  type="success"
+                  plain
+                  @click="togglePlayback"
+                >
+                  <el-icon v-if="playState === 'playing'"><VideoPause /></el-icon>
+                  <el-icon v-else><VideoPlay /></el-icon>
+                  {{ playState === 'playing' ? '暂停回放' : '播放回放' }}
+                </el-button>
+                <div class="record-timer">{{ formatDuration(recordSeconds) }}</div>
+              </div>
+              <div class="waveform-container">
+                <canvas ref="waveCanvas" class="wave-canvas" :class="{ active: recording }"></canvas>
+              </div>
+              <div class="record-hint">
+                {{ recording ? '正在录音，请朗读题目内容...' : (recordUrl ? '录音完成，可播放回放或直接提交' : '点击「开始录音」使用麦克风朗读') }}
+              </div>
+            </div>
+
+            <!-- 上传区 -->
+            <div class="upload-section">
+              <div class="section-header">
+                <span class="section-icon">📁</span>
+                <h3>上传音频文件</h3>
+              </div>
+              <el-upload
+                drag
+                :auto-upload="false"
+                accept=".mp3,.wav,.m4a"
+                :limit="1"
+                :on-change="onFileChange"
+                :on-remove="onFileRemove"
+                :on-exceed="onFileExceed"
+                :file-list="fileList"
+                class="audio-upload"
+              >
+                <el-icon class="upload-icon"><UploadFilled /></el-icon>
+                <div class="upload-text">
+                  <p class="upload-main">拖拽音频文件到此处，或 <em>点击选择</em></p>
+                  <p class="upload-tip">支持 MP3 / WAV / M4A 格式，文件大小不超过 10MB</p>
+                </div>
+              </el-upload>
+            </div>
+
+            <!-- 提交区 -->
+            <div class="submit-section">
+              <el-input
+                v-model="supplementText"
+                placeholder="文字补充（可选）：如朗读要点、回答内容等"
+                clearable
+                class="supplement-input"
+              />
+              <el-button
+                type="primary"
+                :loading="submitting"
+                :disabled="!canSubmit"
+                @click="handleSubmit"
+                class="submit-btn"
+              >
+                提交批改
+              </el-button>
+            </div>
+          </div>
+
+          <!-- 空状态占位 -->
+          <div class="answer-placeholder" v-if="!result">
+            <el-empty description="提交后展示评分报告" :image-size="80" />
+          </div>
+
+          <!-- 评分报告 -->
+          <div class="panel-card report-card" v-if="result">
+            <div class="panel-header">
+              <h2>AI 评分报告</h2>
+            </div>
+            <div class="report-body">
+              <div class="report-top">
+                <div class="score-circle">
+                  <div class="score-value">{{ result.totalScore }}</div>
+                  <div class="score-label">总分 / 100</div>
+                </div>
+                <div ref="radarChart" class="radar-chart"></div>
+              </div>
+              <div class="score-details">
+                <div class="score-item">
+                  <span class="score-icon"><el-icon :size="18"><Aim /></el-icon></span>
+                  <div class="score-info">
+                    <div class="score-name">发音</div>
+                    <div class="score-val">{{ result.pronunciationScore }}</div>
+                  </div>
+                </div>
+                <div class="score-item">
+                  <span class="score-icon">💫</span>
+                  <div class="score-info">
+                    <div class="score-name">流利度</div>
+                    <div class="score-val">{{ result.fluencyScore }}</div>
+                  </div>
+                </div>
+                <div class="score-item">
+                  <span class="score-icon"><el-icon :size="18"><EditPen /></el-icon></span>
+                  <div class="score-info">
+                    <div class="score-name">语法</div>
+                    <div class="score-val">{{ result.grammarScore }}</div>
+                  </div>
+                </div>
+                <div class="score-item">
+                  <span class="score-icon"><el-icon :size="18"><LightBulb /></el-icon></span>
+                  <div class="score-info">
+                    <div class="score-name">内容</div>
+                    <div class="score-val">{{ result.contentScore }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="ai-feedback-card">
+                <div class="feedback-title">
+                  <el-icon><Document /></el-icon>AI 识别文本
+                </div>
+                <div class="feedback-content">{{ result.recognizedText || '未识别到有效语音' }}</div>
+              </div>
+              <div class="ai-feedback-card">
+                <div class="feedback-title">
+                  <el-icon><ChatLineSquare /></el-icon>改进建议
+                </div>
+                <div class="feedback-content suggestion">{{ result.aiFeedback }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 历史记录 -->
+          <div class="panel-card history-card">
+            <div class="panel-header">
+              <h2>练习历史与评分趋势</h2>
+            </div>
+            <div v-if="records.length" ref="trendChart" class="trend-chart"></div>
+            <el-table :data="records" size="small" stripe class="history-table">
+              <el-table-column prop="questionTitle" label="题目" min-width="180" show-overflow-tooltip />
+              <el-table-column prop="questionType" label="题型" width="90" />
+              <el-table-column prop="totalScore" label="总分" width="80" sortable>
+                <template #default="{ row }">
+                  <span :class="scoreClass(row.totalScore)">{{ row.totalScore }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="发音" width="70">
+                <template #default="{ row }">{{ row.pronunciationScore }}</template>
+              </el-table-column>
+              <el-table-column label="流利度" width="70">
+                <template #default="{ row }">{{ row.fluencyScore }}</template>
+              </el-table-column>
+              <el-table-column label="语法" width="70">
+                <template #default="{ row }">{{ row.grammarScore }}</template>
+              </el-table-column>
+              <el-table-column label="内容" width="70">
+                <template #default="{ row }">{{ row.contentScore }}</template>
+              </el-table-column>
+              <el-table-column prop="createTime" label="时间" width="160" />
+              <el-table-column label="操作" width="160" fixed="right">
+                <template #default="{ row }">
+                  <el-button v-if="row.audioPath" link type="primary" size="small" @click="playRecordAudio(row.audioPath)">听录音</el-button>
+                  <el-button link type="success" size="small" @click="handleGenerateSimilar(row)">生成同类</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </template>
+        <el-empty v-else description="请选择一道题目开始练习" />
+      </div>
+    </div>
 
     <!-- 自定义文本出题弹窗 -->
     <el-dialog v-model="showTextDialog" title="自定义文本出题" width="500px">
@@ -107,150 +357,6 @@
         <el-button type="primary" :loading="imageGenLoading" @click="handleImageGenerate">AI 生成题目</el-button>
       </template>
     </el-dialog>
-
-    <!-- 中间:题目详情 + 作答区 -->
-    <el-card shadow="never" class="main-card" v-loading="submitting">
-      <template v-if="currentQuestion">
-        <div class="section-title">
-          <span>{{ currentQuestion.title }}</span>
-          <div>
-            <el-tag size="small" type="info" effect="plain">{{ typeLabel(currentQuestion.questionType) }}</el-tag>
-            <el-tag size="small" :type="diffType(currentQuestion.difficulty)" effect="plain">{{ diffLabel(currentQuestion.difficulty) }}</el-tag>
-          </div>
-        </div>
-        <pre class="question-content">{{ currentQuestion.content }}</pre>
-
-        <!-- 参考音频 -->
-        <div v-if="currentQuestion.referenceAudio" class="ref-audio">
-          <el-button size="small" type="primary" plain :icon="refPlaying ? 'VideoPause' : 'VideoPlay'" @click="toggleRefAudio">
-            {{ refPlaying ? '暂停参考音频' : '播放参考音频' }}
-          </el-button>
-        </div>
-        <div v-else class="ref-audio">
-          <el-button size="small" type="primary" plain icon="VideoPlay" disabled>暂无参考音频</el-button>
-        </div>
-
-        <!-- 参考文本(可展开) -->
-        <div v-if="currentQuestion.referenceText" class="ref-text">
-          <el-collapse>
-            <el-collapse-item title="查看参考文本" name="ref">
-              <pre>{{ currentQuestion.referenceText }}</pre>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-
-        <!-- 录音区 -->
-        <div class="rec-card">
-          <div class="rec-title">① 在线录音作答</div>
-          <div class="rec-toolbar">
-            <el-button v-if="!recording" type="danger" :icon="'Microphone'" @click="startRecord">开始录音</el-button>
-            <el-button v-else type="danger" :icon="'VideoPause'" @click="stopRecord">停止录音</el-button>
-            <el-button v-if="recordUrl" type="success" plain :icon="playState === 'playing' ? 'VideoPause' : 'VideoPlay'" @click="togglePlayback">
-              {{ playState === 'playing' ? '暂停回放' : '播放回放' }}
-            </el-button>
-            <span class="rec-time">{{ formatDuration(recordSeconds) }}</span>
-          </div>
-          <canvas ref="waveCanvas" class="wave-canvas" :class="{ active: recording }"></canvas>
-          <div class="rec-hint">{{ recording ? '正在录音,请朗读题目内容...' : (recordUrl ? '录音完成,可播放回放或直接提交' : '点击「开始录音」使用麦克风朗读') }}</div>
-        </div>
-
-        <!-- 上传区 -->
-        <div class="upload-card">
-          <div class="rec-title">② 上传音频文件(MP3/WAV/M4A,≤10MB)</div>
-          <el-upload
-            drag
-            :auto-upload="false"
-            accept=".mp3,.wav,.m4a"
-            :limit="1"
-            :on-change="onFileChange"
-            :on-remove="onFileRemove"
-            :on-exceed="onFileExceed"
-            :file-list="fileList"
-          >
-            <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
-            <div class="el-upload__text">拖拽音频文件到此处,或 <em>点击选择</em></div>
-            <template #tip>
-              <div class="el-upload__tip">仅支持 MP3 / WAV / M4A 格式,文件大小不超过 10MB;上传后自动覆盖录音</div>
-            </template>
-          </el-upload>
-        </div>
-
-        <!-- 文字补充 + 提交 -->
-        <div class="submit-row">
-          <el-input
-            v-model="supplementText"
-            placeholder="文字补充(可选):如朗读要点、回答内容等"
-            clearable
-            style="flex: 1"
-          />
-          <el-button type="primary" size="large" :loading="submitting" :disabled="!canSubmit" @click="handleSubmit">
-            提交批改
-          </el-button>
-        </div>
-      </template>
-      <el-empty v-else description="请选择一道题目开始练习" />
-    </el-card>
-
-    <!-- 右侧:评分报告 + 历史 -->
-    <el-card shadow="never" class="side-card">
-      <template v-if="result">
-        <div class="section-title"><span>AI 评分报告</span></div>
-        <div class="score-total">
-          <div class="score-num">{{ result.totalScore }}</div>
-          <div class="score-label">总分 / 100</div>
-        </div>
-        <div ref="radarChart" class="radar-chart"></div>
-        <div class="score-grid">
-          <div class="score-item"><span class="s-label">发音</span><span class="s-val">{{ result.pronunciationScore }}</span></div>
-          <div class="score-item"><span class="s-label">流利度</span><span class="s-val">{{ result.fluencyScore }}</span></div>
-          <div class="score-item"><span class="s-label">语法</span><span class="s-val">{{ result.grammarScore }}</span></div>
-          <div class="score-item"><span class="s-label">内容</span><span class="s-val">{{ result.contentScore }}</span></div>
-        </div>
-        <div class="ai-text-block">
-          <div class="ai-text-title">AI 识别文本</div>
-          <div class="ai-text-body">{{ result.recognizedText || '未识别到有效语音' }}</div>
-        </div>
-        <div class="ai-text-block">
-          <div class="ai-text-title">改进建议</div>
-          <div class="ai-text-body feedback">{{ result.aiFeedback }}</div>
-        </div>
-      </template>
-      <el-empty v-else description="提交后展示评分报告" :image-size="60" />
-    </el-card>
-
-    <!-- 历史记录 -->
-    <el-card shadow="never" class="history-card">
-      <div class="section-title"><span>练习历史与评分趋势</span></div>
-      <div v-if="records.length" ref="trendChart" class="trend-chart"></div>
-      <el-table :data="records" size="small" stripe>
-        <el-table-column prop="questionTitle" label="题目" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="questionType" label="题型" width="90" />
-        <el-table-column prop="totalScore" label="总分" width="80" sortable>
-          <template #default="{ row }">
-            <span :class="scoreClass(row.totalScore)">{{ row.totalScore }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="发音" width="70">
-          <template #default="{ row }">{{ row.pronunciationScore }}</template>
-        </el-table-column>
-        <el-table-column label="流利度" width="70">
-          <template #default="{ row }">{{ row.fluencyScore }}</template>
-        </el-table-column>
-        <el-table-column label="语法" width="70">
-          <template #default="{ row }">{{ row.grammarScore }}</template>
-        </el-table-column>
-        <el-table-column label="内容" width="70">
-          <template #default="{ row }">{{ row.contentScore }}</template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="时间" width="160" />
-        <el-table-column label="操作" width="160" fixed="right">
-          <template #default="{ row }">
-            <el-button v-if="row.audioPath" link type="primary" size="small" @click="playRecordAudio(row.audioPath)">听录音</el-button>
-            <el-button link type="success" size="small" @click="handleGenerateSimilar(row)">生成同类</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
   </div>
 </template>
 
@@ -258,6 +364,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
+import { Edit, PictureFilled, Microphone, Document, ChatLineSquare, UploadFilled, VideoPlay, VideoPause } from '@element-plus/icons-vue'
 import { listeningSpeakingList, listeningSpeakingDetail, submitListeningSpeaking, listeningSpeakingRecords, lsGenerateFromText, lsGenerateFromImage, lsGenerateSimilar, lsGetTopics } from '@/api'
 
 // ============ 题目 ============
@@ -273,7 +380,6 @@ const typeLabel = (t) => t || '模仿朗读'
 const diffLabel = (d) => ({ 1: '简单', 2: '中等', 3: '困难' })[d] || '中等'
 const diffType = (d) => ({ 1: 'success', 2: 'warning', 3: 'danger' })[d] || 'warning'
 
-// 筛选后的题目列表
 const filteredQuestions = computed(() => {
   return questions.value.filter(q => {
     if (filterTopic.value && q.topic !== filterTopic.value) return false
@@ -286,7 +392,6 @@ const filteredQuestions = computed(() => {
 const loadQuestions = async () => {
   const res = await listeningSpeakingList(gradeLevel.value || undefined)
   questions.value = res.data || []
-  // 加载话题列表
   const topicRes = await lsGetTopics(gradeLevel.value || undefined)
   topics.value = topicRes.data || []
   if (filteredQuestions.value.length) {
@@ -324,7 +429,6 @@ const handleTextGenerate = async () => {
     showTextDialog.value = false
     textGenInput.value = ''
     await loadQuestions()
-    // 自动选中新题目
     const newQ = questions.value.find(q => q.id === res.data.id)
     if (newQ) selectQuestion(newQ)
   } catch (e) {
@@ -346,7 +450,7 @@ const onImageChange = (file) => {
   if (!f) return
   const reader = new FileReader()
   reader.onload = (e) => {
-    imageBase64.value = e.target.result.split(',')[1] // 去掉 data:image/xxx;base64, 前缀
+    imageBase64.value = e.target.result.split(',')[1]
   }
   reader.readAsDataURL(f)
   imageFileList.value = [file]
@@ -396,13 +500,13 @@ const handleGenerateSimilar = async (row) => {
   }
 }
 
-// ============ 录音(MediaRecorder + Web Audio) ============
+// ============ 录音 ============
 const recording = ref(false)
 const recordSeconds = ref(0)
 const recordUrl = ref('')
 const playState = ref('')
 const waveCanvas = ref(null)
-const submitFile = ref(null) // 待提交的音频文件(录音转 WAV 或上传的文件)
+const submitFile = ref(null)
 const fileList = ref([])
 
 let mediaRecorder = null
@@ -416,7 +520,6 @@ let recordBlob = null
 let recordStartTime = 0
 let playbackAudio = null
 
-// 录音期间用 AnalyserNode 画波形
 const drawWave = () => {
   const canvas = waveCanvas.value
   if (!canvas || !analyser) return
@@ -439,7 +542,6 @@ const drawWave = () => {
   animationId = requestAnimationFrame(drawWave)
 }
 
-// 停止后把录音 blob 解码并转为 WAV(16bit PCM),兼容 DashScope 语音识别
 const blobToWavFile = (blob) => {
   return new Promise((resolve, reject) => {
     const ctx = new (window.AudioContext || window.webkitAudioContext)()
@@ -471,7 +573,6 @@ const audioBufferToWav = (buffer) => {
   const bufferSize = 44 + dataSize
   const arrayBuffer = new ArrayBuffer(bufferSize)
   const view = new DataView(arrayBuffer)
-
   const writeString = (offset, str) => {
     for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i))
   }
@@ -488,8 +589,6 @@ const audioBufferToWav = (buffer) => {
   view.setUint16(34, 16, true)
   writeString(36, 'data')
   view.setUint32(40, dataSize, true)
-
-  // 混音到单声道/双声道,16bit PCM
   const channels = []
   for (let c = 0; c < numChannels; c++) channels.push(buffer.getChannelData(c))
   let offset = 44
@@ -510,18 +609,14 @@ const startRecord = async () => {
   }
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    // 优先 webm/opus,其次 mp4(Safari)
     const mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4']
     const mimeType = mimeTypes.find(t => MediaRecorder.isTypeSupported(t)) || ''
     mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream)
-
-    // 波形可视化
     audioContext = new (window.AudioContext || window.webkitAudioContext)()
     const source = audioContext.createMediaStreamSource(stream)
     analyser = audioContext.createAnalyser()
     analyser.fftSize = 256
     source.connect(analyser)
-
     recordChunks = []
     mediaRecorder.ondataavailable = (e) => {
       if (e.data && e.data.size > 0) recordChunks.push(e.data)
@@ -532,7 +627,6 @@ const startRecord = async () => {
       playState.value = ''
       stopWave()
       cleanupStream()
-      // 转为 WAV 便于 AI 识别
       try {
         submitFile.value = await blobToWavFile(recordBlob)
         ElMessage.success('录音完成,已转换为 WAV 格式')
@@ -795,65 +889,477 @@ const handleResize = () => {
 </script>
 
 <style scoped>
+/* 页面整体 */
 .listening-speaking {
-  display: grid;
-  grid-template-columns: 300px 1fr 330px;
-  grid-template-rows: auto auto;
-  gap: 16px;
-  align-items: start;
+  height: 100vh;
+  padding: 12px 16px;
+  background: #f5f7fb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
-.q-card { grid-column: 1; grid-row: 1 / span 2; }
-.main-card { grid-column: 2; grid-row: 1 / span 2; }
-.side-card { grid-column: 3; grid-row: 1; }
-.history-card { grid-column: 3; grid-row: 2; }
 
-.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.q-title { font-size: 16px; font-weight: 600; }
-.q-filter { display: flex; align-items: center; gap: 6px; }
-.filter-label { font-size: 12px; color: #909399; }
-.generate-btns { display: flex; gap: 8px; margin-bottom: 10px; }
-.topic-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-.q-list { max-height: 620px; overflow-y: auto; }
-.q-item { padding: 10px 12px; border: 1px solid #ebeef5; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
-.q-item:hover { border-color: #409eff; }
-.q-item.active { border-color: #409eff; background: #ecf5ff; }
-.q-item-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-.q-item-tags { display: flex; gap: 6px; }
+/* 页面头部 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  background: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
 
-.section-title { display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 600; margin-bottom: 12px; }
-.question-content { white-space: pre-wrap; font-family: inherit; font-size: 14px; line-height: 1.8; background: #f8f9fb; border: 1px solid #ebeef5; border-radius: 6px; padding: 14px; margin: 0 0 12px; }
-.ref-audio { margin-bottom: 12px; }
-.ref-text { margin-bottom: 16px; }
+.header-left h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 2px 0;
+}
 
-.rec-card, .upload-card { border: 1px solid #ebeef5; border-radius: 6px; padding: 14px; margin-bottom: 16px; }
-.rec-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #303133; }
-.rec-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.rec-time { font-size: 18px; font-weight: 600; color: #409eff; font-variant-numeric: tabular-nums; }
-.wave-canvas { width: 100%; height: 60px; background: #f5f7fa; border-radius: 4px; }
-.rec-hint { font-size: 12px; color: #909399; margin-top: 6px; }
+.header-left p {
+  font-size: 11px;
+  color: #8b8fa3;
+  margin: 0;
+  letter-spacing: 1px;
+}
 
-.submit-row { display: flex; gap: 12px; }
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
 
-.score-total { text-align: center; padding: 10px 0 4px; }
-.score-num { font-size: 42px; font-weight: 700; color: #409eff; line-height: 1.1; }
-.score-label { font-size: 13px; color: #909399; }
-.radar-chart { width: 100%; height: 220px; }
-.score-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 14px; }
-.score-item { text-align: center; background: #f5f7fa; border-radius: 6px; padding: 8px 4px; }
-.s-label { display: block; font-size: 12px; color: #909399; margin-bottom: 4px; }
-.s-val { font-size: 18px; font-weight: 600; color: #303133; }
-.ai-text-block { border: 1px solid #ebeef5; border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
-.ai-text-title { font-size: 13px; font-weight: 600; color: #409eff; margin-bottom: 6px; }
-.ai-text-body { font-size: 13px; color: #606266; line-height: 1.7; white-space: pre-wrap; }
-.ai-text-body.feedback { color: #303133; }
+/* 主体：两栏布局 */
+.main-content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
 
-.trend-chart { width: 100%; height: 150px; margin-bottom: 10px; }
+/* 左侧面板 */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.left-panel .panel-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* 面板卡片 */
+.panel-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid #E8F1F4;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.panel-header h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.question-count {
+  font-size: 12px;
+  color: #409eff;
+  font-weight: 600;
+  background: #ecf5ff;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+/* 筛选区 */
+.filter-section {
+  margin-bottom: 10px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: #8b8fa3;
+  font-weight: 500;
+  min-width: 32px;
+  flex-shrink: 0;
+}
+
+/* 题目列表 */
+.question-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  min-height: 0;
+}
+
+.question-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.question-list::-webkit-scrollbar-thumb {
+  background: #E8F1F4;
+  border-radius: 2px;
+}
+
+.question-item {
+  padding: 10px 12px;
+  border: 1px solid #E8F1F4;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+
+.question-item:hover {
+  border-color: #409eff;
+  background: #E8F1F4;
+}
+
+.question-item.active {
+  background: #409eff;
+  border-color: #409eff;
+  color: #fff;
+}
+
+.question-item.active .question-title {
+  color: #fff;
+}
+
+.question-item.active .tag-type {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.question-item.active .tag-diff-1,
+.question-item.active .tag-diff-2,
+.question-item.active .tag-diff-3 {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.question-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #303133;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.tag-type {
+  background: #ecf5ff;
+  color: #409eff;
+}
+
+.tag-topic {
+  background: #fdf6ec;
+  color: #e6a23c;
+}
+
+.tag-diff-1 {
+  background: #f0f9eb;
+  color: #67c23a;
+}
+
+.tag-diff-2 {
+  background: #fdf6ec;
+  color: #e6a23c;
+}
+
+.tag-diff-3 {
+  background: #fef0f0;
+  color: #f56c6c;
+}
+
+/* 右侧区域 */
+.right-area {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+.right-area::-webkit-scrollbar {
+  width: 5px;
+}
+
+.right-area::-webkit-scrollbar-thumb {
+  background: #E8F1F4;
+  border-radius: 3px;
+}
+
+/* 作答区 */
+.answer-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-header {
+  margin-bottom: 14px;
+}
+
+.question-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 8px 0;
+}
+
+.question-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.question-content-card {
+  background: #f8f9fb;
+  border: 1px solid #E8F1F4;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.content-label {
+  font-size: 11px;
+  color: #8b8fa3;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.content-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #303133;
+  white-space: pre-wrap;
+}
+
+/* 参考区 */
+.reference-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ref-audio {
+  flex: 1;
+}
+
+.ref-text-collapse {
+  margin-bottom: 14px;
+}
+
+.ref-text-content {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #606266;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+/* 录音区 */
+.record-section {
+  border: 1px solid #E8F1F4;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #fafbfc;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.section-icon {
+  font-size: 18px;
+}
+
+.section-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin: 0;
+}
+
+.record-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.record-btn {
+  font-weight: 600;
+}
+
+.record-btn.recording {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 108, 108, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(245, 108, 108, 0); }
+}
+
+.record-timer {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f56c6c;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+.waveform-container {
+  margin-bottom: 8px;
+}
+
+.wave-canvas {
+  width: 100%;
+  height: 50px;
+  background: #E8F1F4;
+  border-radius: 6px;
+  border: 1px solid #E8F1F4;
+}
+
+.wave-canvas.active {
+  border-color: #f56c6c;
+}
+
+.record-hint {
+  font-size: 12px;
+  color: #8b8fa3;
+  text-align: center;
+}
+
+/* 上传区 */
+.upload-section {
+  border: 1px solid #E8F1F4;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #fafbfc;
+}
+
+.audio-upload {
+  margin-top: 8px;
+}
+
+.upload-icon {
+  font-size: 32px;
+  color: #8b8fa3;
+  margin-bottom: 6px;
+}
+
+.upload-text {
+  text-align: center;
+}
+
+.upload-main {
+  font-size: 13px;
+  color: #606266;
+  margin: 0 0 4px 0;
+}
+
+.upload-main em {
+  color: #409eff;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.upload-tip {
+  font-size: 12px;
+  color: #8b8fa3;
+  margin: 0;
+}
+
+/* 提交区 */
+.submit-section {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.supplement-input {
+  flex: 1;
+}
+
+.submit-btn {
+  min-width: 110px;
+  font-weight: 600;
+}
+
+/* 空状态占位 */
+.answer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
 .score-good { color: #67c23a; font-weight: 600; }
 .score-mid { color: #e6a23c; font-weight: 600; }
 .score-bad { color: #f56c6c; font-weight: 600; }
 
-@media (max-width: 1400px) {
-  .listening-speaking { grid-template-columns: 1fr; }
-  .q-card, .main-card, .side-card, .history-card { grid-column: 1; grid-row: auto; }
+/* 响应式 */
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 240px 1fr;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

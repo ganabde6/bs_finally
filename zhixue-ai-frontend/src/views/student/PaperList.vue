@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>作业/考试列表</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">作业/考试</h1>
+        <p class="page-subtitle">查看老师发布的作业与考试,按时完成作答</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-table :data="papers" stripe>
       <el-table-column prop="paperName" label="名称" />
       <el-table-column label="类型" width="100">
@@ -18,7 +24,8 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

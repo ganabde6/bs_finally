@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>智能家校反馈</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">智能家校反馈</h1>
+        <p class="page-subtitle">AI 生成学生学情反馈单,一键发送给家长</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="选择学生">
         <el-select v-model="studentId" filterable placeholder="请选择学生" @change="loadFeedback">
@@ -10,7 +16,8 @@
     </el-form>
     <div v-if="feedbackText" class="feedback-box">{{ feedbackText }}</div>
     <el-empty v-else description="请选择学生查看 AI 生成的学情反馈单" />
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>
@@ -39,5 +46,5 @@ const loadFeedback = async () => {
 </script>
 
 <style scoped>
-.feedback-box { background: #fffbe6; padding: 24px; border-radius: 8px; line-height: 1.8; white-space: pre-wrap; border: 1px dashed #e6a23c; }
+.feedback-box { background: #F0FDFA; padding: 24px; border-radius: 8px; line-height: 1.8; white-space: pre-wrap; border: 1px dashed #0D9488; }
 </style>

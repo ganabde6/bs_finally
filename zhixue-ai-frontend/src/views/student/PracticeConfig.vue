@@ -4,10 +4,10 @@
     <div class="status-bar">
       <div class="status-left">
         <el-tag v-if="isCheckedInToday" type="success" size="large">
-          ✅ 今日已自律打卡（连续 {{ continuousDays }} 天）
+          今日已自律打卡（连续 {{ continuousDays }} 天）
         </el-tag>
         <el-tag v-else type="info" size="large">
-          📅 今日尚未打卡
+          今日尚未打卡
         </el-tag>
       </div>
       <div class="status-right">
@@ -26,7 +26,7 @@
         shadow="hover"
         @click="mode = 1"
       >
-        <div class="mode-icon">📝</div>
+        <div class="mode-icon"><el-icon :size="30"><EditPen /></el-icon></div>
         <div class="mode-title">专项板块定向练习</div>
         <div class="mode-desc">选择学科和知识点，AI 针对性出题</div>
       </el-card>
@@ -35,7 +35,7 @@
         shadow="hover"
         @click="mode = 2"
       >
-        <div class="mode-icon">📋</div>
+        <div class="mode-icon"><el-icon :size="30"><Notebook /></el-icon></div>
         <div class="mode-title">考纲大数据智能套卷</div>
         <div class="mode-desc">AI 根据考纲智能组卷，模拟真实考试</div>
       </el-card>
@@ -101,7 +101,7 @@
 
         <div class="form-actions">
           <el-button type="primary" size="large" :loading="generating" :disabled="!canGenerate1" @click="handleGenerate">
-            🚀 AI 智能组卷
+            AI 智能组卷
           </el-button>
         </div>
       </el-form>
@@ -199,7 +199,7 @@
 
         <div class="form-actions">
           <el-button type="primary" size="large" :loading="generating" :disabled="!canGenerate2" @click="handleGenerate">
-            🚀 AI 智能组卷
+            AI 智能组卷
           </el-button>
         </div>
       </el-form>
@@ -447,7 +447,7 @@ function formatDuration(seconds) {
 .points-text {
   font-size: 16px;
   font-weight: 600;
-  color: #409EFF;
+  color: #0D9488;
 }
 
 .badges {
@@ -482,12 +482,12 @@ function formatDuration(seconds) {
 }
 
 .mode-card:hover {
-  border-color: #409EFF;
+  border-color: #0D9488;
   transform: translateY(-2px);
 }
 
 .mode-card.active {
-  border-color: #409EFF;
+  border-color: #0D9488;
   background: #ecf5ff;
 }
 
@@ -524,7 +524,7 @@ function formatDuration(seconds) {
 .kp-container {
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #ebeef5;
+  border: 1px solid #E8F1F4;
   border-radius: 4px;
   padding: 12px;
 }
@@ -538,7 +538,7 @@ function formatDuration(seconds) {
   text-align: center;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #ebeef5;
+  border-top: 1px solid #E8F1F4;
 }
 
 .type-config {

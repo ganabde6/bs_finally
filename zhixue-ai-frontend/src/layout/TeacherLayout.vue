@@ -10,6 +10,7 @@ const menus = [
   { path: '/teacher/lsHomework', title: '听说作业', icon: 'Headset' },
   { path: '/teacher/correct', title: '批改管理', icon: 'Edit' },
   { path: '/teacher/classAnalysis', title: '班级学情', icon: 'TrendCharts' },
-  { path: '/teacher/feedback', title: '家校反馈', icon: 'Message' }
+  { path: '/teacher/feedback', title: '家校反馈', icon: 'Message' },
+  { path: '/teacher/studentManage', title: '学员管理', icon: 'User' }
 ]
 </script>

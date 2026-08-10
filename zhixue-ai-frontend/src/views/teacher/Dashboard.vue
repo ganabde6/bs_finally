@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">教师首页</h1>
+        <p class="page-subtitle">作业发布、批改进度与班级概况一览</p>
+      </div>
+    </div>
     <el-row :gutter="20">
       <el-col :span="6"><el-card class="stat-card"><div class="num">{{ stats.paperCount || 0 }}</div><div class="label">我的试卷/作业</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#67C23A">{{ stats.publishedCount || 0 }}</div><div class="label">已发布</div></el-card></el-col>

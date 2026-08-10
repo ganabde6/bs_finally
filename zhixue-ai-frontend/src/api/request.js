@@ -29,6 +29,7 @@ request.interceptors.response.use(
     }
     // 业务错误
     if (data.code === 401) {
+      console.error('[401 Unauthorized] URL:', resp.config.url, 'Token:', localStorage.getItem('token')?.substring(0, 20))
       ElMessage.error('登录已失效,请重新登录')
       const userStore = useUserStore()
       userStore.clear()
@@ -39,6 +40,7 @@ request.interceptors.response.use(
     return Promise.reject(data)
   },
   err => {
+    console.error('[Network Error] URL:', err.config?.url, 'Error:', err.message)
     ElMessage.error('网络异常: ' + err.message)
     return Promise.reject(err)
   }

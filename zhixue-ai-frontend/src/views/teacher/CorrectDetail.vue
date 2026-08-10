@@ -1,11 +1,15 @@
 <template>
-  <el-card v-loading="loading">
-    <template #header>
-      <div class="card-header">
-        <span>批改详情</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">批改详情</h1>
+        <p class="page-subtitle">逐题查看 AI 评分与学生作答,可人工微调</p>
+      </div>
+      <div class="page-header-right">
         <el-button @click="$router.back()">返回</el-button>
       </div>
-    </template>
+    </div>
+    <el-card v-loading="loading" class="content-card">
     <div v-for="(d, i) in details" :key="d.record.id" class="correct-item">
       <div class="question-box">
         <el-tag size="small">{{ typeText(d.question.questionType) }}</el-tag>
@@ -24,7 +28,8 @@
       <div class="mt-20"><strong>得分点详情:</strong><pre>{{ formatDetail(d.record.scoreDetail) }}</pre></div>
       <div class="mt-20"><el-button type="primary" size="small" @click="saveAdjust(d.record)">保存微调</el-button></div>
     </div>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>
@@ -58,9 +63,9 @@ const saveAdjust = async (r) => {
 </script>
 
 <style scoped>
-.correct-item { padding: 16px 0; border-bottom: 1px dashed #ebeef5; }
+.correct-item { padding: 16px 0; border-bottom: 1px dashed #E8F1F4; }
 .question-box { font-size: 15px; line-height: 1.8; }
-.answer-box { background: #f5f7fa; padding: 10px; border-radius: 4px; margin-top: 6px; white-space: pre-wrap; }
-pre { background: #f5f7fa; padding: 10px; border-radius: 4px; margin-top: 6px; font-size: 12px; }
+.answer-box { background: #E8F1F4; padding: 10px; border-radius: 4px; margin-top: 6px; white-space: pre-wrap; }
+pre { background: #E8F1F4; padding: 10px; border-radius: 4px; margin-top: 6px; font-size: 12px; }
 .ml-10 { margin-left: 10px; }
 </style>

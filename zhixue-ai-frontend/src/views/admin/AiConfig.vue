@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>AI 模型运维配置</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">AI 模型运维配置</h1>
+        <p class="page-subtitle">管理批改严苛度、题型评分规则与 AI 功能开关</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-alert title="管理员可在此自定义批改严苛度、题型评分规则,以及开关学生端 AI 答疑、润色、错题推送等功能,适配日常练习与正式考试不同场景。" type="info" :closable="false" class="mb-20" />
     <el-table :data="list" stripe v-loading="loading">
       <el-table-column type="index" label="#" width="50" />
@@ -27,7 +33,8 @@
         <el-button type="primary" @click="save">保存</el-button>
       </template>
     </el-dialog>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

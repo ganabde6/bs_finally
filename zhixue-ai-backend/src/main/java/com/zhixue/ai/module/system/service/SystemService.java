@@ -316,4 +316,131 @@ public class SystemService {
     public void addLog(SysLog log) {
         logMapper.insert(log);
     }
+
+    // ============== 教师学员管理 ==============
+
+    /**
+     * 获取教师所教班级列表
+     */
+    public List<SysClass> listTeacherClasses(Long teacherId) {
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        if (teacherClasses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Long> classIds = teacherClasses.stream()
+                .map(SysTeacherClass::getClassId)
+                .collect(Collectors.toList());
+        return classMapper.selectBatchIds(classIds);
+    }
+
+    /**
+     * 分页查询教师所教班级的学生
+     */
+    public Page<SysUser> pageTeacherStudents(Long teacherId, Long current, Long size, String keyword, Long classId) {
+        // 获取教师所教班级ID列表
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        if (teacherClasses.isEmpty()) {
+            return new Page<>(current, size, 0);
+        }
+        List<Long> classIds = teacherClasses.stream()
+                .map(SysTeacherClass::getClassId)
+                .collect(Collectors.toList());
+
+        Page<SysUser> page = new Page<>(current == null ? 1 : current, size == null ? 10 : size);
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getRoleId, 4L) // 只查学生
+                .in(SysUser::getClassId, classIds)
+                .eq(classId != null, SysUser::getClassId, classId)
+                .and(StringUtils.hasText(keyword), w -> 
+                    w.like(SysUser::getUsername, keyword)
+                     .or().like(SysUser::getRealName, keyword)
+                )
+                .orderByDesc(SysUser::getCreateTime);
+        Page<SysUser> result = userMapper.selectPage(page, wrapper);
+        result.getRecords().forEach(u -> u.setPassword(null));
+        return result;
+    }
+
+    /**
+     * 教师添加学生
+     */
+    public void addStudentByTeacher(Long teacherId, SysUser student) {
+        // 验证班级是否属于该教师
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        boolean validClass = teacherClasses.stream()
+                .anyMatch(tc -> tc.getClassId().equals(student.getClassId()));
+        if (!validClass) {
+            throw new BizException("该班级不属于您，无法添加学生");
+        }
+        if (userMapper.selectByUsername(student.getUsername()) != null) {
+            throw new BizException("用户名已存在");
+        }
+        student.setPassword(passwordEncoder.encode(
+                student.getPassword() == null ? "123456" : student.getPassword()));
+        student.setRoleId(4L); // 强制学生角色
+        if (student.getStatus() == null) student.setStatus(1);
+        userMapper.insert(student);
+    }
+
+    /**
+     * 教师更新学生信息
+     */
+    public void updateStudentByTeacher(Long teacherId, SysUser student) {
+        // 验证学生是否属于教师所教班级
+        SysUser existingStudent = userMapper.selectById(student.getId());
+        if (existingStudent == null || !existingStudent.getRoleId().equals(4L)) {
+            throw new BizException("学生不存在");
+        }
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        boolean validClass = teacherClasses.stream()
+                .anyMatch(tc -> tc.getClassId().equals(existingStudent.getClassId()));
+        if (!validClass) {
+            throw new BizException("该学生不属于您管理的班级");
+        }
+        // 不允许修改角色
+        student.setRoleId(null);
+        if (StringUtils.hasText(student.getPassword())) {
+            student.setPassword(passwordEncoder.encode(student.getPassword()));
+        } else {
+            student.setPassword(null);
+        }
+        userMapper.updateById(student);
+    }
+
+    /**
+     * 教师删除学生
+     */
+    public void deleteStudentByTeacher(Long teacherId, Long studentId) {
+        SysUser student = userMapper.selectById(studentId);
+        if (student == null || !student.getRoleId().equals(4L)) {
+            throw new BizException("学生不存在");
+        }
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        boolean validClass = teacherClasses.stream()
+                .anyMatch(tc -> tc.getClassId().equals(student.getClassId()));
+        if (!validClass) {
+            throw new BizException("该学生不属于您管理的班级");
+        }
+        userMapper.deleteById(studentId);
+    }
+
+    /**
+     * 教师重置学生密码
+     */
+    public void resetStudentPasswordByTeacher(Long teacherId, Long studentId, String newPassword) {
+        SysUser student = userMapper.selectById(studentId);
+        if (student == null || !student.getRoleId().equals(4L)) {
+            throw new BizException("学生不存在");
+        }
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        boolean validClass = teacherClasses.stream()
+                .anyMatch(tc -> tc.getClassId().equals(student.getClassId()));
+        if (!validClass) {
+            throw new BizException("该学生不属于您管理的班级");
+        }
+        SysUser u = new SysUser();
+        u.setId(studentId);
+        u.setPassword(passwordEncoder.encode(newPassword));
+        userMapper.updateById(u);
+    }
 }

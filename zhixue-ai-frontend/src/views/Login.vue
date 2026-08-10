@@ -5,7 +5,7 @@
       <div class="left-content">
         <div class="brand">
           <svg viewBox="0 0 48 48" width="48" height="48" fill="#fff">
-            <rect x="4" y="4" width="40" height="40" rx="10" fill="#FF6700"/>
+            <rect x="4" y="4" width="40" height="40" rx="10" fill="#0D9488"/>
             <text x="24" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff">智</text>
           </svg>
           <span class="brand-text">智学AI</span>
@@ -263,13 +263,13 @@ const handleRegister = async () => {
   height: 100vh;
   display: flex;
   overflow: hidden;
-  background: #f5f5f5;
+  background: var(--color-background);
 }
 
 /* ===== 左侧装饰面板 ===== */
 .login-left {
   flex: 1;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%);
+  background: linear-gradient(135deg, #0B3B37 0%, #0F766E 45%, #134E4A 100%);
   position: relative;
   display: flex;
   align-items: center;
@@ -368,7 +368,7 @@ const handleRegister = async () => {
   height: 400px;
   top: -100px;
   right: -100px;
-  background: radial-gradient(circle, rgba(255, 103, 0, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.18) 0%, transparent 70%);
 }
 
 .deco-2 {
@@ -376,7 +376,7 @@ const handleRegister = async () => {
   height: 300px;
   bottom: -50px;
   left: -50px;
-  background: radial-gradient(circle, rgba(83, 52, 131, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.3) 0%, transparent 70%);
 }
 
 .deco-3 {
@@ -427,7 +427,7 @@ const handleRegister = async () => {
 .tab-item.active {
   color: #333;
   font-weight: 600;
-  border-bottom-color: #ff6700;
+  border-bottom-color: var(--color-primary);
 }
 
 .tab-item:hover {
@@ -446,25 +446,26 @@ const handleRegister = async () => {
 }
 
 .form-body :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px #ff6700 inset;
+  box-shadow: 0 0 0 1px var(--color-primary) inset;
 }
 
 .form-body :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1px #ff6700 inset;
+  box-shadow: 0 0 0 1px var(--color-primary) inset, 0 0 0 3px rgba(13, 148, 136, 0.15);
 }
 
 .form-body :deep(.el-button--primary) {
-  background: #ff6700;
-  border-color: #ff6700;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   border-radius: 8px;
   height: 44px;
   font-size: 16px;
   letter-spacing: 4px;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.28);
 }
 
 .form-body :deep(.el-button--primary:hover) {
-  background: #f25b00;
-  border-color: #f25b00;
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
 .form-body :deep(.el-form-item) {
@@ -481,7 +482,7 @@ const handleRegister = async () => {
 }
 
 .link-text {
-  color: #ff6700;
+  color: var(--color-primary);
   cursor: pointer;
 }
 

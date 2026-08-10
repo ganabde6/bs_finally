@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>系统操作日志</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">系统操作日志</h1>
+        <p class="page-subtitle">查看系统操作与接口调用记录</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="模块">
         <el-select v-model="query.module" placeholder="全部" clearable style="width:160px" @change="loadData">
@@ -20,7 +26,8 @@
       <el-table-column prop="createTime" label="操作时间" width="180" />
     </el-table>
     <el-pagination class="mt-20" v-model:current-page="query.current" v-model:page-size="query.size" :total="total" layout="total, prev, pager, next" @current-change="loadData" />
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

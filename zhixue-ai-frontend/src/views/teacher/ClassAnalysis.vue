@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>班级学情分析</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">班级学情分析</h1>
+        <p class="page-subtitle">分层分布、共性薄弱点与教学优化建议</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="班级">
         <el-select v-model="classId" @change="loadAnalysis"><el-option v-for="c in classes" :key="c.id" :label="c.className" :value="c.id" /></el-select>
@@ -34,7 +40,8 @@
       </el-card>
     </div>
     <el-empty v-else description="请选择班级与学科" />
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

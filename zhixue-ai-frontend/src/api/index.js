@@ -147,6 +147,14 @@ export const classAnalysis = (classId, subjectId) => request.get(`/api/teacher/c
 export const feedback = (studentId) => request.get(`/api/teacher/feedback/${studentId}`)
 export const teacherClassStudents = (classId) => request.get(`/api/teacher/class/${classId}/students`)
 
+// ============ 教师学员管理 ============
+export const teacherMyClasses = () => request.get('/api/teacher/my-classes')
+export const teacherPageStudents = (params) => request.get('/api/teacher/students', { params })
+export const teacherAddStudent = (data) => request.post('/api/teacher/student', data)
+export const teacherUpdateStudent = (data) => request.put('/api/teacher/student', data)
+export const teacherDeleteStudent = (id) => request.delete(`/api/teacher/student/${id}`)
+export const teacherResetStudentPassword = (id, password) => request.put(`/api/teacher/student/${id}/reset-password`, { password })
+
 // ============ 管理端 ============
 export const adminDashboard = () => request.get('/api/admin/dashboard')
 export const paperDistribution = () => request.get('/api/admin/dashboard/paper-distribution')

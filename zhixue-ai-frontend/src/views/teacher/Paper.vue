@@ -1,11 +1,15 @@
 <template>
-  <el-card>
-    <template #header>
-      <div class="card-header">
-        <span>作业/考试管理</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">作业/考试管理</h1>
+        <p class="page-subtitle">新建、发布与结束作业考试</p>
+      </div>
+      <div class="page-header-right">
         <el-button type="primary" :icon="Plus" @click="$router.push('/teacher/paper/edit')">新建作业/考试</el-button>
       </div>
-    </template>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="类型">
         <el-select v-model="query.paperType" placeholder="全部" clearable style="width:120px">
@@ -34,7 +38,8 @@
       </el-table-column>
     </el-table>
     <el-pagination class="mt-20" v-model:current-page="query.current" v-model:page-size="query.size" :total="total" layout="total, prev, pager, next" @current-change="loadData" />
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

@@ -203,4 +203,56 @@ public class TeacherController {
     public Result<List<Map<String, Object>>> classSelfStudyStats(@RequestParam Long classId) {
         return Result.success(selfPracticeService.getClassSelfStudyStats(classId));
     }
+
+    // ============== 学员管理 ==============
+
+    /** 教师所教班级列表 */
+    @GetMapping("/my-classes")
+    public Result<?> myClasses() {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        return Result.success(systemService.listTeacherClasses(teacherId));
+    }
+
+    /** 分页查询教师所教班级的学生 */
+    @GetMapping("/students")
+    public Result<?> pageStudents(
+            @RequestParam(defaultValue = "1") Long current,
+            @RequestParam(defaultValue = "10") Long size,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long classId) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        return Result.success(systemService.pageTeacherStudents(teacherId, current, size, keyword, classId));
+    }
+
+    /** 教师添加学生 */
+    @PostMapping("/student")
+    public Result<Void> addStudent(@RequestBody com.zhixue.ai.module.system.entity.SysUser student) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        systemService.addStudentByTeacher(teacherId, student);
+        return Result.success();
+    }
+
+    /** 教师编辑学生 */
+    @PutMapping("/student")
+    public Result<Void> updateStudent(@RequestBody com.zhixue.ai.module.system.entity.SysUser student) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        systemService.updateStudentByTeacher(teacherId, student);
+        return Result.success();
+    }
+
+    /** 教师删除学生 */
+    @DeleteMapping("/student/{id}")
+    public Result<Void> deleteStudent(@PathVariable Long id) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        systemService.deleteStudentByTeacher(teacherId, id);
+        return Result.success();
+    }
+
+    /** 教师重置学生密码 */
+    @PutMapping("/student/{id}/reset-password")
+    public Result<Void> resetStudentPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        systemService.resetStudentPasswordByTeacher(teacherId, id, body.get("password"));
+        return Result.success();
+    }
 }

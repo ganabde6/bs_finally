@@ -1,11 +1,15 @@
 <template>
-  <el-card>
-    <template #header>
-      <div class="card-header">
-        <span>用户管理</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">用户管理</h1>
+        <p class="page-subtitle">管理系统账号、角色分配与启用状态</p>
+      </div>
+      <div class="page-header-right">
         <el-button type="primary" :icon="Plus" @click="openAdd">新增用户</el-button>
       </div>
-    </template>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="关键词">
         <el-input v-model="query.keyword" placeholder="账号/姓名" clearable style="width:180px" />
@@ -73,7 +77,8 @@
         <el-button type="primary" @click="doReset">确认重置</el-button>
       </template>
     </el-dialog>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

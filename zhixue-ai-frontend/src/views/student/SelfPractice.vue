@@ -4,10 +4,10 @@
     <div class="status-bar">
       <div class="status-left">
         <el-tag v-if="isCheckedInToday" type="success" size="large">
-          ✅ 今日已自律打卡（连续 {{ continuousDays }} 天）
+          今日已自律打卡（连续 {{ continuousDays }} 天）
         </el-tag>
         <el-tag v-else type="info" size="large">
-          📅 今日尚未打卡
+          今日尚未打卡
         </el-tag>
       </div>
       <div class="status-right">
@@ -113,7 +113,7 @@
           :loading="loading"
           @click="handleCheckIn"
         >
-          🎯 自律打卡
+          自律打卡
         </el-button>
       </div>
     </div>
@@ -309,7 +309,7 @@ async function handleCheckIn() {
 .points-text {
   font-size: 16px;
   font-weight: 600;
-  color: #409EFF;
+  color: #0D9488;
 }
 
 .badges {
@@ -438,7 +438,7 @@ async function handleCheckIn() {
 .accuracy-text {
   font-size: 24px;
   font-weight: 700;
-  color: #409EFF;
+  color: #0D9488;
 }
 
 .checkin-area {

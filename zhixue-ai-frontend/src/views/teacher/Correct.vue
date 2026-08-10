@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>批改管理</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">批改管理</h1>
+        <p class="page-subtitle">AI 批量批改、答案雷同查重与人工复核</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="试卷">
         <el-select v-model="paperId" placeholder="请选择试卷" filterable @change="loadAnswers">
@@ -26,7 +32,8 @@
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

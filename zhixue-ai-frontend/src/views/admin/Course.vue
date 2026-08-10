@@ -1,11 +1,19 @@
 <template>
-  <div>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">课程管理</h1>
+        <p class="page-subtitle">管理学科体系与教师任课分配</p>
+      </div>
+      <div class="page-header-right">
+        <el-button type="primary" :icon="Plus" @click="openAdd">新增学科</el-button>
+      </div>
+    </div>
     <!-- 学科管理 -->
     <el-card>
       <template #header>
         <div class="card-header">
           <span>学科管理</span>
-          <el-button type="primary" :icon="Plus" @click="openAdd">新增学科</el-button>
         </div>
       </template>
       <el-table :data="subjects" stripe v-loading="loading">

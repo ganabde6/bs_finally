@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">数据大屏</h1>
+        <p class="page-subtitle">平台核心数据总览与风控预警</p>
+      </div>
+    </div>
     <!-- 核心指标卡 -->
     <el-row :gutter="20">
       <el-col :span="6"><el-card class="stat-card"><div class="num">{{ stats.studentCount || 0 }}</div><div class="label">学生总数</div></el-card></el-col>
@@ -82,7 +88,7 @@ const drawPaper = (data) => {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: data.map(d => d.subject) },
     yAxis: { type: 'value' },
-    series: [{ type: 'bar', data: data.map(d => d.count), itemStyle: { color: '#409EFF' } }]
+    series: [{ type: 'bar', data: data.map(d => d.count), itemStyle: { color: '#0D9488' } }]
   })
 }
 

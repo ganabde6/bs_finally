@@ -12,7 +12,7 @@
       </div>
       <div class="header-right">
         <el-tag type="warning" size="large">
-          ⏱ 用时：{{ formatDuration(elapsedSeconds) }}
+          <el-icon style="vertical-align:-2px"><Timer /></el-icon> 用时：{{ formatDuration(elapsedSeconds) }}
         </el-tag>
       </div>
     </div>
@@ -87,7 +87,7 @@
           <!-- 结果展示 -->
           <div v-if="submitted && results[item.id] !== undefined" class="result-row">
             <div v-if="results[item.id]" class="result-correct">
-              ✅ 正确！标准答案：{{ item.correctAnswer }}
+              <el-icon style="vertical-align:-2px"><CircleCheck /></el-icon> 正确！标准答案：{{ item.correctAnswer }}
             </div>
             <div v-else class="result-wrong">
               ❌ 错误！标准答案：{{ item.correctAnswer }}，你的答案：{{ formatAnswer(answers[item.id]) || '未作答' }}
@@ -113,7 +113,7 @@
         :loading="loading"
         @click="handleSubmit"
       >
-        📝 提交批改
+        提交批改
       </el-button>
       <span class="answered-hint">已答 {{ answeredCount }} / {{ questions.length }} 题</span>
     </div>
@@ -150,7 +150,7 @@
           :loading="loading"
           @click="handleCheckIn"
         >
-          🎯 自律打卡
+          自律打卡
         </el-button>
       </div>
 
@@ -544,7 +544,7 @@ async function loadCheckInStatus() {
 .accuracy-text {
   font-size: 24px;
   font-weight: 700;
-  color: #409EFF;
+  color: #0D9488;
 }
 
 .stats-row {

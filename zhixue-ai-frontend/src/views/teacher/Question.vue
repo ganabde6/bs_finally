@@ -1,11 +1,16 @@
 <template>
-  <el-card>
-    <template #header>
-      <div class="card-header">
-        <span>题库管理</span>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">题库管理</h1>
+        <p class="page-subtitle">维护学科题库,支持 AI 智能组卷</p>
+      </div>
+      <div class="page-header-right">
+        <el-button type="success" @click="aiGroupVisible = true">AI智能组卷</el-button>
         <el-button type="primary" :icon="Plus" @click="openAdd">新增题目</el-button>
       </div>
-    </template>
+    </div>
+    <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="学科">
         <el-select v-model="query.subjectId" placeholder="全部" clearable style="width:120px">
@@ -21,7 +26,6 @@
         <el-input v-model="query.keyword" placeholder="题干/知识点" clearable style="width:200px" />
       </el-form-item>
       <el-button type="primary" @click="loadData">查询</el-button>
-      <el-button type="success" @click="aiGroupVisible = true">AI智能组卷</el-button>
     </el-form>
     <el-table :data="list" stripe v-loading="loading">
       <el-table-column type="index" label="#" width="50" />
@@ -73,7 +77,8 @@
         <el-button type="primary" @click="doAiGroup">生成</el-button>
       </template>
     </el-dialog>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

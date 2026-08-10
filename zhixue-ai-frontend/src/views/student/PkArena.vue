@@ -3,7 +3,7 @@
     <!-- 顶部导航 -->
     <div class="pk-header">
       <el-button text @click="goBack">← 返回自主智练</el-button>
-      <h2>🏆 同学PK竞技场</h2>
+      <h2><el-icon style="vertical-align:-2px"><Trophy /></el-icon> 同学PK竞技场</h2>
     </div>
 
     <!-- 阶段一：创建/加入房间 -->
@@ -12,7 +12,7 @@
         <el-col :span="12">
           <el-card shadow="hover" class="pk-card">
             <template #header>
-              <div class="card-title">🎮 创建PK房间</div>
+              <div class="card-title"><el-icon style="vertical-align:-2px"><VideoGame /></el-icon> 创建PK房间</div>
             </template>
             <el-form :model="createForm" label-width="100px">
               <el-form-item label="选择学科" required>
@@ -27,7 +27,7 @@
                 <el-input-number v-model="createTimeLimit" :min="5" :max="30" :step="5" style="width:100%" />
               </el-form-item>
               <el-button type="primary" style="width:100%" size="large" :loading="creating" @click="handleCreate">
-                🚀 创建房间
+                创建房间
               </el-button>
             </el-form>
           </el-card>
@@ -35,7 +35,7 @@
         <el-col :span="12">
           <el-card shadow="hover" class="pk-card">
             <template #header>
-              <div class="card-title">🔗 加入PK房间</div>
+              <div class="card-title"><el-icon style="vertical-align:-2px"><Link /></el-icon> 加入PK房间</div>
             </template>
             <el-form label-width="100px">
               <el-form-item label="房间号">
@@ -86,7 +86,7 @@
     <div v-if="phase === 'answering'" class="answering-area">
       <div class="answer-header">
         <el-tag type="info" size="large">房间：{{ myRoomCode }}</el-tag>
-        <el-tag type="warning" size="large">⏱ 剩余：{{ formatTime(remainSeconds) }}</el-tag>
+        <el-tag type="warning" size="large"><el-icon style="vertical-align:-2px"><Timer /></el-icon> 剩余：{{ formatTime(remainSeconds) }}</el-tag>
         <el-tag type="success" size="large">进度：{{ currentQuestionIndex + 1 }} / {{ pkQuestions.length }}</el-tag>
       </div>
 
@@ -111,8 +111,8 @@
         <!-- 判断题 -->
         <div v-else-if="currentQuestion.type === 3" class="judge-group">
           <el-radio-group v-model="currentAnswer">
-            <el-radio value="正确" class="option-item">✅ 正确</el-radio>
-            <el-radio value="错误" class="option-item">❌ 错误</el-radio>
+            <el-radio value="正确" class="option-item">正确</el-radio>
+            <el-radio value="错误" class="option-item">错误</el-radio>
           </el-radio-group>
         </div>
 
@@ -542,7 +542,7 @@ function copyRoomCode() {
 }
 
 .member-avatar {
-  background: #409EFF;
+  background: #0D9488;
   color: #fff;
   font-weight: 600;
 }

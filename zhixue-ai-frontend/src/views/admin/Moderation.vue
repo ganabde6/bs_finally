@@ -1,6 +1,12 @@
 <template>
-  <el-card>
-    <template #header><span>智能内容风控</span></template>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">智能内容风控</h1>
+        <p class="page-subtitle">预检内容合规性,保障平台教学属性与使用安全</p>
+      </div>
+    </div>
+    <el-card class="content-card">
     <el-alert title="管理员可在此预检内容是否违规,系统会自动过滤学生端 AI 违规提问、审核作业考试内容,保障平台纯教学属性与使用安全。" type="info" :closable="false" class="mb-20" />
     <el-form label-width="100px">
       <el-form-item label="待检内容">
@@ -20,7 +26,8 @@
         :sub-title="result.reason || '未发现违规内容'"
       />
     </el-card>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script setup>

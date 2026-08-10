@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">学习首页</h1>
+        <p class="page-subtitle">欢迎回来,今日也要加油哦</p>
+      </div>
+    </div>
     <el-row :gutter="20">
       <el-col :span="6" v-for="(c, i) in cards" :key="i">
         <el-card class="stat-card">

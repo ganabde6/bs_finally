@@ -1,5 +1,11 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">学情中心</h1>
+        <p class="page-subtitle">成绩趋势、知识掌握度与 AI 个性化提升建议</p>
+      </div>
+    </div>
     <el-card v-if="analysis">
       <template #header><span>个人学情中心</span></template>
       <el-row :gutter="20">
@@ -39,9 +45,10 @@
             v-if="weakPoints.length > 0" 
             type="primary" 
             size="small"
+            :icon="Aim"
             @click="goToPractice"
           >
-            🎯 针对薄弱点智能出题
+            针对薄弱点智能出题
           </el-button>
         </div>
       </template>
@@ -75,6 +82,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { Aim } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import { studyAnalysis } from '@/api'
 
@@ -155,7 +163,4 @@ function goToPractice() {
 
 <style scoped>
 .mt-20 { margin-top: 20px; }
-.stat-card { text-align: center; }
-.stat-card .num { font-size: 28px; font-weight: 700; color: #409EFF; }
-.stat-card .label { font-size: 13px; color: #909399; margin-top: 4px; }
 </style>

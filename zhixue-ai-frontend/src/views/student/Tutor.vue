@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <el-card>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">AI 答疑</h1>
+        <p class="page-subtitle">专属助学老师,支持文字、语音、图片答疑与作文润色</p>
+      </div>
+    </div>
+    <el-card class="content-card">
       <template #header><span>AI 专属助学老师</span></template>
       <div class="chat-box" ref="chatBox">
         <div v-for="msg in messages" :key="msg.id" :class="['msg', msg.role]">
@@ -24,7 +30,7 @@
             <el-button :type="isRecording ? 'danger' : 'default'" :icon="isRecording ? VideoPause : Microphone" @click="toggleVoice">
               {{ isRecording ? '停止录音' : '语音输入' }}
             </el-button>
-            <el-tag v-if="uploadedFile" type="info" closable @close="uploadedFile = ''">📎 {{ uploadedFile }}</el-tag>
+            <el-tag v-if="uploadedFile" type="info" closable @close="uploadedFile = ''"><el-icon style="margin-right:4px"><Paperclip /></el-icon>{{ uploadedFile }}</el-tag>
           </div>
           <el-button type="primary" :loading="loading" :icon="Promotion" @click="send">发送</el-button>
         </div>
@@ -36,10 +42,10 @@
       <!-- 润色图片上传区 -->
       <div class="mt-20" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <el-upload :show-file-list="false" :before-upload="handlePolishUpload" accept="image/*" action="#">
-          <el-button :icon="Camera">📷 拍照/上传手写作文</el-button>
+          <el-button :icon="Camera">拍照/上传手写作文</el-button>
         </el-upload>
-        <el-tag v-if="polishImageName" type="info" closable @close="clearPolishImage">📎 {{ polishImageName }}</el-tag>
-        <img v-if="polishImagePreview" :src="polishImagePreview" style="max-height:120px;max-width:200px;border-radius:4px;border:1px solid #dcdfe6" />
+        <el-tag v-if="polishImageName" type="info" closable @close="clearPolishImage"><el-icon style="margin-right:4px"><Paperclip /></el-icon>{{ polishImageName }}</el-tag>
+        <img v-if="polishImagePreview" :src="polishImagePreview" style="max-height:120px;max-width:200px;border-radius:4px;border:1px solid #E8F1F4" />
       </div>
       <div class="mt-20" style="text-align:right">
         <el-button type="primary" :loading="polishing" @click="doPolish">AI 润色</el-button>
@@ -47,8 +53,8 @@
       <el-input v-if="polishResult" v-model="polishResult" type="textarea" :rows="10" readonly class="mt-20" />
       
       <!-- 润色后对话区 -->
-      <div v-if="polishResult" class="mt-20" style="border-top:1px solid #ebeef5;padding-top:16px">
-        <div style="font-weight:600;margin-bottom:12px;color:#303133">💬 与 AI 继续讨论作文</div>
+      <div v-if="polishResult" class="mt-20" style="border-top:1px solid #E8F1F4;padding-top:16px">
+        <div style="font-weight:600;margin-bottom:12px;color:#134E4A"><el-icon style="vertical-align:-2px;margin-right:6px"><ChatDotRound /></el-icon>与 AI 继续讨论作文</div>
         <div class="polish-chat-box" ref="polishChatBox">
           <div v-for="msg in polishChatMessages" :key="msg.id" :class="['msg', msg.role]">
             <div class="bubble">
@@ -71,7 +77,7 @@
 <script setup>
 import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Paperclip, Promotion, Microphone, VideoPause, Camera } from '@element-plus/icons-vue'
+import { Paperclip, Promotion, Microphone, VideoPause, Camera, ChatDotRound } from '@element-plus/icons-vue'
 import { tutorChat, chatHistory, polishEssay, polishEssayWithImage } from '@/api'
 
 const messages = ref([])
@@ -339,12 +345,12 @@ const scrollBottom = async () => {
 </script>
 
 <style scoped>
-.chat-box { max-height: 400px; overflow-y: auto; padding: 10px; background: #f5f7fa; border-radius: 4px; min-height: 200px; }
-.polish-chat-box { max-height: 300px; overflow-y: auto; padding: 10px; background: #f5f7fa; border-radius: 4px; min-height: 80px; }
+.chat-box { max-height: 400px; overflow-y: auto; padding: 10px; background: #E8F1F4; border-radius: 8px; min-height: 200px; }
+.polish-chat-box { max-height: 300px; overflow-y: auto; padding: 10px; background: #E8F1F4; border-radius: 8px; min-height: 80px; }
 .msg { margin: 12px 0; }
 .msg.user { text-align: right; }
-.msg.assistant .bubble { background: #fff; border: 1px solid #dcdfe6; }
-.msg.user .bubble { background: #409EFF; color: #fff; }
+.msg.assistant .bubble { background: #fff; border: 1px solid #E8F1F4; }
+.msg.user .bubble { background: #0D9488; color: #fff; }
 .bubble { display: inline-block; padding: 10px 16px; border-radius: 8px; max-width: 70%; text-align: left; white-space: pre-wrap; }
 .time { color: #c0c4cc; font-size: 12px; margin-top: 4px; }
 .attachment-tag { display: block; font-size: 12px; margin-bottom: 4px; opacity: 0.8; }
