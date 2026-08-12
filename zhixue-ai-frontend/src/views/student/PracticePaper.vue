@@ -230,6 +230,22 @@ onMounted(async () => {
     const stored = sessionStorage.getItem('practiceQuestions')
     if (stored) {
       questions.value = JSON.parse(stored)
+      // 解析选项：如果 options 是 JSON 对象数组，提取 value 字段
+      questions.value.forEach(q => {
+        if (q.options && Array.isArray(q.options)) {
+          q.options = q.options.map(opt => {
+            if (typeof opt === 'string') {
+              try {
+                const parsed = JSON.parse(opt)
+                return parsed.value || opt
+              } catch {
+                return opt
+              }
+            }
+            return opt.value || opt
+          })
+        }
+      })
       // 初始化答案
       questions.value.forEach(q => {
         if (q.type === 2) {

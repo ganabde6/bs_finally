@@ -449,12 +449,14 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             }
         }
 
-        // 如果错题题量不足，从常规题库补充
+        // 如果题量不足，从常规题库补充
         if (selected.size() < questionCount) {
-            List<ExamQuestion> candidates = new ArrayList<>();
             Set<Long> selectedIds = selected.stream().map(ExamQuestion::getId).collect(Collectors.toSet());
+            int stillNeed = questionCount - selected.size();
 
+            // 先按知识点匹配
             if (!knowledgePoints.isEmpty()) {
+                List<ExamQuestion> kpCandidates = new ArrayList<>();
                 for (String kp : knowledgePoints) {
                     LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
                             .eq(ExamQuestion::getSubjectId, subjectId)
@@ -464,9 +466,24 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     if (difficulty != null && difficulty > 0) {
                         wrapper.eq(ExamQuestion::getDifficulty, difficulty);
                     }
-                    candidates.addAll(questionMapper.selectList(wrapper));
+                    kpCandidates.addAll(questionMapper.selectList(wrapper));
                 }
-            } else {
+                kpCandidates = kpCandidates.stream()
+                        .filter(q -> !selectedIds.contains(q.getId()))
+                        .collect(Collectors.collectingAndThen(
+                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ExamQuestion::getId))),
+                                ArrayList::new));
+                Collections.shuffle(kpCandidates, random);
+                int take = Math.min(stillNeed, kpCandidates.size());
+                for (int i = 0; i < take; i++) {
+                    selected.add(kpCandidates.get(i));
+                    selectedIds.add(kpCandidates.get(i).getId());
+                }
+                stillNeed = questionCount - selected.size();
+            }
+
+            // 如果知识点题量仍不足，从整个学科题库随机补充
+            if (stillNeed > 0) {
                 LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
                         .eq(ExamQuestion::getSubjectId, subjectId)
                         .in(ExamQuestion::getQuestionType, questionTypes)
@@ -474,20 +491,14 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                 if (difficulty != null && difficulty > 0) {
                     wrapper.eq(ExamQuestion::getDifficulty, difficulty);
                 }
-                candidates.addAll(questionMapper.selectList(wrapper));
-            }
-
-            // 去重 + 排除已选题目
-            candidates = candidates.stream()
-                    .filter(q -> !selectedIds.contains(q.getId()))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ExamQuestion::getId))),
-                            ArrayList::new));
-
-            Collections.shuffle(candidates, random);
-            int need = questionCount - selected.size();
-            for (int i = 0; i < need && i < candidates.size(); i++) {
-                selected.add(candidates.get(i));
+                List<ExamQuestion> allCandidates = questionMapper.selectList(wrapper).stream()
+                        .filter(q -> !selectedIds.contains(q.getId()))
+                        .collect(Collectors.toList());
+                Collections.shuffle(allCandidates, random);
+                int take = Math.min(stillNeed, allCandidates.size());
+                for (int i = 0; i < take; i++) {
+                    selected.add(allCandidates.get(i));
+                }
             }
         }
 

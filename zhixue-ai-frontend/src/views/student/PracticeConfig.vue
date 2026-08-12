@@ -315,13 +315,38 @@ onMounted(async () => {
     if (weakPointsData) {
       try {
         const data = JSON.parse(weakPointsData)
-        if (data.subjectId) {
-          form1.value.subjectId = data.subjectId
+        let targetSubjectId = data.subjectId
+
+        // 如果 subjectId 为空，根据薄弱知识点匹配所属学科
+        if (!targetSubjectId && data.knowledgePoints && data.knowledgePoints.length > 0) {
+          const allWeakKps = new Set()
+          data.knowledgePoints.forEach(kp => {
+            kp.split(/[,，、;；]/).map(s => s.trim()).filter(s => s).forEach(s => allWeakKps.add(s))
+          })
+          // 逐个学科查找，看哪个学科的知识点包含这些薄弱知识点
+          for (const subj of subjects.value) {
+            const res = await getKnowledgePoints(subj.id)
+            if (res.code === 200 && res.data) {
+              const matched = [...allWeakKps].filter(kp => res.data.includes(kp))
+              if (matched.length > 0) {
+                targetSubjectId = subj.id
+                break
+              }
+            }
+          }
+        }
+
+        if (targetSubjectId) {
+          form1.value.subjectId = targetSubjectId
           mode.value = 1 // 切换到专项练习模式
           await loadKnowledgePoints()
           // 自动勾选薄弱知识点
           if (data.knowledgePoints && Array.isArray(data.knowledgePoints)) {
-            form1.value.knowledgePoints = data.knowledgePoints.filter(kp =>
+            const allWeakKps = new Set()
+            data.knowledgePoints.forEach(kp => {
+              kp.split(/[,，、;；]/).map(s => s.trim()).filter(s => s).forEach(s => allWeakKps.add(s))
+            })
+            form1.value.knowledgePoints = [...allWeakKps].filter(kp =>
               knowledgePoints.value.includes(kp)
             )
           }
