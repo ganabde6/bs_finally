@@ -24,12 +24,12 @@
       <el-card v-for="(item, index) in questions" :key="item.id" class="question-card" shadow="hover">
         <template #header>
           <div class="card-header">
-            <span class="question-title">第 {{ index + 1 }} 题（{{ item.type === 1 ? '单选题' : '判断题' }}）</span>
+            <span class="question-title">第 {{ index + 1 }} 题（{{ item.type === 1 ? '单选题' : '填空题' }}）</span>
           </div>
         </template>
 
         <div class="question-content">
-          <p class="stem">{{ item.stem }}</p>
+          <p class="stem" v-html="renderLatex(item.stem)"></p>
 
           <!-- 选择题 -->
           <div v-if="item.type === 1" class="options-group">
@@ -40,32 +40,28 @@
                 :value="option"
                 class="option-item"
               >
-                {{ String.fromCharCode(65 + optIndex) }}. {{ option }}
+                {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
               </el-radio>
             </el-radio-group>
           </div>
 
-          <!-- 判断题 -->
-          <div v-else-if="item.type === 2" class="judge-group">
-            <el-switch
+          <!-- 填空题 -->
+          <div v-else-if="item.type === 4" class="fill-group">
+            <el-input
               v-model="answers[item.id]"
-              active-value="正确"
-              inactive-value="错误"
               :disabled="submitted"
-              active-text="正确"
-              inactive-text="错误"
-              inline-prompt
+              placeholder="请输入答案"
+              style="max-width: 400px"
             />
-            <span class="judge-hint">当前选择：{{ answers[item.id] || '未选择' }}</span>
           </div>
 
           <!-- 结果展示 -->
           <div v-if="submitted && results[item.id] !== undefined" class="result-row">
             <div v-if="results[item.id]" class="result-correct">
-              ✅ 正确！标准答案：{{ item.correctAnswer }}
+              ✅ 正确！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>
             </div>
             <div v-else class="result-wrong">
-              ❌ 错误！标准答案：{{ item.correctAnswer }}，你的答案：{{ answers[item.id] || '未作答' }}
+              ❌ 错误！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>，你的答案：{{ answers[item.id] || '未作答' }}
             </div>
           </div>
         </div>
@@ -124,6 +120,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { generatePractice, submitPractice, checkInStatus, doCheckIn } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 // 响应式数据
 const questions = ref([])
@@ -177,7 +174,7 @@ async function loadQuestions() {
       questions.value = res.data
       // 初始化答案对象
       res.data.forEach(q => {
-        answers.value[q.id] = q.type === 2 ? '正确' : null
+        answers.value[q.id] = null
       })
     }
   } catch (error) {

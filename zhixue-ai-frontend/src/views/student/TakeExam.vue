@@ -18,17 +18,17 @@
       <div v-for="(q, i) in paper.questions" :key="q.id" class="question-item">
         <div class="question-title">
           <el-tag size="small">{{ typeText(q.questionType) }}</el-tag>
-          <span class="ml-10">{{ i + 1 }}. {{ q.content }}</span>
+          <span class="ml-10">{{ i + 1 }}. <span v-html="renderLatex(q.content)"></span></span>
           <span style="color:#909399;margin-left:8px">({{ q.score }}分)</span>
         </div>
         <div class="mt-20">
           <!-- 单选/判断 -->
           <el-radio-group v-if="q.questionType === 1 || q.questionType === 3" v-model="answers[q.id]">
-            <el-radio v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-radio>
+            <el-radio v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. <span v-html="renderLatex(opt.value)"></span></el-radio>
           </el-radio-group>
           <!-- 多选 -->
           <el-checkbox-group v-else-if="q.questionType === 2" v-model="answers[q.id]">
-            <el-checkbox v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. {{ opt.value }}</el-checkbox>
+            <el-checkbox v-for="opt in parseOptions(q.options)" :key="opt.key" :value="opt.key" class="option-item">{{ opt.key }}. <span v-html="renderLatex(opt.value)"></span></el-checkbox>
           </el-checkbox-group>
           <!-- 填空 -->
           <el-input v-else-if="q.questionType === 4" v-model="answers[q.id]" placeholder="请输入答案" style="max-width:400px" />
@@ -51,6 +51,7 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { studentPaperDetail, startAnswer, submitAnswer } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 const route = useRoute()
 const router = useRouter()

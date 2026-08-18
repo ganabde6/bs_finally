@@ -45,7 +45,7 @@ export const reportRisk = (data) => request.post('/api/student/risk/report', dat
 
 // ============ 自主智练与自律打卡 ============
 export const generatePractice = () => request.post('/api/student/practice/generate')
-export const generatePracticeConfig = (data) => request.post('/api/student/practice/generate-config', data, { timeout: 300000 })
+export const generatePracticeConfig = (data) => request.post('/api/student/practice/generate-config', data, { timeout: 900000 })
 export const getKnowledgePoints = (subjectId) => request.get('/api/student/practice/knowledge-points', { params: { subjectId } })
 export const getRecentPracticeRecords = () => request.get('/api/student/practice/recent-records')
 export const submitPractice = (data) => request.post('/api/student/practice/submit', data)

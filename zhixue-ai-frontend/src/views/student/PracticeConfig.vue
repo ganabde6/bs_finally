@@ -144,26 +144,31 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="题目总数">
               <el-input-number v-model="form2.questionCount" :min="10" :max="50" :step="5" style="width:100%" />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="基础题占比">
               <el-slider v-model="form2.easyRatio" :min="0" :max="100" :step="10" show-input />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="中档题占比">
               <el-slider v-model="form2.mediumRatio" :min="0" :max="100" :step="10" show-input />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="拔高题占比">
+              <el-slider v-model="form2.hardRatio" :min="0" :max="100" :step="10" show-input />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-alert
-          v-if="form2.easyRatio + form2.mediumRatio > 100"
-          title="基础题和中档题占比之和不能超过 100%，剩余为拔高题"
+          v-if="ratioTotal !== 100"
+          :title="`三项占比合计为 ${ratioTotal}%，必须等于 100%（当前 基础${form2.easyRatio}% + 中档${form2.mediumRatio}% + 拔高${form2.hardRatio}%）`"
           type="warning"
           show-icon
           :closable="false"
@@ -186,18 +191,27 @@
             </el-col>
             <el-col :span="6">
               <div class="type-config">
-                <span>判断题</span>
-                <el-input-number v-model="form2.judgeCount" :min="0" :max="20" size="small" style="width:100%" />
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="type-config">
                 <span>填空题</span>
                 <el-input-number v-model="form2.fillCount" :min="0" :max="20" size="small" style="width:100%" />
               </div>
             </el-col>
+            <el-col :span="6">
+              <div class="type-config">
+                <span>简答题</span>
+                <el-input-number v-model="form2.shortCount" :min="0" :max="20" size="small" style="width:100%" />
+              </div>
+            </el-col>
           </el-row>
         </el-form-item>
+
+        <el-alert
+          v-if="typeCountTotal !== form2.questionCount"
+          :title="`题型分布数量合计为 ${typeCountTotal} 道，必须等于题目总数 ${form2.questionCount} 道（当前 单选${form2.singleCount} + 多选${form2.multiCount} + 填空${form2.fillCount} + 简答${form2.shortCount}）`"
+          type="warning"
+          show-icon
+          :closable="false"
+          style="margin-bottom: 20px"
+        />
 
         <div class="form-actions">
           <el-button type="primary" size="large" :loading="generating" :disabled="!canGenerate2" @click="handleGenerate">
@@ -238,7 +252,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { EditPen, Document } from '@element-plus/icons-vue'
@@ -283,10 +297,11 @@ const form2 = ref({
   questionCount: 20,
   easyRatio: 60,
   mediumRatio: 30,
+  hardRatio: 10,
   singleCount: 10,
   multiCount: 3,
-  judgeCount: 5,
-  fillCount: 2
+  fillCount: 2,
+  shortCount: 5
 })
 
 // 生成状态
@@ -295,13 +310,50 @@ const generating = ref(false)
 // 最近练习记录
 const recentRecords = ref([])
 
+// 三项占比合计
+const ratioTotal = computed(() => {
+  return (form2.value.easyRatio || 0) + (form2.value.mediumRatio || 0) + (form2.value.hardRatio || 0)
+})
+
+// 题型分布数量合计
+const typeCountTotal = computed(() => {
+  return (form2.value.singleCount || 0) + (form2.value.multiCount || 0)
+    + (form2.value.fillCount || 0) + (form2.value.shortCount || 0)
+})
+
+// 三项占比联动:保证合计恒为 100(改任意一项,自动补足/吸收到拔高与中档)
+let ratioSyncing = false
+watch(
+  () => [form2.value.easyRatio, form2.value.mediumRatio, form2.value.hardRatio],
+  () => {
+    if (ratioSyncing) return
+    ratioSyncing = true
+    const easy = form2.value.easyRatio || 0
+    let medium = form2.value.mediumRatio || 0
+    const hard = form2.value.hardRatio || 0
+    const total = easy + medium + hard
+    if (total !== 100) {
+      // 基础+中档超过 100 时先压缩中档
+      if (easy + medium > 100) {
+        medium = Math.max(0, 100 - easy)
+        form2.value.mediumRatio = medium
+      }
+      // 剩余部分全部作为拔高占比
+      form2.value.hardRatio = Math.max(0, 100 - easy - medium)
+    }
+    ratioSyncing = false
+  }
+)
+
 // 校验
 const canGenerate1 = computed(() => {
   return form1.value.subjectId && form1.value.questionTypes.length > 0
 })
 
 const canGenerate2 = computed(() => {
-  return form2.value.subjectId && form2.value.examType && form2.value.easyRatio + form2.value.mediumRatio <= 100
+  return form2.value.subjectId && form2.value.examType
+    && ratioTotal.value === 100
+    && typeCountTotal.value === form2.value.questionCount
 })
 
 onMounted(async () => {

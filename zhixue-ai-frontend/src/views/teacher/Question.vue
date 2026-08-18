@@ -31,7 +31,9 @@
       <el-table-column type="index" label="#" width="50" />
       <el-table-column label="题型" width="80"><template #default="{row}">{{ typeText(row.questionType) }}</template></el-table-column>
       <el-table-column prop="knowledgePoint" label="知识点" width="120" />
-      <el-table-column prop="content" label="题干" show-overflow-tooltip />
+      <el-table-column label="题干" show-overflow-tooltip>
+        <template #default="{row}"><span v-html="renderLatex(row.content)"></span></template>
+      </el-table-column>
       <el-table-column label="难度" width="80"><template #default="{row}">{{ '★'.repeat(row.difficulty) }}</template></el-table-column>
       <el-table-column prop="fullScore" label="满分" width="80" />
       <el-table-column label="操作" width="160">
@@ -86,13 +88,14 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { pageQuestions, addQuestion, updateQuestion, deleteQuestion, getSubjects, aiGroup } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 const list = ref([])
 const total = ref(0)
 const loading = ref(false)
 const subjects = ref([])
 const types = [
-  { value: 1, label: '单选题' }, { value: 2, label: '多选题' }, { value: 3, label: '判断题' },
+  { value: 1, label: '单选题' }, { value: 2, label: '多选题' },
   { value: 4, label: '填空题' }, { value: 5, label: '简答题' }, { value: 6, label: '作文题' }, { value: 7, label: '计算题' }
 ]
 const typeText = (t) => types.find(x => x.value === t)?.label || ''

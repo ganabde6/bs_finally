@@ -167,7 +167,6 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
         switch (questionType == null ? 0 : questionType) {
             case 1: typeLabel = "单选题"; break;
             case 2: typeLabel = "多选题"; break;
-            case 3: typeLabel = "判断题"; break;
             case 4: typeLabel = "填空题"; break;
             case 5: typeLabel = "简答题"; break;
             case 6: typeLabel = "作文题"; break;

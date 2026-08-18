@@ -35,7 +35,9 @@
     <el-table :data="questions" stripe max-height="400" @selection-change="onSelect">
       <el-table-column type="selection" width="50" />
       <el-table-column label="题型" width="80"><template #default="{row}">{{ typeText(row.questionType) }}</template></el-table-column>
-      <el-table-column prop="content" label="题干" show-overflow-tooltip />
+      <el-table-column label="题干" show-overflow-tooltip>
+        <template #default="{row}"><span v-html="renderLatex(row.content)"></span></template>
+      </el-table-column>
       <el-table-column prop="knowledgePoint" label="知识点" width="120" />
       <el-table-column label="难度" width="100"><template #default="{row}">{{ '★'.repeat(row.difficulty) }}</template></el-table-column>
       <el-table-column label="本题分值" width="120">
@@ -57,6 +59,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getSubjects, getClasses, pageQuestions, createPaper, updatePaper, teacherPaperDetail } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 const route = useRoute()
 const router = useRouter()
@@ -74,7 +77,7 @@ const form = reactive({
   totalScore: 0, duration: 60, deadline: null, description: '', status: 0
 })
 const types = [
-  { value: 1, label: '单选题' }, { value: 2, label: '多选题' }, { value: 3, label: '判断题' },
+  { value: 1, label: '单选题' }, { value: 2, label: '多选题' },
   { value: 4, label: '填空题' }, { value: 5, label: '简答题' }, { value: 6, label: '作文题' }, { value: 7, label: '计算题' }
 ]
 const typeText = (t) => types.find(x => x.value === t)?.label || ''

@@ -60,20 +60,6 @@
             </el-checkbox-group>
           </div>
 
-          <!-- 判断题 -->
-          <div v-else-if="item.type === 3" class="judge-group">
-            <el-switch
-              v-model="answers[item.id]"
-              active-value="正确"
-              inactive-value="错误"
-              :disabled="submitted"
-              active-text="正确"
-              inactive-text="错误"
-              inline-prompt
-            />
-            <span class="judge-hint">当前选择：{{ answers[item.id] || '未选择' }}</span>
-          </div>
-
           <!-- 填空题 -->
           <div v-else-if="item.type === 4" class="fill-group">
             <el-input
@@ -178,6 +164,7 @@ import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { submitPractice, checkInStatus, doCheckIn } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 const router = useRouter()
 
@@ -268,8 +255,6 @@ onMounted(async () => {
       questions.value.forEach(q => {
         if (q.type === 2) {
           answers.value[q.id] = []
-        } else if (q.type === 3) {
-          answers.value[q.id] = '正确'
         } else {
           answers.value[q.id] = null
         }
@@ -310,86 +295,6 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
-// 渲染 LaTeX 数学公式（用 v-html 方式）
-function renderLatex(text) {
-  if (!text) return ''
-  // 如果文本中没有 LaTeX 命令，直接返回
-  if (!/\\[a-zA-Z{(]/.test(text)) return text
-
-  // 处理 $...$ / $$...$$ 包裹的数学公式：数学段用 KaTeX 渲染，文本段原样保留
-  if (/\$/.test(text)) {
-    const parts = text.split(/(\$\$[^$]*\$\$|\$[^$]*\$)/g)
-    let result = ''
-    for (const part of parts) {
-      const dm = part.match(/^\$\$([\s\S]*)\$\$$/)
-      const im = !dm && part.match(/^\$([\s\S]*)\$$/)
-      if (dm || im) {
-        const math = dm ? dm[1] : im[1]
-        if (typeof katex !== 'undefined') {
-          try {
-            result += katex.renderToString(math, { throwOnError: false, displayMode: !!dm })
-            continue
-          } catch {}
-        }
-        result += part
-        continue
-      }
-      // 文本段（如含 LaTeX 命令，继续走分段渲染，保证旧题兼容；若仍有不成对 $ 则原样保留防递归）
-      result += part.includes('$') ? part : renderLatex(part)
-    }
-    return result
-  }
-
-  // 策略：只按中文字符和中文标点分割，保留英文空格在片段内
-  const segments = []
-  let current = ''
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i]
-    const code = ch.charCodeAt(0)
-    // 判断是否是中文或中文标点
-    const isChinese = (code >= 0x4e00 && code <= 0x9fff) || 
-                      ch === '，' || ch === '。' || ch === '；' || ch === '：' ||
-                      ch === '！' || ch === '？' || ch === '、' || ch === '…' ||
-                      ch === '（' || ch === '）' || ch === '【' || ch === '】' ||
-                      ch === '「' || ch === '」' || ch === '『' || ch === '』'
-    
-    if (isChinese) {
-      if (current) {
-        segments.push(current)
-        current = ''
-      }
-      segments.push(ch)
-    } else {
-      current += ch
-    }
-  }
-  if (current) {
-    segments.push(current)
-  }
-
-  // 对每个片段，如果包含 LaTeX 命令则用 KaTeX 渲染
-  let result = ''
-  for (const seg of segments) {
-    if (/\\[a-zA-Z{(]/.test(seg)) {
-      // 包含 LaTeX，尝试用 KaTeX 渲染
-      if (typeof katex !== 'undefined') {
-        try {
-          result += katex.renderToString(seg, { throwOnError: false, displayMode: false })
-        } catch {
-          result += '$' + seg + '$'
-        }
-      } else {
-        // KaTeX 未加载，用 $ 包裹显示
-        result += '$' + seg + '$'
-      }
-    } else {
-      result += seg
-    }
-  }
-
-  return result
-}
-
 // 渲染 LaTeX 数学公式（auto-render 方式，用于提交后的解析区域）
 function renderMath() {
   if (typeof renderMathInElement !== 'undefined') {
@@ -406,7 +311,7 @@ function renderMath() {
 }
 
 function typeName(type) {
-  const map = { 1: '单选题', 2: '多选题', 3: '判断题', 4: '填空题', 5: '简答题', 6: '作文题', 7: '计算题' }
+  const map = { 1: '单选题', 2: '多选题', 4: '填空题', 5: '简答题', 6: '作文题', 7: '计算题' }
   return map[type] || '未知题型'
 }
 

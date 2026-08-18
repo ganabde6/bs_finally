@@ -97,22 +97,14 @@
             <el-tag size="small" :type="difficultyTag(currentQuestion.difficulty)">{{ difficultyName(currentQuestion.difficulty) }}</el-tag>
           </div>
         </template>
-        <p class="q-stem">{{ currentQuestion.stem }}</p>
+        <p class="q-stem" v-html="renderLatex(currentQuestion.stem)"></p>
 
         <!-- 单选题 -->
         <div v-if="currentQuestion.type === 1" class="options-group">
           <el-radio-group v-model="currentAnswer">
             <el-radio v-for="(opt, idx) in currentQuestion.options" :key="idx" :value="opt" class="option-item">
-              {{ String.fromCharCode(65 + idx) }}. {{ opt }}
+              {{ String.fromCharCode(65 + idx) }}. <span v-html="renderLatex(opt)"></span>
             </el-radio>
-          </el-radio-group>
-        </div>
-
-        <!-- 判断题 -->
-        <div v-else-if="currentQuestion.type === 3" class="judge-group">
-          <el-radio-group v-model="currentAnswer">
-            <el-radio value="正确" class="option-item">正确</el-radio>
-            <el-radio value="错误" class="option-item">错误</el-radio>
           </el-radio-group>
         </div>
 
@@ -185,6 +177,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getSubjects, pkCreateRoom, pkJoinRoom, pkGetQuestions, pkSubmitAnswer, pkGetRanking, pkGetRoomStatus } from '@/api'
+import { renderLatex } from '@/utils/latex'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
@@ -253,7 +246,7 @@ function clearTimers() {
 }
 
 function typeName(type) {
-  const map = { 1: '单选题', 2: '多选题', 3: '判断题', 4: '填空题' }
+  const map = { 1: '单选题', 4: '填空题' }
   return map[type] || '未知'
 }
 

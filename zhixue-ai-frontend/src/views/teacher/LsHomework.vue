@@ -117,7 +117,7 @@
           <el-tag size="small" type="info">{{ currentQuestion.questionType }}</el-tag>
           <el-tag size="small" :type="diffType(currentQuestion.difficulty)" style="margin-left: 8px">{{ diffLabel(currentQuestion.difficulty) }}</el-tag>
         </div>
-        <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap">{{ currentQuestion.content }}</div>
+        <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap" v-html="renderLatex(currentQuestion.content)"></div>
         <div v-if="currentQuestion.referenceText">
           <div style="font-weight: 600; margin-bottom: 6px">参考文本：</div>
           <div style="background: #ecf5ff; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentQuestion.referenceText }}</div>
@@ -150,6 +150,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { lsHomeworkList, lsHomeworkCreate, lsHomeworkDetail, lsHomeworkPublish, lsHomeworkCopy, lsHomeworkReport, getClasses } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 const homeworkList = ref([])
 const classes = ref([])

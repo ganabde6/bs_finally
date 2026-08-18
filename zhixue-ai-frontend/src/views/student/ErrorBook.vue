@@ -166,7 +166,7 @@
                   </el-tag>
                 </div>
               </div>
-              <div class="ec-question">{{ row.question?.content }}</div>
+              <div class="ec-question" v-html="renderLatex(row.question?.content)"></div>
               <div class="ec-meta">
                 <span class="ec-subject">
                   <span class="ec-subject-dot"></span>
@@ -223,7 +223,7 @@
                 <el-icon><ArrowDown /></el-icon>
               </div>
               <div class="vg-info">
-                <span class="vg-source">原题：{{ group.sourceContent }}</span>
+                <span class="vg-source">原题：<span v-html="renderLatex(group.sourceContent)"></span></span>
                 <div class="vg-tags">
                   <el-tag type="warning" size="small" effect="plain" round>{{ group.variants.length }} 道变式题</el-tag>
                   <el-tag type="info" size="small" effect="plain" round>{{ getSubjectName(group.subjectId) }}</el-tag>
@@ -244,7 +244,7 @@
                   </el-tag>
                   <el-tag v-else type="info" size="small" effect="plain" round>未作答</el-tag>
                 </div>
-                <div class="vc-content">{{ displayContent(v) }}</div>
+                <div class="vc-content" v-html="renderLatex(displayContent(v))"></div>
                 <div class="vc-actions">
                   <el-button v-if="!v.isSolved" size="small" type="primary" round @click="openAnswer(v)">
                     ✏️ 作答
@@ -268,7 +268,7 @@
     <!-- 变式题作答弹窗 -->
     <el-dialog v-model="answerVisible" title="变式题作答" width="700" class="answer-dialog" destroy-on-close>
       <div v-if="answerTarget">
-        <div class="variant-content">{{ displayContent(answerTarget) }}</div>
+        <div class="variant-content" v-html="renderLatex(displayContent(answerTarget))"></div>
         <template v-if="!answerResult">
           <el-input v-model="myAnswer" type="textarea" :rows="4" placeholder="请输入你的答案（可上传草稿纸照片）" class="mt-20" />
           <div class="mt-20">
@@ -319,19 +319,19 @@
           <div class="detail-label">
             <span class="detail-label-icon">📄</span> 题目
           </div>
-          <div class="detail-value">{{ current.question?.content }}</div>
+          <div class="detail-value" v-html="renderLatex(current.question?.content)"></div>
         </div>
         <div class="detail-section">
           <div class="detail-label">
             <span class="detail-label-icon"><el-icon><CircleCheck /></el-icon></span> 标准答案
           </div>
-          <div class="detail-value detail-answer">{{ current.question?.standardAnswer }}</div>
+          <div class="detail-value detail-answer" v-html="renderLatex(current.question?.standardAnswer)"></div>
         </div>
         <div class="detail-section">
           <div class="detail-label">
             <span class="detail-label-icon"><el-icon><LightBulb /></el-icon></span> 解析
           </div>
-          <div class="detail-value detail-analysis">{{ current.question?.analysis }}</div>
+          <div class="detail-value detail-analysis" v-html="renderLatex(current.question?.analysis)"></div>
         </div>
       </div>
     </el-dialog>
@@ -359,6 +359,7 @@ import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Picture, Plus, Search, ArrowLeft, ArrowRight, ArrowDown, Close, WarningFilled, View, Delete, Calendar, Collection } from '@element-plus/icons-vue'
 import { errorBooks, myVariants, pushVariant, reviewError, answerVariant, deleteVariant, deleteErrorBook, getSubjects } from '@/api'
+import { renderLatex } from '@/utils/latex'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()

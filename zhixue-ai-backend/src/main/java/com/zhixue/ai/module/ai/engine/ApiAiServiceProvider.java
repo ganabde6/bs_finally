@@ -124,11 +124,14 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             "1. 题目严格贴合指定的学科、知识点、题型与难度，考查目标明确\n" +
             "2. 题干表述清晰、无歧义，适合学生作答\n" +
             "3. 选择题(单选/多选)必须提供恰好 4 个选项，选项 key 为 A/B/C/D，且单选题有且仅有一个正确选项\n" +
-            "4. 判断题答案必须为「正确」或「错误」；填空题答案简洁准确\n" +
+            "4. 填空题答案简洁准确\n" +
             "5. 简答题/计算题需提供完整标准答案与解题步骤\n" +
-            "6. 难度按数字 1-5 标注（5 最难），要与要求的难度一致：难度越高题目越综合、越有挑战\n" +
-            "7. 每道题必须提供标准答案(standardAnswer)和解析(analysis)，解析必须简洁：不超过 100 字，只写关键步骤，禁止写思考过程、自我修正或长篇推导\n" +
-            "8. 只输出严格的 JSON 数组，不要输出任何解释性文字，格式如下：\n" +
+            "6. 难度按数字 1-5 标注（5 最难），要与要求的难度严格一致：难度越高题目越综合、越有挑战。\n" +
+            "   拔高(3)及以上难度必须明显难于中档(2)：需要多知识点综合、多步推理或设置陷阱，禁止把拔高题出成中档难度\n" +
+            "7. 集合、定义域、值域等数学表述必须直白易懂，禁止使用 \\setminus、\\mathbb 等生僻符号：\n" +
+            "   如「实数集去掉1」应写作「x∈R 且 x≠1」，实数集写「R」或「全体实数」，区间用 (-3,3) 形式\n" +
+            "8. 每道题必须提供标准答案(standardAnswer)和解析(analysis)，解析必须简洁：不超过 100 字，只写关键步骤，禁止写思考过程、自我修正或长篇推导\n" +
+            "9. 只输出严格的 JSON 数组，不要输出任何解释性文字，格式如下：\n" +
             "[{\"content\":\"题干\",\"options\":[{\"key\":\"A\",\"value\":\"选项A\"},{\"key\":\"B\",\"value\":\"选项B\"},{\"key\":\"C\",\"value\":\"选项C\"},{\"key\":\"D\",\"value\":\"选项D\"}],\"standardAnswer\":\"答案\",\"analysis\":\"解析\",\"questionType\":1,\"difficulty\":2,\"knowledgePoint\":\"知识点\"}]";
 
     // ===================== 核心调用方法 =====================
@@ -397,7 +400,6 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         switch (questionType == null ? 0 : questionType) {
             case 1: typeLabel = "单选题"; break;
             case 2: typeLabel = "多选题"; break;
-            case 3: typeLabel = "判断题"; break;
             case 4: typeLabel = "填空题"; break;
             case 5: typeLabel = "简答题"; break;
             case 6: typeLabel = "作文题"; break;
@@ -731,7 +733,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
 
         String typeLabel;
         if (questionTypes == null || questionTypes.isEmpty()) {
-            typeLabel = "单选/多选/判断/填空/简答/计算 混合";
+            typeLabel = "单选/多选/填空/简答/计算 混合";
         } else {
             StringBuilder labels = new StringBuilder();
             for (Integer t : questionTypes) {
@@ -739,7 +741,6 @@ public class ApiAiServiceProvider implements AiServiceProvider {
                 switch (t == null ? 0 : t) {
                     case 1: labels.append("单选题"); break;
                     case 2: labels.append("多选题"); break;
-                    case 3: labels.append("判断题"); break;
                     case 4: labels.append("填空题"); break;
                     case 5: labels.append("简答题"); break;
                     case 6: labels.append("作文题"); break;
@@ -754,7 +755,10 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         if (difficulty != null && difficulty > 0) {
             String diffLabel = difficulty == 1 ? "基础(1)" : difficulty == 2 ? "中档(2)"
                     : difficulty == 3 ? "拔高(3)" : difficulty == 4 ? "较难(4)" : "最难(5)";
-            userMsg.append("【难度】").append(diffLabel).append("，请保证题目确实达到该难度水平\n");
+            userMsg.append("【难度】").append(diffLabel)
+                    .append("。难度必须严格匹配：基础(1)考单一知识点一步可得；中档(2)需简单运算或两步推理；")
+                    .append("拔高(3)及以上必须明显难于中档，需多知识点综合、多步推理或设置陷阱，")
+                    .append("难度 4/5 应更难、更综合。禁止难度虚标，拔高题绝不能与中档题难度相当\n");
         } else {
             userMsg.append("【难度】混合难度(1-5)\n");
         }
@@ -774,7 +778,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             userMsg.append("重复题会被系统自动剔除，导致最终题量不足，请务必全部出全新题目。\n\n");
         }
 
-        userMsg.append("注意：多道题之间考查点应尽量不重复；每道题的解析(analysis)必须简洁，不超过 100 字，禁止写思考过程；请只输出 JSON 数组，不要输出其他内容。");
+        userMsg.append("注意：多道题之间考查点应尽量不重复；集合/定义域/值域等表述务必直白，禁止使用 \\setminus、\\mathbb 等生僻符号（如「实数集去掉1」写作「x∈R 且 x≠1」，实数集写「R」或「全体实数」）；每道题的解析(analysis)必须简洁，不超过 100 字，禁止写思考过程；请只输出 JSON 数组，不要输出其他内容。");
 
         String result = callAiApi(EXAM_QUESTIONS_SYSTEM_PROMPT, userMsg.toString());
         if (result != null) {

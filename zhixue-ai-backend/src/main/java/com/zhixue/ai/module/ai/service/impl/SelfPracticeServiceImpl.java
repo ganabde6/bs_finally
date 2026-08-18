@@ -71,14 +71,14 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     .collect(Collectors.toList());
         }
 
-        // 2. 按知识点匹配选择题(1)和判断题(3)
+        // 2. 按知识点匹配选择题(1)和填空题(4)
         List<ExamQuestion> candidates = new ArrayList<>();
         if (!topKnowledgePoints.isEmpty()) {
             for (String kp : topKnowledgePoints) {
                 List<ExamQuestion> qs = questionMapper.selectList(
                         new LambdaQueryWrapper<ExamQuestion>()
                                 .like(ExamQuestion::getKnowledgePoint, kp)
-                                .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_JUDGE)
+                                .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_FILL)
                                 .eq(ExamQuestion::getDeleted, 0));
                 candidates.addAll(qs);
             }
@@ -100,7 +100,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             // 补充中等难度基础题
             List<ExamQuestion> extra = questionMapper.selectList(
                     new LambdaQueryWrapper<ExamQuestion>()
-                            .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_JUDGE)
+                            .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_FILL)
                             .eq(ExamQuestion::getDifficulty, 2)
                             .eq(ExamQuestion::getDeleted, 0));
             extra.removeAll(selected);
@@ -115,7 +115,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         if (selected.size() < 5) {
             List<ExamQuestion> all = questionMapper.selectList(
                     new LambdaQueryWrapper<ExamQuestion>()
-                            .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_JUDGE)
+                            .in(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_FILL)
                             .eq(ExamQuestion::getDeleted, 0));
             all.removeAll(selected);
             Collections.shuffle(all, random);
@@ -462,10 +462,31 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         // 本批次已接受的题目内容（批次内去重）
         Set<String> batchContents = new HashSet<>();
 
-        // 循环调用 AI 直到凑够题目数量：单次生成不超过 5 道，避免一次生成过多导致 AI 响应超时
-        int maxRounds = (questionCount + 4) / 5 + 1;
+        // 大题(简答5/计算7)配额:用户选择大题题型时,保证试卷中至少有一定数量的大题,
+        // 避免 AI 全部生成选择题/填空题
+        List<Integer> bigTypes = questionTypes.stream()
+                .filter(t -> t == SystemConstants.Q_TYPE_SHORT || t == SystemConstants.Q_TYPE_CALC)
+                .collect(Collectors.toList());
+        int bigQuota = 0;
+        if (!bigTypes.isEmpty()) {
+            // 每 10 题至少 2 道大题,最少 1 道
+            bigQuota = Math.max(1, (int) Math.ceil(questionCount * 0.2));
+        }
+
+        // 循环调用 AI 直到凑够题目数量：单次生成不超过 8 道，兼顾单次调用响应时长与总轮次。
+        // 轮次上限按平均每轮 6 道有效产出估算(去重/过滤会损失部分),确保能凑够 questionCount
+        int maxRounds = Math.max(6, (int) Math.ceil(questionCount / 6.0) + 2);
+        int emptyStreak = 0;
+        int bigOnlyEmptyRounds = 0;
         for (int round = 0; round < maxRounds && result.size() < questionCount; round++) {
-            int stillNeed = Math.min(questionCount - result.size(), 5);
+            int stillNeed = Math.min(questionCount - result.size(), 8);
+            // 大题配额未满足时,本轮专出大题;连续空转两轮后放开题型限制,避免 AI 不配合大题导致题量不足
+            long bigCount = result.stream()
+                    .filter(q -> bigTypes.contains(q.getQuestionType()))
+                    .count();
+            boolean bigOnly = !bigTypes.isEmpty() && bigCount < bigQuota && bigOnlyEmptyRounds < 2;
+            List<Integer> roundTypes = bigOnly ? bigTypes : questionTypes;
+            int beforeRound = result.size();
             // 查询该学科已出过的题目内容（最新的优先），提示 AI 不要重复出题
             List<String> existingQuestions = questionMapper.selectList(
                     new LambdaQueryWrapper<ExamQuestion>()
@@ -478,12 +499,18 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     .limit(50)
                     .collect(Collectors.toList());
 
-            String json = aiServiceProvider.generateExamQuestions(subjectName, knowledgePoints, questionTypes,
+            String json = aiServiceProvider.generateExamQuestions(subjectName, knowledgePoints, roundTypes,
                     difficulty, stillNeed, existingQuestions);
             if (json == null || json.trim().isEmpty()) {
                 log.warn("AI 组卷第 {} 轮未返回内容", round + 1);
-                break;
+                emptyStreak++;
+                if (emptyStreak >= 3) {
+                    log.warn("AI 组卷连续 {} 轮未返回内容,停止生成,当前已生成 {} 道", emptyStreak, result.size());
+                    break;
+                }
+                continue;
             }
+            emptyStreak = 0;
 
             try {
                 // 提取 JSON 数组（AI 可能包裹 ```json 或夹杂说明文字）
@@ -506,7 +533,28 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     ExamQuestion q = new ExamQuestion();
                     q.setSubjectId(subjectId);
                     q.setQuestionType(obj.getIntValue("questionType"));
+                    // 过滤判断题(3):仅保留选择、填空、大题
+                    if (q.getQuestionType() == SystemConstants.Q_TYPE_JUDGE) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题为判断题，已按规则过滤", round + 1, i + 1);
+                        continue;
+                    }
+                    // 大题专轮:只接受简答/计算,避免 AI 又用选择题凑数
+                    if (bigOnly && !bigTypes.contains(q.getQuestionType())) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题请求大题但 AI 返回题型 {},已跳过",
+                                round + 1, i + 1, q.getQuestionType());
+                        continue;
+                    }
                     q.setDifficulty(obj.getIntValue("difficulty"));
+                    // 难度归一化：请求拔高(>=3)时，AI 返回的难度不得低于 3，避免难度虚标
+                    if (difficulty != null && difficulty >= 3 && q.getDifficulty() != null && q.getDifficulty() < 3) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题请求拔高难度但 AI 标注难度 {}，已归一化为 3",
+                                round + 1, i + 1, q.getDifficulty());
+                        q.setDifficulty(3);
+                    }
+                    // 难度缺失时按请求难度兜底，避免入库难度为 0
+                    if (q.getDifficulty() == null || q.getDifficulty() <= 0) {
+                        q.setDifficulty(difficulty != null && difficulty > 0 ? difficulty : 3);
+                    }
                     q.setKnowledgePoint(obj.getString("knowledgePoint"));
                     q.setContent(obj.getString("content"));
                     JSONArray opts = obj.getJSONArray("options");
@@ -534,6 +582,16 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                 }
             } catch (Exception e) {
                 log.error("AI 组卷第 {} 轮 JSON 解析失败: {}", round + 1, truncate(json, 300), e);
+            }
+            // 大题专轮:本轮未产出任何题目时累计空转,连续两次后放开题型限制,
+            // 避免 AI 始终不配合出大题导致整轮空转、题量凑不够
+            if (bigOnly) {
+                if (result.size() == beforeRound) {
+                    bigOnlyEmptyRounds++;
+                    log.warn("AI 组卷第 {} 轮大题专轮未产出,空转累计 {}", round + 1, bigOnlyEmptyRounds);
+                } else {
+                    bigOnlyEmptyRounds = 0;
+                }
             }
         }
         return result;
@@ -569,7 +627,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         List<Integer> questionTypes = config.get("questionTypes") != null
                 ? ((List<?>) config.get("questionTypes")).stream()
                     .map(t -> Integer.valueOf(t.toString())).collect(Collectors.toList())
-                : Arrays.asList(1, 3);
+                : Arrays.asList(1, 2, 4, 5, 7);
         boolean priorityErrors = config.get("priorityErrors") != null
                 && Boolean.parseBoolean(config.get("priorityErrors").toString());
 
@@ -588,20 +646,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                         .collect(Collectors.toSet());
                 List<ExamQuestion> errorCandidates = new ArrayList<>();
                 for (String kp : errorKps) {
-                    LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
-                            .eq(ExamQuestion::getSubjectId, subjectId)
-                            .like(ExamQuestion::getKnowledgePoint, kp)
-                            .in(ExamQuestion::getQuestionType, questionTypes)
-                            .eq(ExamQuestion::getDeleted, 0);
-                    if (difficulty != null && difficulty > 0) {
-                        if (difficulty >= 3) {
-                            // 拔高:匹配难度>=3(含难度4、5的真难题)
-                            wrapper.ge(ExamQuestion::getDifficulty, 3);
-                        } else {
-                            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
-                        }
-                    }
-                    errorCandidates.addAll(questionMapper.selectList(wrapper));
+                    errorCandidates.addAll(selectByDifficulty(subjectId, kp, questionTypes, difficulty, Collections.emptySet()));
                 }
                 // 去重
                 errorCandidates = errorCandidates.stream()
@@ -623,20 +668,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             if (!knowledgePoints.isEmpty()) {
                 List<ExamQuestion> kpCandidates = new ArrayList<>();
                 for (String kp : knowledgePoints) {
-                    LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
-                            .eq(ExamQuestion::getSubjectId, subjectId)
-                            .like(ExamQuestion::getKnowledgePoint, kp)
-                            .in(ExamQuestion::getQuestionType, questionTypes)
-                            .eq(ExamQuestion::getDeleted, 0);
-                    if (difficulty != null && difficulty > 0) {
-                        if (difficulty >= 3) {
-                            // 拔高:匹配难度>=3(含难度4、5的真难题)
-                            wrapper.ge(ExamQuestion::getDifficulty, 3);
-                        } else {
-                            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
-                        }
-                    }
-                    kpCandidates.addAll(questionMapper.selectList(wrapper));
+                    kpCandidates.addAll(selectByDifficulty(subjectId, kp, questionTypes, difficulty, selectedIds));
                 }
                 kpCandidates = kpCandidates.stream()
                         .filter(q -> !selectedIds.contains(q.getId()))
@@ -654,21 +686,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
 
             // 如果知识点题量仍不足，从整个学科题库随机补充
             if (stillNeed > 0) {
-                LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
-                        .eq(ExamQuestion::getSubjectId, subjectId)
-                        .in(ExamQuestion::getQuestionType, questionTypes)
-                        .eq(ExamQuestion::getDeleted, 0);
-                if (difficulty != null && difficulty > 0) {
-                    if (difficulty >= 3) {
-                        // 拔高:匹配难度>=3(含难度4、5的真难题)
-                        wrapper.ge(ExamQuestion::getDifficulty, 3);
-                    } else {
-                        wrapper.eq(ExamQuestion::getDifficulty, difficulty);
-                    }
-                }
-                List<ExamQuestion> allCandidates = questionMapper.selectList(wrapper).stream()
-                        .filter(q -> !selectedIds.contains(q.getId()))
-                        .collect(Collectors.toList());
+                List<ExamQuestion> allCandidates = selectByDifficulty(subjectId, null, questionTypes, difficulty, selectedIds);
                 Collections.shuffle(allCandidates, random);
                 int take = Math.min(stillNeed, allCandidates.size());
                 for (int i = 0; i < take; i++) {
@@ -694,20 +712,40 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         int hardRatio = 100 - easyRatio - mediumRatio;
         if (hardRatio < 0) hardRatio = 0;
 
-        // 各难度题目数量
-        int easyCount = Math.round(questionCount * easyRatio / 100f);
-        int mediumCount = Math.round(questionCount * mediumRatio / 100f);
-        int hardCount = questionCount - easyCount - mediumCount;
-        if (hardCount < 0) hardCount = 0;
+        // 题型分布数量（前端可选微调，合计应等于题目总数）
+        Integer singleCount = config.get("singleCount") != null
+                ? Integer.valueOf(config.get("singleCount").toString()) : null;
+        Integer multiCount = config.get("multiCount") != null
+                ? Integer.valueOf(config.get("multiCount").toString()) : null;
+        Integer fillCount = config.get("fillCount") != null
+                ? Integer.valueOf(config.get("fillCount").toString()) : null;
+        Integer shortCount = config.get("shortCount") != null
+                ? Integer.valueOf(config.get("shortCount").toString()) : null;
 
         Random random = new Random();
         List<ExamQuestion> selected = new ArrayList<>();
 
-        // 按难度分层抽题
-        selected.addAll(drawByDifficulty(subjectId, 1, easyCount, random));
-        selected.addAll(drawByDifficulty(subjectId, 2, mediumCount, random));
-        if (hardCount > 0) {
-            selected.addAll(drawByDifficulty(subjectId, 3, hardCount, random));
+        if (singleCount != null || multiCount != null || fillCount != null || shortCount != null) {
+            // 配置了题型分布：按题型+难度比例分层抽题
+            selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_SINGLE, singleCount,
+                    easyRatio, mediumRatio, hardRatio, random));
+            selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_MULTI, multiCount,
+                    easyRatio, mediumRatio, hardRatio, random));
+            selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_FILL, fillCount,
+                    easyRatio, mediumRatio, hardRatio, random));
+            selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_SHORT, shortCount,
+                    easyRatio, mediumRatio, hardRatio, random));
+        } else {
+            // 未配置题型分布：按难度分层抽题
+            int easyCount = Math.round(questionCount * easyRatio / 100f);
+            int mediumCount = Math.round(questionCount * mediumRatio / 100f);
+            int hardCount = questionCount - easyCount - mediumCount;
+            if (hardCount < 0) hardCount = 0;
+            selected.addAll(drawByDifficulty(subjectId, 1, easyCount, random));
+            selected.addAll(drawByDifficulty(subjectId, 2, mediumCount, random));
+            if (hardCount > 0) {
+                selected.addAll(drawByDifficulty(subjectId, 3, hardCount, random));
+            }
         }
 
         // 去重
@@ -720,23 +758,113 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
     }
 
     /**
+     * 按题型+难度比例抽题（题型分布微调用）
+     *
+     * @param questionType 题型（1单选/2多选/4填空/5简答）
+     * @param count        该题型题目数量（null 或 <=0 时跳过）
+     */
+    private List<ExamQuestion> drawByTypeAndDifficulty(Long subjectId, int questionType, Integer count,
+                                                      int easyRatio, int mediumRatio, int hardRatio, Random random) {
+        if (count == null || count <= 0) return Collections.emptyList();
+        int easyCount = Math.round(count * easyRatio / 100f);
+        int mediumCount = Math.round(count * mediumRatio / 100f);
+        int hardCount = count - easyCount - mediumCount;
+        if (hardCount < 0) hardCount = 0;
+        List<ExamQuestion> result = new ArrayList<>();
+        result.addAll(drawByTypeDifficulty(subjectId, questionType, 1, easyCount, random));
+        result.addAll(drawByTypeDifficulty(subjectId, questionType, 2, mediumCount, random));
+        if (hardCount > 0) {
+            result.addAll(drawByTypeDifficulty(subjectId, questionType, 3, hardCount, random));
+        }
+        return result;
+    }
+
+    /**
+     * 按题型+难度从题库中随机抽取题目
+     */
+    private List<ExamQuestion> drawByTypeDifficulty(Long subjectId, int questionType, int difficulty,
+                                                    int count, Random random) {
+        if (count <= 0) return Collections.emptyList();
+        List<ExamQuestion> pool = selectByDifficulty(subjectId, null,
+                Collections.singletonList(questionType), difficulty, Collections.emptySet());
+        Collections.shuffle(pool, random);
+        int actual = Math.min(count, pool.size());
+        return pool.subList(0, actual);
+    }
+
+    /**
      * 按难度从题库中随机抽取题目
      */
     private List<ExamQuestion> drawByDifficulty(Long subjectId, int difficulty, int count, Random random) {
         if (count <= 0) return Collections.emptyList();
-        LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
-                .eq(ExamQuestion::getSubjectId, subjectId)
-                .eq(ExamQuestion::getDeleted, 0);
-        if (difficulty >= 3) {
-            // 拔高:匹配难度>=3(含难度4、5的真难题)
-            wrapper.ge(ExamQuestion::getDifficulty, 3);
-        } else {
-            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
-        }
-        List<ExamQuestion> pool = questionMapper.selectList(wrapper);
+        List<ExamQuestion> pool = selectByDifficulty(subjectId, null, null, difficulty, Collections.emptySet());
         Collections.shuffle(pool, random);
         int actual = Math.min(count, pool.size());
         return pool.subList(0, actual);
+    }
+
+    /**
+     * 按难度分层查询题目池，保证难度与要求严格匹配：
+     * <ul>
+     *   <li>难度 1/2：精确匹配对应难度</li>
+     *   <li>难度 &gt;=3（拔高及以上）：优先匹配难度 4、5 的真难题，不足时再补充难度 3，
+     *       避免拔高题与中档题(2)难度雷同</li>
+     * </ul>
+     *
+     * @param kp            知识点（可为 null，不按知识点过滤）
+     * @param questionTypes 题型列表（可为 null 或空，不按题型过滤）
+     * @param excludedIds   需排除的题目 id（可为空）
+     */
+    private List<ExamQuestion> selectByDifficulty(Long subjectId, String kp, List<Integer> questionTypes,
+                                                  Integer difficulty, Set<Long> excludedIds) {
+        if (difficulty == null || difficulty <= 0) {
+            // 混合难度：不限制难度
+            return queryPool(subjectId, kp, questionTypes, null, null, excludedIds);
+        }
+        if (difficulty >= 3) {
+            // 拔高及以上：优先难度 4、5 的真难题
+            List<ExamQuestion> hard = queryPool(subjectId, kp, questionTypes, 4, 5, excludedIds);
+            if (hard.size() >= 100) {
+                return hard;
+            }
+            // 不足时补充难度 3
+            Set<Long> picked = hard.stream().map(ExamQuestion::getId).collect(Collectors.toSet());
+            picked.addAll(excludedIds);
+            List<ExamQuestion> fill = queryPool(subjectId, kp, questionTypes, 3, 3, picked);
+            hard.addAll(fill);
+            return hard;
+        }
+        return queryPool(subjectId, kp, questionTypes, difficulty, difficulty, excludedIds);
+    }
+
+    /**
+     * 按学科/知识点/题型/难度区间查询题目（含删除过滤与排除 id）
+     */
+    private List<ExamQuestion> queryPool(Long subjectId, String kp, List<Integer> questionTypes,
+                                         Integer minDifficulty, Integer maxDifficulty, Set<Long> excludedIds) {
+        LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getSubjectId, subjectId)
+                .ne(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_JUDGE)
+                .eq(ExamQuestion::getDeleted, 0);
+        if (kp != null && !kp.isEmpty()) {
+            wrapper.like(ExamQuestion::getKnowledgePoint, kp);
+        }
+        if (questionTypes != null && !questionTypes.isEmpty()) {
+            wrapper.in(ExamQuestion::getQuestionType, questionTypes);
+        }
+        if (minDifficulty != null) {
+            wrapper.ge(ExamQuestion::getDifficulty, minDifficulty);
+        }
+        if (maxDifficulty != null) {
+            wrapper.le(ExamQuestion::getDifficulty, maxDifficulty);
+        }
+        List<ExamQuestion> list = questionMapper.selectList(wrapper);
+        if (excludedIds != null && !excludedIds.isEmpty()) {
+            list = list.stream()
+                    .filter(q -> !excludedIds.contains(q.getId()))
+                    .collect(Collectors.toList());
+        }
+        return list;
     }
 
     @Override

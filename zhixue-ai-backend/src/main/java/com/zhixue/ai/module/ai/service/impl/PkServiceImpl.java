@@ -39,7 +39,7 @@ public class PkServiceImpl implements PkService {
         List<ExamQuestion> pool = questionMapper.selectList(
                 new LambdaQueryWrapper<ExamQuestion>()
                         .eq(ExamQuestion::getSubjectId, subjectId)
-                        .in(ExamQuestion::getQuestionType, Arrays.asList(1, 3))
+                        .in(ExamQuestion::getQuestionType, Arrays.asList(1, 4))
                         .eq(ExamQuestion::getDeleted, 0));
         if (pool.isEmpty()) {
             throw new BizException("该学科暂无可用题目");

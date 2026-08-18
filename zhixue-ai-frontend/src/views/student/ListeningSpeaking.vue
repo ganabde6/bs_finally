@@ -89,7 +89,7 @@
           <!-- 题目内容卡片 -->
           <div class="question-content-card">
             <div class="content-label">题目内容</div>
-            <div class="content-text">{{ currentQuestion.content }}</div>
+            <div class="content-text" v-html="renderLatex(currentQuestion.content)"></div>
           </div>
 
           <!-- 参考音频 -->
@@ -366,6 +366,7 @@ import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
 import { Edit, PictureFilled, Microphone, Document, ChatLineSquare, UploadFilled, VideoPlay, VideoPause } from '@element-plus/icons-vue'
 import { listeningSpeakingList, listeningSpeakingDetail, submitListeningSpeaking, listeningSpeakingRecords, lsGenerateFromText, lsGenerateFromImage, lsGenerateSimilar, lsGetTopics } from '@/api'
+import { renderLatex } from '@/utils/latex'
 
 // ============ 题目 ============
 const questions = ref([])

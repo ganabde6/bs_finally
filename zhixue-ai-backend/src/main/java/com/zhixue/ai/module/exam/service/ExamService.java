@@ -75,6 +75,7 @@ public class ExamService {
     public List<Long> aiGroupPaper(Long subjectId, Integer totalQuestions, Integer difficulty) {
         List<ExamQuestion> all = questionMapper.selectList(new LambdaQueryWrapper<ExamQuestion>()
                 .eq(ExamQuestion::getSubjectId, subjectId)
+                .ne(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_JUDGE)
                 .eq(difficulty != null, ExamQuestion::getDifficulty, difficulty));
         if (all.size() <= totalQuestions) return all.stream().map(ExamQuestion::getId).collect(Collectors.toList());
         // 随机抽题
