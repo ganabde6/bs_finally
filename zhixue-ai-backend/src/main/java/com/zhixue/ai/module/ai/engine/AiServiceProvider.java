@@ -151,4 +151,19 @@ public interface AiServiceProvider {
      * @return JSON数组: [{"title":"...","content":"...","referenceText":"...","questionType":"...","difficulty":1,"scorePoints":"..."}, ...]
      */
     String generateLsHomework(String mode, String params);
+
+    /**
+     * AI 按学科+知识点+题型+难度批量生成普通学科新题
+     * <p>用于"AI智能组卷"完全由大模型出题的场景,一次性生成 count 道题目</p>
+     * @param subjectName 学科名称(如"数学")
+     * @param knowledgePoints 知识点列表(可空)
+     * @param questionTypes 题型列表(1单选/2多选/3判断/4填空/5简答/7计算)
+     * @param difficulty 难度(1-5;0或null表示混合难度)
+     * @param count 生成题数
+     * @param existingQuestions 已出过的题干列表(可空),AI 应避免重复出这些题
+     * @return JSON数组字符串,每个元素含 content/options/standardAnswer/analysis/questionType/difficulty/knowledgePoint 字段;调用失败返回 null
+     */
+    String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
+                                 java.util.List<Integer> questionTypes, Integer difficulty, int count,
+                                 java.util.List<String> existingQuestions);
 }

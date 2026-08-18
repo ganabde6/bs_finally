@@ -59,7 +59,7 @@
         <el-form-item label="知识板块">
           <div class="kp-container">
             <el-checkbox-group v-model="form1.knowledgePoints">
-              <el-checkbox v-for="kp in knowledgePoints" :key="kp" :label="kp" class="kp-checkbox">
+              <el-checkbox v-for="kp in knowledgePoints" :key="kp" :value="kp" class="kp-checkbox">
                 {{ kp }}
               </el-checkbox>
             </el-checkbox-group>
@@ -88,7 +88,9 @@
               <el-select v-model="form1.questionTypes" multiple placeholder="选择题型" style="width:100%">
                 <el-option label="单选题" :value="1" />
                 <el-option label="多选题" :value="2" />
-                <el-option label="判断题" :value="3" />
+                <el-option label="填空题" :value="4" />
+                <el-option label="简答题" :value="5" />
+                <el-option label="计算题" :value="7" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -269,7 +271,7 @@ const form1 = ref({
   knowledgePoints: [],
   questionCount: 10,
   difficulty: 0,
-  questionTypes: [1, 3],
+  questionTypes: [1, 2, 4, 5, 7],
   priorityErrors: false
 })
 

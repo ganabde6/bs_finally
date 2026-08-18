@@ -50,7 +50,18 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     @Value("${ai.deepseek.model:deepseek-chat}")
     private String deepSeekModel;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    /**
+     * RestTemplate:连接 10s,读取 300s(AI 生成题耗时长,放宽超时兜底;前端超时也已同步放宽)
+     */
+    private final RestTemplate restTemplate = createRestTemplate();
+
+    private static RestTemplate createRestTemplate() {
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory =
+                new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(10000);
+        factory.setReadTimeout(300000);
+        return new RestTemplate(factory);
+    }
 
     // ===================== 系统提示词 =====================
 
@@ -106,6 +117,19 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             "2. 第二行起给出 50 字以内的简评:正确则表扬并点出考点,错误则说明错因并给出正确答案\n" +
             "3. 主观表述题意思相近即可判正确,不必逐字一致\n" +
             "4. 不要输出其他无关内容";
+
+    private static final String EXAM_QUESTIONS_SYSTEM_PROMPT =
+            "你是一位经验丰富的命题老师，擅长为中小学生命制学科练习题。\n" +
+            "要求：\n" +
+            "1. 题目严格贴合指定的学科、知识点、题型与难度，考查目标明确\n" +
+            "2. 题干表述清晰、无歧义，适合学生作答\n" +
+            "3. 选择题(单选/多选)必须提供恰好 4 个选项，选项 key 为 A/B/C/D，且单选题有且仅有一个正确选项\n" +
+            "4. 判断题答案必须为「正确」或「错误」；填空题答案简洁准确\n" +
+            "5. 简答题/计算题需提供完整标准答案与解题步骤\n" +
+            "6. 难度按数字 1-5 标注（5 最难），要与要求的难度一致：难度越高题目越综合、越有挑战\n" +
+            "7. 每道题必须提供标准答案(standardAnswer)和解析(analysis)，解析必须简洁：不超过 100 字，只写关键步骤，禁止写思考过程、自我修正或长篇推导\n" +
+            "8. 只输出严格的 JSON 数组，不要输出任何解释性文字，格式如下：\n" +
+            "[{\"content\":\"题干\",\"options\":[{\"key\":\"A\",\"value\":\"选项A\"},{\"key\":\"B\",\"value\":\"选项B\"},{\"key\":\"C\",\"value\":\"选项C\"},{\"key\":\"D\",\"value\":\"选项D\"}],\"standardAnswer\":\"答案\",\"analysis\":\"解析\",\"questionType\":1,\"difficulty\":2,\"knowledgePoint\":\"知识点\"}]";
 
     // ===================== 核心调用方法 =====================
 
@@ -685,6 +709,78 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         String result = callAiApi(LS_GENERATE_SYSTEM_PROMPT, userMsg.toString());
         if (result != null) return result;
         log.warn("AI 组题失败");
+        return null;
+    }
+
+    @Override
+    public String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
+                                        java.util.List<Integer> questionTypes, Integer difficulty, int count,
+                                        java.util.List<String> existingQuestions) {
+        if (count <= 0) {
+            return null;
+        }
+        StringBuilder userMsg = new StringBuilder();
+        userMsg.append("请为「").append(subjectName == null || subjectName.isEmpty() ? "通用学科" : subjectName)
+                .append("」学科命制 ").append(count).append(" 道练习题。\n\n");
+
+        if (knowledgePoints != null && !knowledgePoints.isEmpty()) {
+            userMsg.append("【知识点】").append(String.join("、", knowledgePoints)).append("\n");
+        } else {
+            userMsg.append("【知识点】由你根据学科特点自行选择\n");
+        }
+
+        String typeLabel;
+        if (questionTypes == null || questionTypes.isEmpty()) {
+            typeLabel = "单选/多选/判断/填空/简答/计算 混合";
+        } else {
+            StringBuilder labels = new StringBuilder();
+            for (Integer t : questionTypes) {
+                if (labels.length() > 0) labels.append("/");
+                switch (t == null ? 0 : t) {
+                    case 1: labels.append("单选题"); break;
+                    case 2: labels.append("多选题"); break;
+                    case 3: labels.append("判断题"); break;
+                    case 4: labels.append("填空题"); break;
+                    case 5: labels.append("简答题"); break;
+                    case 6: labels.append("作文题"); break;
+                    case 7: labels.append("计算题"); break;
+                    default: labels.append("综合题"); break;
+                }
+            }
+            typeLabel = labels.toString();
+        }
+        userMsg.append("【题型】").append(typeLabel).append("\n");
+
+        if (difficulty != null && difficulty > 0) {
+            String diffLabel = difficulty == 1 ? "基础(1)" : difficulty == 2 ? "中档(2)"
+                    : difficulty == 3 ? "拔高(3)" : difficulty == 4 ? "较难(4)" : "最难(5)";
+            userMsg.append("【难度】").append(diffLabel).append("，请保证题目确实达到该难度水平\n");
+        } else {
+            userMsg.append("【难度】混合难度(1-5)\n");
+        }
+        userMsg.append("【题数】").append(count).append(" 道\n\n");
+
+        // 已出过的题目列表：要求 AI 避开，避免重复
+        if (existingQuestions != null && !existingQuestions.isEmpty()) {
+            userMsg.append("【以下题目已经出过，绝对禁止重复！请务必不要生成与下列任何一题相同或近似的题目】\n");
+            int shown = 0;
+            for (String eq : existingQuestions) {
+                if (eq == null || eq.trim().isEmpty()) continue;
+                String line = eq.trim().replace('\n', ' ').replace('\r', ' ');
+                if (line.length() > 80) line = line.substring(0, 80) + "...";
+                userMsg.append(++shown).append(". ").append(line).append("\n");
+                if (shown >= 50) break;
+            }
+            userMsg.append("重复题会被系统自动剔除，导致最终题量不足，请务必全部出全新题目。\n\n");
+        }
+
+        userMsg.append("注意：多道题之间考查点应尽量不重复；每道题的解析(analysis)必须简洁，不超过 100 字，禁止写思考过程；请只输出 JSON 数组，不要输出其他内容。");
+
+        String result = callAiApi(EXAM_QUESTIONS_SYSTEM_PROMPT, userMsg.toString());
+        if (result != null) {
+            return result;
+        }
+        log.warn("AI 组卷出题失败，返回 null 由调用方回退题库");
         return null;
     }
 }

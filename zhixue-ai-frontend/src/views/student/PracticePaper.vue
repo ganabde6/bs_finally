@@ -18,7 +18,7 @@
     </div>
 
     <!-- 题目列表 -->
-    <div class="questions-list">
+    <div class="questions-list" v-if="katexReady">
       <el-card v-for="(item, index) in questions" :key="item.id" class="question-card" shadow="hover">
         <template #header>
           <div class="card-header">
@@ -30,7 +30,7 @@
         </template>
 
         <div class="question-content">
-          <p class="stem">{{ item.stem }}</p>
+          <p class="stem" v-html="renderLatex(item.stem)"></p>
 
           <!-- 单选题 -->
           <div v-if="item.type === 1" class="options-group">
@@ -41,7 +41,7 @@
                 :value="option"
                 class="option-item"
               >
-                {{ String.fromCharCode(65 + optIndex) }}. {{ option }}
+                {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
               </el-radio>
             </el-radio-group>
           </div>
@@ -55,7 +55,7 @@
                 :value="option"
                 class="option-item"
               >
-                {{ String.fromCharCode(65 + optIndex) }}. {{ option }}
+                {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
               </el-checkbox>
             </el-checkbox-group>
           </div>
@@ -84,19 +84,30 @@
             />
           </div>
 
+          <!-- 简答题 / 计算题 -->
+          <div v-else-if="item.type === 5 || item.type === 7" class="answer-group">
+            <el-input
+              v-model="answers[item.id]"
+              type="textarea"
+              :rows="4"
+              :disabled="submitted"
+              placeholder="请写出完整解答过程"
+            />
+          </div>
+
           <!-- 结果展示 -->
           <div v-if="submitted && results[item.id] !== undefined" class="result-row">
             <div v-if="results[item.id]" class="result-correct">
-              <el-icon style="vertical-align:-2px"><CircleCheck /></el-icon> 正确！标准答案：{{ item.correctAnswer }}
+              <el-icon style="vertical-align:-2px"><CircleCheck /></el-icon> 正确！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>
             </div>
             <div v-else class="result-wrong">
-              ❌ 错误！标准答案：{{ item.correctAnswer }}，你的答案：{{ formatAnswer(answers[item.id]) || '未作答' }}
+              ❌ 错误！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>，你的答案：{{ formatAnswer(answers[item.id]) || '未作答' }}
             </div>
           </div>
 
           <!-- 题目解析 -->
           <div v-if="submitted && item.analysis" class="analysis-row">
-            <strong>📖 解析：</strong>{{ item.analysis }}
+            <strong>📖 解析：</strong><span v-html="renderLatex(item.analysis)"></span>
           </div>
         </div>
       </el-card>
@@ -163,7 +174,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { submitPractice, checkInStatus, doCheckIn } from '@/api'
@@ -183,6 +194,7 @@ const totalPoints = ref(0)
 const badges = ref([])
 const loading = ref(false)
 const pageLoading = ref(false)
+const katexReady = ref(typeof katex !== 'undefined')
 
 // 计时器
 const elapsedSeconds = ref(0)
@@ -230,19 +242,25 @@ onMounted(async () => {
     const stored = sessionStorage.getItem('practiceQuestions')
     if (stored) {
       questions.value = JSON.parse(stored)
-      // 解析选项：如果 options 是 JSON 对象数组，提取 value 字段
+      // 解析选项 + LaTeX 渲染（题干不再整体包裹 $，交由 renderLatex 分段处理，避免中文进数学模式）
       questions.value.forEach(q => {
+        // 选项
         if (q.options && Array.isArray(q.options)) {
           q.options = q.options.map(opt => {
+            let text = opt
             if (typeof opt === 'string') {
               try {
                 const parsed = JSON.parse(opt)
-                return parsed.value || opt
-              } catch {
-                return opt
-              }
+                text = parsed.value || opt
+              } catch {}
+            } else if (opt && typeof opt === 'object') {
+              text = opt.value || opt
             }
-            return opt.value || opt
+            // 自动包裹 LaTeX
+            if (typeof text === 'string' && /\\[a-zA-Z{(]/.test(text) && !/\$/.test(text)) {
+              text = '$' + text + '$'
+            }
+            return text
           })
         }
       })
@@ -272,6 +290,16 @@ onMounted(async () => {
 
   pageLoading.value = false
 
+  // 等待 KaTeX 加载完成后渲染
+  const waitForKatex = () => {
+    if (typeof katex !== 'undefined') {
+      katexReady.value = true
+    } else {
+      setTimeout(waitForKatex, 200)
+    }
+  }
+  waitForKatex()
+
   // 启动计时器
   timer = setInterval(() => {
     elapsedSeconds.value++
@@ -282,18 +310,113 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
+// 渲染 LaTeX 数学公式（用 v-html 方式）
+function renderLatex(text) {
+  if (!text) return ''
+  // 如果文本中没有 LaTeX 命令，直接返回
+  if (!/\\[a-zA-Z{(]/.test(text)) return text
+
+  // 处理 $...$ / $$...$$ 包裹的数学公式：数学段用 KaTeX 渲染，文本段原样保留
+  if (/\$/.test(text)) {
+    const parts = text.split(/(\$\$[^$]*\$\$|\$[^$]*\$)/g)
+    let result = ''
+    for (const part of parts) {
+      const dm = part.match(/^\$\$([\s\S]*)\$\$$/)
+      const im = !dm && part.match(/^\$([\s\S]*)\$$/)
+      if (dm || im) {
+        const math = dm ? dm[1] : im[1]
+        if (typeof katex !== 'undefined') {
+          try {
+            result += katex.renderToString(math, { throwOnError: false, displayMode: !!dm })
+            continue
+          } catch {}
+        }
+        result += part
+        continue
+      }
+      // 文本段（如含 LaTeX 命令，继续走分段渲染，保证旧题兼容；若仍有不成对 $ 则原样保留防递归）
+      result += part.includes('$') ? part : renderLatex(part)
+    }
+    return result
+  }
+
+  // 策略：只按中文字符和中文标点分割，保留英文空格在片段内
+  const segments = []
+  let current = ''
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i]
+    const code = ch.charCodeAt(0)
+    // 判断是否是中文或中文标点
+    const isChinese = (code >= 0x4e00 && code <= 0x9fff) || 
+                      ch === '，' || ch === '。' || ch === '；' || ch === '：' ||
+                      ch === '！' || ch === '？' || ch === '、' || ch === '…' ||
+                      ch === '（' || ch === '）' || ch === '【' || ch === '】' ||
+                      ch === '「' || ch === '」' || ch === '『' || ch === '』'
+    
+    if (isChinese) {
+      if (current) {
+        segments.push(current)
+        current = ''
+      }
+      segments.push(ch)
+    } else {
+      current += ch
+    }
+  }
+  if (current) {
+    segments.push(current)
+  }
+
+  // 对每个片段，如果包含 LaTeX 命令则用 KaTeX 渲染
+  let result = ''
+  for (const seg of segments) {
+    if (/\\[a-zA-Z{(]/.test(seg)) {
+      // 包含 LaTeX，尝试用 KaTeX 渲染
+      if (typeof katex !== 'undefined') {
+        try {
+          result += katex.renderToString(seg, { throwOnError: false, displayMode: false })
+        } catch {
+          result += '$' + seg + '$'
+        }
+      } else {
+        // KaTeX 未加载，用 $ 包裹显示
+        result += '$' + seg + '$'
+      }
+    } else {
+      result += seg
+    }
+  }
+
+  return result
+}
+
+// 渲染 LaTeX 数学公式（auto-render 方式，用于提交后的解析区域）
+function renderMath() {
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.querySelector('.questions-list'), {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true }
+      ],
+      throwOnError: false
+    })
+  }
+}
+
 function typeName(type) {
-  const map = { 1: '单选题', 2: '多选题', 3: '判断题', 4: '填空题' }
+  const map = { 1: '单选题', 2: '多选题', 3: '判断题', 4: '填空题', 5: '简答题', 6: '作文题', 7: '计算题' }
   return map[type] || '未知题型'
 }
 
 function difficultyName(d) {
-  const map = { 1: '基础', 2: '中档', 3: '拔高' }
+  const map = { 1: '基础', 2: '中档', 3: '拔高', 4: '拔高', 5: '拔高' }
   return map[d] || '未知'
 }
 
 function difficultyTag(d) {
-  const map = { 1: 'success', 2: 'warning', 3: 'danger' }
+  const map = { 1: 'success', 2: 'warning', 3: 'danger', 4: 'danger', 5: 'danger' }
   return map[d] || 'info'
 }
 

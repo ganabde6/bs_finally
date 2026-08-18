@@ -1,9 +1,12 @@
 package com.zhixue.ai.module.ai.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhixue.ai.common.constant.SystemConstants;
 import com.zhixue.ai.common.exception.BizException;
+import com.zhixue.ai.module.ai.engine.AiServiceProvider;
 import com.zhixue.ai.module.ai.entity.AiErrorBook;
 import com.zhixue.ai.module.ai.entity.SelfPracticeRecord;
 import com.zhixue.ai.module.ai.entity.UserCheckIn;
@@ -13,7 +16,9 @@ import com.zhixue.ai.module.ai.mapper.UserCheckInMapper;
 import com.zhixue.ai.module.ai.service.SelfPracticeService;
 import com.zhixue.ai.module.exam.entity.ExamQuestion;
 import com.zhixue.ai.module.exam.mapper.ExamQuestionMapper;
+import com.zhixue.ai.module.system.entity.SysSubject;
 import com.zhixue.ai.module.system.entity.SysUser;
+import com.zhixue.ai.module.system.mapper.SysSubjectMapper;
 import com.zhixue.ai.module.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +46,8 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
     private final AiErrorBookMapper errorBookMapper;
     private final ExamQuestionMapper questionMapper;
     private final SysUserMapper userMapper;
+    private final SysSubjectMapper subjectMapper;
+    private final AiServiceProvider aiServiceProvider;
 
     // ===================== 智能生成练习 =====================
 
@@ -364,13 +371,34 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             throw new BizException("请选择学科");
         }
 
-        List<ExamQuestion> selected;
-        if (mode == 1) {
-            // 模式一：专项板块定向练习
-            selected = generateByMode1(config, subjectId, userId);
-        } else {
-            // 模式二：考纲大数据智能套卷
-            selected = generateByMode2(config, subjectId);
+        List<ExamQuestion> selected = new ArrayList<>();
+
+        // 优先由 AI 大模型按学科+知识点+题型+难度生成新题
+        try {
+            selected = generateByAi(config, subjectId, userId);
+        } catch (Exception e) {
+            log.warn("AI 组卷生成失败，回退题库抽题: {}", e.getMessage());
+        }
+        // AI 生成失败或题量不足时，回退到题库抽题
+        Integer questionCount = config.get("questionCount") != null
+                ? Integer.valueOf(config.get("questionCount").toString()) : 10;
+        if (selected.size() < questionCount) {
+            List<ExamQuestion> fallback;
+            if (mode == 1) {
+                // 模式一：专项板块定向练习
+                fallback = generateByMode1(config, subjectId, userId);
+            } else {
+                // 模式二：考纲大数据智能套卷
+                fallback = generateByMode2(config, subjectId);
+            }
+            // 去重：排除 AI 已生成的题目
+            Set<Long> aiIds = selected.stream().map(ExamQuestion::getId).collect(Collectors.toSet());
+            for (ExamQuestion q : fallback) {
+                if (!aiIds.contains(q.getId()) && selected.size() < questionCount) {
+                    selected.add(q);
+                    aiIds.add(q.getId());
+                }
+            }
         }
 
         // 组装返回格式
@@ -392,6 +420,138 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         result.put("questions", questions);
         result.put("totalCount", questions.size());
         return result;
+    }
+
+    /**
+     * AI 大模型组卷：按学科+知识点+题型+难度生成全新题目并入库
+     * <p>AI 返回 JSON 数组：[{"content","options","standardAnswer","analysis","questionType","difficulty","knowledgePoint"}]</p>
+     * @return 生成的题目列表；AI 不可用或解析失败返回空列表（由调用方回退题库）
+     */
+    private List<ExamQuestion> generateByAi(Map<String, Object> config, Long subjectId, Long userId) {
+        @SuppressWarnings("unchecked")
+        List<String> knowledgePoints = config.get("knowledgePoints") != null
+                ? (List<String>) config.get("knowledgePoints") : Collections.emptyList();
+        Integer questionCount = config.get("questionCount") != null
+                ? Integer.valueOf(config.get("questionCount").toString()) : 10;
+        Integer difficulty = config.get("difficulty") != null
+                ? Integer.valueOf(config.get("difficulty").toString()) : 0;
+        @SuppressWarnings("unchecked")
+        List<Integer> questionTypes = config.get("questionTypes") != null
+                ? ((List<?>) config.get("questionTypes")).stream()
+                    .map(t -> Integer.valueOf(t.toString())).collect(Collectors.toList())
+                : Arrays.asList(1, 2, 4, 5, 7);
+
+        // 学科名称（prompt 需要）
+        String subjectName = "通用学科";
+        SysSubject subject = subjectMapper.selectById(subjectId);
+        if (subject != null && subject.getSubjectName() != null) {
+            subjectName = subject.getSubjectName();
+        }
+
+        List<ExamQuestion> result = new ArrayList<>();
+        // 库内已有题目内容（归一化后），用于入库前去重
+        Set<String> existingContents = questionMapper.selectList(
+                new LambdaQueryWrapper<ExamQuestion>()
+                        .eq(ExamQuestion::getSubjectId, subjectId)
+                        .eq(ExamQuestion::getDeleted, 0))
+                .stream()
+                .map(ExamQuestion::getContent)
+                .filter(c -> c != null && !c.trim().isEmpty())
+                .map(SelfPracticeServiceImpl::normalizeContent)
+                .collect(Collectors.toSet());
+        // 本批次已接受的题目内容（批次内去重）
+        Set<String> batchContents = new HashSet<>();
+
+        // 循环调用 AI 直到凑够题目数量：单次生成不超过 5 道，避免一次生成过多导致 AI 响应超时
+        int maxRounds = (questionCount + 4) / 5 + 1;
+        for (int round = 0; round < maxRounds && result.size() < questionCount; round++) {
+            int stillNeed = Math.min(questionCount - result.size(), 5);
+            // 查询该学科已出过的题目内容（最新的优先），提示 AI 不要重复出题
+            List<String> existingQuestions = questionMapper.selectList(
+                    new LambdaQueryWrapper<ExamQuestion>()
+                            .eq(ExamQuestion::getSubjectId, subjectId)
+                            .eq(ExamQuestion::getDeleted, 0)
+                            .orderByDesc(ExamQuestion::getId))
+                    .stream()
+                    .map(ExamQuestion::getContent)
+                    .filter(c -> c != null && !c.trim().isEmpty())
+                    .limit(50)
+                    .collect(Collectors.toList());
+
+            String json = aiServiceProvider.generateExamQuestions(subjectName, knowledgePoints, questionTypes,
+                    difficulty, stillNeed, existingQuestions);
+            if (json == null || json.trim().isEmpty()) {
+                log.warn("AI 组卷第 {} 轮未返回内容", round + 1);
+                break;
+            }
+
+            try {
+                // 提取 JSON 数组（AI 可能包裹 ```json 或夹杂说明文字）
+                String clean = json.trim();
+                int start = clean.indexOf('[');
+                int end = clean.lastIndexOf(']');
+                if (start < 0 || end <= start) {
+                    log.warn("AI 组卷第 {} 轮返回格式异常，缺少 JSON 数组: {}", round + 1, truncate(json, 200));
+                    continue;
+                }
+                JSONArray arr = JSON.parseArray(clean.substring(start, end + 1));
+                if (arr == null || arr.isEmpty()) {
+                    log.warn("AI 组卷第 {} 轮返回空数组", round + 1);
+                    continue;
+                }
+
+                for (int i = 0; i < arr.size() && result.size() < questionCount; i++) {
+                    JSONObject obj = arr.getJSONObject(i);
+                    if (obj == null) continue;
+                    ExamQuestion q = new ExamQuestion();
+                    q.setSubjectId(subjectId);
+                    q.setQuestionType(obj.getIntValue("questionType"));
+                    q.setDifficulty(obj.getIntValue("difficulty"));
+                    q.setKnowledgePoint(obj.getString("knowledgePoint"));
+                    q.setContent(obj.getString("content"));
+                    JSONArray opts = obj.getJSONArray("options");
+                    q.setOptions(opts != null ? opts.toJSONString() : null);
+                    q.setStandardAnswer(obj.getString("standardAnswer"));
+                    q.setAnalysis(obj.getString("analysis"));
+                    q.setFullScore(BigDecimal.valueOf(5));
+                    q.setCreatorId(userId);
+                    q.setDeleted(0);
+                    if (q.getContent() == null || q.getContent().trim().isEmpty()
+                            || q.getStandardAnswer() == null || q.getStandardAnswer().trim().isEmpty()) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题缺少题干/答案，跳过", round + 1, i + 1);
+                        continue;
+                    }
+                    // 去重：与库内已有题目、本批次已生成题目比对，重复则跳过
+                    String norm = normalizeContent(q.getContent());
+                    if (existingContents.contains(norm) || batchContents.contains(norm)) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题与已有题目重复，跳过: {}", round + 1, i + 1, truncate(q.getContent(), 60));
+                        continue;
+                    }
+                    existingContents.add(norm);
+                    batchContents.add(norm);
+                    questionMapper.insert(q);
+                    result.add(q);
+                }
+            } catch (Exception e) {
+                log.error("AI 组卷第 {} 轮 JSON 解析失败: {}", round + 1, truncate(json, 300), e);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 归一化题干内容用于去重比较：去掉空白、标点、大小写差异
+     */
+    private static String normalizeContent(String content) {
+        if (content == null) {
+            return "";
+        }
+        return content.replaceAll("[\\s\\p{Punct}，。、；：！？（）【】《》“”‘’·—…\\[\\]{}]", "").toLowerCase();
+    }
+
+    private String truncate(String s, int max) {
+        if (s == null) return "";
+        return s.length() <= max ? s : s.substring(0, max) + "...";
     }
 
     /**
@@ -434,7 +594,12 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                             .in(ExamQuestion::getQuestionType, questionTypes)
                             .eq(ExamQuestion::getDeleted, 0);
                     if (difficulty != null && difficulty > 0) {
-                        wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                        if (difficulty >= 3) {
+                            // 拔高:匹配难度>=3(含难度4、5的真难题)
+                            wrapper.ge(ExamQuestion::getDifficulty, 3);
+                        } else {
+                            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                        }
                     }
                     errorCandidates.addAll(questionMapper.selectList(wrapper));
                 }
@@ -464,7 +629,12 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                             .in(ExamQuestion::getQuestionType, questionTypes)
                             .eq(ExamQuestion::getDeleted, 0);
                     if (difficulty != null && difficulty > 0) {
-                        wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                        if (difficulty >= 3) {
+                            // 拔高:匹配难度>=3(含难度4、5的真难题)
+                            wrapper.ge(ExamQuestion::getDifficulty, 3);
+                        } else {
+                            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                        }
                     }
                     kpCandidates.addAll(questionMapper.selectList(wrapper));
                 }
@@ -489,7 +659,12 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                         .in(ExamQuestion::getQuestionType, questionTypes)
                         .eq(ExamQuestion::getDeleted, 0);
                 if (difficulty != null && difficulty > 0) {
-                    wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                    if (difficulty >= 3) {
+                        // 拔高:匹配难度>=3(含难度4、5的真难题)
+                        wrapper.ge(ExamQuestion::getDifficulty, 3);
+                    } else {
+                        wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+                    }
                 }
                 List<ExamQuestion> allCandidates = questionMapper.selectList(wrapper).stream()
                         .filter(q -> !selectedIds.contains(q.getId()))
@@ -549,11 +724,16 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
      */
     private List<ExamQuestion> drawByDifficulty(Long subjectId, int difficulty, int count, Random random) {
         if (count <= 0) return Collections.emptyList();
-        List<ExamQuestion> pool = questionMapper.selectList(
-                new LambdaQueryWrapper<ExamQuestion>()
-                        .eq(ExamQuestion::getSubjectId, subjectId)
-                        .eq(ExamQuestion::getDifficulty, difficulty)
-                        .eq(ExamQuestion::getDeleted, 0));
+        LambdaQueryWrapper<ExamQuestion> wrapper = new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getSubjectId, subjectId)
+                .eq(ExamQuestion::getDeleted, 0);
+        if (difficulty >= 3) {
+            // 拔高:匹配难度>=3(含难度4、5的真难题)
+            wrapper.ge(ExamQuestion::getDifficulty, 3);
+        } else {
+            wrapper.eq(ExamQuestion::getDifficulty, difficulty);
+        }
+        List<ExamQuestion> pool = questionMapper.selectList(wrapper);
         Collections.shuffle(pool, random);
         int actual = Math.min(count, pool.size());
         return pool.subList(0, actual);
