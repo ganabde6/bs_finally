@@ -37,26 +37,1288 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::               (v2.7.18)
 
-2026-08-18 16:24:31.683  INFO 36744 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Starting ZhixueAiApplication using Java 11.0.6 on WIN-BASRU4J68C3 with PID 36744 (D:\bs_finally\zhixue-ai-backend\target\classes started by Administrator in D:\bs_finally\zhixue-ai-backend)
-2026-08-18 16:24:31.685 DEBUG 36744 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Running with Spring Boot v2.7.18, Spring v5.3.31
-2026-08-18 16:24:31.685  INFO 36744 --- [           main] com.zhixue.ai.ZhixueAiApplication        : No active profile set, falling back to 1 default profile: "default"
-2026-08-18 16:24:32.823  INFO 36744 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
-2026-08-18 16:24:32.830  INFO 36744 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-08-18 16:24:32.830  INFO 36744 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
-2026-08-18 16:24:32.914  INFO 36744 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-08-18 16:24:32.914  INFO 36744 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1201 ms
+2026-08-21 15:45:35.823  INFO 41040 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Starting ZhixueAiApplication using Java 11.0.6 on WIN-BASRU4J68C3 with PID 41040 (D:\bs_finally\zhixue-ai-backend\target\classes started by Administrator in D:\bs_finally\zhixue-ai-backend)
+2026-08-21 15:45:35.824 DEBUG 41040 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-08-21 15:45:35.825  INFO 41040 --- [           main] com.zhixue.ai.ZhixueAiApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-08-21 15:45:36.950  INFO 41040 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
+2026-08-21 15:45:36.954  INFO 41040 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-21 15:45:36.954  INFO 41040 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-08-21 15:45:37.037  INFO 41040 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-08-21 15:45:37.037  INFO 41040 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1186 ms
 Logging initialized using 'class org.apache.ibatis.logging.stdout.StdOutImpl' adapter.
-Initialization Sequence datacenterId:19 workerId:12
+Initialization Sequence datacenterId:19 workerId:7
  _ _   |_  _ _|_. ___ _ |    _ 
 | | |\/|_)(_| | |_\  |_)||_|_\ 
      /               |         
                         3.5.5 
-2026-08-18 16:24:33.519 DEBUG 36744 --- [           main] c.z.ai.security.JwtAuthenticationFilter  : Filter 'jwtAuthenticationFilter' configured for use
-2026-08-18 16:24:33.967  INFO 36744 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2e56b4d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f857e08, org.springframework.security.web.context.SecurityContextPersistenceFilter@4fecf308, org.springframework.security.web.header.HeaderWriterFilter@62d40e31, org.springframework.web.filter.CorsFilter@4d7a64ca, org.springframework.security.web.authentication.logout.LogoutFilter@739831a4, com.zhixue.ai.security.JwtAuthenticationFilter@5856dbe4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b5f9003, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7c11d32, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6070775e, org.springframework.security.web.session.SessionManagementFilter@11c78080, org.springframework.security.web.access.ExceptionTranslationFilter@5c48b72c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2df65a56]
-2026-08-18 16:24:34.842  INFO 36744 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
-2026-08-18 16:24:34.869  INFO 36744 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Started ZhixueAiApplication in 3.424 seconds (JVM running for 3.779)
+2026-08-21 15:45:37.612 DEBUG 41040 --- [           main] c.z.ai.security.JwtAuthenticationFilter  : Filter 'jwtAuthenticationFilter' configured for use
+2026-08-21 15:45:37.992  INFO 41040 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@370ef50b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b877a54, org.springframework.security.web.context.SecurityContextPersistenceFilter@7ce29a2d, org.springframework.security.web.header.HeaderWriterFilter@24876a7e, org.springframework.web.filter.CorsFilter@3a479fda, org.springframework.security.web.authentication.logout.LogoutFilter@57fdb8a4, com.zhixue.ai.security.JwtAuthenticationFilter@79476a4e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@79d7035, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@372461a9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@268c030f, org.springframework.security.web.session.SessionManagementFilter@6e1ae763, org.springframework.security.web.access.ExceptionTranslationFilter@76973a6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@70b6db83]
+2026-08-21 15:45:38.227  INFO 41040 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
+2026-08-21 15:45:38.233  INFO 41040 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Started ZhixueAiApplication in 2.652 seconds (JVM running for 2.992)
 
 ========================================
   智学AI学习测评系统 启动成功
   访问地址: http://localhost:8080
 ========================================
+2026-08-21 15:46:20.666  INFO 41040 --- [nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-21 15:46:20.666  INFO 41040 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-21 15:46:20.667  INFO 41040 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6c84b83f] was not registered for synchronization because synchronization is not active
+2026-08-21 15:46:20.720  INFO 41040 --- [nio-9000-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-21 15:46:20.808  INFO 41040 --- [nio-9000-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+JDBC Connection [HikariProxyConnection@822670953 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_user WHERE username = ? AND deleted = 0
+==> Parameters: teacher01(String)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, last_login, create_time, update_time, deleted, grade_level
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 2026-08-21 15:31:26, 2026-07-30 17:29:45, 2026-08-21 15:31:26, 0, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6c84b83f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54f84d49] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@338099543 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54f84d49]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5cb69079] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1961270963 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: UPDATE sys_user SET last_login=?, update_time=? WHERE id=? AND deleted=0
+==> Parameters: 2026-08-21T15:46:20.903838300(LocalDateTime), 2026-08-21T15:46:20.930809900(LocalDateTime), 3(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5cb69079]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5e802680] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1615240620 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT p.* FROM sys_permission p INNER JOIN sys_role_permission rp ON rp.permission_id = p.id WHERE rp.role_id = ? ORDER BY p.sort
+==> Parameters: 3(Long)
+<==    Columns: id, parent_id, perm_code, perm_name, perm_type, path, component, icon, sort, create_time
+<==        Row: 201, 0, teacher:dashboard, 教师首页, 1, /teacher/dashboard, teacher/Dashboard, Home, 1, 2026-07-30 17:29:45
+<==        Row: 202, 0, teacher:question, 题库管理, 1, /teacher/question, teacher/Question, Files, 2, 2026-07-30 17:29:45
+<==        Row: 203, 0, teacher:paper, 作业考试管理, 1, /teacher/paper, teacher/Paper, Document, 3, 2026-07-30 17:29:45
+<==        Row: 204, 0, teacher:correct, 批改管理, 1, /teacher/correct, teacher/Correct, Edit, 4, 2026-07-30 17:29:45
+<==        Row: 205, 0, teacher:classAnalysis, 班级学情, 1, /teacher/classAnalysis, teacher/ClassAnalysis, TrendCharts, 5, 2026-07-30 17:29:45
+<==        Row: 206, 0, teacher:feedback, 家校反馈, 1, /teacher/feedback, teacher/Feedback, Message, 6, 2026-07-30 17:29:45
+<==      Total: 6
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5e802680]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47ebd53] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@522024658 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47ebd53]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7ff46aee] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1211344545 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7ff46aee]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5429143a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2072820749 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,subject_name,subject_code,grade_level,sort,create_time FROM sys_subject WHERE id=?
+==> Parameters: 2(Long)
+<==    Columns: id, subject_name, subject_code, grade_level, sort, create_time
+<==        Row: 2, 数学, math, 0, 2, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5429143a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@26d65e1f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1249002392 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE deleted=0 AND (subject_id = ? AND deleted = ?)
+==> Parameters: 2(Long), 0(Integer)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 26, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 27, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 28, 2, 1, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 29, 2, 1, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 30, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 31, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 32, 2, 1, 1, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 33, 2, 1, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 34, 2, 1, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 35, 2, 1, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 36, 2, 3, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 37, 2, 3, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 38, 2, 3, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 39, 2, 3, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 40, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 41, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 42, 2, 3, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 43, 2, 3, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 44, 2, 3, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 45, 2, 2, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 46, 2, 2, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 47, 2, 2, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 48, 2, 2, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 49, 2, 2, 2, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 50, 2, 4, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 51, 2, 4, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 52, 2, 4, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 53, 2, 4, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 54, 2, 4, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 55, 2, 5, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 56, 2, 5, 3, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 57, 2, 5, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 58, 2, 7, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 59, 2, 7, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 60, 2, 7, 3, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 61, 2, 7, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 62, 2, 7, 4, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 63, 2, 5, 4, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 64, 2, 1, 4, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 65, 2, 7, 4, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 66, 2, 4, 4, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 67, 2, 7, 5, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 68, 2, 1, 1, 函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 69, 2, 2, 2, 函数的定义与判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 70, 2, 3, 3, 函数的定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 71, 2, 3, 2, 分段函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 72, 2, 1, 3, 待定系数法求函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 73, 2, 1, 4, 函数的值域求解（分式函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 74, 2, 4, 4, 函数单调性与常函数的关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 75, 2, 5, 4, 抽象函数性质（加性函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 76, 2, 5, 3, 二次函数在闭区间上的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 77, 2, 1, 5, 复合函数单调性与定义域综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 78, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 79, 2, 1, 2, 函数的递推关系与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 80, 2, 3, 3, 奇函数性质及分段求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 81, 2, 1, 4, 含绝对值的函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 82, 2, 2, 3, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 83, 2, 3, 2, 二次函数对称轴的几何意义, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 84, 2, 1, 3, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 85, 2, 4, 3, 函数相等的判定（定义域、对应法则）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 86, 2, 3, 4, 复合函数的解析式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 87, 2, 5, 5, 抽象函数的性质与递推求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 88, 2, 1, 3, 分段函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 89, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 90, 2, 3, 3, 函数的递推关系与迭代计算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 91, 2, 1, 4, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 92, 2, 3, 2, 函数图像的对称性（轴对称）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 93, 2, 3, 4, 利用函数奇偶性求解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 94, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 95, 2, 4, 3, 函数零点存在定理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 96, 2, 5, 3, 利用函数零点求二次函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 97, 2, 3, 5, 离散函数的差分与通项公式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 98, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 99, 2, 1, 4, 函数奇偶性与方程组求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 100, 2, 1, 2, 二次函数的对称轴性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 101, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 102, 2, 5, 5, 抽象函数方程（Cauchy 型平移）与一次函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 103, 2, 1, 3, 函数的化简、分段表达、单调性、奇偶性、连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 104, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 105, 2, 1, 4, 函数的反函数、对合函数、分式线性变换, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 106, 2, 1, 2, 对数函数的单调性、复合函数单调性、偶函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 107, 2, 1, 5, 导数的几何意义、二次函数值域、闭区间上函数最值、优化思想, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 108, 2, 1, 2, 函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 109, 2, 1, 3, 函数的奇偶性与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 110, 2, 3, 2, 函数的周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 111, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 112, 2, 4, 2, 函数的相等, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 113, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 114, 2, 3, 4, 函数的奇偶性与分段函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 115, 2, 2, 3, 函数的奇偶性、单调性、零点与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 116, 2, 4, 2, 复合函数的解析式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 117, 2, 1, 5, 对数型函数的值域与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 118, 2, 1, 3, 函数的反函数求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 119, 2, 2, 3, 函数的定义域、最值、奇偶性、单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 120, 2, 3, 2, 指数函数图像的定点性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 121, 2, 4, 4, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 122, 2, 4, 4, 函数的零点与极值点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 123, 2, 1, 2, 函数的间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 124, 2, 1, 3, 复合函数与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 125, 2, 3, 3, 对数函数值域与底数关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 126, 2, 1, 4, 奇函数性质与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 127, 2, 5, 2, 函数迭代与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 128, 2, 1, 2, 函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 129, 2, 1, 4, 函数图像对称性与中心对称条件, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 130, 2, 3, 1, 对数函数定义域与三角函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 131, 2, 1, 3, 复合函数值域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 132, 2, 5, 5, 分段函数连续性与可导性联合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 133, 2, 1, 4, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 134, 2, 1, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 135, 2, 2, 3, 函数奇偶性、单调性、值域与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 136, 2, 3, 2, 反函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 137, 2, 5, 4, 分段函数的连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 138, 2, 1, 4, 函数的反函数与对称性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 139, 2, 1, 3, 对数函数定义域与二次函数恒正, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 140, 2, 3, 3, 函数最值与定义域约束, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 141, 2, 2, 2, 函数奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 142, 2, 5, 5, 分段函数单调性的综合分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 143, 2, 1, 3, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 144, 2, 2, 2, 反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 145, 2, 3, 2, 二次函数最值与根号函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 146, 2, 4, 4, 函数图像对称中心, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 147, 2, 5, 5, 分段函数单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 148, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 149, 2, 2, 3, 函数的奇偶性与复合函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 150, 2, 3, 4, 对数函数的定义域与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 151, 2, 4, 3, 反函数的求法与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 152, 2, 1, 5, 分段函数的图像与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 153, 2, 1, 2, 函数的渐近线, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 154, 2, 2, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 155, 2, 4, 2, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 156, 2, 5, 3, 分段函数的单调性判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 157, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 158, 2, 2, 3, 函数的单调性、对称性、因式分解与极值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 159, 2, 4, 4, 函数的奇偶性与对数恒等变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 160, 2, 1, 5, 复合函数方程与分段函数的综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 161, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:56:17, 2026-08-18 10:56:17, 0
+<==        Row: 162, 2, 2, 3, 函数的定义域、分段化简、极限与单调性辨析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:04, 2026-08-18 11:21:04, 0
+<==        Row: 163, 2, 1, 2, 函数定义域（三角函数型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 164, 2, 1, 3, 对数函数值域与二次式最小值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 165, 2, 4, 3, 函数极限（可去间断点）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 166, 2, 5, 4, 分段函数连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 167, 2, 1, 3, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 168, 2, 1, 2, 复合函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 169, 2, 1, 4, 函数的反函数与自反性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 170, 2, 4, 2, 分段函数极限, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 171, 2, 1, 3, 函数的对称性与分段表达, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 172, 2, 1, 3, 二次函数在闭区间上的最值与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 173, 2, 1, 4, 反函数图像与直线 y=x 的交点个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 174, 2, 1, 4, 函数值域与最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 175, 2, 4, 4, 分段函数的可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 176, 2, 1, 3, 函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 177, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 178, 2, 1, 2, 函数的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 179, 2, 1, 2, 对数型函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 180, 2, 1, 2, 函数的连续性与可去间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 181, 2, 1, 3, 复合函数与二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 182, 2, 4, 5, 函数的反函数性质与恒等式求参, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 183, 2, 1, 2, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 184, 2, 1, 1, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 185, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 186, 2, 4, 2, 复合函数表达式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 187, 2, 1, 3, 函数的对称性与方程变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 188, 2, 1, 4, 复合函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 189, 2, 1, 1, 复合函数与一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 190, 2, 1, 2, 函数定义域（含根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 191, 2, 2, 4, 含绝对值函数的分段表达与性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 192, 2, 4, 2, 反函数定义与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 193, 2, 1, 2, 分式函数的化简与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 194, 2, 1, 2, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 195, 2, 1, 3, 对数函数定义域与二次函数恒正问题, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 196, 2, 5, 3, 复合函数运算与定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 197, 2, 1, 3, 分式函数的值域求解与不可取值分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:11:47, 2026-08-18 16:11:47, 0
+<==        Row: 198, 2, 1, 2, 分式函数的可去间断点与连续延拓, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 199, 2, 1, 2, 二次函数在根号下的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 200, 2, 1, 2, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 201, 2, 5, 3, 分式函数的反函数求法及定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 202, 2, 1, 2, 指数函数与反函数的定义域值域关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 203, 2, 1, 4, 分式函数最值（判别式法）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 204, 2, 1, 3, 对数函数定义域与二次函数在闭区间最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 205, 2, 4, 3, 分段函数与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 206, 2, 1, 1, 函数定义域（分式型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 207, 2, 1, 2, 二次函数配方法与根号函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 208, 2, 5, 3, 含绝对值的分段函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 209, 2, 1, 3, 分式函数化简与值域分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 210, 2, 1, 2, 指数与对数互为反函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 211, 2, 2, 3, 含绝对值的分段函数性质判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 212, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 213, 2, 1, 2, 复合函数定义域（根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 214, 2, 1, 3, 对数函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 215, 2, 5, 4, 复合函数与方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 216, 2, 1, 3, 分段函数化简与绝对值处理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 217, 2, 1, 2, 复合函数解方程与定义域检验, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 218, 2, 1, 2, 分式函数的化简与可去间断点处的函数值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:15:08, 2026-08-18 16:15:08, 0
+<==        Row: 219, 2, 1, 1, 分式函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 220, 2, 1, 2, 二次根式函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 221, 2, 1, 2, 对数函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 222, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 223, 2, 4, 4, 反函数与自反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 224, 2, 5, 3, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==      Total: 199
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@26d65e1f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54c74621] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1527776514 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE deleted=0 AND (subject_id = ? AND deleted = ?) ORDER BY id DESC
+==> Parameters: 2(Long), 0(Integer)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 224, 2, 5, 3, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 223, 2, 4, 4, 反函数与自反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 222, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 221, 2, 1, 2, 对数函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 220, 2, 1, 2, 二次根式函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 219, 2, 1, 1, 分式函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 218, 2, 1, 2, 分式函数的化简与可去间断点处的函数值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:15:08, 2026-08-18 16:15:08, 0
+<==        Row: 217, 2, 1, 2, 复合函数解方程与定义域检验, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 216, 2, 1, 3, 分段函数化简与绝对值处理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 215, 2, 5, 4, 复合函数与方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 214, 2, 1, 3, 对数函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 213, 2, 1, 2, 复合函数定义域（根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 212, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 211, 2, 2, 3, 含绝对值的分段函数性质判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 210, 2, 1, 2, 指数与对数互为反函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 209, 2, 1, 3, 分式函数化简与值域分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 208, 2, 5, 3, 含绝对值的分段函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 207, 2, 1, 2, 二次函数配方法与根号函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 206, 2, 1, 1, 函数定义域（分式型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 205, 2, 4, 3, 分段函数与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 204, 2, 1, 3, 对数函数定义域与二次函数在闭区间最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 203, 2, 1, 4, 分式函数最值（判别式法）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 202, 2, 1, 2, 指数函数与反函数的定义域值域关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 201, 2, 5, 3, 分式函数的反函数求法及定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 200, 2, 1, 2, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 199, 2, 1, 2, 二次函数在根号下的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 198, 2, 1, 2, 分式函数的可去间断点与连续延拓, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 197, 2, 1, 3, 分式函数的值域求解与不可取值分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:11:47, 2026-08-18 16:11:47, 0
+<==        Row: 196, 2, 5, 3, 复合函数运算与定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 195, 2, 1, 3, 对数函数定义域与二次函数恒正问题, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 194, 2, 1, 2, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 193, 2, 1, 2, 分式函数的化简与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 192, 2, 4, 2, 反函数定义与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 191, 2, 2, 4, 含绝对值函数的分段表达与性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 190, 2, 1, 2, 函数定义域（含根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 189, 2, 1, 1, 复合函数与一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 188, 2, 1, 4, 复合函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 187, 2, 1, 3, 函数的对称性与方程变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 186, 2, 4, 2, 复合函数表达式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 185, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 184, 2, 1, 1, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 183, 2, 1, 2, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 182, 2, 4, 5, 函数的反函数性质与恒等式求参, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 181, 2, 1, 3, 复合函数与二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 180, 2, 1, 2, 函数的连续性与可去间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 179, 2, 1, 2, 对数型函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 178, 2, 1, 2, 函数的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 177, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 176, 2, 1, 3, 函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 175, 2, 4, 4, 分段函数的可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 174, 2, 1, 4, 函数值域与最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 173, 2, 1, 4, 反函数图像与直线 y=x 的交点个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 172, 2, 1, 3, 二次函数在闭区间上的最值与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 171, 2, 1, 3, 函数的对称性与分段表达, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 170, 2, 4, 2, 分段函数极限, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 169, 2, 1, 4, 函数的反函数与自反性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 168, 2, 1, 2, 复合函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 167, 2, 1, 3, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 166, 2, 5, 4, 分段函数连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 165, 2, 4, 3, 函数极限（可去间断点）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 164, 2, 1, 3, 对数函数值域与二次式最小值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 163, 2, 1, 2, 函数定义域（三角函数型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 162, 2, 2, 3, 函数的定义域、分段化简、极限与单调性辨析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:04, 2026-08-18 11:21:04, 0
+<==        Row: 161, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:56:17, 2026-08-18 10:56:17, 0
+<==        Row: 160, 2, 1, 5, 复合函数方程与分段函数的综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 159, 2, 4, 4, 函数的奇偶性与对数恒等变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 158, 2, 2, 3, 函数的单调性、对称性、因式分解与极值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 157, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 156, 2, 5, 3, 分段函数的单调性判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 155, 2, 4, 2, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 154, 2, 2, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 153, 2, 1, 2, 函数的渐近线, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 152, 2, 1, 5, 分段函数的图像与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 151, 2, 4, 3, 反函数的求法与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 150, 2, 3, 4, 对数函数的定义域与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 149, 2, 2, 3, 函数的奇偶性与复合函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 148, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 147, 2, 5, 5, 分段函数单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 146, 2, 4, 4, 函数图像对称中心, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 145, 2, 3, 2, 二次函数最值与根号函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 144, 2, 2, 2, 反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 143, 2, 1, 3, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 142, 2, 5, 5, 分段函数单调性的综合分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 141, 2, 2, 2, 函数奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 140, 2, 3, 3, 函数最值与定义域约束, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 139, 2, 1, 3, 对数函数定义域与二次函数恒正, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 138, 2, 1, 4, 函数的反函数与对称性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 137, 2, 5, 4, 分段函数的连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 136, 2, 3, 2, 反函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 135, 2, 2, 3, 函数奇偶性、单调性、值域与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 134, 2, 1, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 133, 2, 1, 4, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 132, 2, 5, 5, 分段函数连续性与可导性联合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 131, 2, 1, 3, 复合函数值域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 130, 2, 3, 1, 对数函数定义域与三角函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 129, 2, 1, 4, 函数图像对称性与中心对称条件, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 128, 2, 1, 2, 函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 127, 2, 5, 2, 函数迭代与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 126, 2, 1, 4, 奇函数性质与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 125, 2, 3, 3, 对数函数值域与底数关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 124, 2, 1, 3, 复合函数与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 123, 2, 1, 2, 函数的间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 122, 2, 4, 4, 函数的零点与极值点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 121, 2, 4, 4, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 120, 2, 3, 2, 指数函数图像的定点性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 119, 2, 2, 3, 函数的定义域、最值、奇偶性、单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 118, 2, 1, 3, 函数的反函数求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 117, 2, 1, 5, 对数型函数的值域与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 116, 2, 4, 2, 复合函数的解析式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 115, 2, 2, 3, 函数的奇偶性、单调性、零点与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 114, 2, 3, 4, 函数的奇偶性与分段函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 113, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 112, 2, 4, 2, 函数的相等, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 111, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 110, 2, 3, 2, 函数的周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 109, 2, 1, 3, 函数的奇偶性与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 108, 2, 1, 2, 函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 107, 2, 1, 5, 导数的几何意义、二次函数值域、闭区间上函数最值、优化思想, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 106, 2, 1, 2, 对数函数的单调性、复合函数单调性、偶函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 105, 2, 1, 4, 函数的反函数、对合函数、分式线性变换, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 104, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 103, 2, 1, 3, 函数的化简、分段表达、单调性、奇偶性、连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 102, 2, 5, 5, 抽象函数方程（Cauchy 型平移）与一次函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 101, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 100, 2, 1, 2, 二次函数的对称轴性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 99, 2, 1, 4, 函数奇偶性与方程组求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 98, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 97, 2, 3, 5, 离散函数的差分与通项公式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 96, 2, 5, 3, 利用函数零点求二次函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 95, 2, 4, 3, 函数零点存在定理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 94, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 93, 2, 3, 4, 利用函数奇偶性求解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 92, 2, 3, 2, 函数图像的对称性（轴对称）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 91, 2, 1, 4, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 90, 2, 3, 3, 函数的递推关系与迭代计算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 89, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 88, 2, 1, 3, 分段函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 87, 2, 5, 5, 抽象函数的性质与递推求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 86, 2, 3, 4, 复合函数的解析式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 85, 2, 4, 3, 函数相等的判定（定义域、对应法则）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 84, 2, 1, 3, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 83, 2, 3, 2, 二次函数对称轴的几何意义, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 82, 2, 2, 3, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 81, 2, 1, 4, 含绝对值的函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 80, 2, 3, 3, 奇函数性质及分段求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 79, 2, 1, 2, 函数的递推关系与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 78, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 77, 2, 1, 5, 复合函数单调性与定义域综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 76, 2, 5, 3, 二次函数在闭区间上的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 75, 2, 5, 4, 抽象函数性质（加性函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 74, 2, 4, 4, 函数单调性与常函数的关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 73, 2, 1, 4, 函数的值域求解（分式函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 72, 2, 1, 3, 待定系数法求函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 71, 2, 3, 2, 分段函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 70, 2, 3, 3, 函数的定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 69, 2, 2, 2, 函数的定义与判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 68, 2, 1, 1, 函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 67, 2, 7, 5, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 66, 2, 4, 4, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 65, 2, 7, 4, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 64, 2, 1, 4, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 63, 2, 5, 4, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 62, 2, 7, 4, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 61, 2, 7, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 60, 2, 7, 3, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 59, 2, 7, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 58, 2, 7, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 57, 2, 5, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 56, 2, 5, 3, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 55, 2, 5, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 54, 2, 4, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 53, 2, 4, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 52, 2, 4, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 51, 2, 4, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 50, 2, 4, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 49, 2, 2, 2, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 48, 2, 2, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 47, 2, 2, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 46, 2, 2, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 45, 2, 2, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 44, 2, 3, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 43, 2, 3, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 42, 2, 3, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 41, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 40, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 39, 2, 3, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 38, 2, 3, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 37, 2, 3, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 36, 2, 3, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 35, 2, 1, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 34, 2, 1, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 33, 2, 1, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 32, 2, 1, 1, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 31, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 30, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 29, 2, 1, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 28, 2, 1, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 27, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 26, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==      Total: 199
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54c74621]
+2026-08-21 15:46:21.163  INFO 41040 --- [pool-1-thread-1] c.z.a.m.ai.engine.ApiAiServiceProvider   : 调用 AI API: provider=deepseek, model=deepseek-v4-flash, url=https://api.deepseek.com/v1/chat/completions, 图片数=0
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2e4e9c02] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@313171569 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2e4e9c02]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@267f1330] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2089493873 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@267f1330]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ab83c4b] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1658660641 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ab83c4b]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4dfbe0b5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1177208613 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4dfbe0b5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@178e0d78] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1084246232 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@178e0d78]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3701f1cf] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1342431130 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3701f1cf]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@528eabc1] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@831302823 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@528eabc1]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5227aee0] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1451064213 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5227aee0]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@d8e4db3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@449085235 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@d8e4db3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54a40ca8] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@725102682 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54a40ca8]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@409694b3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@34828057 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@409694b3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@23ca31e5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@987946553 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@23ca31e5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@745259bc] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1126171452 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@745259bc]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@209363f9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1189757422 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@209363f9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@622dbc21] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@479478938 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@622dbc21]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@30bf3d44] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1073497030 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@30bf3d44]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@371587e6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@211730897 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@371587e6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7544779c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1853219941 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7544779c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@213c996e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1639474394 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@213c996e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@77d4b3e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1120879958 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@77d4b3e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15f92ccf] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2142414091 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15f92ccf]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c0b8923] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1883785017 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c0b8923]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a22e686] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1284385283 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a22e686]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@392fb7d4] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1423204513 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@392fb7d4]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59e440ce] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1769176478 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59e440ce]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@13a2a64d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@567481925 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@13a2a64d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17e2bce7] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@237946755 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17e2bce7]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7279ea5c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2070522653 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7279ea5c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@366c7cb1] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1459513752 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@366c7cb1]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@205d0da6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1971418344 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@205d0da6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@34e53d60] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1205031946 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@34e53d60]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7be225ab] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1727072650 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7be225ab]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2a7de944] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@218088217 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2a7de944]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fc655d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@470712559 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fc655d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6f0a8ba3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@526094883 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6f0a8ba3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@294d1280] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@304202649 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@294d1280]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@376e3581] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1324412937 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@376e3581]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@387004c1] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2129984627 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@387004c1]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1268969f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1561265370 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1268969f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@562e6660] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2416212 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@562e6660]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@28e0f896] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@140407094 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@28e0f896]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6be8feb5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1147375382 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6be8feb5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3a47890] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@93639216 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3a47890]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@112c4465] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@837606952 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@112c4465]
+2026-08-21 15:47:29.737  WARN 41040 --- [pool-1-thread-1] c.z.a.m.a.s.i.SelfPracticeServiceImpl    : AI 组卷第 1 轮未返回内容
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54fdafd9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1280402893 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE deleted=0 AND (subject_id = ? AND deleted = ?) ORDER BY id DESC
+==> Parameters: 2(Long), 0(Integer)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 224, 2, 5, 3, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 223, 2, 4, 4, 反函数与自反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 222, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 221, 2, 1, 2, 对数函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 220, 2, 1, 2, 二次根式函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 219, 2, 1, 1, 分式函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:32:04, 2026-08-18 16:32:04, 0
+<==        Row: 218, 2, 1, 2, 分式函数的化简与可去间断点处的函数值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:15:08, 2026-08-18 16:15:08, 0
+<==        Row: 217, 2, 1, 2, 复合函数解方程与定义域检验, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 216, 2, 1, 3, 分段函数化简与绝对值处理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:57, 2026-08-18 16:14:57, 0
+<==        Row: 215, 2, 5, 4, 复合函数与方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 214, 2, 1, 3, 对数函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 213, 2, 1, 2, 复合函数定义域（根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 212, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:33, 2026-08-18 16:14:33, 0
+<==        Row: 211, 2, 2, 3, 含绝对值的分段函数性质判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 210, 2, 1, 2, 指数与对数互为反函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 209, 2, 1, 3, 分式函数化简与值域分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:14:09, 2026-08-18 16:14:09, 0
+<==        Row: 208, 2, 5, 3, 含绝对值的分段函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 207, 2, 1, 2, 二次函数配方法与根号函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 206, 2, 1, 1, 函数定义域（分式型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:43, 2026-08-18 16:13:43, 0
+<==        Row: 205, 2, 4, 3, 分段函数与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 204, 2, 1, 3, 对数函数定义域与二次函数在闭区间最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 203, 2, 1, 4, 分式函数最值（判别式法）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 202, 2, 1, 2, 指数函数与反函数的定义域值域关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:13:22, 2026-08-18 16:13:22, 0
+<==        Row: 201, 2, 5, 3, 分式函数的反函数求法及定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 200, 2, 1, 2, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 199, 2, 1, 2, 二次函数在根号下的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 198, 2, 1, 2, 分式函数的可去间断点与连续延拓, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:12:20, 2026-08-18 16:12:20, 0
+<==        Row: 197, 2, 1, 3, 分式函数的值域求解与不可取值分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:11:47, 2026-08-18 16:11:47, 0
+<==        Row: 196, 2, 5, 3, 复合函数运算与定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 195, 2, 1, 3, 对数函数定义域与二次函数恒正问题, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 194, 2, 1, 2, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 193, 2, 1, 2, 分式函数的化简与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:10:23, 2026-08-18 16:10:23, 0
+<==        Row: 192, 2, 4, 2, 反函数定义与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 191, 2, 2, 4, 含绝对值函数的分段表达与性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 190, 2, 1, 2, 函数定义域（含根式与分式）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 189, 2, 1, 1, 复合函数与一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 16:09:24, 2026-08-18 16:09:24, 0
+<==        Row: 188, 2, 1, 4, 复合函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 187, 2, 1, 3, 函数的对称性与方程变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:21, 2026-08-18 14:36:21, 0
+<==        Row: 186, 2, 4, 2, 复合函数表达式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 185, 2, 1, 2, 分段函数解方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 184, 2, 1, 1, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 183, 2, 1, 2, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:36:01, 2026-08-18 14:36:01, 0
+<==        Row: 182, 2, 4, 5, 函数的反函数性质与恒等式求参, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 181, 2, 1, 3, 复合函数与二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 180, 2, 1, 2, 函数的连续性与可去间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:35:39, 2026-08-18 14:35:39, 0
+<==        Row: 179, 2, 1, 2, 对数型函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 178, 2, 1, 2, 函数的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 177, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 176, 2, 1, 3, 函数的值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:33:53, 2026-08-18 14:33:53, 0
+<==        Row: 175, 2, 4, 4, 分段函数的可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 174, 2, 1, 4, 函数值域与最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:32:24, 2026-08-18 14:32:24, 0
+<==        Row: 173, 2, 1, 4, 反函数图像与直线 y=x 的交点个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 172, 2, 1, 3, 二次函数在闭区间上的最值与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 171, 2, 1, 3, 函数的对称性与分段表达, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 14:31:19, 2026-08-18 14:31:19, 0
+<==        Row: 170, 2, 4, 2, 分段函数极限, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 169, 2, 1, 4, 函数的反函数与自反性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 168, 2, 1, 2, 复合函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 167, 2, 1, 3, 函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:58, 2026-08-18 11:21:58, 0
+<==        Row: 166, 2, 5, 4, 分段函数连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 165, 2, 4, 3, 函数极限（可去间断点）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 164, 2, 1, 3, 对数函数值域与二次式最小值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 163, 2, 1, 2, 函数定义域（三角函数型）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:35, 2026-08-18 11:21:35, 0
+<==        Row: 162, 2, 2, 3, 函数的定义域、分段化简、极限与单调性辨析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 11:21:04, 2026-08-18 11:21:04, 0
+<==        Row: 161, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:56:17, 2026-08-18 10:56:17, 0
+<==        Row: 160, 2, 1, 5, 复合函数方程与分段函数的综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 159, 2, 4, 4, 函数的奇偶性与对数恒等变形, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 158, 2, 2, 3, 函数的单调性、对称性、因式分解与极值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 157, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:55:04, 2026-08-18 10:55:04, 0
+<==        Row: 156, 2, 5, 3, 分段函数的单调性判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 155, 2, 4, 2, 含绝对值的二次函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 154, 2, 2, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 153, 2, 1, 2, 函数的渐近线, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 10:53:17, 2026-08-18 10:53:17, 0
+<==        Row: 152, 2, 1, 5, 分段函数的图像与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 151, 2, 4, 3, 反函数的求法与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 150, 2, 3, 4, 对数函数的定义域与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:19, 2026-08-18 09:48:19, 0
+<==        Row: 149, 2, 2, 3, 函数的奇偶性与复合函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 148, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:48:18, 2026-08-18 09:48:18, 0
+<==        Row: 147, 2, 5, 5, 分段函数单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 146, 2, 4, 4, 函数图像对称中心, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 145, 2, 3, 2, 二次函数最值与根号函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 144, 2, 2, 2, 反函数性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 143, 2, 1, 3, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-18 09:47:46, 2026-08-18 09:47:46, 0
+<==        Row: 142, 2, 5, 5, 分段函数单调性的综合分析, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 141, 2, 2, 2, 函数奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 140, 2, 3, 3, 函数最值与定义域约束, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 139, 2, 1, 3, 对数函数定义域与二次函数恒正, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 138, 2, 1, 4, 函数的反函数与对称性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:17:56, 2026-08-17 17:17:56, 0
+<==        Row: 137, 2, 5, 4, 分段函数的连续性与可导性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 136, 2, 3, 2, 反函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 135, 2, 2, 3, 函数奇偶性、单调性、值域与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 134, 2, 1, 3, 复合函数定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 133, 2, 1, 4, 函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 17:16:15, 2026-08-17 17:16:15, 0
+<==        Row: 132, 2, 5, 5, 分段函数连续性与可导性联合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 131, 2, 1, 3, 复合函数值域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 130, 2, 3, 1, 对数函数定义域与三角函数值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 129, 2, 1, 4, 函数图像对称性与中心对称条件, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 128, 2, 1, 2, 函数最值与二次函数配方法, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:16:19, 2026-08-17 15:16:19, 0
+<==        Row: 127, 2, 5, 2, 函数迭代与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 126, 2, 1, 4, 奇函数性质与方程解的个数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 125, 2, 3, 3, 对数函数值域与底数关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 124, 2, 1, 3, 复合函数与周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 123, 2, 1, 2, 函数的间断点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:15:55, 2026-08-17 15:15:55, 0
+<==        Row: 122, 2, 4, 4, 函数的零点与极值点, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 121, 2, 4, 4, 分段函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 120, 2, 3, 2, 指数函数图像的定点性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 119, 2, 2, 3, 函数的定义域、最值、奇偶性、单调性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 118, 2, 1, 3, 函数的反函数求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:08:01, 2026-08-17 15:08:01, 0
+<==        Row: 117, 2, 1, 5, 对数型函数的值域与参数范围, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 116, 2, 4, 2, 复合函数的解析式与定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 115, 2, 2, 3, 函数的奇偶性、单调性、零点与值域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 114, 2, 3, 4, 函数的奇偶性与分段函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 113, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 15:07:07, 2026-08-17 15:07:07, 0
+<==        Row: 112, 2, 4, 2, 函数的相等, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 111, 2, 1, 1, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 110, 2, 3, 2, 函数的周期性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 109, 2, 1, 3, 函数的奇偶性与反函数存在性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 108, 2, 1, 2, 函数的连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:30:57, 2026-08-17 14:30:57, 0
+<==        Row: 107, 2, 1, 5, 导数的几何意义、二次函数值域、闭区间上函数最值、优化思想, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 106, 2, 1, 2, 对数函数的单调性、复合函数单调性、偶函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 105, 2, 1, 4, 函数的反函数、对合函数、分式线性变换, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 104, 2, 1, 2, 复合函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 103, 2, 1, 3, 函数的化简、分段表达、单调性、奇偶性、连续性, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 14:29:10, 2026-08-17 14:29:10, 0
+<==        Row: 102, 2, 5, 5, 抽象函数方程（Cauchy 型平移）与一次函数判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 101, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 100, 2, 1, 2, 二次函数的对称轴性质, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 99, 2, 1, 4, 函数奇偶性与方程组求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 98, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-17 11:30:06, 2026-08-17 11:30:06, 0
+<==        Row: 97, 2, 3, 5, 离散函数的差分与通项公式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 96, 2, 5, 3, 利用函数零点求二次函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 95, 2, 4, 3, 函数零点存在定理, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 94, 2, 1, 4, 复合函数的单调性（对数函数与二次函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 93, 2, 3, 4, 利用函数奇偶性求解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 92, 2, 3, 2, 函数图像的对称性（轴对称）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 91, 2, 1, 4, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 90, 2, 3, 3, 函数的递推关系与迭代计算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 89, 2, 1, 2, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 88, 2, 1, 3, 分段函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:37:20, 2026-08-13 14:37:20, 0
+<==        Row: 87, 2, 5, 5, 抽象函数的性质与递推求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 86, 2, 3, 4, 复合函数的解析式求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 85, 2, 4, 3, 函数相等的判定（定义域、对应法则）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 84, 2, 1, 3, 分段函数的方程求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 83, 2, 3, 2, 二次函数对称轴的几何意义, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 82, 2, 2, 3, 函数的奇偶性与单调性综合判断, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 81, 2, 1, 4, 含绝对值的函数最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 80, 2, 3, 3, 奇函数性质及分段求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 79, 2, 1, 2, 函数的递推关系与求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 78, 2, 1, 3, 函数的定义域, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:24:33, 2026-08-13 14:24:33, 0
+<==        Row: 77, 2, 1, 5, 复合函数单调性与定义域综合应用, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 76, 2, 5, 3, 二次函数在闭区间上的最值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 75, 2, 5, 4, 抽象函数性质（加性函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 74, 2, 4, 4, 函数单调性与常函数的关系, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 73, 2, 1, 4, 函数的值域求解（分式函数）, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 72, 2, 1, 3, 待定系数法求函数解析式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 71, 2, 3, 2, 分段函数求值, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 70, 2, 3, 3, 函数的定义域求解, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 69, 2, 2, 2, 函数的定义与判定, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 68, 2, 1, 1, 函数的复合运算, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 11, 2026-08-13 14:15:08, 2026-08-13 14:15:08, 0
+<==        Row: 67, 2, 7, 5, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 66, 2, 4, 4, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 65, 2, 7, 4, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 64, 2, 1, 4, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 63, 2, 5, 4, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 62, 2, 7, 4, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:37:31, 2026-08-13 10:37:31, 0
+<==        Row: 61, 2, 7, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 60, 2, 7, 3, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 59, 2, 7, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 58, 2, 7, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 57, 2, 5, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 56, 2, 5, 3, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 55, 2, 5, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 54, 2, 4, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 53, 2, 4, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 52, 2, 4, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 51, 2, 4, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 50, 2, 4, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 49, 2, 2, 2, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 48, 2, 2, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 47, 2, 2, 2, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:37:31, 0
+<==        Row: 46, 2, 2, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 45, 2, 2, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, null, 2026-08-13 10:21:39, 2026-08-13 10:21:39, 0
+<==        Row: 44, 2, 3, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 43, 2, 3, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 42, 2, 3, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 41, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 40, 2, 3, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 39, 2, 3, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 38, 2, 3, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 37, 2, 3, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 36, 2, 3, 1, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 35, 2, 1, 1, 集合, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 34, 2, 1, 2, 导数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 33, 2, 1, 2, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 32, 2, 1, 1, 一元二次方程, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 31, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 30, 2, 1, 1, 三角函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 29, 2, 1, 2, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:37:31, 0
+<==        Row: 28, 2, 1, 1, 不等式, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 27, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==        Row: 26, 2, 1, 2, 函数, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2.00, null, 2026-08-13 10:08:53, 2026-08-13 10:08:53, 0
+<==      Total: 199
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54fdafd9]
+2026-08-21 15:47:29.776  INFO 41040 --- [pool-1-thread-1] c.z.a.m.ai.engine.ApiAiServiceProvider   : 调用 AI API: provider=deepseek, model=deepseek-v4-flash, url=https://api.deepseek.com/v1/chat/completions, 图片数=0
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@75738438] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1059561153 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@75738438]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@215a1aed] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1222711482 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@215a1aed]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@58158db9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@459788327 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@58158db9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b86932c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2139799456 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b86932c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3780323e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@690953168 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3780323e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1b01c1c3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@765854047 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1b01c1c3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@37bcf65a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@386552512 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@37bcf65a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1c8b7592] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1289047679 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1c8b7592]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40a970bc] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@431828421 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40a970bc]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2d41e3ac] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@644237864 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2d41e3ac]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29755bd4] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1222685290 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29755bd4]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@30b2232d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@865760532 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@30b2232d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15a904f4] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@366005262 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15a904f4]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3a85775f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1742096991 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3a85775f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@73db87bf] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@579239992 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 张老师, 3, null, 1, null, null, null, 0, 2026-08-21 15:46:21, 2026-07-30 17:29:45, 2026-08-21 15:46:21, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@73db87bf]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@138092b6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1011419398 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@138092b6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36c3585c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1848141034 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: INSERT INTO exam_question ( subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, analysis, full_score, creator_id, create_time, update_time, deleted ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+==> Parameters: 2(Long), 1(Integer), 2(Integer), 复合函数单调性(String), 已知函数 $ f(x) = x^2 - 4x + 5 $，$ g(x) = 2x - 3 $，则复合函数 $ f(g(x)) $ 的单调递减区间为（ ）(String), [{"key":"A","value":"$(-\\infty, 2)$"},{"key":"B","value":"$(-\\infty, \\frac{5}{2})$"},{"key":"C","value":"$(2, +\\infty)$"},{"key":"D","value":"$(\\frac{5}{2}, +\\infty)$"}](String), B(String), $ f(g(x)) = (2x-3)^2 - 4(2x-3) + 5 = 4x^2 - 20x + 26 $，对称轴为 $ x = \frac{5}{2} $，开口向上，故在 $ (-\infty, \frac{5}{2}) $ 上单调递减。(String), 5(BigDecimal), 3(Long), 2026-08-21T15:48:16.982798300(LocalDateTime), 2026-08-21T15:48:16.982798300(LocalDateTime), 0(Integer)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36c3585c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@160f38dc] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@614983081 wrapping com.mysql.cj.jdbc.ConnectionImpl@9c56cd9] will not be managed by Spring
+==>  Preparing: INSERT INTO exam_question ( subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, analysis, full_score, creator_id, create_time, update_time, deleted ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+==> Parameters: 2(Long), 1(Integer), 3(Integer), 对数型函数值域(String), 已知函数 $ f(x) = \log_2(x^2 - 2x - a) $ 的值域为全体实数 R，则实数 $ a $ 的取值范围是（ ）(String), [{"key":"A","value":"$a > -1$"},{"key":"B","value":"$a \\geq -1$"},{"key":"C","value":"$a < -1$"},{"key":"D","value":"$a \\leq -1$"}](String), B(String), 令 $ t = x^2 - 2x - a = (x-1)^2 - 1 - a $，其最小值为 $ -1-a $。要使 $ \log_2 t $ 的值域为 R，$ t $ 必须取遍所有正数，故 $ -1-a \leq 0 $，即 $ a \geq -1 $。(String), 5(BigDecimal), 3(Long), 2026-08-21T15:48:16.997296800(LocalDateTime), 2026-08-21T15:48:16.997296800(LocalDateTime), 0(Integer)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@160f38dc]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21:27 min
+[INFO] Finished at: 2026-08-21T16:07:00+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:2.7.18:run (default-cli) on project zhixue-ai-backend: Application finished with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

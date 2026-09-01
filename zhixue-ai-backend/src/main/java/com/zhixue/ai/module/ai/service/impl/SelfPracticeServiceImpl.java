@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.zhixue.ai.common.constant.SystemConstants;
 import com.zhixue.ai.common.exception.BizException;
 import com.zhixue.ai.module.ai.engine.AiServiceProvider;
@@ -50,6 +51,135 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
     private final AiServiceProvider aiServiceProvider;
 
     // ===================== 智能生成练习 =====================
+
+    /**
+     * 教师 AI 现场出题：按学科+难度生成全新题目并入库。
+     * 复用 {@link #generateByAi} 的 AI 生成/去重/归一化逻辑。
+     */
+    @Override
+    public List<ExamQuestion> generatePaperForTeacher(Map<String, Object> config, Long creatorId) {
+        if (config.get("subjectId") == null) {
+            throw new BizException("请选择学科");
+        }
+        Long subjectId = Long.valueOf(config.get("subjectId").toString());
+        int questionCount = config.get("totalQuestions") != null
+                ? Integer.valueOf(config.get("totalQuestions").toString()) : 10;
+        List<Integer> types = parseTeacherTypeList(config.get("questionTypes"));
+        @SuppressWarnings("unchecked")
+        List<String> knowledgePoints = config.get("knowledgePoints") != null
+                ? (List<String>) config.get("knowledgePoints") : Collections.emptyList();
+
+        // 各题型数量分布(题型 -> 数量)
+        Map<Integer, Integer> typeCounts = parseTypeCounts(config.get("typeCounts"), types, questionCount);
+        // 难度占比
+        int easyRatio = config.get("easyRatio") != null ? Integer.valueOf(config.get("easyRatio").toString()) : 40;
+        int mediumRatio = config.get("mediumRatio") != null ? Integer.valueOf(config.get("mediumRatio").toString()) : 40;
+        int hardRatio = 100 - easyRatio - mediumRatio;
+        if (hardRatio < 0) hardRatio = 0;
+        // 总分 -> 每题分值
+        BigDecimal totalScore = config.get("totalScore") != null
+                ? new BigDecimal(config.get("totalScore").toString()) : BigDecimal.valueOf(100);
+        int totalCount = typeCounts.values().stream().mapToInt(Integer::intValue).sum();
+        BigDecimal perScore = totalCount > 0
+                ? totalScore.divide(BigDecimal.valueOf(totalCount), 1, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+        String ratioDesc = "基础" + easyRatio + "% 中档" + mediumRatio + "% 拔高" + hardRatio + "%";
+
+        List<ExamQuestion> result = new ArrayList<>();
+        Set<Long> pickedIds = new HashSet<>();
+        Random random = new Random();
+        for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
+            int type = e.getKey();
+            int count = e.getValue();
+            if (count <= 0) continue;
+            List<ExamQuestion> batch = new ArrayList<>();
+            // 1. AI 现场出题(单题型,难度按分布提示词约束)
+            try {
+                Map<String, Object> cfg = new HashMap<>();
+                cfg.put("questionCount", count);
+                cfg.put("difficulty", 0);
+                cfg.put("knowledgePoints", knowledgePoints);
+                cfg.put("questionTypes", Collections.singletonList(type));
+                cfg.put("difficultyRatio", ratioDesc);
+                batch = generateByAi(cfg, subjectId, creatorId);
+            } catch (Exception ex) {
+                log.warn("教师组卷题型 {} AI 出题失败: {}", type, ex.getMessage());
+            }
+            // 2. 题量不足时题库按难度比例补齐
+            int need = count - batch.size();
+            if (need > 0) {
+                Set<Long> excl = new HashSet<>(pickedIds);
+                batch.forEach(q -> excl.add(q.getId()));
+                List<ExamQuestion> bank = drawByTypeAndDifficulty(
+                        subjectId, type, need, easyRatio, mediumRatio, hardRatio, random);
+                for (ExamQuestion q : bank) {
+                    if (!excl.contains(q.getId())) {
+                        batch.add(q);
+                        excl.add(q.getId());
+                    }
+                }
+            }
+            // 3. 统一分配分值并回写数据库(AI 题插入时默认 5 分,需按总分覆盖)
+            for (ExamQuestion q : batch) {
+                if (perScore.compareTo(BigDecimal.ZERO) > 0 && perScore.compareTo(q.getFullScore()) != 0) {
+                    q.setFullScore(perScore);
+                    questionMapper.update(null, new LambdaUpdateWrapper<ExamQuestion>()
+                            .eq(ExamQuestion::getId, q.getId())
+                            .set(ExamQuestion::getFullScore, perScore));
+                }
+                result.add(q);
+                pickedIds.add(q.getId());
+            }
+        }
+        return result;
+    }
+
+    /** 解析所选题型(1/2/4/5/7),非法题型剔除 */
+    private List<Integer> parseTeacherTypeList(Object raw) {
+        List<Integer> list = new ArrayList<>();
+        if (raw instanceof List) {
+            for (Object o : (List<?>) raw) {
+                try {
+                    list.add(Integer.valueOf(o.toString()));
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        List<Integer> valid = list.stream()
+                .filter(t -> t == SystemConstants.Q_TYPE_SINGLE || t == SystemConstants.Q_TYPE_MULTI
+                        || t == SystemConstants.Q_TYPE_FILL || t == SystemConstants.Q_TYPE_SHORT
+                        || t == SystemConstants.Q_TYPE_CALC)
+                .distinct()
+                .collect(Collectors.toList());
+        return valid.isEmpty() ? Arrays.asList(SystemConstants.Q_TYPE_SINGLE, SystemConstants.Q_TYPE_MULTI,
+                SystemConstants.Q_TYPE_FILL, SystemConstants.Q_TYPE_SHORT, SystemConstants.Q_TYPE_CALC) : valid;
+    }
+
+    /** 解析题型->数量;未配置时按所选题型平均分配题目总数 */
+    private Map<Integer, Integer> parseTypeCounts(Object raw, List<Integer> types, int total) {
+        Map<Integer, Integer> counts = new LinkedHashMap<>();
+        for (Integer t : types) {
+            counts.put(t, 0);
+        }
+        if (raw instanceof Map) {
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) raw).entrySet()) {
+                try {
+                    counts.put(Integer.valueOf(entry.getKey().toString()),
+                            Integer.valueOf(entry.getValue().toString()));
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        int sum = counts.values().stream().mapToInt(Integer::intValue).sum();
+        if (sum == 0 && !types.isEmpty()) {
+            int base = total / types.size();
+            int rem = total % types.size();
+            int i = 0;
+            for (Integer t : types) {
+                counts.put(t, base + (i++ < rem ? 1 : 0));
+            }
+        }
+        return counts;
+    }
 
     @Override
     public List<Map<String, Object>> generatePractice(Long userId) {
@@ -500,7 +630,8 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     .collect(Collectors.toList());
 
             String json = aiServiceProvider.generateExamQuestions(subjectName, knowledgePoints, roundTypes,
-                    difficulty, stillNeed, existingQuestions);
+                    difficulty, stillNeed, existingQuestions,
+                    (String) config.get("difficultyRatio"));
             if (json == null || json.trim().isEmpty()) {
                 log.warn("AI 组卷第 {} 轮未返回内容", round + 1);
                 emptyStreak++;
@@ -538,9 +669,10 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                         log.warn("AI 组卷第 {} 轮第 {} 题为判断题，已按规则过滤", round + 1, i + 1);
                         continue;
                     }
-                    // 大题专轮:只接受简答/计算,避免 AI 又用选择题凑数
-                    if (bigOnly && !bigTypes.contains(q.getQuestionType())) {
-                        log.warn("AI 组卷第 {} 轮第 {} 题请求大题但 AI 返回题型 {},已跳过",
+                    // 严格按本轮请求题型过滤: 不在所选题型内的直接跳过
+                    // (大题专轮 roundTypes=大题,只收大题; 普通轮 roundTypes=用户所选全部题型)
+                    if (!roundTypes.contains(q.getQuestionType())) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题题型 {} 不在所选范围内,已跳过",
                                 round + 1, i + 1, q.getQuestionType());
                         continue;
                     }

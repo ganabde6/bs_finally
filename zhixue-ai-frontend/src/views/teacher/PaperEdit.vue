@@ -87,6 +87,18 @@ onMounted(async () => {
   subjects.value = s.data
   classes.value = c.data
   await loadQuestions()
+  // 载入 AI 智能组卷的抽取结果(仅新建试卷时)
+  if (!isEdit.value) {
+    const aiIds = JSON.parse(localStorage.getItem('ai_group_question_ids') || '[]')
+    localStorage.removeItem('ai_group_question_ids')
+    if (aiIds.length) {
+      const matched = questions.value.filter(q => aiIds.includes(q.id))
+      if (matched.length) {
+        selected.value = matched
+        ElMessage.success(`已载入 AI 智能组卷抽取的 ${matched.length} 道题目`)
+      }
+    }
+  }
   if (isEdit.value) {
     loading.value = true
     try {

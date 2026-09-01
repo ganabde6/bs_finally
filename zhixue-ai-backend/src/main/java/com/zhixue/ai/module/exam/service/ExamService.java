@@ -72,15 +72,26 @@ public class ExamService {
 
     /** AI 智能组卷(简化版:按学科+难度从题库随机抽题) */
     @Transactional
-    public List<Long> aiGroupPaper(Long subjectId, Integer totalQuestions, Integer difficulty) {
-        List<ExamQuestion> all = questionMapper.selectList(new LambdaQueryWrapper<ExamQuestion>()
-                .eq(ExamQuestion::getSubjectId, subjectId)
-                .ne(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_JUDGE)
-                .eq(difficulty != null, ExamQuestion::getDifficulty, difficulty));
+    public List<Long> aiGroupPaper(Long subjectId, Integer totalQuestions, Integer difficulty, List<Integer> questionTypes) {
+        List<ExamQuestion> all = selectGroupQuestions(subjectId, difficulty, questionTypes);
+        // 指定难度抽不到题时回退为不限难度，避免组卷结果为空
+        if (all.isEmpty() && difficulty != null) {
+            all = selectGroupQuestions(subjectId, null, questionTypes);
+        }
         if (all.size() <= totalQuestions) return all.stream().map(ExamQuestion::getId).collect(Collectors.toList());
         // 随机抽题
         Collections.shuffle(all);
         return all.subList(0, totalQuestions).stream().map(ExamQuestion::getId).collect(Collectors.toList());
+    }
+
+    /** AI 组卷取题: 按学科过滤并排除判断题,难度/题型可空 */
+    private List<ExamQuestion> selectGroupQuestions(Long subjectId, Integer difficulty, List<Integer> questionTypes) {
+        return questionMapper.selectList(new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getSubjectId, subjectId)
+                .ne(ExamQuestion::getQuestionType, SystemConstants.Q_TYPE_JUDGE)
+                .eq(difficulty != null, ExamQuestion::getDifficulty, difficulty)
+                .in(questionTypes != null && !questionTypes.isEmpty(),
+                        ExamQuestion::getQuestionType, questionTypes));
     }
 
     // ===================== 试卷 =====================
@@ -176,6 +187,9 @@ public class ExamService {
 
     @Transactional
     public Long createPaper(ExamPaper paper, List<Map<String, Object>> questions) {
+        if (paper.getClassId() == null) {
+            throw new BizException(ResultCode.PARAM_ERROR.getCode(), "请选择目标班级");
+        }
         paper.setCreatorId(SecurityUtils.getCurrentUserId());
         if (paper.getStatus() == null) paper.setStatus(SystemConstants.PAPER_STATUS_DRAFT);
         if (paper.getStatus() == SystemConstants.PAPER_STATUS_PUBLISHED) {

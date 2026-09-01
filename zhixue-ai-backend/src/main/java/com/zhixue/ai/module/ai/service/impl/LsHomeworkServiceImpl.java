@@ -280,6 +280,7 @@ public class LsHomeworkServiceImpl implements LsHomeworkService {
         copy.setGroupMode(original.getGroupMode());
         copy.setGroupParams(original.getGroupParams());
         copy.setDeadline(original.getDeadline());
+        copy.setTeacherId(teacherId);
         copy.setStatus(0); // 草稿
         homeworkMapper.insert(copy);
 

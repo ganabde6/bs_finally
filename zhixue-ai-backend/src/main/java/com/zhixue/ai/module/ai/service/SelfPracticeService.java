@@ -1,5 +1,7 @@
 package com.zhixue.ai.module.ai.service;
 
+import com.zhixue.ai.module.exam.entity.ExamQuestion;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,15 @@ import java.util.Map;
  * 自主智练与自律打卡服务接口
  */
 public interface SelfPracticeService {
+
+    /**
+     * 教师 AI 组卷：按题型数量分布生成试卷
+     * @param config 组卷配置: subjectId(必填), totalQuestions, questionTypes, typeCounts(题型->数量),
+     *               easyRatio/mediumRatio/hardRatio(难度占比%), totalScore(总分), knowledgePoints
+     * @param creatorId 创建人ID(教师)
+     * @return 生成/补齐的题目列表(AI 出题+题库补齐,按总分分配分值);全部失败时为空列表
+     */
+    List<ExamQuestion> generatePaperForTeacher(Map<String, Object> config, Long creatorId);
 
     /**
      * 智能生成练习题目

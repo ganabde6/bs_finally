@@ -2,10 +2,12 @@ package com.zhixue.ai.module.exam.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhixue.ai.common.result.Result;
+import com.zhixue.ai.common.result.ResultCode;
 import com.zhixue.ai.module.ai.service.AiService;
 import com.zhixue.ai.module.ai.service.SelfPracticeService;
 import com.zhixue.ai.module.exam.entity.ExamPaper;
 import com.zhixue.ai.module.exam.entity.ExamQuestion;
+import com.zhixue.ai.module.exam.service.AiGroupTaskService;
 import com.zhixue.ai.module.exam.service.ExamService;
 import com.zhixue.ai.module.system.service.SystemService;
 import com.zhixue.ai.security.SecurityUtils;
@@ -27,6 +29,7 @@ public class TeacherController {
     private final AiService aiService;
     private final SelfPracticeService selfPracticeService;
     private final SystemService systemService;
+    private final AiGroupTaskService aiGroupTaskService;
 
     /** 教师首页统计 */
     @GetMapping("/dashboard")
@@ -74,13 +77,42 @@ public class TeacherController {
         return Result.success();
     }
 
-    /** AI 智能组卷(随机抽题) */
+    /** AI 智能组卷: 提交异步任务立即返回 taskId,由前端轮询状态接口获取结果 */
     @PostMapping("/questions/ai-group")
-    public Result<List<Long>> aiGroup(@RequestBody Map<String, Object> body) {
-        Long subjectId = Long.valueOf(body.get("subjectId").toString());
-        Integer total = (Integer) body.get("totalQuestions");
-        Integer difficulty = (Integer) body.get("difficulty");
-        return Result.success(examService.aiGroupPaper(subjectId, total, difficulty));
+    public Result<Map<String, Object>> aiGroup(@RequestBody Map<String, Object> body) {
+        if (body.get("subjectId") == null) {
+            return Result.error(ResultCode.PARAM_ERROR.getCode(), "请选择学科");
+        }
+        // 配置字段: subjectId/totalQuestions/questionTypes/typeCounts/easyRatio/mediumRatio/hardRatio/totalScore/knowledgePoints
+        String taskId = aiGroupTaskService.submit(body, SecurityUtils.getCurrentUserId());
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("taskId", taskId);
+        return Result.success(result);
+    }
+
+    /** AI 智能组卷: 查询任务状态(RUNNING/DONE/FAILED)与结果 */
+    @GetMapping("/questions/ai-group/status/{taskId}")
+    public Result<Map<String, Object>> aiGroupStatus(@PathVariable String taskId) {
+        AiGroupTaskService.AiGroupTask task = aiGroupTaskService.get(taskId);
+        if (task == null) {
+            return Result.error(ResultCode.NOT_FOUND.getCode(), "任务不存在或已过期");
+        }
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("status", task.getStatus());
+        result.put("questionIds", task.getQuestionIds());
+        result.put("source", task.getSource());
+        result.put("count", task.getCount());
+        result.put("message", task.getMessage());
+        return Result.success(result);
+    }
+
+    /** AI 智能组卷: 获取学科知识点列表(教师出题选知识板块用) */
+    @GetMapping("/knowledge-points")
+    public Result<List<String>> knowledgePoints(@RequestParam(required = false) Long subjectId) {
+        if (subjectId == null) {
+            return Result.success(java.util.Collections.emptyList());
+        }
+        return Result.success(selfPracticeService.getKnowledgePointsBySubject(subjectId));
     }
 
     // ============== 试卷管理 ==============

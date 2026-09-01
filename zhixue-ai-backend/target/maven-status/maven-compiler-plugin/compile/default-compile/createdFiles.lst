@@ -1,5 +1,6 @@
 com\zhixue\ai\config\WebSocketConfig.class
 com\zhixue\ai\module\ai\entity\AiErrorBook.class
+com\zhixue\ai\module\exam\service\AiGroupTaskService$AiGroupTask.class
 com\zhixue\ai\module\ai\service\impl\ListeningSpeakingServiceImpl.class
 com\zhixue\ai\module\ai\entity\AiLsHomework.class
 com\zhixue\ai\module\ai\mapper\PkRoomMapper.class
@@ -29,6 +30,7 @@ com\zhixue\ai\module\exam\controller\TeacherController.class
 com\zhixue\ai\module\exam\entity\ExamQuestion.class
 com\zhixue\ai\module\ai\entity\AiModelConfig.class
 com\zhixue\ai\module\system\mapper\SysTeacherClassMapper.class
+com\zhixue\ai\module\exam\service\AiGroupTaskService.class
 com\zhixue\ai\module\ai\mapper\PkRoomMemberMapper.class
 com\zhixue\ai\module\system\mapper\SysUserMapper.class
 com\zhixue\ai\module\ai\entity\AiVariantQuestion.class

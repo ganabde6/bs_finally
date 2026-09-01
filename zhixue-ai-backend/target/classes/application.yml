@@ -64,7 +64,7 @@ logging:
 # AI 服务配置
 ai:
   # AI 服务提供者: local(本地规则) / dashscope(通义千问) / deepseek
-  provider: dashscope
+  provider: deepseek
 
   # 通义千问(DashScope)配置
   dashscope:
@@ -76,6 +76,6 @@ ai:
 
   # DeepSeek 配置
   deepseek:
-    api-key: ${DEEPSEEK_API_KEY:}
+    api-key: sk-bfdfff6bff3f45f5a72a4eb3b6dfa5b8
     base-url: https://api.deepseek.com/v1
-    model: deepseek-chat
+    model: deepseek-v4-flash

@@ -17,86 +17,101 @@
       </div>
     </div>
 
-    <!-- 题目列表 -->
+    <!-- 题目列表(试卷式折叠:所有题目集中在一起,点击某题才展开,节省空间) -->
     <div class="questions-list" v-if="katexReady">
-      <el-card v-for="(item, index) in questions" :key="item.id" class="question-card" shadow="hover">
-        <template #header>
-          <div class="card-header">
-            <span class="question-title">第 {{ index + 1 }} 题（{{ typeName(item.type) }}）</span>
-            <el-tag size="small" :type="difficultyTag(item.difficulty)">
-              {{ difficultyName(item.difficulty) }}
-            </el-tag>
-          </div>
-        </template>
-
-        <div class="question-content">
-          <p class="stem" v-html="renderLatex(item.stem)"></p>
-
-          <!-- 单选题 -->
-          <div v-if="item.type === 1" class="options-group">
-            <el-radio-group v-model="answers[item.id]" :disabled="submitted">
-              <el-radio
-                v-for="(option, optIndex) in item.options"
-                :key="optIndex"
-                :value="option"
-                class="option-item"
-              >
-                {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
-              </el-radio>
-            </el-radio-group>
-          </div>
-
-          <!-- 多选题 -->
-          <div v-else-if="item.type === 2" class="options-group">
-            <el-checkbox-group v-model="answers[item.id]" :disabled="submitted">
-              <el-checkbox
-                v-for="(option, optIndex) in item.options"
-                :key="optIndex"
-                :value="option"
-                class="option-item"
-              >
-                {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
-              </el-checkbox>
-            </el-checkbox-group>
-          </div>
-
-          <!-- 填空题 -->
-          <div v-else-if="item.type === 4" class="fill-group">
-            <el-input
-              v-model="answers[item.id]"
-              :disabled="submitted"
-              placeholder="请输入答案"
-              style="max-width: 400px"
-            />
-          </div>
-
-          <!-- 简答题 / 计算题 -->
-          <div v-else-if="item.type === 5 || item.type === 7" class="answer-group">
-            <el-input
-              v-model="answers[item.id]"
-              type="textarea"
-              :rows="4"
-              :disabled="submitted"
-              placeholder="请写出完整解答过程"
-            />
-          </div>
-
-          <!-- 结果展示 -->
-          <div v-if="submitted && results[item.id] !== undefined" class="result-row">
-            <div v-if="results[item.id]" class="result-correct">
-              <el-icon style="vertical-align:-2px"><CircleCheck /></el-icon> 正确！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>
+      <div class="list-toolbar">
+        <span class="list-tip">共 {{ questions.length }} 道题 · 已展开 {{ expandedCount }} 道，点击题目展开/收起</span>
+        <span class="toolbar-btns">
+          <el-button size="small" text type="primary" @click="expandAll">全部展开</el-button>
+          <el-button size="small" text @click="collapseAll">全部收起</el-button>
+        </span>
+      </div>
+      <el-collapse v-model="expandedIds" class="paper-collapse">
+        <el-collapse-item v-for="(item, index) in questions" :key="item.id" :name="item.id">
+          <template #title>
+            <div class="collapse-title">
+              <span class="question-title">第 {{ index + 1 }} 题（{{ typeName(item.type) }}）</span>
+              <el-tag class="q-diff" size="small" :type="difficultyTag(item.difficulty)">
+                {{ difficultyName(item.difficulty) }}
+              </el-tag>
+              <el-tag v-if="submitted" size="small" :type="results[item.id] ? 'success' : 'danger'">
+                {{ results[item.id] ? '正确' : '错误' }}
+              </el-tag>
+              <el-tag v-else size="small" :type="isAnswered(item) ? 'primary' : 'info'">
+                {{ isAnswered(item) ? '已答' : '未答' }}
+              </el-tag>
             </div>
-            <div v-else class="result-wrong">
-              ❌ 错误！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>，你的答案：{{ formatAnswer(answers[item.id]) || '未作答' }}
+          </template>
+
+          <div class="question-content">
+            <p class="stem" v-html="renderLatex(item.stem)"></p>
+
+            <!-- 单选题 -->
+            <div v-if="item.type === 1" class="options-group">
+              <el-radio-group v-model="answers[item.id]" :disabled="submitted">
+                <el-radio
+                  v-for="(option, optIndex) in item.options"
+                  :key="optIndex"
+                  :value="option"
+                  class="option-item"
+                >
+                  {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
+                </el-radio>
+              </el-radio-group>
+            </div>
+
+            <!-- 多选题 -->
+            <div v-else-if="item.type === 2" class="options-group">
+              <el-checkbox-group v-model="answers[item.id]" :disabled="submitted">
+                <el-checkbox
+                  v-for="(option, optIndex) in item.options"
+                  :key="optIndex"
+                  :value="option"
+                  class="option-item"
+                >
+                  {{ String.fromCharCode(65 + optIndex) }}. <span v-html="renderLatex(option)"></span>
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
+
+            <!-- 填空题 -->
+            <div v-else-if="item.type === 4" class="fill-group">
+              <el-input
+                v-model="answers[item.id]"
+                :disabled="submitted"
+                placeholder="请输入答案"
+                style="max-width: 400px"
+              />
+            </div>
+
+            <!-- 简答题 / 计算题 -->
+            <div v-else-if="item.type === 5 || item.type === 7" class="answer-group">
+              <el-input
+                v-model="answers[item.id]"
+                type="textarea"
+                :rows="4"
+                :disabled="submitted"
+                placeholder="请写出完整解答过程"
+              />
+            </div>
+
+            <!-- 结果展示 -->
+            <div v-if="submitted && results[item.id] !== undefined" class="result-row">
+              <div v-if="results[item.id]" class="result-correct">
+                <el-icon style="vertical-align:-2px"><CircleCheck /></el-icon> 正确！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>
+              </div>
+              <div v-else class="result-wrong">
+                ❌ 错误！标准答案：<span v-html="renderLatex(item.correctAnswer)"></span>，你的答案：{{ formatAnswer(answers[item.id]) || '未作答' }}
+              </div>
+            </div>
+
+            <!-- 题目解析 -->
+            <div v-if="submitted && item.analysis" class="analysis-row">
+              <strong>📖 解析：</strong><span v-html="renderLatex(item.analysis)"></span>
             </div>
           </div>
-
-          <!-- 题目解析 -->
-          <div v-if="submitted && item.analysis" class="analysis-row">
-            <strong>📖 解析：</strong><span v-html="renderLatex(item.analysis)"></span>
-          </div>
-        </div>
-      </el-card>
+        </el-collapse-item>
+      </el-collapse>
     </div>
 
     <!-- 空状态 -->
@@ -183,6 +198,12 @@ const loading = ref(false)
 const pageLoading = ref(false)
 const katexReady = ref(typeof katex !== 'undefined')
 
+// 试卷式折叠:已展开的题目 id 列表(默认展开第一题,其余收起以节省空间)
+const expandedIds = ref([])
+const expandedCount = computed(() => expandedIds.value.length)
+const expandAll = () => { expandedIds.value = questions.value.map(q => q.id) }
+const collapseAll = () => { expandedIds.value = [] }
+
 // 计时器
 const elapsedSeconds = ref(0)
 let timer = null
@@ -214,6 +235,13 @@ const answeredCount = computed(() => {
     return a !== null && a !== undefined && a !== ''
   }).length
 })
+
+// 单题是否已作答(用于折叠标题上的状态标签)
+const isAnswered = (item) => {
+  const a = answers.value[item.id]
+  if (item.type === 2) return Array.isArray(a) && a.length > 0
+  return a !== null && a !== undefined && a !== ''
+}
 
 const encouragementMessages = [
   '太棒了，积分 +10，继续加油！',
@@ -259,6 +287,10 @@ onMounted(async () => {
           answers.value[q.id] = null
         }
       })
+      // 默认展开第一题,其余收起(试卷式展示,避免一题一屏浪费空间)
+      if (questions.value.length) {
+        expandedIds.value = [questions.value[0].id]
+      }
     }
   } catch {}
 
@@ -460,7 +492,62 @@ async function loadCheckInStatus() {
 .questions-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+}
+
+/* 试卷式折叠:工具栏 */
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.list-tip {
+  font-size: 13px;
+  color: #909399;
+}
+
+.toolbar-btns {
+  display: flex;
+  align-items: center;
+}
+
+/* 试卷式折叠:题目紧凑排列,点击才展开 */
+.paper-collapse {
+  border: none;
+  background: transparent;
+}
+
+.paper-collapse :deep(.el-collapse-item__header) {
+  height: auto;
+  line-height: normal;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: #fff;
+  border-radius: 8px;
+  border-bottom: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.paper-collapse :deep(.el-collapse-item__wrap) {
+  border-bottom: none;
+}
+
+.paper-collapse :deep(.el-collapse-item__content) {
+  padding-bottom: 16px;
+}
+
+.collapse-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.q-diff {
+  margin-left: auto;
 }
 
 .question-card {

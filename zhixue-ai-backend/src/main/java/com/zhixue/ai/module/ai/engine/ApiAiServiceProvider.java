@@ -717,7 +717,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     @Override
     public String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
                                         java.util.List<Integer> questionTypes, Integer difficulty, int count,
-                                        java.util.List<String> existingQuestions) {
+                                        java.util.List<String> existingQuestions, String difficultyRatio) {
         if (count <= 0) {
             return null;
         }
@@ -759,6 +759,10 @@ public class ApiAiServiceProvider implements AiServiceProvider {
                     .append("。难度必须严格匹配：基础(1)考单一知识点一步可得；中档(2)需简单运算或两步推理；")
                     .append("拔高(3)及以上必须明显难于中档，需多知识点综合、多步推理或设置陷阱，")
                     .append("难度 4/5 应更难、更综合。禁止难度虚标，拔高题绝不能与中档题难度相当\n");
+        } else if (difficultyRatio != null && !difficultyRatio.isEmpty()) {
+            userMsg.append("【难度分布】").append(difficultyRatio)
+                    .append("。请严格按照该比例分配各题难度：基础题考单一知识点一步可得；中档题需简单运算或两步推理；")
+                    .append("拔高题需多知识点综合、多步推理或设置陷阱，明显难于中档。禁止难度虚标，且各难度题数必须符合比例\n");
         } else {
             userMsg.append("【难度】混合难度(1-5)\n");
         }

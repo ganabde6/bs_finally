@@ -64,6 +64,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\mapper\E
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysFileMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\PkService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiVariantQuestionMapper.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\service\AiGroupTaskService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysNoticeMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\PkRoomMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\ListeningSpeakingController.java
