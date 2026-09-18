@@ -15,7 +15,7 @@
     <artifactId>zhixue-ai-backend</artifactId>
     <version>1.0.0</version>
     <name>zhixue-ai-backend</name>
-    <description>智学AI学习测评系统后端</description>
+    <description>智汇云课堂后端</description>
 
     <properties>
         <java.version>11</java.version>

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * 智学AI学习测评系统 启动类
+ * 智汇云课堂 启动类
  */
 @SpringBootApplication
 @MapperScan("com.zhixue.ai.module.**.mapper")
@@ -17,7 +17,7 @@ public class ZhixueAiApplication {
         SpringApplication.run(ZhixueAiApplication.class, args);
         System.out.println("" +
                 "\n========================================" +
-                "\n  智学AI学习测评系统 启动成功" +
+                "\n  智汇云课堂 启动成功" +
                 "\n  访问地址: http://localhost:8080" +
                 "\n========================================");
     }

@@ -91,6 +91,7 @@ com\zhixue\ai\module\ai\engine\LocalRuleAiServiceProvider.class
 com\zhixue\ai\common\constant\SystemConstants.class
 com\zhixue\ai\module\system\mapper\SysRoleMapper.class
 com\zhixue\ai\module\ai\entity\PkAnswerRecord.class
+com\zhixue\ai\module\exam\service\TeacherDashboardService.class
 com\zhixue\ai\module\system\mapper\SysLogMapper.class
 com\zhixue\ai\module\ai\service\AiService.class
 com\zhixue\ai\module\system\mapper\SysNoticeMapper.class

@@ -125,6 +125,8 @@ export const pkLsList = () => request.get('/api/student/pk-ls/list')
 
 // ============ 教师端 ============
 export const teacherDashboard = () => request.get('/api/teacher/dashboard')
+export const teacherMySubjects = () => request.get('/api/teacher/my-subjects')
+export const teacherQuestionTypes = (subjectId) => request.get('/api/teacher/question-types', { params: { subjectId } })
 export const pageQuestions = (params) => request.get('/api/teacher/questions', { params })
 export const getQuestion = (id) => request.get(`/api/teacher/question/${id}`)
 export const addQuestion = (data) => request.post('/api/teacher/question', data)

@@ -173,6 +173,8 @@ public class AiService {
         List<Map<String, Object>> result = new ArrayList<>();
         for (AiCorrectRecord r : records) {
             ExamQuestion q = questionMapper.selectById(r.getQuestionId());
+            // 题目可能已被删除,跳过避免前端空指针
+            if (q == null) continue;
             Map<String, Object> m = new HashMap<>();
             m.put("record", r);
             m.put("question", q);

@@ -334,6 +334,25 @@ public class SystemService {
     }
 
     /**
+     * 获取教师任教的学科列表(去重)
+     */
+    public List<SysSubject> listTeacherSubjects(Long teacherId) {
+        List<SysTeacherClass> teacherClasses = teacherClassMapper.selectByTeacherId(teacherId);
+        if (teacherClasses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Long> subjectIds = teacherClasses.stream()
+                .map(SysTeacherClass::getSubjectId)
+                .filter(java.util.Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+        if (subjectIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return subjectMapper.selectBatchIds(subjectIds);
+    }
+
+    /**
      * 分页查询教师所教班级的学生
      */
     public Page<SysUser> pageTeacherStudents(Long teacherId, Long current, Long size, String keyword, Long classId) {

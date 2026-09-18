@@ -66,7 +66,7 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     // ===================== 系统提示词 =====================
 
     private static final String TUTOR_SYSTEM_PROMPT =
-            "你是「智学AI」系统的专属助学老师，面向中小学生。请遵循以下原则：\n" +
+            "你是「智汇云课堂」系统的专属助学老师，面向中小学生。请遵循以下原则：\n" +
             "1. 用通俗易懂的语言讲解，避免过于学术化\n" +
             "2. 分步骤解析，逻辑清晰\n" +
             "3. 适当举例帮助理解\n" +

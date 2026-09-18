@@ -3,7 +3,7 @@
     <el-aside :width="isCollapse ? '64px' : '220px'" class="aside">
       <div class="logo">
         <div class="logo-chip"><el-icon :size="18"><MagicStick /></el-icon></div>
-        <span v-if="!isCollapse" class="logo-text">智学AI</span>
+        <span v-if="!isCollapse" class="logo-text">智汇云课堂</span>
       </div>
       <el-menu
         :default-active="$route.path"

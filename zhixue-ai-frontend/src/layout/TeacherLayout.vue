@@ -6,6 +6,7 @@ import BaseLayout from './BaseLayout.vue'
 const menus = [
   { path: '/teacher/dashboard', title: '教师首页', icon: 'HomeFilled' },
   { path: '/teacher/question', title: '题库管理', icon: 'Files' },
+  { path: '/teacher/aiGroup', title: '智能出题', icon: 'MagicStick' },
   { path: '/teacher/paper', title: '作业考试管理', icon: 'Document' },
   { path: '/teacher/lsHomework', title: '听说作业', icon: 'Headset' },
   { path: '/teacher/correct', title: '批改管理', icon: 'Edit' },

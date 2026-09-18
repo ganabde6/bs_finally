@@ -33,11 +33,26 @@ public class ExamService {
     // ===================== 题库 =====================
 
     public Page<ExamQuestion> pageQuestions(Long current, Long size, Long subjectId,
-                                            Integer questionType, String keyword) {
+                                            Integer questionType, Integer difficulty, String keyword) {
         return questionMapper.selectPage(new Page<>(current == null ? 1 : current, size == null ? 10 : size),
                 new LambdaQueryWrapper<ExamQuestion>()
                         .eq(subjectId != null, ExamQuestion::getSubjectId, subjectId)
                         .eq(questionType != null, ExamQuestion::getQuestionType, questionType)
+                        .eq(difficulty != null, ExamQuestion::getDifficulty, difficulty)
+                        .and(StringUtils.hasText(keyword),
+                                w -> w.like(ExamQuestion::getContent, keyword)
+                                        .or().like(ExamQuestion::getKnowledgePoint, keyword))
+                        .orderByDesc(ExamQuestion::getCreateTime));
+    }
+
+    /** 按学科集合分页查询(教师任教学科过滤) */
+    public Page<ExamQuestion> pageQuestionsInSubjects(Long current, Long size, List<Long> subjectIds,
+                                                      Integer questionType, Integer difficulty, String keyword) {
+        return questionMapper.selectPage(new Page<>(current == null ? 1 : current, size == null ? 10 : size),
+                new LambdaQueryWrapper<ExamQuestion>()
+                        .in(ExamQuestion::getSubjectId, subjectIds)
+                        .eq(questionType != null, ExamQuestion::getQuestionType, questionType)
+                        .eq(difficulty != null, ExamQuestion::getDifficulty, difficulty)
                         .and(StringUtils.hasText(keyword),
                                 w -> w.like(ExamQuestion::getContent, keyword)
                                         .or().like(ExamQuestion::getKnowledgePoint, keyword))

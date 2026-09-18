@@ -1,0 +1,1 @@
+- 启动项目用计划任务 Start-ScheduledTask -TaskName 'zhixue-backend' / 'zhixue-frontend'(直接 Start-Process/Start-Process cmd 会在会话结束后被杀)。后端 9000,前端 5173。验证必须用 powershell Invoke-WebRequest(此环境 curl 连 localhost 会失败)。

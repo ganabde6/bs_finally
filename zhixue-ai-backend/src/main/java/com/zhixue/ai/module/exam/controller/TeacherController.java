@@ -30,19 +30,70 @@ public class TeacherController {
     private final SelfPracticeService selfPracticeService;
     private final SystemService systemService;
     private final AiGroupTaskService aiGroupTaskService;
+    private final com.zhixue.ai.module.exam.service.TeacherDashboardService teacherDashboardService;
 
     /** 教师首页统计 */
     @GetMapping("/dashboard")
     public Result<Map<String, Object>> dashboard() {
         Long teacherId = SecurityUtils.getCurrentUserId();
-        Map<String, Object> result = new java.util.HashMap<>();
-        Page<com.zhixue.ai.module.exam.entity.ExamPaper> page =
-                examService.pagePapers(1L, 1000L, teacherId, null, null);
-        result.put("paperCount", page.getTotal());
-        return Result.success(result);
+        return Result.success(teacherDashboardService.dashboard(teacherId));
     }
 
     // ============== 题库管理 ==============
+
+    /** 教师任教的学科列表(去重) */
+    @GetMapping("/my-subjects")
+    public Result<?> mySubjects() {
+        return Result.success(systemService.listTeacherSubjects(SecurityUtils.getCurrentUserId()));
+    }
+
+    /** 学科专属题型: 按学科编码映射题型[value,label], 未知学科回退通用模板 */
+    @GetMapping("/question-types")
+    public Result<List<Map<String, Object>>> questionTypes(@RequestParam(required = false) Long subjectId) {
+        com.zhixue.ai.module.system.entity.SysSubject subject = null;
+        if (subjectId != null) {
+            subject = systemService.listTeacherSubjects(SecurityUtils.getCurrentUserId()).stream()
+                    .filter(s -> s.getId().equals(subjectId)).findFirst().orElse(null);
+        } else {
+            List<com.zhixue.ai.module.system.entity.SysSubject> subjects =
+                    systemService.listTeacherSubjects(SecurityUtils.getCurrentUserId());
+            subject = subjects.isEmpty() ? null : subjects.get(0);
+        }
+        return Result.success(buildSubjectQuestionTypes(subject == null ? null : subject.getSubjectCode()));
+    }
+
+    /** 学科-题型映射: 计算题等理科专属题型按学科动态返回 */
+    private List<Map<String, Object>> buildSubjectQuestionTypes(String code) {
+        // [value, label] 集合, value 对应 exam_question.question_type(判分引擎依赖,不可变更)
+        int[][] defs;
+        if (code == null) {
+            defs = new int[][]{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}};
+        } else {
+            switch (code) {
+                case "chinese": // 语文: 默写归入填空, 阅读鉴赏归入简答
+                    defs = new int[][]{{1, 0}, {4, 0}, {5, 0}, {6, 0}};
+                    break;
+                case "english": // 英语: 完形/语法归入填空, 翻译归入简答
+                    defs = new int[][]{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {6, 0}};
+                    break;
+                case "math": case "science": case "physics":
+                case "chemistry": case "biology": case "it": // 理科: 含计算题, 无作文
+                    defs = new int[][]{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {7, 0}};
+                    break;
+                default: // 其他学科: 通用模板
+                    defs = new int[][]{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}};
+            }
+        }
+        String[] labels = {"", "单选题", "多选题", "判断题", "填空题", "简答题", "作文题", "计算题"};
+        List<Map<String, Object>> list = new java.util.ArrayList<>();
+        for (int[] d : defs) {
+            Map<String, Object> m = new java.util.HashMap<>();
+            m.put("value", d[0]);
+            m.put("label", labels[d[0]]);
+            list.add(m);
+        }
+        return list;
+    }
 
     @GetMapping("/questions")
     public Result<Page<ExamQuestion>> pageQuestions(
@@ -50,8 +101,21 @@ public class TeacherController {
             @RequestParam(defaultValue = "10") Long size,
             @RequestParam(required = false) Long subjectId,
             @RequestParam(required = false) Integer questionType,
+            @RequestParam(required = false) Integer difficulty,
             @RequestParam(required = false) String keyword) {
-        return Result.success(examService.pageQuestions(current, size, subjectId, questionType, keyword));
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        // 学科权限过滤: 有任教记录的教师只能查看任教科目题目(跨学科不可见,同科共享)
+        List<Long> teachSubjectIds = systemService.listTeacherSubjects(teacherId)
+                .stream().map(s -> s.getId()).collect(java.util.stream.Collectors.toList());
+        if (!teachSubjectIds.isEmpty()) {
+            if (subjectId == null) {
+                return Result.success(examService.pageQuestionsInSubjects(current, size, teachSubjectIds, questionType, difficulty, keyword));
+            }
+            if (!teachSubjectIds.contains(subjectId)) {
+                return Result.error(ResultCode.FORBIDDEN.getCode(), "只能查看您任教学科的题目");
+            }
+        }
+        return Result.success(examService.pageQuestions(current, size, subjectId, questionType, difficulty, keyword));
     }
 
     @GetMapping("/question/{id}")
@@ -83,8 +147,16 @@ public class TeacherController {
         if (body.get("subjectId") == null) {
             return Result.error(ResultCode.PARAM_ERROR.getCode(), "请选择学科");
         }
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        // 学科权限校验: 有任教记录的教师只能按任教学科出题
+        Long reqSubjectId = Long.valueOf(body.get("subjectId").toString());
+        List<Long> teachSubjectIds = systemService.listTeacherSubjects(teacherId)
+                .stream().map(s -> s.getId()).collect(java.util.stream.Collectors.toList());
+        if (!teachSubjectIds.isEmpty() && !teachSubjectIds.contains(reqSubjectId)) {
+            return Result.error(ResultCode.FORBIDDEN.getCode(), "只能为您任教的学科生成题目");
+        }
         // 配置字段: subjectId/totalQuestions/questionTypes/typeCounts/easyRatio/mediumRatio/hardRatio/totalScore/knowledgePoints
-        String taskId = aiGroupTaskService.submit(body, SecurityUtils.getCurrentUserId());
+        String taskId = aiGroupTaskService.submit(body, teacherId);
         Map<String, Object> result = new java.util.HashMap<>();
         result.put("taskId", taskId);
         return Result.success(result);

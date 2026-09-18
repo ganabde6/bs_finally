@@ -1,4 +1,4 @@
-# 智学AI前端 UI 重构规范（基于 ui-ux-pro-max 设计系统）
+# 智汇云课堂前端 UI 重构规范（基于 ui-ux-pro-max 设计系统）
 
 > 设计系统源：`design-system/zhixue-ai/MASTER.md`
 > 本文件为页面级实现规范，所有模块（除 Login 外）重构时统一遵守。

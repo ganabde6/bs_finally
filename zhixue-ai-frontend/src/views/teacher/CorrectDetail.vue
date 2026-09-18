@@ -12,12 +12,12 @@
     <el-card v-loading="loading" class="content-card">
     <div v-for="(d, i) in details" :key="d.record.id" class="correct-item">
       <div class="question-box">
-        <el-tag size="small">{{ typeText(d.question.questionType) }}</el-tag>
-        <span class="ml-10">{{ i + 1 }}. <span v-html="renderLatex(d.question.content)"></span></span>
+        <el-tag v-if="d.question" size="small">{{ typeText(d.question.questionType) }}</el-tag>
+        <span class="ml-10">{{ i + 1 }}. <span v-html="d.question ? renderLatex(d.question.content) : '(题目已删除)'"></span></span>
         <span style="color:#909399;margin-left:8px">(满分 {{ d.record.fullScore }})</span>
       </div>
       <div class="mt-20"><strong>学生答案:</strong><div class="answer-box">{{ d.record.studentAnswer || '(未作答)' }}</div></div>
-      <div class="mt-20"><strong>标准答案:</strong><span v-html="renderLatex(d.question.standardAnswer)"></span></div>
+      <div class="mt-20"><strong>标准答案:</strong><span v-if="d.question" v-html="renderLatex(d.question.standardAnswer)"></span><span v-else>—</span></div>
       <div class="mt-20"><strong>AI 评分:</strong>
         <el-input-number v-model="d.record.score" :precision="2" :min="0" :max="d.record.fullScore" size="small" style="width:120px;margin:0 10px" />
         <el-tag :type="['danger','success','warning'][d.record.isCorrect]">{{ ['错误','正确','部分对'][d.record.isCorrect] }}</el-tag>

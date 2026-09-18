@@ -4,4 +4,11 @@ $ErrorActionPreference = 'SilentlyContinue'
 # 后端: 9000 端口未监听才启动
 $backend = Get-NetTCPConnection -LocalPort 9000 -State Listen -ErrorAction SilentlyContinue
 if (-not $backend) {
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "D:\bs_finally\launch-backend.cmd" -WindowStyle Hidden
+}
+
+# 前端: 5173 端口未监听才启动
+$frontend = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue
+if (-not $frontend) {
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "D:\bs_finally\launch-frontend.cmd" -WindowStyle Hidden
+}

@@ -8,9 +8,9 @@
             <rect x="4" y="4" width="40" height="40" rx="10" fill="#0D9488"/>
             <text x="24" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff">智</text>
           </svg>
-          <span class="brand-text">智学AI</span>
+          <span class="brand-text">智汇云课堂</span>
         </div>
-        <h1 class="slogan">智学AI学习测评系统</h1>
+        <h1 class="slogan">智汇云课堂</h1>
         <p class="sub-slogan">学练一体 · 以测促学 · AI赋能</p>
         <div class="features">
           <div class="feature-item">
@@ -125,7 +125,7 @@
 
       <!-- 底部信息 -->
       <div class="footer-info">
-        <span>© 2024 智学AI学习测评系统</span>
+        <span>© 2024 智汇云课堂</span>
         <el-divider direction="vertical" />
         <el-link underline="never" type="info" style="font-size:12px">用户协议</el-link>
         <el-divider direction="vertical" />
