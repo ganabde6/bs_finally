@@ -124,7 +124,9 @@ const save = async () => {
 }
 
 const del = async (id) => {
-  await ElMessageBox.confirm('确定删除该班级?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定删除该班级?', '提示', { type: 'warning' })
+  } catch { return }
   await deleteClass(id)
   ElMessage.success('已删除')
   loadData()

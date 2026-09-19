@@ -1,8 +1,17 @@
 package com.zhixue.ai.module.ai.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhixue.ai.common.result.Result;
 import com.zhixue.ai.module.ai.service.AiService;
 import com.zhixue.ai.module.exam.service.ExamService;
+import com.zhixue.ai.module.system.entity.SysClass;
+import com.zhixue.ai.module.system.entity.SysSubject;
+import com.zhixue.ai.module.system.entity.SysTeacherClass;
+import com.zhixue.ai.module.system.entity.SysUser;
+import com.zhixue.ai.module.system.mapper.SysClassMapper;
+import com.zhixue.ai.module.system.mapper.SysSubjectMapper;
+import com.zhixue.ai.module.system.mapper.SysTeacherClassMapper;
+import com.zhixue.ai.module.system.mapper.SysUserMapper;
 import com.zhixue.ai.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +29,48 @@ public class StudentController {
 
     private final ExamService examService;
     private final AiService aiService;
+    private final SysUserMapper userMapper;
+    private final SysClassMapper classMapper;
+    private final SysTeacherClassMapper teacherClassMapper;
+    private final SysSubjectMapper subjectMapper;
+
+    /** 个人信息:学生基本信息 + 所在班级 + 本班全部任教老师(姓名/电话/科目) */
+    @GetMapping("/profile")
+    public Result<Map<String, Object>> profile() {
+        Long studentId = SecurityUtils.getCurrentUserId();
+        Long classId = SecurityUtils.getCurrentClassId();
+        SysUser me = userMapper.selectById(studentId);
+        Map<String, Object> result = new java.util.HashMap<>();
+        if (me != null) {
+            result.put("username", me.getUsername());
+            result.put("realName", me.getRealName());
+            result.put("phone", me.getPhone());
+            result.put("email", me.getEmail());
+            result.put("avatar", me.getAvatar());
+            result.put("gradeLevel", me.getGradeLevel());
+        }
+        if (classId != null) {
+            SysClass cls = classMapper.selectById(classId);
+            if (cls != null) result.put("className", cls.getClassName());
+        }
+        // 本班全部任教老师: 执教关系 -> 老师 + 科目
+        List<Map<String, Object>> teachers = new java.util.ArrayList<>();
+        List<SysTeacherClass> tcs = teacherClassMapper.selectList(
+                new LambdaQueryWrapper<SysTeacherClass>().eq(SysTeacherClass::getClassId, classId));
+        for (SysTeacherClass tc : tcs) {
+            SysUser teacher = userMapper.selectById(tc.getTeacherId());
+            if (teacher == null || teacher.getDeleted() == 1) continue;
+            Map<String, Object> t = new java.util.HashMap<>();
+            t.put("teacherName", teacher.getRealName());
+            t.put("phone", teacher.getPhone());
+            t.put("email", teacher.getEmail());
+            SysSubject subject = subjectMapper.selectById(tc.getSubjectId());
+            t.put("subjectName", subject != null ? subject.getSubjectName() : "");
+            teachers.add(t);
+        }
+        result.put("teachers", teachers);
+        return Result.success(result);
+    }
 
     /** 学习首页统计 */
     @GetMapping("/dashboard")

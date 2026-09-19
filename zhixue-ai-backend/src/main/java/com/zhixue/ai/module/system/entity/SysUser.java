@@ -18,6 +18,9 @@ public class SysUser {
     private String realName;
     private Long roleId;
     private Long classId;
+    /** 展示用:教师的任课班级名(非数据库字段) */
+    @TableField(exist = false)
+    private String className;
     private Integer status;
     private String avatar;
     private String phone;

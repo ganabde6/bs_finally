@@ -12,6 +12,7 @@ const menus = [
   { path: '/teacher/correct', title: '批改管理', icon: 'Edit' },
   { path: '/teacher/classAnalysis', title: '班级学情', icon: 'TrendCharts' },
   { path: '/teacher/feedback', title: '家校反馈', icon: 'Message' },
-  { path: '/teacher/studentManage', title: '学员管理', icon: 'User' }
+  { path: '/teacher/studentManage', title: '学员管理', icon: 'User' },
+  { path: '/teacher/profile', title: '个人信息', icon: 'Postcard' }
 ]
 </script>

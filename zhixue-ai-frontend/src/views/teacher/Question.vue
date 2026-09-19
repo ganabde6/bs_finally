@@ -327,14 +327,18 @@ const save = async () => {
 }
 
 const del = async (id) => {
-  await ElMessageBox.confirm('确定删除该题目?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定删除该题目?', '提示', { type: 'warning' })
+  } catch { return }
   await deleteQuestion(id)
   ElMessage.success('已删除')
   loadData()
 }
 
 const batchDel = async () => {
-  await ElMessageBox.confirm(`确定删除选中的 ${selection.value.length} 道题目?`, '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm(`确定删除选中的 ${selection.value.length} 道题目?`, '提示', { type: 'warning' })
+  } catch { return }
   for (const row of selection.value) {
     await deleteQuestion(row.id)
   }

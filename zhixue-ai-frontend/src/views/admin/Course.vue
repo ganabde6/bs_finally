@@ -147,7 +147,9 @@ const saveSubject = async () => {
 }
 
 const delSubject = async (id) => {
-  await ElMessageBox.confirm('确定删除该学科?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定删除该学科?', '提示', { type: 'warning' })
+  } catch { return }
   await deleteSubject(id)
   ElMessage.success('已删除')
   const res = await adminSubjects()
@@ -172,7 +174,9 @@ const saveAssign = async () => {
 }
 
 const removeCourseRow = async (id) => {
-  await ElMessageBox.confirm('确定移除该任课?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定移除该任课?', '提示', { type: 'warning' })
+  } catch { return }
   await removeCourse(id)
   ElMessage.success('已移除')
   loadCourses()

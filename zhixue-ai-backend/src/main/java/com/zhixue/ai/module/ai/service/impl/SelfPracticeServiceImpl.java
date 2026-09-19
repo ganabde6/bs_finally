@@ -87,47 +87,87 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         List<ExamQuestion> result = new ArrayList<>();
         Set<Long> pickedIds = new HashSet<>();
         Random random = new Random();
+
+        // 1. 单次 AI 调用现场出题(全部题型一起出,避免每题型一次串行大模型调用导致耗时成倍增长)
+        try {
+            Map<String, Object> cfg = new HashMap<>();
+            cfg.put("questionCount", questionCount);
+            cfg.put("difficulty", 0);
+            cfg.put("knowledgePoints", knowledgePoints);
+            cfg.put("questionTypes", types);
+            cfg.put("difficultyRatio", ratioDesc);
+            result = generateByAi(cfg, subjectId, creatorId);
+        } catch (Exception ex) {
+            log.warn("教师组卷 AI 出题失败: {}", ex.getMessage());
+            result = new ArrayList<>();
+        }
+        result.forEach(q -> pickedIds.add(q.getId()));
+
+        // 2. 按题型分布用题库补齐(AI 可能题型分布不准或题量不足)
         for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
             int type = e.getKey();
             int count = e.getValue();
             if (count <= 0) continue;
-            List<ExamQuestion> batch = new ArrayList<>();
-            // 1. AI 现场出题(单题型,难度按分布提示词约束)
-            try {
-                Map<String, Object> cfg = new HashMap<>();
-                cfg.put("questionCount", count);
-                cfg.put("difficulty", 0);
-                cfg.put("knowledgePoints", knowledgePoints);
-                cfg.put("questionTypes", Collections.singletonList(type));
-                cfg.put("difficultyRatio", ratioDesc);
-                batch = generateByAi(cfg, subjectId, creatorId);
-            } catch (Exception ex) {
-                log.warn("教师组卷题型 {} AI 出题失败: {}", type, ex.getMessage());
-            }
-            // 2. 题量不足时题库按难度比例补齐
-            int need = count - batch.size();
-            if (need > 0) {
-                Set<Long> excl = new HashSet<>(pickedIds);
-                batch.forEach(q -> excl.add(q.getId()));
-                List<ExamQuestion> bank = drawByTypeAndDifficulty(
-                        subjectId, type, need, easyRatio, mediumRatio, hardRatio, random);
-                for (ExamQuestion q : bank) {
-                    if (!excl.contains(q.getId())) {
-                        batch.add(q);
-                        excl.add(q.getId());
-                    }
+            long have = result.stream().filter(q -> q.getQuestionType() == type).count();
+            int need = count - (int) have;
+            if (need <= 0) continue;
+            Set<Long> excl = new HashSet<>(pickedIds);
+            List<ExamQuestion> bank = drawByTypeAndDifficulty(
+                    subjectId, type, need, easyRatio, mediumRatio, hardRatio, random);
+            for (ExamQuestion q : bank) {
+                if (!excl.contains(q.getId())) {
+                    result.add(q);
+                    excl.add(q.getId());
+                    pickedIds.add(q.getId());
                 }
             }
-            // 3. 统一分配分值并回写数据库(AI 题插入时默认 5 分,需按总分覆盖)
-            for (ExamQuestion q : batch) {
-                if (perScore.compareTo(BigDecimal.ZERO) > 0 && perScore.compareTo(q.getFullScore()) != 0) {
-                    q.setFullScore(perScore);
-                    questionMapper.update(null, new LambdaUpdateWrapper<ExamQuestion>()
-                            .eq(ExamQuestion::getId, q.getId())
-                            .set(ExamQuestion::getFullScore, perScore));
+        }
+
+        // 3. 最终兜底: 总量仍不足时,只从"尚未达配额"的题型中随机补齐,
+        // 保证不破坏用户要求的题型数量分布
+        while (result.size() < questionCount) {
+            // 统计各题型现有数量,找出仍缺的题型
+            Map<Integer, Integer> haveByType = new HashMap<>();
+            for (ExamQuestion q : result) {
+                haveByType.merge(q.getQuestionType(), 1, Integer::sum);
+            }
+            List<Integer> underQuotaTypes = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
+                int quota = e.getValue() == null ? 0 : e.getValue();
+                if (quota > 0 && haveByType.getOrDefault(e.getKey(), 0) < quota) {
+                    underQuotaTypes.add(e.getKey());
                 }
-                result.add(q);
-                pickedIds.add(q.getId());
+            }
+            if (underQuotaTypes.isEmpty()) break;
+            Set<Long> excl = new HashSet<>(pickedIds);
+            List<ExamQuestion> bank = selectByDifficulty(subjectId, null, underQuotaTypes, null, excl);
+            if (bank.isEmpty()) break; // 题库中该题型也无题,只能缺着(分布优先于总数)
+            Collections.shuffle(bank, random);
+            for (ExamQuestion q : bank) {
+                if (result.size() >= questionCount) break;
+                int quota = typeCounts.getOrDefault(q.getQuestionType(), 0);
+                if (quota > 0 && haveByType.merge(q.getQuestionType(), 1, Integer::sum) <= quota
+                        && !excl.contains(q.getId())) {
+                    result.add(q);
+                    excl.add(q.getId());
+                    pickedIds.add(q.getId());
+                }
+            }
+        }
+
+        // 4. 裁剪:补齐可能略超请求数量,超出部分从题库补的题(列表尾部)移除
+        while (result.size() > questionCount) {
+            ExamQuestion extra = result.remove(result.size() - 1);
+            if (extra.getId() != null) pickedIds.remove(extra.getId());
+        }
+
+        // 5. 统一分配分值并回写数据库(AI 题插入时默认 5 分,需按总分覆盖)
+        for (ExamQuestion q : result) {
+            if (perScore.compareTo(BigDecimal.ZERO) > 0 && perScore.compareTo(q.getFullScore()) != 0) {
+                q.setFullScore(perScore);
+                questionMapper.update(null, new LambdaUpdateWrapper<ExamQuestion>()
+                        .eq(ExamQuestion::getId, q.getId())
+                        .set(ExamQuestion::getFullScore, perScore));
             }
         }
         return result;
@@ -571,6 +611,18 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     .map(t -> Integer.valueOf(t.toString())).collect(Collectors.toList())
                 : Arrays.asList(1, 2, 4, 5, 7);
 
+        // 题型数量分布(题型 -> 数量):用于提示词描述 + 接受题目时按题型硬性截断
+        Map<Integer, Integer> typeCounts = parseTypeCounts(config.get("typeCounts"), questionTypes, questionCount);
+        String[] typeNames = {null, "单选题", "多选题", null, "填空题", "简答题", null, "计算题"};
+        StringBuilder typeCountsDesc = new StringBuilder();
+        for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
+            if (e.getValue() == null || e.getValue() <= 0) continue;
+            String name = e.getKey() < typeNames.length ? typeNames[e.getKey()] : null;
+            if (name == null) name = "题型" + e.getKey();
+            if (typeCountsDesc.length() > 0) typeCountsDesc.append(" ");
+            typeCountsDesc.append(name).append(e.getValue()).append("道");
+        }
+
         // 学科名称（prompt 需要）
         String subjectName = "通用学科";
         SysSubject subject = subjectMapper.selectById(subjectId);
@@ -579,63 +631,76 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         }
 
         List<ExamQuestion> result = new ArrayList<>();
-        // 库内已有题目内容（归一化后），用于入库前去重
-        Set<String> existingContents = questionMapper.selectList(
+        // 一次性加载该学科全部题目(归一化后),同时用于: 库内去重集合 + 提示词"已出过题"列表,
+        // 避免每轮 AI 调用都重复全表查询
+        List<ExamQuestion> existingList = questionMapper.selectList(
                 new LambdaQueryWrapper<ExamQuestion>()
                         .eq(ExamQuestion::getSubjectId, subjectId)
-                        .eq(ExamQuestion::getDeleted, 0))
-                .stream()
+                        .eq(ExamQuestion::getDeleted, 0)
+                        .orderByDesc(ExamQuestion::getId));
+        // 库内已有题目内容（归一化后），用于入库前去重
+        Set<String> existingContents = existingList.stream()
                 .map(ExamQuestion::getContent)
                 .filter(c -> c != null && !c.trim().isEmpty())
                 .map(SelfPracticeServiceImpl::normalizeContent)
                 .collect(Collectors.toSet());
+        // 提示词"已出过题"列表(最新优先,最多 50 条),任务级缓存,轮次间复用
+        List<String> existingQuestions = existingList.stream()
+                .map(ExamQuestion::getContent)
+                .filter(c -> c != null && !c.trim().isEmpty())
+                .limit(50)
+                .collect(Collectors.toList());
         // 本批次已接受的题目内容（批次内去重）
         Set<String> batchContents = new HashSet<>();
 
-        // 大题(简答5/计算7)配额:用户选择大题题型时,保证试卷中至少有一定数量的大题,
-        // 避免 AI 全部生成选择题/填空题
-        List<Integer> bigTypes = questionTypes.stream()
-                .filter(t -> t == SystemConstants.Q_TYPE_SHORT || t == SystemConstants.Q_TYPE_CALC)
-                .collect(Collectors.toList());
-        int bigQuota = 0;
-        if (!bigTypes.isEmpty()) {
-            // 每 10 题至少 2 道大题,最少 1 道
-            bigQuota = Math.max(1, (int) Math.ceil(questionCount * 0.2));
-        }
-
         // 循环调用 AI 直到凑够题目数量：单次生成不超过 8 道，兼顾单次调用响应时长与总轮次。
         // 轮次上限按平均每轮 6 道有效产出估算(去重/过滤会损失部分),确保能凑够 questionCount
+        // 题型分布不做专轮约束:AI 单轮返回的题型可能与请求不符,差额由题库按题型补齐兜底,
+        // 避免专轮空转白白增加多轮 AI 调用耗时
         int maxRounds = Math.max(6, (int) Math.ceil(questionCount / 6.0) + 2);
         int emptyStreak = 0;
-        int bigOnlyEmptyRounds = 0;
         for (int round = 0; round < maxRounds && result.size() < questionCount; round++) {
             int stillNeed = Math.min(questionCount - result.size(), 8);
-            // 大题配额未满足时,本轮专出大题;连续空转两轮后放开题型限制,避免 AI 不配合大题导致题量不足
-            long bigCount = result.stream()
-                    .filter(q -> bigTypes.contains(q.getQuestionType()))
-                    .count();
-            boolean bigOnly = !bigTypes.isEmpty() && bigCount < bigQuota && bigOnlyEmptyRounds < 2;
-            List<Integer> roundTypes = bigOnly ? bigTypes : questionTypes;
             int beforeRound = result.size();
-            // 查询该学科已出过的题目内容（最新的优先），提示 AI 不要重复出题
-            List<String> existingQuestions = questionMapper.selectList(
-                    new LambdaQueryWrapper<ExamQuestion>()
-                            .eq(ExamQuestion::getSubjectId, subjectId)
-                            .eq(ExamQuestion::getDeleted, 0)
-                            .orderByDesc(ExamQuestion::getId))
-                    .stream()
-                    .map(ExamQuestion::getContent)
-                    .filter(c -> c != null && !c.trim().isEmpty())
-                    .limit(50)
-                    .collect(Collectors.toList());
-
+            // 计算各题型仍缺的配额,本轮只请求仍缺的题型(缺大题时定向补大题),
+            // 避免 AI 反复出已配满的题型导致有效产出为零、轮次空转
+            Map<Integer, Integer> haveByType = new HashMap<>();
+            for (ExamQuestion q : result) {
+                haveByType.merge(q.getQuestionType(), 1, Integer::sum);
+            }
+            Map<Integer, Integer> needByType = new LinkedHashMap<>();
+            for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
+                int quota = e.getValue() == null ? 0 : e.getValue();
+                int lack = quota - haveByType.getOrDefault(e.getKey(), 0);
+                if (quota > 0 && lack > 0) needByType.put(e.getKey(), lack);
+            }
+            List<Integer> roundTypes;
+            String roundTypeDesc;
+            if (!needByType.isEmpty()) {
+                roundTypes = new ArrayList<>(needByType.keySet());
+                int lackTotal = needByType.values().stream().mapToInt(Integer::intValue).sum();
+                stillNeed = Math.min(stillNeed, lackTotal);
+                String[] tn = {null, "单选题", "多选题", null, "填空题", "简答题", null, "计算题"};
+                StringBuilder desc = new StringBuilder();
+                for (Map.Entry<Integer, Integer> e : needByType.entrySet()) {
+                    String name = e.getKey() < tn.length && tn[e.getKey()] != null ? tn[e.getKey()] : "题型" + e.getKey();
+                    if (desc.length() > 0) desc.append(" ");
+                    desc.append(name).append(e.getValue()).append("道");
+                }
+                roundTypeDesc = desc.toString();
+            } else {
+                // 无题型配额约束(如学生自练): 按全部所选题型出
+                roundTypes = questionTypes;
+                roundTypeDesc = typeCountsDesc.length() > 0 ? typeCountsDesc.toString() : null;
+            }
             String json = aiServiceProvider.generateExamQuestions(subjectName, knowledgePoints, roundTypes,
                     difficulty, stillNeed, existingQuestions,
-                    (String) config.get("difficultyRatio"));
+                    (String) config.get("difficultyRatio"),
+                    roundTypeDesc);
             if (json == null || json.trim().isEmpty()) {
                 log.warn("AI 组卷第 {} 轮未返回内容", round + 1);
                 emptyStreak++;
-                if (emptyStreak >= 3) {
+                if (emptyStreak >= 2) {
                     log.warn("AI 组卷连续 {} 轮未返回内容,停止生成,当前已生成 {} 道", emptyStreak, result.size());
                     break;
                 }
@@ -669,11 +734,18 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                         log.warn("AI 组卷第 {} 轮第 {} 题为判断题，已按规则过滤", round + 1, i + 1);
                         continue;
                     }
-                    // 严格按本轮请求题型过滤: 不在所选题型内的直接跳过
-                    // (大题专轮 roundTypes=大题,只收大题; 普通轮 roundTypes=用户所选全部题型)
-                    if (!roundTypes.contains(q.getQuestionType())) {
+                    // 过滤题型不符的题(如 AI 返回判断题外的其它未选题型),差额由题库按题型补齐兜底
+                    if (!questionTypes.contains(q.getQuestionType())) {
                         log.warn("AI 组卷第 {} 轮第 {} 题题型 {} 不在所选范围内,已跳过",
                                 round + 1, i + 1, q.getQuestionType());
+                        continue;
+                    }
+                    // 按题型数量分布硬性截断:该题型已达配额时不再接受,避免挤占其它题型名额
+                    Integer typeQuota = typeCounts.get(q.getQuestionType());
+                    long typeHave = result.stream().filter(x -> x.getQuestionType() == q.getQuestionType()).count();
+                    if (typeQuota != null && typeQuota > 0 && typeHave >= typeQuota) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题题型 {} 已达配额 {} 道,跳过多出部分",
+                                round + 1, i + 1, q.getQuestionType(), typeQuota);
                         continue;
                     }
                     q.setDifficulty(obj.getIntValue("difficulty"));
@@ -714,16 +786,6 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                 }
             } catch (Exception e) {
                 log.error("AI 组卷第 {} 轮 JSON 解析失败: {}", round + 1, truncate(json, 300), e);
-            }
-            // 大题专轮:本轮未产出任何题目时累计空转,连续两次后放开题型限制,
-            // 避免 AI 始终不配合出大题导致整轮空转、题量凑不够
-            if (bigOnly) {
-                if (result.size() == beforeRound) {
-                    bigOnlyEmptyRounds++;
-                    log.warn("AI 组卷第 {} 轮大题专轮未产出,空转累计 {}", round + 1, bigOnlyEmptyRounds);
-                } else {
-                    bigOnlyEmptyRounds = 0;
-                }
             }
         }
         return result;

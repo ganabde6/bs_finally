@@ -49,7 +49,32 @@ public class SystemService {
         Page<SysUser> result = userMapper.selectPage(page, wrapper);
         // 脱敏
         result.getRecords().forEach(u -> u.setPassword(null));
+        fillTeacherClassName(result.getRecords());
         return result;
+    }
+
+    /**
+     * 教师的班级信息存于 sys_teacher_class 任课关系(sys_user.class_id 仅学生使用),
+     * 列表展示时把任课班级名填入 className 字段
+     */
+    private void fillTeacherClassName(List<SysUser> records) {
+        List<Long> teacherIds = records.stream()
+                .filter(u -> u.getRoleId() != null && u.getRoleId() == 3L)
+                .map(SysUser::getId)
+                .collect(Collectors.toList());
+        if (teacherIds.isEmpty()) return;
+        for (SysUser u : records) {
+            if (u.getRoleId() == null || u.getRoleId() != 3L) continue;
+            List<SysTeacherClass> tcs = teacherClassMapper.selectByTeacherId(u.getId());
+            String names = tcs.stream()
+                    .map(SysTeacherClass::getClassId)
+                    .distinct()
+                    .map(cid -> classMapper.selectById(cid))
+                    .filter(java.util.Objects::nonNull)
+                    .map(SysClass::getClassName)
+                    .collect(Collectors.joining("、"));
+            u.setClassName(names);
+        }
     }
 
     public SysUser getUserById(Long id) {

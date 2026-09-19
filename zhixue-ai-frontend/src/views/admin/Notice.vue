@@ -104,7 +104,9 @@ const save = async () => {
 }
 
 const del = async (id) => {
-  await ElMessageBox.confirm('确定删除该公告?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定删除该公告?', '提示', { type: 'warning' })
+  } catch { return }
   await deleteNotice(id)
   ElMessage.success('已删除')
   loadData()

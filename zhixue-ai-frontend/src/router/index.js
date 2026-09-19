@@ -19,6 +19,7 @@ const routes = [
       { path: 'errorbook', name: 'StudentErrorBook', component: () => import('@/views/student/ErrorBook.vue'), meta: { title: '错题本' } },
       { path: 'study', name: 'StudentStudy', component: () => import('@/views/student/StudyCenter.vue'), meta: { title: '学情中心' } },
       { path: 'selfPractice', name: 'StudentSelfPractice', component: () => import('@/views/student/PracticeConfig.vue'), meta: { title: '自主智练' } },
+      { path: 'profile', name: 'StudentProfile', component: () => import('@/views/student/Profile.vue'), meta: { title: '个人信息' } },
       { path: 'practicePaper', name: 'StudentPracticePaper', component: () => import('@/views/student/PracticePaper.vue'), meta: { title: '练习作答' } }
     ]
   },
@@ -39,7 +40,8 @@ const routes = [
       { path: 'classAnalysis', name: 'TeacherClassAnalysis', component: () => import('@/views/teacher/ClassAnalysis.vue'), meta: { title: '班级学情' } },
       { path: 'feedback', name: 'TeacherFeedback', component: () => import('@/views/teacher/Feedback.vue'), meta: { title: '家校反馈' } },
       { path: 'lsHomework', name: 'TeacherLsHomework', component: () => import('@/views/teacher/LsHomework.vue'), meta: { title: '听说作业' } },
-      { path: 'studentManage', name: 'TeacherStudentManage', component: () => import('@/views/teacher/StudentManage.vue'), meta: { title: '学员管理' } }
+      { path: 'studentManage', name: 'TeacherStudentManage', component: () => import('@/views/teacher/StudentManage.vue'), meta: { title: '学员管理' } },
+      { path: 'profile', name: 'TeacherProfile', component: () => import('@/views/teacher/Profile.vue'), meta: { title: '个人信息' } }
     ]
   },
 

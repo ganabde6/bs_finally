@@ -31,6 +31,39 @@ public class TeacherController {
     private final SystemService systemService;
     private final AiGroupTaskService aiGroupTaskService;
     private final com.zhixue.ai.module.exam.service.TeacherDashboardService teacherDashboardService;
+    private final com.zhixue.ai.module.system.mapper.SysUserMapper userMapper;
+    private final com.zhixue.ai.module.system.mapper.SysClassMapper classMapper;
+    private final com.zhixue.ai.module.system.mapper.SysTeacherClassMapper teacherClassMapper;
+    private final com.zhixue.ai.module.system.mapper.SysSubjectMapper subjectMapper;
+
+    /** 个人信息:教师基本信息 + 我执教的班级/科目明细(供个人信息页展示) */
+    @GetMapping("/profile")
+    public Result<Map<String, Object>> profile() {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        com.zhixue.ai.module.system.entity.SysUser me = userMapper.selectById(teacherId);
+        Map<String, Object> result = new java.util.HashMap<>();
+        if (me != null) {
+            result.put("username", me.getUsername());
+            result.put("realName", me.getRealName());
+            result.put("phone", me.getPhone());
+            result.put("email", me.getEmail());
+            result.put("avatar", me.getAvatar());
+        }
+        // 我执教的班级/科目明细(同一班级多科目会分开列出)
+        List<Map<String, Object>> courses = new java.util.ArrayList<>();
+        List<com.zhixue.ai.module.system.entity.SysTeacherClass> tcs = teacherClassMapper.selectByTeacherId(teacherId);
+        for (com.zhixue.ai.module.system.entity.SysTeacherClass tc : tcs) {
+            Map<String, Object> c = new java.util.HashMap<>();
+            com.zhixue.ai.module.system.entity.SysClass cls =
+                    classMapper.selectById(tc.getClassId());
+            c.put("className", cls != null ? cls.getClassName() : "");
+            com.zhixue.ai.module.system.entity.SysSubject subject = subjectMapper.selectById(tc.getSubjectId());
+            c.put("subjectName", subject != null ? subject.getSubjectName() : "");
+            courses.add(c);
+        }
+        result.put("courses", courses);
+        return Result.success(result);
+    }
 
     /** 教师首页统计 */
     @GetMapping("/dashboard")

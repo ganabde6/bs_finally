@@ -106,6 +106,8 @@ public class AuthService {
      * 获取当前登录用户信息(从 SecurityContext 读取)
      */
     public Map<String, Object> getCurrentUserInfo() {
+        // LoginUser(JWT)里没有 phone/email,需查库取完整资料
+        SysUser dbUser = userMapper.selectById(com.zhixue.ai.security.SecurityUtils.getCurrentUserId());
         com.zhixue.ai.security.LoginUser lu = com.zhixue.ai.security.SecurityUtils.getCurrentUser();
         if (lu == null) {
             throw new BizException(ResultCode.UNAUTHORIZED);
@@ -119,6 +121,9 @@ public class AuthService {
         result.put("classId", lu.getClassId());
         result.put("avatar", lu.getAvatar());
         result.put("gradeLevel", lu.getGradeLevel());
+        // 手机/邮箱不入 token,从数据库读取
+        result.put("phone", dbUser != null ? dbUser.getPhone() : null);
+        result.put("email", dbUser != null ? dbUser.getEmail() : null);
         // 查询权限
         List<SysPermission> perms = permissionMapper.selectByRoleId(lu.getRoleId());
         result.put("permissions", perms);

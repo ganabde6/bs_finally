@@ -32,7 +32,7 @@ public class AiGroupTaskService {
     private final ExamService examService;
 
     private final Map<String, AiGroupTask> tasks = new ConcurrentHashMap<>();
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final ExecutorService executor = Executors.newFixedThreadPool(8);
     private final AtomicLong seq = new AtomicLong();
 
     /** 提交组卷任务,立即返回 taskId */

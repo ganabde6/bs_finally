@@ -275,7 +275,8 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
     @Override
     public String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
                                         java.util.List<Integer> questionTypes, Integer difficulty, int count,
-                                        java.util.List<String> existingQuestions, String difficultyRatio) {
+                                        java.util.List<String> existingQuestions, String difficultyRatio,
+                                        String typeCountsDesc) {
         // 本地规则模式无法生成新题,返回 null 由调用方回退题库抽题
         return null;
     }

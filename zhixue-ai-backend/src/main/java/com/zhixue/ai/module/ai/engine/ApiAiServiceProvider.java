@@ -717,7 +717,8 @@ public class ApiAiServiceProvider implements AiServiceProvider {
     @Override
     public String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
                                         java.util.List<Integer> questionTypes, Integer difficulty, int count,
-                                        java.util.List<String> existingQuestions, String difficultyRatio) {
+                                        java.util.List<String> existingQuestions, String difficultyRatio,
+                                        String typeCountsDesc) {
         if (count <= 0) {
             return null;
         }
@@ -751,6 +752,11 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             typeLabel = labels.toString();
         }
         userMsg.append("【题型】").append(typeLabel).append("\n");
+        // 题型数量分布:明确要求每种题型各出几道,AI 才能按用户配置的分布出题
+        if (typeCountsDesc != null && !typeCountsDesc.isEmpty()) {
+            userMsg.append("【题型数量分布】").append(typeCountsDesc)
+                    .append("。每种题型的数量必须严格按上述要求,不得多出或少出某种题型\n");
+        }
 
         if (difficulty != null && difficulty > 0) {
             String diffLabel = difficulty == 1 ? "基础(1)" : difficulty == 2 ? "中档(2)"

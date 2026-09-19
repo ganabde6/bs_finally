@@ -20,6 +20,7 @@ export const getRoles = () => request.get('/api/common/roles')
 
 // ============ 学生端 ============
 export const studentDashboard = () => request.get('/api/student/dashboard')
+export const studentProfile = () => request.get('/api/student/profile')
 export const studentPapers = () => request.get('/api/student/papers')
 export const studentPaperDetail = (id) => request.get(`/api/student/paper/${id}`)
 export const startAnswer = (paperId) => request.post(`/api/student/answer/start/${paperId}`)
@@ -153,6 +154,7 @@ export const teacherClassStudents = (classId) => request.get(`/api/teacher/class
 
 // ============ 教师学员管理 ============
 export const teacherMyClasses = () => request.get('/api/teacher/my-classes')
+export const teacherProfile = () => request.get('/api/teacher/profile')
 export const teacherPageStudents = (params) => request.get('/api/teacher/students', { params })
 export const teacherAddStudent = (data) => request.post('/api/teacher/student', data)
 export const teacherUpdateStudent = (data) => request.put('/api/teacher/student', data)

@@ -65,7 +65,9 @@ const loadData = async () => {
 onMounted(loadData)
 
 const publish = async (id) => {
-  await ElMessageBox.confirm('发布后学生即可作答,确定?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('发布后学生即可作答,确定?', '提示', { type: 'warning' })
+  } catch { return }
   await publishPaper(id)
   ElMessage.success('已发布')
   loadData()
@@ -78,7 +80,9 @@ const finish = async (id) => {
 }
 
 const del = async (id) => {
-  await ElMessageBox.confirm('确定删除?', '提示', { type: 'warning' })
+  try {
+    await ElMessageBox.confirm('确定删除?', '提示', { type: 'warning' })
+  } catch { return }
   await deletePaper(id)
   ElMessage.success('已删除')
   loadData()

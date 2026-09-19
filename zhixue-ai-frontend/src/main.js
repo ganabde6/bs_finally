@@ -26,6 +26,8 @@ app.use(ElementPlus, { locale: zhCn })
 // 避免控制台出现 "Unhandled error" / "Uncaught (in promise)" 噪音
 // (request.js 拦截器已负责弹出业务错误提示,这里只做日志记录)
 app.config.errorHandler = (err, instance, info) => {
+  // ElMessageBox 点"取消/关闭"时会 reject 字符串 'cancel'/'close',属正常交互,静默忽略
+  if (err === 'cancel' || err === 'close') return
   console.error('[VueError]', info, err)
 }
 window.addEventListener('unhandledrejection', (e) => {

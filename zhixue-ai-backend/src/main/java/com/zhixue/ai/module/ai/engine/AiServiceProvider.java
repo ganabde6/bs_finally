@@ -162,9 +162,11 @@ public interface AiServiceProvider {
      * @param count 生成题数
      * @param existingQuestions 已出过的题干列表(可空),AI 应避免重复出这些题
      * @param difficultyRatio 难度分布描述(可空,如"基础30% 中档40% 拔高30%"),非空时按比例出题
+     * @param typeCountsDesc 题型数量分布描述(可空,如"单选题2道 多选题2道 填空题2道"),非空时按各题型数量出题
      * @return JSON数组字符串,每个元素含 content/options/standardAnswer/analysis/questionType/difficulty/knowledgePoint 字段;调用失败返回 null
      */
     String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
                                  java.util.List<Integer> questionTypes, Integer difficulty, int count,
-                                 java.util.List<String> existingQuestions, String difficultyRatio);
+                                 java.util.List<String> existingQuestions, String difficultyRatio,
+                                 String typeCountsDesc);
 }
