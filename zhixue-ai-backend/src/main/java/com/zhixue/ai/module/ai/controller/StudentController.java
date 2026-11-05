@@ -12,6 +12,7 @@ import com.zhixue.ai.module.system.mapper.SysClassMapper;
 import com.zhixue.ai.module.system.mapper.SysSubjectMapper;
 import com.zhixue.ai.module.system.mapper.SysTeacherClassMapper;
 import com.zhixue.ai.module.system.mapper.SysUserMapper;
+import com.zhixue.ai.module.system.service.SystemService;
 import com.zhixue.ai.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,13 @@ public class StudentController {
     private final SysClassMapper classMapper;
     private final SysTeacherClassMapper teacherClassMapper;
     private final SysSubjectMapper subjectMapper;
+    private final SystemService systemService;
+
+    /** 当前学生可见的公告(全员公告 + 面向学生的已发布公告) */
+    @GetMapping("/notices")
+    public Result<?> notices() {
+        return Result.success(systemService.listVisibleNotices("STUDENT"));
+    }
 
     /** 个人信息:学生基本信息 + 所在班级 + 本班全部任教老师(姓名/电话/科目) */
     @GetMapping("/profile")
@@ -108,24 +116,72 @@ public class StudentController {
     @PostMapping("/answer/{answerId}/submit")
     public Result<?> submitAnswer(@PathVariable Long answerId,
                                   @RequestBody Map<String, Object> body) {
+        // JSON 反序列化出来的 map key 是 String,必须显式转成 Long,
+        // 否则批改时用 Long 型 questionId 取值永远 miss,学生答案会被当成空
+        Map<Long, String> answers = new java.util.HashMap<>();
         @SuppressWarnings("unchecked")
-        Map<Long, String> answers = (Map<Long, String>) body.get("answers");
+        Map<String, Object> raw = (Map<String, Object>) body.get("answers");
+        if (raw != null) {
+            raw.forEach((k, v) -> answers.put(Long.valueOf(k), v == null ? "" : v.toString()));
+        }
         Integer duration = (Integer) body.get("duration");
         examService.submitAnswer(answerId, duration, answers);
         // 自动触发 AI 批改
         return Result.success(aiService.correctAnswer(answerId, answers));
     }
 
-    /** 我的作答记录 */
+    /** 我的作答记录(可按科目、时间范围筛选,默认按时间倒序) */
     @GetMapping("/answers")
-    public Result<?> myAnswers() {
-        return Result.success(examService.listStudentAnswers(SecurityUtils.getCurrentUserId()));
+    public Result<?> myAnswers(@RequestParam(required = false) Long subjectId,
+                               @RequestParam(required = false) String startDate,
+                               @RequestParam(required = false) String endDate) {
+        return Result.success(examService.listStudentAnswersWithSubject(
+                SecurityUtils.getCurrentUserId(), subjectId, startDate, endDate));
+    }
+
+    /** 我的作答记录涉及的科目列表(动态来自作答记录,再按学生学段 gradeLevel 过滤补充) */
+    @GetMapping("/answer/subjects")
+    public Result<List<Map<String, Object>>> myAnswerSubjects() {
+        Long studentId = SecurityUtils.getCurrentUserId();
+        // 已有作答记录的科目(动态)
+        java.util.List<Map<String, Object>> subjects =
+                new java.util.ArrayList<>(examService.listStudentAnswerSubjects(studentId));
+        java.util.Set<Long> have = new java.util.HashSet<>();
+        for (Map<String, Object> s : subjects) {
+            Object id = s.get("subjectId");
+            if (id != null) have.add(Long.valueOf(id.toString()));
+        }
+        // 补充:学生学段 gradeLevel 下可用但还没有作答记录的科目,便于筛选下拉展示完整
+        SysUser me = userMapper.selectById(studentId);
+        Integer gradeLevel = me != null ? me.getGradeLevel() : null;
+        LambdaQueryWrapper<SysSubject> qw = new LambdaQueryWrapper<>();
+        if (gradeLevel != null && gradeLevel > 0) {
+            qw.and(w -> w.eq(SysSubject::getGradeLevel, gradeLevel).or().eq(SysSubject::getGradeLevel, 0));
+        }
+        qw.orderByAsc(SysSubject::getSort);
+        for (SysSubject sub : subjectMapper.selectList(qw)) {
+            if (have.add(sub.getId())) {
+                Map<String, Object> m = new java.util.HashMap<>();
+                m.put("subjectId", sub.getId());
+                m.put("subjectName", sub.getSubjectName());
+                m.put("noRecord", true); // 标记:该学段科目但暂无作答记录
+                subjects.add(m);
+            }
+        }
+        return Result.success(subjects);
     }
 
     /** 作答批改详情 */
     @GetMapping("/answer/{answerId}/correct")
     public Result<?> correctDetail(@PathVariable Long answerId) {
         return Result.success(aiService.getCorrectDetails(answerId));
+    }
+
+    /** 删除我的作答记录(级联删除批改记录) */
+    @DeleteMapping("/answer/{answerId}")
+    public Result<Void> deleteAnswer(@PathVariable Long answerId) {
+        examService.deleteStudentAnswer(answerId, SecurityUtils.getCurrentUserId());
+        return Result.success();
     }
 
     /** 错题本 */

@@ -63,6 +63,15 @@ public class CorrectEngine {
         String remark;
 
         Integer type = question.getQuestionType();
+        // 题型矫正:填空题但参考答案是长文本主观答案时,按简答题批改与点评,
+        // 避免长文本答案被字符串精确比对判 0 分、且点评只回显参考答案
+        if (type != null && type == SystemConstants.Q_TYPE_FILL
+                && question.getStandardAnswer() != null
+                && question.getStandardAnswer().length() > 20) {
+            log.warn("题目 {} 标注为填空题但参考答案为长文本({}字),按简答题批改",
+                    question.getId(), question.getStandardAnswer().length());
+            type = SystemConstants.Q_TYPE_SHORT;
+        }
         switch (type) {
             case SystemConstants.Q_TYPE_SINGLE:
             case SystemConstants.Q_TYPE_JUDGE:
@@ -106,7 +115,7 @@ public class CorrectEngine {
                 isCorrect = score.compareTo(BigDecimal.ZERO) == 0 ? 0 :
                         (score.compareTo(fullScore) == 0 ? 1 : 2);
                 scoreDetail = buildScoreDetail(question, studentAnswer, fullScore, score);
-                remark = buildSubjectiveRemark(score, fullScore, question);
+                remark = buildSubjectiveRemark(score, fullScore, question, studentAnswer);
                 break;
             case SystemConstants.Q_TYPE_ESSAY:
                 // 作文:字数+结构+关键词三维度
@@ -267,12 +276,86 @@ public class CorrectEngine {
         return arr.toJSONString();
     }
 
-    private String buildSubjectiveRemark(BigDecimal score, BigDecimal full, ExamQuestion q) {
+    /**
+     * 生成针对学生作答的结构化点评:
+     * ① 题目知识点及基础知识 ② 解题思路 ③ 结合学生答案诊断可能的思路偏差
+     */
+    private String buildSubjectiveRemark(BigDecimal score, BigDecimal full, ExamQuestion q, String answer) {
         double ratio = full.doubleValue() > 0 ? score.doubleValue() / full.doubleValue() : 0;
-        if (ratio >= 0.9) return "作答优秀,得分点覆盖全面";
-        if (ratio >= 0.6) return "作答良好,部分得分点未覆盖";
-        if (ratio >= 0.3) return "作答一般,建议补充关键要点";
-        return "作答较差,参考解析:" + (q.getAnalysis() == null ? "无" : q.getAnalysis());
+        StringBuilder sb = new StringBuilder();
+
+        // ① 知识点 + 基础知识
+        String kp = q.getKnowledgePoint();
+        if (kp != null && !kp.isEmpty()) {
+            sb.append("【知识点】本题考查:").append(kp).append("。");
+        }
+        String analysis = q.getAnalysis();
+        if (analysis != null && !analysis.isEmpty()) {
+            // 提取参考解析中的基础概念作为基础知识铺垫
+            String base = analysis.length() > 60 ? analysis.substring(0, 60) : analysis;
+            sb.append("基础知识:").append(base).append("。");
+        }
+
+        // ② 解题思路(来自得分点顺序 / 参考解析)
+        List<String> steps = new ArrayList<>();
+        String sp = q.getScorePoint();
+        if (sp != null && !sp.isEmpty()) {
+            try {
+                JSONArray points = JSON.parseArray(sp);
+                for (int i = 0; i < points.size(); i++) {
+                    JSONObject p = points.getJSONObject(i);
+                    String kw = p.getString("point");
+                    if (kw == null) kw = p.getString("step");
+                    if (kw != null && !kw.isEmpty()) steps.add(kw);
+                }
+            } catch (Exception ignored) {}
+        }
+        if (!steps.isEmpty()) {
+            sb.append("【解题思路】应按以下要点依次展开:");
+            for (int i = 0; i < steps.size(); i++) {
+                sb.append(i + 1).append(")").append(steps.get(i));
+                if (i < steps.size() - 1) sb.append("→");
+            }
+            sb.append("。");
+        }
+
+        // ③ 学生答案思路诊断
+        sb.append("【你的作答分析】");
+        if (answer == null || answer.trim().isEmpty()) {
+            sb.append("未作答,无法诊断思路,建议先掌握解题思路后重新练习。");
+            return sb.toString();
+        }
+        // 命中/遗漏的得分点
+        List<String> missed = new ArrayList<>();
+        int hitCount = 0;
+        for (String s : steps) {
+            if (answer.contains(s)) hitCount++;
+            else missed.add(s);
+        }
+        if (!steps.isEmpty()) {
+            if (hitCount == steps.size()) {
+                sb.append("你的作答覆盖了全部关键要点,思路完整正确");
+                if (ratio >= 0.95) sb.append(",继续保持。");
+                else sb.append(",但表述或计算上仍有失分,建议检查推理过程细节。");
+                return sb.toString();
+            }
+            // 推断思路断点:第一个未命中的要点即思路中断处
+            String breakpoint = missed.get(0);
+            int idx = steps.indexOf(breakpoint);
+            sb.append("从你的答案看,你完成了前 ").append(idx).append(" 步的要点");
+            if (idx > 0) sb.append("( ").append(String.join("、", steps.subList(0, idx))).append(" )");
+            sb.append(",但在「").append(breakpoint).append("」处思路中断。");
+            sb.append("可能的思路偏差:① 对「").append(breakpoint).append("」对应的").append(kp == null || kp.isEmpty() ? "知识点" : kp)
+              .append("理解不够深入,导致后续推导无法继续;② 审题时可能忽略了该要点的条件;③ 公式或方法选择出现偏差。");
+            sb.append("建议:先复习「").append(breakpoint).append("」涉及的基础知识,再对照解题思路逐步重做本题。");
+        } else {
+            // 无得分点,基于得分率和答案长度诊断
+            if (ratio >= 0.9) sb.append("你的作答思路正确、表述完整,继续保持。");
+            else if (ratio >= 0.6) sb.append("你的作答方向正确,但关键论述不完整,可能遗漏了题目要求的部分结论,建议对照解题思路检查是否答全。");
+            else if (ratio >= 0.3) sb.append("你的作答触及了部分考点,但主体思路偏离,可能对题目要求的理解存在偏差,建议重新审题并梳理解题步骤。");
+            else sb.append("你的作答与考点匹配度较低,可能从一开始的审题或方法选择就出现了偏差,建议先掌握本题知识点再重新练习。");
+        }
+        return sb.toString();
     }
 
     private String buildEssayRemark(BigDecimal score, BigDecimal full, String answer) {

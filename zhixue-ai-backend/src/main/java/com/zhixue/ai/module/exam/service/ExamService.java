@@ -29,6 +29,7 @@ public class ExamService {
     private final ExamPaperMapper paperMapper;
     private final ExamPaperQuestionMapper paperQuestionMapper;
     private final ExamAnswerMapper answerMapper;
+    private final com.zhixue.ai.module.ai.mapper.AiCorrectRecordMapper correctRecordMapper;
 
     // ===================== 题库 =====================
 
@@ -70,6 +71,16 @@ public class ExamService {
         return questionMapper.selectById(id);
     }
 
+    /** 按ID列表批量查询题目(保持传入顺序,用于出题记录按批次回看) */
+    public List<ExamQuestion> getQuestionsByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        java.util.Map<Long, ExamQuestion> byId = questionMapper.selectBatchIds(ids)
+                .stream().collect(java.util.stream.Collectors.toMap(ExamQuestion::getId, q -> q));
+        return ids.stream().map(byId::get).filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.toList());
+    }
+
     public void addQuestion(ExamQuestion q) {
         q.setCreatorId(SecurityUtils.getCurrentUserId());
         if (q.getDifficulty() == null) q.setDifficulty(3);
@@ -83,6 +94,16 @@ public class ExamService {
 
     public void deleteQuestion(Long id) {
         questionMapper.deleteById(id);
+    }
+
+    /** 按学科列表清空题库(教师端"一键删除全部"),返回删除数量 */
+    @Transactional
+    public int deleteAllQuestions(List<Long> subjectIds) {
+        if (subjectIds == null || subjectIds.isEmpty()) {
+            return 0;
+        }
+        return questionMapper.delete(new LambdaQueryWrapper<ExamQuestion>()
+                .in(ExamQuestion::getSubjectId, subjectIds));
     }
 
     /** AI 智能组卷(简化版:按学科+难度从题库随机抽题) */
@@ -323,6 +344,47 @@ public class ExamService {
     /** 学生作答记录列表 */
     public List<ExamAnswer> listStudentAnswers(Long studentId) {
         return answerMapper.selectByStudentId(studentId);
+    }
+
+    /** 学生作答记录列表(带科目名,按时间倒序;subjectId/起止日期均可空) */
+    public List<java.util.Map<String, Object>> listStudentAnswersWithSubject(Long studentId, Long subjectId,
+                                                                            String startDate, String endDate) {
+        List<java.util.Map<String, Object>> rows = answerMapper.selectStudentAnswersWithSubject(studentId);
+        if (subjectId != null) {
+            rows.removeIf(r -> !subjectId.equals(r.get("subjectId")));
+        }
+        if (startDate != null && !startDate.isEmpty()) {
+            String start = startDate + " 00:00:00";
+            rows.removeIf(r -> {
+                Object t = r.get("submitTime") != null ? r.get("submitTime") : r.get("createTime");
+                return t == null || t.toString().replace('T', ' ').compareTo(start) < 0;
+            });
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            String end = endDate + " 23:59:59";
+            rows.removeIf(r -> {
+                Object t = r.get("submitTime") != null ? r.get("submitTime") : r.get("createTime");
+                return t == null || t.toString().replace('T', ' ').compareTo(end) > 0;
+            });
+        }
+        return rows;
+    }
+
+    /** 学生作答记录涉及的实际科目(用于筛选下拉,动态来自其作答记录) */
+    public List<java.util.Map<String, Object>> listStudentAnswerSubjects(Long studentId) {
+        return answerMapper.selectStudentAnswerSubjects(studentId);
+    }
+
+    /** 删除学生的作答记录(级联删除 AI 批改记录,校验归属) */
+    @Transactional
+    public void deleteStudentAnswer(Long answerId, Long studentId) {
+        ExamAnswer answer = answerMapper.selectById(answerId);
+        if (answer == null || !studentId.equals(answer.getStudentId())) {
+            throw new BizException("作答记录不存在");
+        }
+        correctRecordMapper.delete(new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<com.zhixue.ai.module.ai.entity.AiCorrectRecord>()
+                .eq(com.zhixue.ai.module.ai.entity.AiCorrectRecord::getAnswerId, answerId));
+        answerMapper.deleteById(answerId);
     }
 
     /** 试卷作答列表(教师端) */

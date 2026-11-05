@@ -94,7 +94,8 @@
 
     <div class="mt-20" style="text-align:center">
       <el-button @click="$router.back()">取消</el-button>
-      <el-button type="primary" :loading="submitting" @click="save">保存试卷</el-button>
+      <el-button type="primary" :loading="submitting" @click="save(false)">保存试卷</el-button>
+      <el-button v-if="form.status === 0" type="success" :loading="submitting" @click="save(true)">保存并发布</el-button>
     </div>
   </div>
 </template>
@@ -104,7 +105,7 @@ import { ref, reactive, onMounted, computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
-import { getClasses, pageQuestions, createPaper, updatePaper, teacherPaperDetail, teacherMySubjects } from '@/api'
+import { getClasses, pageQuestions, createPaper, updatePaper, teacherPaperDetail, teacherMySubjects, publishPaper } from '@/api'
 import { renderLatex } from '@/utils/latex'
 
 const route = useRoute()
@@ -230,7 +231,7 @@ const clearSelected = () => {
   selected.value = []
 }
 
-const save = async () => {
+const save = async (publish = false) => {
   if (!form.paperName || !form.subjectId || !form.classId) {
     ElMessage.warning('请填写完整信息(名称/学科/班级)')
     return
@@ -247,13 +248,21 @@ const save = async () => {
   try {
     const questionsPayload = selected.value.map(q => ({ questionId: q.id, score: scoreMap[q.id] }))
     const payload = { paper: { ...form, totalScore: totalScore.value }, questions: questionsPayload }
+    let paperId
     if (isEdit.value) {
       payload.paper.id = Number(route.params.id)
+      paperId = payload.paper.id
       await updatePaper(payload)
     } else {
-      await createPaper(payload)
+      const res = await createPaper(payload)
+      paperId = res.data
     }
-    ElMessage.success('保存成功')
+    if (publish) {
+      await publishPaper(paperId)
+      ElMessage.success('保存并发布成功,学生端已可见')
+    } else {
+      ElMessage.success('保存成功')
+    }
     router.push('/teacher/paper')
   } finally {
     submitting.value = false

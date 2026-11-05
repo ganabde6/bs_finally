@@ -63,14 +63,61 @@
       </el-form>
       <p v-if="aiGroupLoading" class="ai-group-tip">{{ aiGroupStatusText }}</p>
     </el-card>
+
+    <el-card class="content-card" style="margin-top:16px">
+      <template #header>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span>出题记录</span>
+          <el-button text :icon="Refresh" @click="loadRecords">刷新</el-button>
+        </div>
+      </template>
+      <el-table v-if="records.length" :data="records" size="default">
+        <el-table-column prop="id" label="批次" width="70" />
+        <el-table-column prop="subjectName" label="学科" width="110" />
+        <el-table-column label="来源" width="110">
+          <template #default="{ row }">
+            <el-tag :type="row.source === 'ai' ? 'success' : 'info'" size="small">
+              {{ row.source === 'ai' ? 'AI 现场出题' : '题库抽取' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="count" label="题目数" width="90" />
+        <el-table-column prop="createTime" label="出题时间" min-width="160" />
+        <el-table-column label="操作" width="180">
+          <template #default="{ row }">
+            <el-button type="primary" text @click="viewRecord(row)">查看题目</el-button>
+            <el-button type="danger" text @click="delRecord(row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-empty v-else description="暂无出题记录,完成一次智能出题后这里会显示历史记录" :image-size="80" />
+    </el-card>
+
+    <el-dialog v-model="recordDialogVisible" :title="`出题记录 #${currentRecord?.id || ''} 的题目(${recordQuestions.length} 道)`" width="760px" top="6vh">
+      <div v-if="recordQuestions.length" class="record-questions">
+        <div v-for="(q, i) in recordQuestions" :key="q.id" class="record-question-item">
+          <div class="rq-title">
+            <span class="rq-index">{{ i + 1 }}.</span>
+            <el-tag size="small" style="margin-right:6px">{{ typeLabel(q.questionType) }}</el-tag>
+            <span>{{ cleanText(q.content) }}</span>
+          </div>
+          <div v-if="optionList(q).length" class="rq-options">
+            <div v-for="opt in optionList(q)" :key="opt" class="rq-option-line">{{ opt }}</div>
+          </div>
+          <div class="rq-answer">答案：{{ cleanText(q.standardAnswer) }}</div>
+        </div>
+      </div>
+      <el-empty v-else description="该记录的题目已被删除" :image-size="80" />
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { getSubjects, aiGroup, aiGroupStatus, teacherMySubjects } from '@/api'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Refresh } from '@element-plus/icons-vue'
+import { getSubjects, aiGroup, aiGroupStatus, teacherMySubjects, aiGroupRecords, aiGroupRecordQuestions, deleteAiGroupRecord } from '@/api'
 
 const router = useRouter()
 
@@ -125,6 +172,79 @@ const removeCustomKp = (kp) => {
   if (j > -1) customKpList.value.splice(j, 1)
 }
 
+// ===================== 出题记录 =====================
+const records = ref([])
+const recordDialogVisible = ref(false)
+const currentRecord = ref(null)
+const recordQuestions = ref([])
+// 题型编码 -> 名称(与后端 SystemConstants 保持一致)
+const typeLabelMap = { 1: '单选', 2: '多选', 4: '填空', 5: '简答', 7: '计算' }
+const typeLabel = (t) => typeLabelMap[t] || `题型${t}`
+
+/** 清理文本中 AI 可能夹带的 markdown 代码围栏等标记 */
+const cleanText = (text) => {
+  if (!text) return ''
+  return String(text)
+    .replace(/```[a-zA-Z]*\n?/g, '')
+    .replace(/\\n/g, '\n')
+    .trim()
+}
+
+/** 解析选项:options 存的是 JSON 数组字符串([{key,value}] 或字符串数组),解析为逐行选项;解析失败则按原文处理 */
+const optionList = (q) => {
+  const raw = q && q.options
+  if (!raw) return []
+  const cleaned = cleanText(raw)
+  try {
+    const arr = JSON.parse(cleaned)
+    if (Array.isArray(arr)) {
+      return arr.map(o => {
+        if (o && typeof o === 'object') {
+          const value = o.value != null ? String(o.value) : (o.content != null ? String(o.content) : '')
+          return o.key != null && value ? `${o.key}. ${value}` : value
+        }
+        return String(o)
+      }).filter(Boolean)
+    }
+  } catch { /* 非合法 JSON,按原文展示 */ }
+  return cleaned.split('\n').map(s => s.trim()).filter(Boolean)
+}
+
+const loadRecords = async () => {
+  try {
+    const res = await aiGroupRecords()
+    records.value = res.data || []
+  } catch (e) {
+    // 静默失败:记录面板不影响出题主流程
+  }
+}
+
+const viewRecord = async (row) => {
+  currentRecord.value = row
+  recordQuestions.value = []
+  recordDialogVisible.value = true
+  try {
+    const res = await aiGroupRecordQuestions(row.id)
+    recordQuestions.value = res.data || []
+  } catch (e) {
+    ElMessage.error(e.message || '加载题目失败')
+  }
+}
+
+/** 删除出题记录(仅删记录条目,不影响已生成的题目) */
+const delRecord = async (row) => {
+  try {
+    await ElMessageBox.confirm(
+      '确定删除该条出题记录吗?已生成的题目仍保留在题库中。',
+      '删除出题记录',
+      { type: 'warning', confirmButtonText: '删除', cancelButtonText: '取消' }
+    )
+  } catch { return }
+  await deleteAiGroupRecord(row.id)
+  ElMessage.success('记录已删除')
+  loadRecords()
+}
+
 onMounted(async () => {
   // 仅加载本人任教学科,默认锁定第一个
   const s = await teacherMySubjects()
@@ -132,6 +252,7 @@ onMounted(async () => {
   if (!aiForm.subjectId && subjects.value.length) {
     aiForm.subjectId = subjects.value[0].id
   }
+  loadRecords()
 })
 
 
@@ -288,5 +409,46 @@ const pollAiGroup = (taskId, timeoutMs) => {
   padding: 8px;
   background: #f7f9fa;
   border-radius: 4px;
+}
+
+.record-questions {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.record-question-item {
+  padding: 10px 12px;
+  border: 1px solid #E8F1F4;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.rq-title {
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.rq-index {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.rq-options {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #606266;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.rq-option-line {
+  line-height: 1.8;
+}
+
+.rq-answer {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #67c23a;
 }
 </style>

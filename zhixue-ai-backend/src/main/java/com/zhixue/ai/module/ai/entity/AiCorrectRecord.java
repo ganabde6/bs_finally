@@ -27,6 +27,8 @@ public class AiCorrectRecord {
     private String scoreDetail;
     private String correctRemark;
     private Integer correctType;
+    /** 复核状态:0正常 1存疑待教师确认 */
+    private Integer reviewStatus;
     private String aiModel;
 
     @TableField(fill = FieldFill.INSERT)

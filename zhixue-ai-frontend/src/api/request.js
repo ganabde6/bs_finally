@@ -20,11 +20,31 @@ request.interceptors.request.use(
   err => Promise.reject(err)
 )
 
+// 递归格式化响应数据中的 ISO 时间字符串: "2026-09-20T12:06:10" -> "2026-09-20 12:06:10"
+const ISO_TIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?$/
+const formatIsoTime = (val) => {
+  if (typeof val === 'string' && ISO_TIME_RE.test(val)) {
+    return val.replace('T', ' ')
+  }
+  if (Array.isArray(val)) {
+    val.forEach((v, i) => { val[i] = formatIsoTime(v) })
+    return val
+  }
+  if (val && typeof val === 'object') {
+    for (const k of Object.keys(val)) {
+      val[k] = formatIsoTime(val[k])
+    }
+    return val
+  }
+  return val
+}
+
 // 响应拦截:统一处理
 request.interceptors.response.use(
   resp => {
     const data = resp.data
     if (data.code === 200) {
+      formatIsoTime(data.data)
       return data
     }
     // 业务错误

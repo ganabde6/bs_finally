@@ -9,10 +9,10 @@
     <el-card class="content-card">
     <el-form :inline="true" class="mb-20">
       <el-form-item label="班级">
-        <el-select v-model="classId" @change="loadAnalysis"><el-option v-for="c in classes" :key="c.id" :label="c.className" :value="c.id" /></el-select>
+        <el-select v-model="classId" style="width:160px" @change="loadAnalysis"><el-option v-for="c in classes" :key="c.id" :label="c.className" :value="c.id" /></el-select>
       </el-form-item>
       <el-form-item label="学科">
-        <el-select v-model="subjectId" clearable @change="loadAnalysis"><el-option v-for="s in subjects" :key="s.id" :label="s.subjectName" :value="s.id" /></el-select>
+        <span class="subject-text">{{ subjectLabel }}</span>
       </el-form-item>
     </el-form>
     <div v-if="analysis">
@@ -39,29 +39,34 @@
         <div style="white-space:pre-wrap;line-height:1.8">{{ analysis.teachingAdvice }}</div>
       </el-card>
     </div>
-    <el-empty v-else description="请选择班级与学科" />
+    <el-empty v-else description="请选择班级" />
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import * as echarts from 'echarts'
-import { getClasses, getSubjects, classAnalysis } from '@/api'
+import { getClasses, teacherMySubjects, classAnalysis } from '@/api'
 
 const classes = ref([])
-const subjects = ref([])
+const mySubjects = ref([])
 const classId = ref(null)
 const subjectId = ref(null)
+// 学科固定为教师任教学科,不提供下拉选择;任教多个学科时按全班综合学情(subjectId=null)分析
+const subjectLabel = computed(() => mySubjects.value.length
+  ? mySubjects.value.map(s => s.subjectName).join('、')
+  : '未设置任教学科')
 const analysis = ref(null)
 const layering = ref([])
 const pieChart = ref()
 const barChart = ref()
 
 onMounted(async () => {
-  const [c, s] = await Promise.all([getClasses(), getSubjects()])
+  const [c, s] = await Promise.all([getClasses(), teacherMySubjects()])
   classes.value = c.data
-  subjects.value = s.data
+  mySubjects.value = s.data || []
+  subjectId.value = mySubjects.value.length === 1 ? mySubjects.value[0].id : null
   if (classes.value.length) {
     classId.value = classes.value[0].id
     loadAnalysis()
@@ -105,3 +110,10 @@ const drawBar = () => {
   })
 }
 </script>
+
+<style scoped>
+.subject-text {
+  font-weight: 600;
+  color: #303133;
+}
+</style>

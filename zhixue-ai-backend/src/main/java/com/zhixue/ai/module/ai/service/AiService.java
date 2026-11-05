@@ -147,6 +147,7 @@ public class AiService {
         r.setScore(newScore);
         r.setCorrectRemark(remark);
         r.setCorrectType(SystemConstants.CORRECT_TYPE_MANUAL);
+        r.setReviewStatus(0); // 教师已人工确认,清除存疑标记
         if (newScore.compareTo(BigDecimal.ZERO) == 0) r.setIsCorrect(0);
         else if (newScore.compareTo(r.getFullScore()) >= 0) r.setIsCorrect(1);
         else r.setIsCorrect(2);
@@ -183,32 +184,260 @@ public class AiService {
         return result;
     }
 
+    /**
+     * 题目维度:统计某班级所有学生对该题的作答情况
+     * @param questionId 题目ID
+     * @param classId    班级ID
+     */
+    public Map<String, Object> getQuestionClassAnswers(Long questionId, Long classId) {
+        // 班级全部学生
+        List<SysUser> students = userMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getClassId, classId)
+                .eq(SysUser::getRoleId, 4L)
+                .orderByAsc(SysUser::getUsername));
+        // 该题在所有作答中的批改记录(该题答题记录按 answer -> student 关联)
+        List<AiCorrectRecord> records = correctMapper.selectList(new LambdaQueryWrapper<AiCorrectRecord>()
+                .eq(AiCorrectRecord::getQuestionId, questionId));
+        Map<Long, AiCorrectRecord> byAnswer = records.stream()
+                .collect(Collectors.toMap(AiCorrectRecord::getAnswerId, r -> r, (a, b) -> a));
+        // 学生 -> 作答记录
+        Map<Long, ExamAnswer> answerByStudent = new HashMap<>();
+        if (!byAnswer.isEmpty()) {
+            List<ExamAnswer> answers = answerMapper.selectBatchIds(byAnswer.keySet());
+            answers.forEach(a -> answerByStudent.put(a.getStudentId(), a));
+        }
+        // 汇总每名学生的作答
+        List<Map<String, Object>> rows = new ArrayList<>();
+        int correct = 0, wrong = 0, unanswered = 0;
+        for (SysUser stu : students) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("studentId", stu.getId());
+            row.put("studentName", stu.getRealName());
+            row.put("username", stu.getUsername());
+            ExamAnswer ans = answerByStudent.get(stu.getId());
+            AiCorrectRecord r = ans != null ? byAnswer.get(ans.getId()) : null;
+            if (ans == null || ans.getStatus() == null || ans.getStatus() < 1) {
+                row.put("status", "未作答");
+                row.put("studentAnswer", "");
+                row.put("score", null);
+                row.put("isCorrect", null);
+                unanswered++;
+            } else if (r == null) {
+                row.put("status", "已提交待批改");
+                row.put("studentAnswer", "");
+                row.put("score", null);
+                row.put("isCorrect", null);
+            } else {
+                row.put("status", "已批改");
+                row.put("studentAnswer", r.getStudentAnswer());
+                row.put("score", r.getScore());
+                row.put("isCorrect", r.getIsCorrect());
+                row.put("remark", r.getCorrectRemark());
+                if (r.getIsCorrect() != null && r.getIsCorrect() == 1) correct++;
+                else wrong++;
+            }
+            rows.add(row);
+        }
+        Map<String, Object> stat = new HashMap<>();
+        stat.put("total", students.size());
+        stat.put("correct", correct);
+        stat.put("wrong", wrong);
+        stat.put("unanswered", unanswered);
+        stat.put("correctRate", students.isEmpty() ? "0%" :
+                Math.round(correct * 1000.0 / students.size()) / 10.0 + "%");
+        Map<String, Object> result = new HashMap<>();
+        result.put("stat", stat);
+        result.put("rows", rows);
+        return result;
+    }
+
+    /**
+     * 试卷维度:整套试卷每题的全班作答情况(逐人明细 + 客观题选项分布标注)
+     * @param paperId 试卷ID(取其所属班级学生)
+     */
+    public Map<String, Object> getPaperClassAnswers(Long paperId) {
+        ExamPaper paper = paperMapper.selectById(paperId);
+        if (paper == null) throw new BizException("试卷不存在");
+        Long classId = paper.getClassId();
+
+        // 班级全部学生
+        List<SysUser> students = userMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getClassId, classId)
+                .eq(SysUser::getRoleId, 4L)
+                .orderByAsc(SysUser::getUsername));
+        Map<Long, SysUser> stuMap = students.stream()
+                .collect(Collectors.toMap(SysUser::getId, s -> s, (a, b) -> a));
+
+        // 该试卷全部作答(每学生取最新一条)
+        List<ExamAnswer> answers = answerMapper.selectByPaperId(paperId);
+        Map<Long, ExamAnswer> answerByStudent = new HashMap<>();
+        for (ExamAnswer a : answers) {
+            answerByStudent.merge(a.getStudentId(), a,
+                    (oldV, newV) -> newV.getId() > oldV.getId() ? newV : oldV);
+        }
+
+        // 批量取这些作答的全部批改记录,按 answerId+questionId 索引
+        Map<Long, Map<Long, AiCorrectRecord>> recordsByAnswer = new HashMap<>();
+        if (!answers.isEmpty()) {
+            List<Long> answerIds = answers.stream().map(ExamAnswer::getId).collect(Collectors.toList());
+            List<AiCorrectRecord> recs = correctMapper.selectList(new LambdaQueryWrapper<AiCorrectRecord>()
+                    .in(AiCorrectRecord::getAnswerId, answerIds));
+            for (AiCorrectRecord r : recs) {
+                recordsByAnswer.computeIfAbsent(r.getAnswerId(), k -> new HashMap<>()).put(r.getQuestionId(), r);
+            }
+        }
+
+        // 试卷题目(按 sort 顺序)
+        List<ExamPaperQuestion> pqs = paperQuestionMapper.selectList(new LambdaQueryWrapper<ExamPaperQuestion>()
+                .eq(ExamPaperQuestion::getPaperId, paperId)
+                .orderByAsc(ExamPaperQuestion::getSort));
+
+        List<Map<String, Object>> questions = new ArrayList<>();
+        for (ExamPaperQuestion pq : pqs) {
+            ExamQuestion q = questionMapper.selectById(pq.getQuestionId());
+            if (q == null) continue;
+            int type = q.getQuestionType() == null ? 0 : q.getQuestionType();
+            boolean objective = type == SystemConstants.Q_TYPE_SINGLE
+                    || type == SystemConstants.Q_TYPE_MULTI
+                    || type == SystemConstants.Q_TYPE_JUDGE
+                    || type == SystemConstants.Q_TYPE_FILL;
+
+            // 每个学生的作答明细
+            List<Map<String, Object>> rows = new ArrayList<>();
+            // 客观题选项分布(仅客观题): key=A/B/C/D -> 人数
+            Map<String, Integer> optionDist = new LinkedHashMap<>();
+            int answered = 0, correctCnt = 0;
+            BigDecimal scoreSum = BigDecimal.ZERO;
+            int submitted = 0;
+            for (SysUser stu : students) {
+                Map<String, Object> row = new HashMap<>();
+                row.put("studentId", stu.getId());
+                row.put("studentName", stu.getRealName());
+                row.put("username", stu.getUsername());
+                ExamAnswer ans = answerByStudent.get(stu.getId());
+                AiCorrectRecord r = (ans != null && ans.getStatus() != null && ans.getStatus() >= 1)
+                        ? recordsByAnswer.getOrDefault(ans.getId(), Collections.emptyMap()).get(q.getId()) : null;
+                if (ans == null || ans.getStatus() == null || ans.getStatus() < 1) {
+                    row.put("status", "未作答");
+                    row.put("studentAnswer", "");
+                    row.put("score", null);
+                    row.put("isCorrect", null);
+                } else {
+                    submitted++;
+                    row.put("status", r != null ? "已批改" : "已提交待批改");
+                    row.put("studentAnswer", r != null ? r.getStudentAnswer() : "");
+                    row.put("score", r != null ? r.getScore() : null);
+                    row.put("isCorrect", r != null ? r.getIsCorrect() : null);
+                    if (r != null) {
+                        answered++;
+                        scoreSum = scoreSum.add(r.getScore() == null ? BigDecimal.ZERO : r.getScore());
+                        if (r.getIsCorrect() != null && r.getIsCorrect() == 1) correctCnt++;
+                        // 客观题统计选项分布
+                        if (objective && r.getStudentAnswer() != null) {
+                            String sa = r.getStudentAnswer().trim().toUpperCase();
+                            if (type == SystemConstants.Q_TYPE_MULTI) {
+                                for (char c : sa.replaceAll("[^A-Z]", "").toCharArray()) {
+                                    optionDist.merge(String.valueOf(c), 1, Integer::sum);
+                                }
+                            } else if (!sa.isEmpty()) {
+                                optionDist.merge(sa, 1, Integer::sum);
+                            }
+                        }
+                    }
+                }
+                rows.add(row);
+            }
+
+            Map<String, Object> qm = new HashMap<>();
+            qm.put("questionId", q.getId());
+            qm.put("content", q.getContent());
+            qm.put("questionType", q.getQuestionType());
+            qm.put("standardAnswer", q.getStandardAnswer());
+            qm.put("options", q.getOptions());
+            qm.put("fullScore", pq.getScore());
+            qm.put("objective", objective);
+            qm.put("optionDist", optionDist);
+            qm.put("stat", Map.of(
+                    "total", students.size(),
+                    "submitted", submitted,
+                    "answered", answered,
+                    "correct", correctCnt,
+                    "avgScore", answered == 0 ? 0 :
+                            scoreSum.divide(BigDecimal.valueOf(answered), 2, RoundingMode.HALF_UP).doubleValue()));
+            qm.put("rows", rows);
+            questions.add(qm);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("paperId", paperId);
+        result.put("paperName", paper.getPaperName());
+        result.put("classId", classId);
+        result.put("studentCount", students.size());
+        result.put("submittedCount", answerByStudent.size());
+        result.put("questions", questions);
+        return result;
+    }
+
     /** 批量批改试卷所有已提交作答 */
+    /**
+     * 批量复核(AI 自检):学生提交时已自动 AI 初批,这里由 AI 对主观题再做一次独立批改,
+     * 与初批结论比对:不一致的题标记「存疑」(review_status=1)待教师人工确认,
+     * 一致的清除存疑标记;教师已手动微调(MANUAL)的记录不动;客观/填空题为确定性批改,跳过
+     */
     @Transactional
     public Map<String, Object> batchCorrectPaper(Long paperId) {
         List<ExamAnswer> answers = answerMapper.selectByPaperId(paperId);
-        int success = 0, skip = 0;
+        int reviewed = 0, skip = 0, diffCount = 0;
         for (ExamAnswer a : answers) {
             if (a.getStatus() == null || a.getStatus() < SystemConstants.ANSWER_STATUS_SUBMITTED) {
                 skip++;
                 continue;
             }
-            // 已批改的也重新批改
-            Map<Long, String> empty = new HashMap<>(); // 占位,因为批改时已写入 studentAnswer
-            // 这里需要重新读取已有答案(已在 ai_correct_record.student_answer)
-            // 为简化,跳过无答案的
-            List<AiCorrectRecord> existRecords = correctMapper.selectByAnswerId(a.getId());
-            if (!existRecords.isEmpty()) {
-                Map<Long, String> answersMap = existRecords.stream()
-                        .collect(Collectors.toMap(AiCorrectRecord::getQuestionId,
-                                AiCorrectRecord::getStudentAnswer, (x, y) -> x));
-                correctAnswer(a.getId(), answersMap);
-                success++;
+            List<AiCorrectRecord> records = correctMapper.selectByAnswerId(a.getId());
+            if (records.isEmpty()) {
+                // 从未批改过(自动初批未执行),补一次完整初批
+                correctAnswer(a.getId(), new HashMap<>());
+                reviewed++;
+                continue;
+            }
+            boolean changed = false;
+            for (AiCorrectRecord r : records) {
+                // 教师手动微调过的记录,保留不动
+                if (r.getCorrectType() != null && r.getCorrectType() == SystemConstants.CORRECT_TYPE_MANUAL) continue;
+                ExamQuestion q = questionMapper.selectById(r.getQuestionId());
+                if (q == null) continue;
+                Integer type = q.getQuestionType();
+                // 客观/填空题由本地规则确定性批改,自检无意义,只复核简答/作文/计算
+                if (type == null || type < SystemConstants.Q_TYPE_SHORT) continue;
+                String verdict = aiServiceProvider.correctVariant(q.getContent(), q.getStandardAnswer(), r.getStudentAnswer());
+                if (verdict == null) continue; // AI 服务不可用,保留初批结果
+                boolean aiRight = verdict.startsWith("正确");
+                boolean oldRight = r.getIsCorrect() != null && r.getIsCorrect() == 1;
+                // 去掉上一轮复核意见,避免重复堆积
+                String baseRemark = r.getCorrectRemark() == null ? ""
+                        : r.getCorrectRemark().replaceAll("AI复核:[^\n]*\n?", "").trim();
+                if (aiRight != oldRight) {
+                    r.setReviewStatus(1); // 存疑,待教师确认
+                    diffCount++;
+                } else {
+                    r.setReviewStatus(0);
+                }
+                r.setCorrectRemark((baseRemark.isEmpty() ? "" : baseRemark + "\n")
+                        + "AI复核:" + verdict.replace("\n", " ").trim());
+                correctMapper.updateById(r);
+                changed = true;
+            }
+            if (changed) {
+                ExamAnswer ua = new ExamAnswer();
+                ua.setId(a.getId());
+                ua.setStatus(SystemConstants.ANSWER_STATUS_REVIEWED);
+                answerMapper.updateById(ua);
+                reviewed++;
             } else {
                 skip++;
             }
         }
-        return Map.of("total", answers.size(), "success", success, "skip", skip);
+        return Map.of("total", answers.size(), "reviewed", reviewed, "skip", skip, "diff", diffCount);
     }
 
     // ===================== 错题本 =====================
@@ -359,8 +588,13 @@ public class AiService {
         SysUser u = userMapper.selectById(studentId);
         AiStudyAnalysis sa = studyAnalysisMapper.selectOne(new LambdaQueryWrapper<AiStudyAnalysis>()
                 .eq(AiStudyAnalysis::getStudentId, studentId).last("LIMIT 1"));
+        // 该生尚无学情分析时,现场自动生成(有作答数据才会产生结果)
+        if (sa == null) {
+            sa = analysisEngine.analyzeStudent(studentId, null);
+        }
         String perf = sa == null ? "" : "平均分:" + sa.getAvgScore() +
-                ",薄弱点:" + (sa.getWeakPoints() == null ? "无" : sa.getWeakPoints());
+                ",薄弱点:" + (sa.getWeakPoints() == null ? "无" : sa.getWeakPoints()) +
+                ",优势:" + (sa.getStrongPoints() == null ? "无" : sa.getStrongPoints());
         return aiServiceProvider.generateComment(u == null ? null : u.getRealName(), perf);
     }
 

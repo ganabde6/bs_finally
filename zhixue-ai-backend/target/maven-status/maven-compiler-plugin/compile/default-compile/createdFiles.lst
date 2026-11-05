@@ -87,6 +87,7 @@ com\zhixue\ai\module\ai\service\LsHomeworkService.class
 com\zhixue\ai\module\ai\entity\PkRoomMember.class
 com\zhixue\ai\module\ai\mapper\AiErrorBookMapper.class
 com\zhixue\ai\module\ai\mapper\AiCorrectRecordMapper.class
+com\zhixue\ai\module\exam\mapper\AiGenerateRecordMapper.class
 com\zhixue\ai\module\ai\engine\LocalRuleAiServiceProvider.class
 com\zhixue\ai\common\constant\SystemConstants.class
 com\zhixue\ai\module\system\mapper\SysRoleMapper.class
@@ -120,3 +121,4 @@ com\zhixue\ai\module\ai\mapper\AiStudyAnalysisMapper.class
 com\zhixue\ai\module\system\mapper\SysSubjectMapper.class
 com\zhixue\ai\module\exam\entity\ExamPaperQuestion.class
 com\zhixue\ai\module\ai\entity\AiTutorChat.class
+com\zhixue\ai\module\exam\entity\AiGenerateRecord.class

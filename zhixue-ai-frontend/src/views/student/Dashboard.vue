@@ -44,7 +44,7 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
-import { studentDashboard, studentPapers } from '@/api'
+import { studentDashboard, studentPapers, studentNotices } from '@/api'
 
 const cards = reactive([
   { label: '待完成作业/考试', value: 0 },
@@ -56,6 +56,12 @@ const notices = ref([])
 const pendingPapers = ref([])
 
 onMounted(async () => {
+  try {
+    const n = await studentNotices()
+    notices.value = n.data || []
+  } catch (e) {
+    console.error('加载公告失败:', e)
+  }
   try {
     const res = await studentDashboard()
     cards[1].value = res.data.answerCount

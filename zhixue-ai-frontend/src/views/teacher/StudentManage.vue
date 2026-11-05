@@ -16,7 +16,7 @@
       <!-- 筛选区 -->
       <el-form :inline="true" :model="queryForm" class="filter-form">
         <el-form-item label="班级">
-          <el-select v-model="queryForm.classId" placeholder="全部班级" clearable>
+          <el-select v-model="queryForm.classId" placeholder="全部班级" clearable style="width:160px">
             <el-option
               v-for="cls in myClasses"
               :key="cls.id"

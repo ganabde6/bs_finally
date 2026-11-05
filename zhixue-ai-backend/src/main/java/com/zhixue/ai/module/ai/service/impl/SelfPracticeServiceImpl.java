@@ -46,6 +46,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
     private final UserCheckInMapper checkInMapper;
     private final AiErrorBookMapper errorBookMapper;
     private final ExamQuestionMapper questionMapper;
+    private final com.zhixue.ai.module.exam.mapper.AiGenerateRecordMapper generateRecordMapper;
     private final SysUserMapper userMapper;
     private final SysSubjectMapper subjectMapper;
     private final AiServiceProvider aiServiceProvider;
@@ -103,6 +104,9 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         }
         result.forEach(q -> pickedIds.add(q.getId()));
 
+        // 近期出题记录已用过的题库题也纳入排除,让多次出题尽量不重复(仅影响题库补齐,AI 现场生成的题本身已去重)
+        Set<Long> recentUsedIds = loadRecentUsedQuestionIds(creatorId);
+
         // 2. 按题型分布用题库补齐(AI 可能题型分布不准或题量不足)
         for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
             int type = e.getKey();
@@ -112,8 +116,9 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             int need = count - (int) have;
             if (need <= 0) continue;
             Set<Long> excl = new HashSet<>(pickedIds);
+            excl.addAll(recentUsedIds);
             List<ExamQuestion> bank = drawByTypeAndDifficulty(
-                    subjectId, type, need, easyRatio, mediumRatio, hardRatio, random);
+                    subjectId, type, need, easyRatio, mediumRatio, hardRatio, random, excl);
             for (ExamQuestion q : bank) {
                 if (!excl.contains(q.getId())) {
                     result.add(q);
@@ -140,6 +145,7 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             }
             if (underQuotaTypes.isEmpty()) break;
             Set<Long> excl = new HashSet<>(pickedIds);
+            excl.addAll(recentUsedIds);
             List<ExamQuestion> bank = selectByDifficulty(subjectId, null, underQuotaTypes, null, excl);
             if (bank.isEmpty()) break; // 题库中该题型也无题,只能缺着(分布优先于总数)
             Collections.shuffle(bank, random);
@@ -729,6 +735,16 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                     ExamQuestion q = new ExamQuestion();
                     q.setSubjectId(subjectId);
                     q.setQuestionType(obj.getIntValue("questionType"));
+                    // 题型矫正:填空题但参考答案是长文本主观答案时归为简答题,
+                    // 否则批改引擎会按字符串精确比对判 0 分、点评只回显参考答案
+                    if (q.getQuestionType() == SystemConstants.Q_TYPE_FILL) {
+                        String std = obj.getString("standardAnswer");
+                        if (std != null && std.length() > 20) {
+                            log.warn("AI 组卷第 {} 轮第 {} 题标注为填空题但答案为长文本({}字),归为简答题",
+                                    round + 1, i + 1, std.length());
+                            q.setQuestionType(SystemConstants.Q_TYPE_SHORT);
+                        }
+                    }
                     // 过滤判断题(3):仅保留选择、填空、大题
                     if (q.getQuestionType() == SystemConstants.Q_TYPE_JUDGE) {
                         log.warn("AI 组卷第 {} 轮第 {} 题为判断题，已按规则过滤", round + 1, i + 1);
@@ -922,13 +938,13 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         if (singleCount != null || multiCount != null || fillCount != null || shortCount != null) {
             // 配置了题型分布：按题型+难度比例分层抽题
             selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_SINGLE, singleCount,
-                    easyRatio, mediumRatio, hardRatio, random));
+                    easyRatio, mediumRatio, hardRatio, random, null));
             selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_MULTI, multiCount,
-                    easyRatio, mediumRatio, hardRatio, random));
+                    easyRatio, mediumRatio, hardRatio, random, null));
             selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_FILL, fillCount,
-                    easyRatio, mediumRatio, hardRatio, random));
+                    easyRatio, mediumRatio, hardRatio, random, null));
             selected.addAll(drawByTypeAndDifficulty(subjectId, SystemConstants.Q_TYPE_SHORT, shortCount,
-                    easyRatio, mediumRatio, hardRatio, random));
+                    easyRatio, mediumRatio, hardRatio, random, null));
         } else {
             // 未配置题型分布：按难度分层抽题
             int easyCount = Math.round(questionCount * easyRatio / 100f);
@@ -957,18 +973,47 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
      * @param questionType 题型（1单选/2多选/4填空/5简答）
      * @param count        该题型题目数量（null 或 <=0 时跳过）
      */
+    /**
+     * 加载教师近期出题记录中已使用过的题目 id(最新 50 条),
+     * 用于题库补齐时排除,让多次出题尽量不重复。
+     */
+    private Set<Long> loadRecentUsedQuestionIds(Long teacherId) {
+        Set<Long> used = new HashSet<>();
+        try {
+            java.util.List<com.zhixue.ai.module.exam.entity.AiGenerateRecord> records = generateRecordMapper.selectList(
+                    new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<com.zhixue.ai.module.exam.entity.AiGenerateRecord>()
+                            .eq(com.zhixue.ai.module.exam.entity.AiGenerateRecord::getTeacherId, teacherId)
+                            .orderByDesc(com.zhixue.ai.module.exam.entity.AiGenerateRecord::getCreateTime)
+                            .last("LIMIT 50"));
+            for (com.zhixue.ai.module.exam.entity.AiGenerateRecord r : records) {
+                if (r.getQuestionIds() == null || r.getQuestionIds().isEmpty()) continue;
+                try {
+                    java.util.List<Long> ids = com.alibaba.fastjson2.JSON.parseArray(r.getQuestionIds(), Long.class);
+                    if (ids != null) used.addAll(ids);
+                } catch (Exception ignore) {
+                    // 单条记录 JSON 异常不影响其余记录
+                }
+            }
+        } catch (Exception e) {
+            log.warn("加载近期出题记录已用题目失败,跳过去重排除: {}", e.getMessage());
+        }
+        return used;
+    }
+
     private List<ExamQuestion> drawByTypeAndDifficulty(Long subjectId, int questionType, Integer count,
-                                                      int easyRatio, int mediumRatio, int hardRatio, Random random) {
+                                                      int easyRatio, int mediumRatio, int hardRatio, Random random,
+                                                      Set<Long> excludedIds) {
         if (count == null || count <= 0) return Collections.emptyList();
         int easyCount = Math.round(count * easyRatio / 100f);
         int mediumCount = Math.round(count * mediumRatio / 100f);
         int hardCount = count - easyCount - mediumCount;
         if (hardCount < 0) hardCount = 0;
+        Set<Long> excl = excludedIds == null ? Collections.emptySet() : excludedIds;
         List<ExamQuestion> result = new ArrayList<>();
-        result.addAll(drawByTypeDifficulty(subjectId, questionType, 1, easyCount, random));
-        result.addAll(drawByTypeDifficulty(subjectId, questionType, 2, mediumCount, random));
+        result.addAll(drawByTypeDifficulty(subjectId, questionType, 1, easyCount, random, excl));
+        result.addAll(drawByTypeDifficulty(subjectId, questionType, 2, mediumCount, random, excl));
         if (hardCount > 0) {
-            result.addAll(drawByTypeDifficulty(subjectId, questionType, 3, hardCount, random));
+            result.addAll(drawByTypeDifficulty(subjectId, questionType, 3, hardCount, random, excl));
         }
         return result;
     }
@@ -977,10 +1022,11 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
      * 按题型+难度从题库中随机抽取题目
      */
     private List<ExamQuestion> drawByTypeDifficulty(Long subjectId, int questionType, int difficulty,
-                                                    int count, Random random) {
+                                                    int count, Random random, Set<Long> excludedIds) {
         if (count <= 0) return Collections.emptyList();
         List<ExamQuestion> pool = selectByDifficulty(subjectId, null,
-                Collections.singletonList(questionType), difficulty, Collections.emptySet());
+                Collections.singletonList(questionType), difficulty,
+                excludedIds == null ? Collections.emptySet() : excludedIds);
         Collections.shuffle(pool, random);
         int actual = Math.min(count, pool.size());
         return pool.subList(0, actual);

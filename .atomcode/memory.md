@@ -1,1 +1,3 @@
 - 启动项目用计划任务 Start-ScheduledTask -TaskName 'zhixue-backend' / 'zhixue-frontend'(直接 Start-Process/Start-Process cmd 会在会话结束后被杀)。后端 9000,前端 5173。验证必须用 powershell Invoke-WebRequest(此环境 curl 连 localhost 会失败)。
+- 学生端后端有 /api/student/answers(作答记录)和 /api/student/answer/{id}/correct(批改详情)接口,但此前没有任何前端页面调用——排查"看不到记录"类问题先检查 API 是否被页面引用,而非只查后端。
+- 重大教训:StudentController 提交作答曾用 (Map<Long,String>) 强转 Jackson 反序列化的 Map,key 实际是 String,导致学生答案永远取不到、全部按空批改0分。Java 泛型强转不转换内容——凡是从 JSON body 取泛型 Map/List 的地方都要显式转换 key 类型。已修复(StudentController#submitAnswer)。

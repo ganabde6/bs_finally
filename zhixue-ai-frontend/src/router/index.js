@@ -14,6 +14,7 @@ const routes = [
       { path: 'dashboard', name: 'StudentDashboard', component: () => import('@/views/student/Dashboard.vue'), meta: { title: '学习首页' } },
       { path: 'paper', name: 'StudentPaper', component: () => import('@/views/student/PaperList.vue'), meta: { title: '作业/考试' } },
       { path: 'paper/:id', name: 'StudentTakeExam', component: () => import('@/views/student/TakeExam.vue'), meta: { title: '作答' } },
+      { path: 'answerRecord', name: 'StudentAnswerRecord', component: () => import('@/views/student/AnswerRecord.vue'), meta: { title: '作答记录' } },
       { path: 'tutor', name: 'StudentTutor', component: () => import('@/views/student/Tutor.vue'), meta: { title: 'AI助学' } },
       { path: 'listeningSpeaking', name: 'StudentListeningSpeaking', component: () => import('@/views/student/ListeningSpeaking.vue'), meta: { title: '英语听说' } },
       { path: 'errorbook', name: 'StudentErrorBook', component: () => import('@/views/student/ErrorBook.vue'), meta: { title: '错题本' } },

@@ -30,6 +30,7 @@ public class AiGroupTaskService {
 
     private final SelfPracticeService selfPracticeService;
     private final ExamService examService;
+    private final com.zhixue.ai.module.exam.mapper.AiGenerateRecordMapper generateRecordMapper;
 
     private final Map<String, AiGroupTask> tasks = new ConcurrentHashMap<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(8);
@@ -48,26 +49,81 @@ public class AiGroupTaskService {
         try {
             // 1. 教师组卷: 按题型数量分布 AI 出题 + 题库补齐
             List<ExamQuestion> questions = selfPracticeService.generatePaperForTeacher(config, creatorId);
+            List<Long> ids;
+            String source;
             if (!questions.isEmpty()) {
-                task.finish("ai", questions.stream().map(ExamQuestion::getId).collect(Collectors.toList()));
-                return;
+                source = "ai";
+                ids = questions.stream().map(ExamQuestion::getId).collect(Collectors.toList());
+            } else {
+                // 2. 极端兜底: 全部失败时按学科随机抽题
+                source = "bank";
+                Long subjectId = config.get("subjectId") != null
+                        ? Long.valueOf(config.get("subjectId").toString()) : null;
+                ids = subjectId != null
+                        ? examService.aiGroupPaper(subjectId, 10, null, null)
+                        : Collections.emptyList();
             }
-            // 2. 极端兜底: 全部失败时按学科随机抽题
-            Long subjectId = config.get("subjectId") != null
-                    ? Long.valueOf(config.get("subjectId").toString()) : null;
-            List<Long> bankIds = subjectId != null
-                    ? examService.aiGroupPaper(subjectId, 10, null, null)
-                    : Collections.emptyList();
-            task.finish("bank", bankIds);
+            task.finish(source, ids);
+            // 持久化出题记录:同一次出题的题目通过 question_ids 归组,教师端可回看
+            saveRecord(creatorId, config, source, ids);
         } catch (Exception e) {
             log.error("AI 组卷任务 {} 执行失败", task.taskId, e);
             task.fail(e.getMessage());
         }
     }
 
+    /** 保存出题记录(失败仅记日志,不影响出题结果) */
+    private void saveRecord(Long teacherId, Map<String, Object> config, String source, List<Long> ids) {
+        try {
+            com.zhixue.ai.module.exam.entity.AiGenerateRecord record =
+                    new com.zhixue.ai.module.exam.entity.AiGenerateRecord();
+            record.setTeacherId(teacherId);
+            record.setSubjectId(config.get("subjectId") != null
+                    ? Long.valueOf(config.get("subjectId").toString()) : null);
+            record.setSource(source);
+            record.setQuestionIds(com.alibaba.fastjson2.JSON.toJSONString(ids));
+            record.setQuestionCount(ids == null ? 0 : ids.size());
+            record.setConfig(com.alibaba.fastjson2.JSON.toJSONString(config));
+            generateRecordMapper.insert(record);
+        } catch (Exception e) {
+            log.warn("保存出题记录失败: {}", e.getMessage());
+        }
+    }
+
     /** 查询任务(不存在返回 null) */
     public AiGroupTask get(String taskId) {
         return tasks.get(taskId);
+    }
+
+    /** 查询教师的出题记录列表(最新在前,最多50条) */
+    public java.util.List<com.zhixue.ai.module.exam.entity.AiGenerateRecord> listRecords(Long teacherId) {
+        return generateRecordMapper.selectList(
+                new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<com.zhixue.ai.module.exam.entity.AiGenerateRecord>()
+                        .eq(com.zhixue.ai.module.exam.entity.AiGenerateRecord::getTeacherId, teacherId)
+                        .orderByDesc(com.zhixue.ai.module.exam.entity.AiGenerateRecord::getCreateTime)
+                        .last("LIMIT 50"));
+    }
+
+    /** 查询某次出题记录的题目明细 */
+    public java.util.List<ExamQuestion> getRecordQuestions(Long recordId, Long teacherId) {
+        com.zhixue.ai.module.exam.entity.AiGenerateRecord record = generateRecordMapper.selectById(recordId);
+        if (record == null || !record.getTeacherId().equals(teacherId)) {
+            throw new com.zhixue.ai.common.exception.BizException("出题记录不存在");
+        }
+        java.util.List<Long> ids = com.alibaba.fastjson2.JSON.parseArray(record.getQuestionIds(), Long.class);
+        if (ids == null || ids.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        return examService.getQuestionsByIds(ids);
+    }
+
+    /** 删除出题记录(仅删记录条目,不影响题目本身),校验只能删自己的记录 */
+    public void deleteRecord(Long recordId, Long teacherId) {
+        com.zhixue.ai.module.exam.entity.AiGenerateRecord record = generateRecordMapper.selectById(recordId);
+        if (record == null || !record.getTeacherId().equals(teacherId)) {
+            throw new com.zhixue.ai.common.exception.BizException("出题记录不存在");
+        }
+        generateRecordMapper.deleteById(recordId);
     }
 
     /** 组卷任务状态(内存对象) */

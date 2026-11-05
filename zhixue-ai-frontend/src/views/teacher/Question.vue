@@ -9,6 +9,7 @@
         <el-button type="primary" :icon="Plus" @click="$router.push('/teacher/aiGroup')">智能出题</el-button>
         <el-button type="success" :icon="Plus" @click="openAdd">新增题目</el-button>
         <el-button type="danger" plain :disabled="!selection.length" @click="batchDel">批量删除({{ selection.length }})</el-button>
+        <el-button type="danger" @click="clearAll">清空题库</el-button>
       </div>
     </div>
     <el-card class="content-card">
@@ -153,7 +154,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { pageQuestions, addQuestion, updateQuestion, deleteQuestion, teacherMySubjects, teacherKnowledgePoints, teacherQuestionTypes } from '@/api'
+import { pageQuestions, addQuestion, updateQuestion, deleteQuestion, deleteAllQuestions, teacherMySubjects, teacherKnowledgePoints, teacherQuestionTypes } from '@/api'
 import { renderLatex } from '@/utils/latex'
 
 const list = ref([])
@@ -343,6 +344,29 @@ const batchDel = async () => {
     await deleteQuestion(row.id)
   }
   ElMessage.success(`已删除 ${selection.value.length} 道题目`)
+  selection.value = []
+  loadData()
+}
+
+/** 清空题库: 双重确认防误点,仅删除本人任教学科的题目 */
+const clearAll = async () => {
+  try {
+    await ElMessageBox.confirm('将删除您任教学科下的全部题目,此操作不可恢复!', '清空题库', {
+      type: 'error',
+      confirmButtonText: '继续',
+      cancelButtonText: '取消',
+      confirmButtonClass: 'el-button--danger'
+    })
+  } catch { return }
+  try {
+    await ElMessageBox.confirm('再次确认:真的要删除全部题目吗?', '最后确认', {
+      type: 'error',
+      confirmButtonText: '确认清空',
+      cancelButtonText: '手滑了'
+    })
+  } catch { return }
+  const res = await deleteAllQuestions()
+  ElMessage.success(`已清空 ${res.data?.deleted ?? 0} 道题目`)
   selection.value = []
   loadData()
 }

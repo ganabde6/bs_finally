@@ -174,6 +174,18 @@ public class TeacherController {
         return Result.success();
     }
 
+    /** 一键清空题库: 仅删除教师任教学科的题目,返回删除数量 */
+    @DeleteMapping("/questions/all")
+    public Result<Map<String, Object>> deleteAllQuestions() {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        List<Long> subjectIds = systemService.listTeacherSubjects(teacherId)
+                .stream().map(s -> s.getId()).collect(java.util.stream.Collectors.toList());
+        int deleted = examService.deleteAllQuestions(subjectIds);
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("deleted", deleted);
+        return Result.success(result);
+    }
+
     /** AI 智能组卷: 提交异步任务立即返回 taskId,由前端轮询状态接口获取结果 */
     @PostMapping("/questions/ai-group")
     public Result<Map<String, Object>> aiGroup(@RequestBody Map<String, Object> body) {
@@ -209,6 +221,40 @@ public class TeacherController {
         result.put("count", task.getCount());
         result.put("message", task.getMessage());
         return Result.success(result);
+    }
+
+    /** 出题记录列表: 教师历次AI出题,同一次出题的题目通过记录归组 */
+    @GetMapping("/ai-group/records")
+    public Result<List<Map<String, Object>>> aiGroupRecords() {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        List<Map<String, Object>> result = new java.util.ArrayList<>();
+        for (com.zhixue.ai.module.exam.entity.AiGenerateRecord r : aiGroupTaskService.listRecords(teacherId)) {
+            Map<String, Object> item = new java.util.HashMap<>();
+            item.put("id", r.getId());
+            item.put("subjectId", r.getSubjectId());
+            item.put("subjectName", r.getSubjectId() != null && subjectMapper.selectById(r.getSubjectId()) != null
+                    ? subjectMapper.selectById(r.getSubjectId()).getSubjectName() : "未知学科");
+            item.put("source", r.getSource());
+            item.put("count", r.getQuestionCount());
+            item.put("createTime", r.getCreateTime());
+            result.add(item);
+        }
+        return Result.success(result);
+    }
+
+    /** 出题记录详情: 查看某次出题生成的全部题目 */
+    @GetMapping("/ai-group/records/{id}/questions")
+    public Result<List<ExamQuestion>> aiGroupRecordQuestions(@PathVariable Long id) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        return Result.success(aiGroupTaskService.getRecordQuestions(id, teacherId));
+    }
+
+    /** 删除出题记录(仅删记录,不影响已生成的题目) */
+    @DeleteMapping("/ai-group/records/{id}")
+    public Result<Void> deleteAiGroupRecord(@PathVariable Long id) {
+        Long teacherId = SecurityUtils.getCurrentUserId();
+        aiGroupTaskService.deleteRecord(id, teacherId);
+        return Result.success();
     }
 
     /** AI 智能组卷: 获取学科知识点列表(教师出题选知识板块用) */
@@ -286,6 +332,19 @@ public class TeacherController {
     @GetMapping("/correct/{answerId}")
     public Result<?> correctDetail(@PathVariable Long answerId) {
         return Result.success(aiService.getCorrectDetails(answerId));
+    }
+
+    /** 试卷维度:整套试卷每题的全班作答情况(选项分布+逐人明细) */
+    @GetMapping("/correct/{paperId}/class-answers")
+    public Result<?> paperClassAnswers(@PathVariable Long paperId) {
+        return Result.success(aiService.getPaperClassAnswers(paperId));
+    }
+
+    /** 题目维度:该班级所有学生对某题的作答情况 */
+    @GetMapping("/correct/question/{questionId}/class-answers")
+    public Result<?> questionClassAnswers(@PathVariable Long questionId,
+                                          @RequestParam Long classId) {
+        return Result.success(aiService.getQuestionClassAnswers(questionId, classId));
     }
 
     /** 批量 AI 批改 */

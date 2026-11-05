@@ -40,6 +40,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\mapper\E
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysLog.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\SelfPracticeService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiLsHomeworkMapper.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\entity\AiGenerateRecord.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysSubject.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\AiLsHomeworkQuestion.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\security\LoginUser.java
@@ -100,6 +101,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\UserCheckInMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\controller\AuthController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\LsHomeworkService.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\mapper\AiGenerateRecordMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\security\JwtAuthenticationFilter.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\service\ExamService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\SelfPracticeRecord.java

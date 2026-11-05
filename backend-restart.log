@@ -37,29 +37,1758 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::               (v2.7.18)
 
-2026-09-19 17:51:36.418  INFO 10360 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Starting ZhixueAiApplication using Java 11.0.6 on WIN-BASRU4J68C3 with PID 10360 (D:\bs_finally\zhixue-ai-backend\target\classes started by Administrator in D:\bs_finally\zhixue-ai-backend)
-2026-09-19 17:51:36.419 DEBUG 10360 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Running with Spring Boot v2.7.18, Spring v5.3.31
-2026-09-19 17:51:36.420  INFO 10360 --- [           main] com.zhixue.ai.ZhixueAiApplication        : No active profile set, falling back to 1 default profile: "default"
-2026-09-19 17:51:37.443  INFO 10360 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
-2026-09-19 17:51:37.449  INFO 10360 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-09-19 17:51:37.456  INFO 10360 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
-2026-09-19 17:51:37.542  INFO 10360 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-09-19 17:51:37.542  INFO 10360 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1095 ms
+2026-11-03 11:30:24.455  INFO 20540 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Starting ZhixueAiApplication using Java 11.0.6 on WIN-BASRU4J68C3 with PID 20540 (D:\bs_finally\zhixue-ai-backend\target\classes started by Administrator in D:\bs_finally\zhixue-ai-backend)
+2026-11-03 11:30:24.457 DEBUG 20540 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-11-03 11:30:24.457  INFO 20540 --- [           main] com.zhixue.ai.ZhixueAiApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-11-03 11:30:25.830  INFO 20540 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
+2026-11-03 11:30:25.839  INFO 20540 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-03 11:30:25.839  INFO 20540 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-11-03 11:30:25.959  INFO 20540 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-11-03 11:30:25.959  INFO 20540 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1469 ms
 Logging initialized using 'class org.apache.ibatis.logging.stdout.StdOutImpl' adapter.
-Initialization Sequence datacenterId:25 workerId:11
+Initialization Sequence datacenterId:19 workerId:11
  _ _   |_  _ _|_. ___ _ |    _ 
 | | |\/|_)(_| | |_\  |_)||_|_\ 
      /               |         
                         3.5.5 
-2026-09-19 17:51:38.047 DEBUG 10360 --- [           main] c.z.ai.security.JwtAuthenticationFilter  : Filter 'jwtAuthenticationFilter' configured for use
-2026-09-19 17:51:38.438  INFO 10360 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@a90e2c1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@89caf47, org.springframework.security.web.context.SecurityContextPersistenceFilter@62d40e31, org.springframework.security.web.header.HeaderWriterFilter@76973a6, org.springframework.web.filter.CorsFilter@51e3d37e, org.springframework.security.web.authentication.logout.LogoutFilter@632b305d, com.zhixue.ai.security.JwtAuthenticationFilter@6b9fdbc6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7ce29a2d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@457a5b2d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@370ef50b, org.springframework.security.web.session.SessionManagementFilter@1142d377, org.springframework.security.web.access.ExceptionTranslationFilter@59018eed, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5f8a02cf]
-2026-09-19 17:51:38.682  INFO 10360 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
-2026-09-19 17:51:38.687  INFO 10360 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Started ZhixueAiApplication in 2.5 seconds (JVM running for 2.84)
+2026-11-03 11:30:26.631 DEBUG 20540 --- [           main] c.z.ai.security.JwtAuthenticationFilter  : Filter 'jwtAuthenticationFilter' configured for use
+2026-11-03 11:30:27.075  INFO 20540 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2df65a56, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@113f9078, org.springframework.security.web.context.SecurityContextPersistenceFilter@126f8f24, org.springframework.security.web.header.HeaderWriterFilter@5f6b53ed, org.springframework.web.filter.CorsFilter@3635099, org.springframework.security.web.authentication.logout.LogoutFilter@11b5f4e2, com.zhixue.ai.security.JwtAuthenticationFilter@4eaf7902, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@781aff8b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7fbf26fc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7c1503a3, org.springframework.security.web.session.SessionManagementFilter@48cb2d73, org.springframework.security.web.access.ExceptionTranslationFilter@1a9ec80e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2b877a54]
+2026-11-03 11:30:27.375  INFO 20540 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
+2026-11-03 11:30:27.383  INFO 20540 --- [           main] com.zhixue.ai.ZhixueAiApplication        : Started ZhixueAiApplication in 3.244 seconds (JVM running for 3.622)
 
 ========================================
   智汇云课堂 启动成功
   访问地址: http://localhost:8080
 ========================================
-2026-09-19 17:52:00.321  INFO 10360 --- [nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-09-19 17:52:00.321  INFO 10360 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-09-19 17:52:00.322  INFO 10360 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-11-03 11:31:30.068  INFO 20540 --- [nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-03 11:31:30.069  INFO 20540 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-03 11:31:30.073  INFO 20540 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3802d01] was not registered for synchronization because synchronization is not active
+2026-11-03 11:36:59.828  INFO 20540 --- [nio-9000-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-03 11:37:00.135  INFO 20540 --- [nio-9000-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+JDBC Connection [HikariProxyConnection@2120345598 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 09:53:56, 2026-07-30 17:29:45, 2026-11-03 09:53:56, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3802d01]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6fb003e3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@473492689 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6fb003e3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@56734ebf] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1315048415 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_user WHERE username = ? AND deleted = 0
+==> Parameters: teacher01(String)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, last_login, create_time, update_time, deleted, grade_level
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 2026-11-03 09:53:56, 2026-07-30 17:29:45, 2026-11-03 09:53:56, 0, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@56734ebf]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7fa22041] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@92076562 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7fa22041]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d1424ff] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@586712002 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: UPDATE sys_user SET last_login=?, update_time=? WHERE id=? AND deleted=0
+==> Parameters: 2026-11-03T11:37:00.464397400(LocalDateTime), 2026-11-03T11:37:00.556505100(LocalDateTime), 3(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d1424ff]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3c8840a5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1528318563 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT p.* FROM sys_permission p INNER JOIN sys_role_permission rp ON rp.permission_id = p.id WHERE rp.role_id = ? ORDER BY p.sort
+==> Parameters: 3(Long)
+<==    Columns: id, parent_id, perm_code, perm_name, perm_type, path, component, icon, sort, create_time
+<==        Row: 201, 0, teacher:dashboard, 教师首页, 1, /teacher/dashboard, teacher/Dashboard, Home, 1, 2026-07-30 17:29:45
+<==        Row: 202, 0, teacher:question, 题库管理, 1, /teacher/question, teacher/Question, Files, 2, 2026-07-30 17:29:45
+<==        Row: 203, 0, teacher:paper, 作业考试管理, 1, /teacher/paper, teacher/Paper, Document, 3, 2026-07-30 17:29:45
+<==        Row: 204, 0, teacher:correct, 批改管理, 1, /teacher/correct, teacher/Correct, Edit, 4, 2026-07-30 17:29:45
+<==        Row: 205, 0, teacher:classAnalysis, 班级学情, 1, /teacher/classAnalysis, teacher/ClassAnalysis, TrendCharts, 5, 2026-07-30 17:29:45
+<==        Row: 206, 0, teacher:feedback, 家校反馈, 1, /teacher/feedback, teacher/Feedback, Message, 6, 2026-07-30 17:29:45
+<==      Total: 6
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3c8840a5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15e6054c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1356206993 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7986e573] was not registered for synchronization because synchronization is not active
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+JDBC Connection [HikariProxyConnection@1679399104 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+==> Parameters: 3(Long)
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@15e6054c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41009c61] was not registered for synchronization because synchronization is not active
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+JDBC Connection [HikariProxyConnection@234383099 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+==> Parameters: 3(Long)
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7986e573]
+Creating a new SqlSession
+<==    Columns: id, role_code, role_name, description, create_time
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@653a6c6] was not registered for synchronization because synchronization is not active
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+JDBC Connection [HikariProxyConnection@145467847 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+<==      Total: 1
+==> Parameters: 3(Long)
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41009c61]
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@653a6c6]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3df2ed83] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@493c44e2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@345185961 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+JDBC Connection [HikariProxyConnection@1658967903 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@493c44e2]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3df2ed83]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5bb35c92] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f572464] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@592954992 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+JDBC Connection [HikariProxyConnection@1042959971 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class WHERE id IN ( ? )
+==>  Preparing: SELECT id,subject_name,subject_code,grade_level,sort,create_time FROM sys_subject WHERE id IN ( ? )
+==> Parameters: 1(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 3, 6（1）, 六年级, 3, 1, 1, 2026-08-03 17:32:25, 2026-08-03 17:32:25
+<==    Columns: id, subject_name, subject_code, grade_level, sort, create_time
+<==        Row: 1, 语文, chinese, 0, 1, 2026-07-30 17:29:45
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5bb35c92]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f572464]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64e7b0f5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1578159106 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id IN (?))
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64e7b0f5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bb29c74] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@530020295 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC
+==> Parameters: 3(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bb29c74]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2a0739ad] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@916873308 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,paper_id,student_id,submit_type,duration,total_score,status,submit_time,start_time,create_time,update_time FROM exam_answer WHERE (paper_id IN (?,?,?,?,?,?,?))
+==> Parameters: 14(Long), 12(Long), 11(Long), 10(Long), 9(Long), 8(Long), 4(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 4, 4, 11, 1, 3, 0.00, 2, 2026-08-03 15:28:28, 2026-08-03 15:28:24, 2026-08-03 15:28:24, 2026-08-03 15:28:24
+<==        Row: 5, 9, 11, 1, 25, 0.00, 2, 2026-09-19 19:12:57, 2026-09-19 14:51:24, 2026-09-19 14:51:24, 2026-09-19 14:51:24
+<==        Row: 6, 9, 12, 1, 300, 0.00, 2, 2026-09-19 20:46:42, 2026-09-19 19:22:09, 2026-09-19 19:22:09, 2026-09-19 19:22:09
+<==        Row: 7, 10, 11, 1, 4, 0.00, 2, 2026-09-19 21:03:42, 2026-09-19 21:03:38, 2026-09-19 21:03:38, 2026-09-19 21:03:38
+<==        Row: 8, 9, 13, 1, 150, 0.00, 2, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44
+<==        Row: 9, 9, 14, 1, 150, 0.00, 2, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32
+<==        Row: 10, 11, 11, 1, 8, 0.00, 2, 2026-09-19 21:54:29, 2026-09-19 21:54:21, 2026-09-19 21:54:21, 2026-09-19 21:54:21
+<==        Row: 11, 12, 11, 1, 8, 0.00, 2, 2026-09-20 10:49:28, 2026-09-20 10:49:20, 2026-09-20 10:49:20, 2026-09-20 10:49:20
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 9
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2a0739ad]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@698830f0] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@558567684 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id = ?)
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@698830f0]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@265b5efb] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@85642973 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id = ?)
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@265b5efb]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4999b951] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@968544904 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id = ?)
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4999b951]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@448ddb0f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@337197549 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id = ?)
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@448ddb0f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2bdb049f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@27588424 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT( * ) AS total FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id = ?)
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2bdb049f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48bd4bb4] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1828498849 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,teacher_id,title,class_id,grade_level,group_mode,group_params,deadline,status,create_time,update_time FROM ai_ls_homework WHERE (teacher_id = ?)
+==> Parameters: 3(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48bd4bb4]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59318b08] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ad581d2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@114870580 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+JDBC Connection [HikariProxyConnection@1313278379 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ad581d2]
+Creating a new SqlSession
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59318b08]
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@423c880d] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+JDBC Connection [HikariProxyConnection@844396384 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1bd5de0b] was not registered for synchronization because synchronization is not active
+==> Parameters: 3(Long)
+JDBC Connection [HikariProxyConnection@1315532722 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==    Columns: id, role_code, role_name, description, create_time
+<==      Total: 1
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@423c880d]
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1bd5de0b]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ad36221] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1069797622 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==> Parameters: 3(Long)
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ad36221]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@70517cb5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1635961588 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_name,subject_code,grade_level,sort,create_time FROM sys_subject WHERE id IN ( ? )
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3afaf059] was not registered for synchronization because synchronization is not active
+==> Parameters: 1(Long)
+<==    Columns: id, subject_name, subject_code, grade_level, sort, create_time
+JDBC Connection [HikariProxyConnection@1769304038 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+<==        Row: 1, 语文, chinese, 0, 1, 2026-07-30 17:29:45
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class ORDER BY create_time DESC
+==> Parameters: 
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@70517cb5]
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 3, 6（1）, 六年级, 3, 1, 1, 2026-08-03 17:32:25, 2026-08-03 17:32:25
+<==        Row: 1, 高三(1)班, 高三, 3, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==        Row: 2, 高三(2)班, 高三, 4, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3afaf059]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@13d728fc] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1252568938 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@13d728fc]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a1ce376] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1881579521 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a1ce376]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1fd26ee2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1151270315 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (class_id = ? AND subject_id = ?)
+==> Parameters: 3(Long), 1(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==      Total: 6
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1fd26ee2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660fcbc9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1780878484 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 8(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660fcbc9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5f1de16a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1205090499 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 9(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 5, 9, 11, 1, 25, 0.00, 2, 2026-09-19 19:12:57, 2026-09-19 14:51:24, 2026-09-19 14:51:24, 2026-09-19 14:51:24
+<==        Row: 6, 9, 12, 1, 300, 0.00, 2, 2026-09-19 20:46:42, 2026-09-19 19:22:09, 2026-09-19 19:22:09, 2026-09-19 19:22:09
+<==        Row: 8, 9, 13, 1, 150, 0.00, 2, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44
+<==        Row: 9, 9, 14, 1, 150, 0.00, 2, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32
+<==      Total: 4
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5f1de16a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@727b2241] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1121819605 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 5(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 9, 5, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 19:12:57
+<==        Row: 8, 5, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 19:12:57
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@727b2241]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5d6d859a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@948646960 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5d6d859a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@227956a3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@319378979 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@227956a3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32695d85] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1742490184 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 6(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 11, 6, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 20:46:42
+<==        Row: 10, 6, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 20:46:42
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32695d85]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b114073] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1233085868 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b114073]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5ef5cca2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2135297495 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5ef5cca2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@267f1e03] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1444894386 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 8(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 14, 8, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:08:44
+<==        Row: 13, 8, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:08:44
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@267f1e03]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660d2d4f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@945600651 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660d2d4f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b75e835] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1151189825 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b75e835]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b5f9605] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1058007323 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 9(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 16, 9, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:12:33
+<==        Row: 15, 9, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:12:33
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b5f9605]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@493b8e16] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1853081226 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@493b8e16]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ec5abf2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1000065794 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ec5abf2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@403856ab] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1126297445 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 10(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 7, 10, 11, 1, 4, 0.00, 2, 2026-09-19 21:03:42, 2026-09-19 21:03:38, 2026-09-19 21:03:38, 2026-09-19 21:03:38
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@403856ab]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@debd900] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@258235160 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 7(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 12, 7, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:03:42
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@debd900]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a1289df] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@157448260 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a1289df]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@716e6554] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1073501911 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 11(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 10, 11, 11, 1, 8, 0.00, 2, 2026-09-19 21:54:29, 2026-09-19 21:54:21, 2026-09-19 21:54:21, 2026-09-19 21:54:21
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@716e6554]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1bfcaf71] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@423247263 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 10(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 17, 10, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:54:29
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1bfcaf71]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54b28429] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@709574377 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54b28429]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a84dfa3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@173512982 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 12(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 11, 12, 11, 1, 8, 0.00, 2, 2026-09-20 10:49:28, 2026-09-20 10:49:20, 2026-09-20 10:49:20, 2026-09-20 10:49:20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a84dfa3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@68045a8] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@328715073 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 11(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 18, 11, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-20 10:49:28
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@68045a8]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6f8bb8c3] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1805782431 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6f8bb8c3]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17204b38] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@635417791 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 14(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17204b38]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@80df78c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@501285950 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 13(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 42, 13, 388, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 2, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 43, 13, 389, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 41, 13, 401, <<BLOB>>, 3.00, 3.00, 1, null, <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@80df78c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f78e34c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@682544312 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 388(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 388, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f78e34c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6905f6f2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@932199526 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 389(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 389, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6905f6f2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b02ac43] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1792662003 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,class_id,subject_id,avg_score,pass_rate,excellent_rate,common_errors,layering,teaching_advice,update_time FROM ai_class_analysis WHERE (class_id = ? AND subject_id = ?)
+==> Parameters: 3(Long), 1(Long)
+<==    Columns: id, class_id, subject_id, avg_score, pass_rate, excellent_rate, common_errors, layering, teaching_advice, update_time
+<==        Row: 3, 3, 1, 0.00, 0.00, 0.00, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2026-10-30 10:24:14
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b02ac43]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6cbc1770] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1416063458 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: UPDATE ai_class_analysis SET class_id=?, subject_id=?, avg_score=?, pass_rate=?, excellent_rate=?, common_errors=?, layering=?, teaching_advice=?, update_time=? WHERE id=?
+==> Parameters: 3(Long), 1(Long), 0.38(BigDecimal), 0.00(BigDecimal), 0.00(BigDecimal), ["古诗默写"](String), [{"layer":"优秀","count":0},{"layer":"良好","count":0},{"layer":"待提升","count":8}](String), 【班级教学分析报告】
+班级平均分:0.38,及格率:0.0%,优秀率:0.0%。
+
+共性薄弱知识点:古诗默写。
+建议:
+1. 针对薄弱知识点开展专题复习课
+2. 课堂增加互动练习,巩固概念理解
+3. 对「待提升」层学生进行个别辅导
+4. 对「优秀」层学生布置拓展性题目
+
+? 及格率偏低,建议降低教学难度,夯实基础。
+
+? 优秀率偏低,建议对优秀层学生增加挑战性训练。
+(String), 2026-10-30T10:24:14(LocalDateTime), 3(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6cbc1770]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@11e4452b] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@167e4c7d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2031261132 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+JDBC Connection [HikariProxyConnection@933570148 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@11e4452b]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@167e4c7d]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@16d3e9e6] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4035a72a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1915372261 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+JDBC Connection [HikariProxyConnection@1934323482 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@16d3e9e6]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4035a72a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ab0895a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1741779921 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==> Parameters: 3(Long)
+Creating a new SqlSession
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@274b13b2] was not registered for synchronization because synchronization is not active
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+JDBC Connection [HikariProxyConnection@1567985493 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+<==      Total: 1
+==> Parameters: 3(Long)
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ab0895a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ea9e95d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1644846242 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class WHERE id IN ( ? )
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+==> Parameters: 3(Long)
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@274b13b2]
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 3, 6（1）, 六年级, 3, 1, 1, 2026-08-03 17:32:25, 2026-08-03 17:32:25
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ea9e95d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47a587fa] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@678794367 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM sys_user WHERE deleted = 0 AND (role_id = ? AND class_id IN (?))
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id IN (?)) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 4(Long), 3(Long), 10(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 10
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47a587fa]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@609b0df2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@276495052 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@609b0df2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@77d3da8c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1335868697 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@77d3da8c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fbaf372] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1716801459 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class ORDER BY create_time DESC
+==> Parameters: 
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 3, 6（1）, 六年级, 3, 1, 1, 2026-08-03 17:32:25, 2026-08-03 17:32:25
+<==        Row: 1, 高三(1)班, 高三, 3, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==        Row: 2, 高三(2)班, 高三, 4, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fbaf372]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3fba5322] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1681083709 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3fba5322]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@771609a8] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@442001195 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@771609a8]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ac7cfb6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@419866175 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (class_id = ? AND role_id = ?) ORDER BY username ASC
+==> Parameters: 3(Long), 4(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 21, student11, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生11, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 22, student12, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生12, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 23, student13, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生13, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 24, student14, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生14, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 25, student15, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生15, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 26, student16, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生16, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 27, student17, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生17, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 28, student18, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生18, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 29, student19, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生19, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 30, student20, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生20, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 20
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ac7cfb6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d65834] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fdcbd70] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1820624934 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+JDBC Connection [HikariProxyConnection@171423495 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d65834]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fdcbd70]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@43e2bb52] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f593fd5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1967344866 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+JDBC Connection [HikariProxyConnection@1703162995 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@43e2bb52]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f593fd5]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48343e23] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@597a9fa9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@240457575 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==> Parameters: 3(Long)
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48343e23]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@79fb8a1f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@274167333 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,subject_name,subject_code,grade_level,sort,create_time FROM sys_subject WHERE id IN ( ? )
+JDBC Connection [HikariProxyConnection@1783510527 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==> Parameters: 1(Long)
+==>  Preparing: SELECT id,class_name,grade,head_teacher_id,grade_level,status,create_time,update_time FROM sys_class ORDER BY create_time DESC
+==> Parameters: 
+<==    Columns: id, class_name, grade, head_teacher_id, grade_level, status, create_time, update_time
+<==        Row: 3, 6（1）, 六年级, 3, 1, 1, 2026-08-03 17:32:25, 2026-08-03 17:32:25
+<==        Row: 1, 高三(1)班, 高三, 3, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==        Row: 2, 高三(2)班, 高三, 4, 3, 1, 2026-07-30 17:29:45, 2026-08-03 17:04:03
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@597a9fa9]
+<==    Columns: id, subject_name, subject_code, grade_level, sort, create_time
+<==        Row: 1, 语文, chinese, 0, 1, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@79fb8a1f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7047a58e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@547306039 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7047a58e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59571dd5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1181118212 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59571dd5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e8776b9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1600093449 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (class_id = ? AND subject_id = ?)
+==> Parameters: 3(Long), 1(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==      Total: 6
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e8776b9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@794f93e7] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1049913539 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 8(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@794f93e7]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4045d5d9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1158719133 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 9(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 5, 9, 11, 1, 25, 0.00, 2, 2026-09-19 19:12:57, 2026-09-19 14:51:24, 2026-09-19 14:51:24, 2026-09-19 14:51:24
+<==        Row: 6, 9, 12, 1, 300, 0.00, 2, 2026-09-19 20:46:42, 2026-09-19 19:22:09, 2026-09-19 19:22:09, 2026-09-19 19:22:09
+<==        Row: 8, 9, 13, 1, 150, 0.00, 2, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44, 2026-09-19 21:08:44
+<==        Row: 9, 9, 14, 1, 150, 0.00, 2, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32, 2026-09-19 21:12:32
+<==      Total: 4
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4045d5d9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59cfde84] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@927609721 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 5(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 9, 5, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 19:12:57
+<==        Row: 8, 5, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 19:12:57
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59cfde84]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40af9c0c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1711460073 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40af9c0c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5149624] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@963065206 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5149624]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1f93494c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1041717548 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 6(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 11, 6, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 20:46:42
+<==        Row: 10, 6, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 20:46:42
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1f93494c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60691541] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@116135342 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60691541]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64b09466] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1289442988 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64b09466]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@447d65fc] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@604949169 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 8(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 14, 8, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:08:44
+<==        Row: 13, 8, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:08:44
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@447d65fc]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b1cb893] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1415667849 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b1cb893]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ad7657] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@518754033 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ad7657]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4637c82] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1863822743 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 9(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 16, 9, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:12:33
+<==        Row: 15, 9, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:12:33
+<==      Total: 2
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4637c82]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6253c21e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2110469562 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6253c21e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b1bf6c5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@925146762 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b1bf6c5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2e9d0380] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@975467848 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 10(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 7, 10, 11, 1, 4, 0.00, 2, 2026-09-19 21:03:42, 2026-09-19 21:03:38, 2026-09-19 21:03:38, 2026-09-19 21:03:38
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2e9d0380]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@afb45d6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1287443978 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 7(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 12, 7, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:03:42
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@afb45d6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47bc4721] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@389644277 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47bc4721]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@339d88a9] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@373114036 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 11(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 10, 11, 11, 1, 8, 0.00, 2, 2026-09-19 21:54:29, 2026-09-19 21:54:21, 2026-09-19 21:54:21, 2026-09-19 21:54:21
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@339d88a9]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@8c6ea8c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1472324605 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 10(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 17, 10, 366, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","文言文阅读"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-19 21:54:29
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@8c6ea8c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b48c2bf] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1684390352 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 366(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b48c2bf]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3fef2dde] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@573529510 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 12(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 11, 12, 11, 1, 8, 0.00, 2, 2026-09-20 10:49:28, 2026-09-20 10:49:20, 2026-09-20 10:49:20, 2026-09-20 10:49:20
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3fef2dde]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4c0c1091] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@172705043 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 11(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 18, 11, 365, <<BLOB>>, 0.00, 10.00, 0, ["基础不牢","诗歌鉴赏"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-09-20 10:49:28
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4c0c1091]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@495f975a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1710988920 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 365(Long)
+<==      Total: 0
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@495f975a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@68184442] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1573448540 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 14(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@68184442]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@10256621] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@984943155 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 13(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 42, 13, 388, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 2, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 43, 13, 389, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 41, 13, 401, <<BLOB>>, 3.00, 3.00, 1, null, <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@10256621]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@9db7158] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@854854188 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 388(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 388, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@9db7158]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6c5276f5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1053924246 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 389(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 389, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6c5276f5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1f0170a7] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1612400748 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,class_id,subject_id,avg_score,pass_rate,excellent_rate,common_errors,layering,teaching_advice,update_time FROM ai_class_analysis WHERE (class_id = ? AND subject_id = ?)
+==> Parameters: 3(Long), 1(Long)
+<==    Columns: id, class_id, subject_id, avg_score, pass_rate, excellent_rate, common_errors, layering, teaching_advice, update_time
+<==        Row: 3, 3, 1, 0.38, 0.00, 0.00, <<BLOB>>, <<BLOB>>, <<BLOB>>, 2026-10-30 10:24:14
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1f0170a7]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@585450f8] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1647721398 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: UPDATE ai_class_analysis SET class_id=?, subject_id=?, avg_score=?, pass_rate=?, excellent_rate=?, common_errors=?, layering=?, teaching_advice=?, update_time=? WHERE id=?
+==> Parameters: 3(Long), 1(Long), 0.38(BigDecimal), 0.00(BigDecimal), 0.00(BigDecimal), ["古诗默写"](String), [{"layer":"优秀","count":0},{"layer":"良好","count":0},{"layer":"待提升","count":8}](String), 【班级教学分析报告】
+班级平均分:0.38,及格率:0.0%,优秀率:0.0%。
+
+共性薄弱知识点:古诗默写。
+建议:
+1. 针对薄弱知识点开展专题复习课
+2. 课堂增加互动练习,巩固概念理解
+3. 对「待提升」层学生进行个别辅导
+4. 对「优秀」层学生布置拓展性题目
+
+? 及格率偏低,建议降低教学难度,夯实基础。
+
+? 优秀率偏低,建议对优秀层学生增加挑战性训练。
+(String), 2026-10-30T10:24:14(LocalDateTime), 3(Long)
+<==    Updates: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@585450f8]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4161925c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2064021598 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4161925c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@343a1f73] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2030340314 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@343a1f73]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@56d2e4f6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@917603551 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM exam_paper WHERE deleted = 0 AND (creator_id = ?)
+==> Parameters: 3(Long)
+<==    Columns: total
+<==        Row: 7
+<==      Total: 1
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 3(Long), 100(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@56d2e4f6]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7681f982] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@300268f7] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1845993221 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+JDBC Connection [HikariProxyConnection@1119788481 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7681f982]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@300268f7]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6b34e464] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3377656e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@348503581 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+JDBC Connection [HikariProxyConnection@1422151790 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3377656e]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6b34e464]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1392e509] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+JDBC Connection [HikariProxyConnection@2052808297 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1722387e] was not registered for synchronization because synchronization is not active
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+JDBC Connection [HikariProxyConnection@120887002 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 3(Long)
+==> Parameters: 14(Long)
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1392e509]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1722387e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@97c91e5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@768223417 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM sys_user WHERE deleted = 0 AND (role_id = ? AND class_id IN (?))
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id IN (?)) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 4(Long), 3(Long), 200(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 21, student11, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生11, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 22, student12, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生12, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 23, student13, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生13, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 24, student14, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生14, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 25, student15, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生15, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 26, student16, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生16, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 27, student17, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生17, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 28, student18, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生18, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 29, student19, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生19, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 30, student20, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生20, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 20
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@97c91e5]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19b0390c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@7807531 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19b0390c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a386bfa] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1381516264 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a386bfa]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6caa4374] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1972620003 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM exam_paper WHERE deleted = 0 AND (creator_id = ?)
+==> Parameters: 3(Long)
+<==    Columns: total
+<==        Row: 7
+<==      Total: 1
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 3(Long), 10(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6caa4374]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5bd482f6] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@184019341 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5bd482f6]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19a64799] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1721410921 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19a64799]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@485e3ba7] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1349347155 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM exam_paper WHERE deleted = 0 AND (creator_id = ?)
+==> Parameters: 3(Long)
+<==    Columns: total
+<==        Row: 7
+<==      Total: 1
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 3(Long), 100(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@485e3ba7]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@435214f] was not registered for synchronization because synchronization is not active
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@312e7e60] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1287034720 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+JDBC Connection [HikariProxyConnection@1819125531 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@312e7e60]
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6eb8e67e] was not registered for synchronization because synchronization is not active
+<==      Total: 1
+JDBC Connection [HikariProxyConnection@740776119 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@435214f]
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d30cb71] was not registered for synchronization because synchronization is not active
+==> Parameters: 3(Long)
+JDBC Connection [HikariProxyConnection@1084399809 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6eb8e67e]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d30cb71]
+Creating a new SqlSession
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@739b8f91] was not registered for synchronization because synchronization is not active
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7d2899b5] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1513688202 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+JDBC Connection [HikariProxyConnection@380157474 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+==> Parameters: 14(Long)
+==> Parameters: 3(Long)
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7d2899b5]
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@739b8f91]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36cfd14e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1553593725 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM sys_user WHERE deleted = 0 AND (role_id = ? AND class_id IN (?))
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id IN (?)) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 4(Long), 3(Long), 200(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 21, student11, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生11, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 22, student12, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生12, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 23, student13, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生13, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 24, student14, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生14, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 25, student15, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生15, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 26, student16, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生16, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 27, student17, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生17, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 28, student18, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生18, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 29, student19, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生19, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 30, student20, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生20, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 20
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36cfd14e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d33d3bb] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@819934366 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d33d3bb]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3805e5de] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1264076654 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3805e5de]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2f882b8a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@951324848 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT * FROM ai_correct_record WHERE answer_id = ? ORDER BY question_id
+==> Parameters: 13(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 42, 13, 388, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 2, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 43, 13, 389, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==        Row: 41, 13, 401, <<BLOB>>, 3.00, 3.00, 1, null, <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2f882b8a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@646b3c82] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@181506046 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 388(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 388, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@646b3c82]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@517a478f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1816722958 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 389(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 389, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@517a478f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@39b7b4c1] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@988994119 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 401(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 401, 1, 1, 1, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, 3, 2026-11-02 16:59:36, 2026-11-02 16:59:36, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@39b7b4c1]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@76211e02] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@180633962 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@76211e02]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@793d2073] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@118677592 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@793d2073]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c369b57] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@716389158 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE id=? AND deleted=0
+==> Parameters: 14(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c369b57]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ee3519c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1444382516 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM exam_paper_question WHERE paper_id = ? ORDER BY sort
+==> Parameters: 14(Long)
+<==    Columns: id, paper_id, question_id, score, sort
+<==        Row: 34, 14, 401, 3.00, 1
+<==        Row: 35, 14, 388, 5.00, 2
+<==        Row: 36, 14, 389, 5.00, 3
+<==      Total: 3
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ee3519c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d0a729a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@967942422 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 401(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 401, 1, 1, 1, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 3.00, 3, 2026-11-02 16:59:36, 2026-11-02 16:59:36, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6d0a729a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41cf29b2] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@2137988531 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 388(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 388, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41cf29b2]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@35909831] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@220898696 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,subject_id,question_type,difficulty,knowledge_point,content,options,standard_answer,score_point,analysis,full_score,creator_id,create_time,update_time,deleted FROM exam_question WHERE id=? AND deleted=0
+==> Parameters: 389(Long)
+<==    Columns: id, subject_id, question_type, difficulty, knowledge_point, content, options, standard_answer, score_point, analysis, full_score, creator_id, create_time, update_time, deleted
+<==        Row: 389, 1, 4, 2, 古诗默写, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, <<BLOB>>, 5.00, 3, 2026-11-02 15:30:06, 2026-11-02 15:30:06, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@35909831]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2766fd] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@647594051 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2766fd]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b8c90ea] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@236527592 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b8c90ea]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d05b98a] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@465346137 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (class_id = ? AND role_id = ?) ORDER BY username ASC
+==> Parameters: 3(Long), 4(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 21, student11, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生11, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 22, student12, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生12, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 23, student13, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生13, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 24, student14, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生14, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 25, student15, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生15, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 26, student16, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生16, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 27, student17, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生17, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 28, student18, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生18, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 29, student19, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生19, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 30, student20, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生20, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 20
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d05b98a]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3814f08f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1193672578 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,answer_id,question_id,student_answer,score,full_score,is_correct,error_tag,score_detail,correct_remark,correct_type,review_status,ai_model,create_time FROM ai_correct_record WHERE (question_id = ?)
+==> Parameters: 389(Long)
+<==    Columns: id, answer_id, question_id, student_answer, score, full_score, is_correct, error_tag, score_detail, correct_remark, correct_type, review_status, ai_model, create_time
+<==        Row: 43, 13, 389, <<BLOB>>, 0.00, 5.00, 0, ["基础不牢","古诗默写"], <<BLOB>>, <<BLOB>>, 1, 0, LOCAL-RULE-V1, 2026-11-03 10:07:01
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3814f08f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f323115] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@513528789 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,paper_id,student_id,submit_type,duration,total_score,status,submit_time,start_time,create_time,update_time FROM exam_answer WHERE id IN ( ? )
+==> Parameters: 13(Long)
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4f323115]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4824c42c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1839627286 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4824c42c]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60cce85f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@237458894 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60cce85f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2cecad7d] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@525897528 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM exam_paper WHERE deleted = 0 AND (creator_id = ?)
+==> Parameters: 3(Long)
+<==    Columns: total
+<==        Row: 7
+<==      Total: 1
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 3(Long), 10(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2cecad7d]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@46aa336b] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1625102500 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@46aa336b]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@35ceef9e] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@585675559 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@35ceef9e]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@42838c2f] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1734726492 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM exam_paper WHERE deleted = 0 AND (creator_id = ?)
+==> Parameters: 3(Long)
+<==    Columns: total
+<==        Row: 7
+<==      Total: 1
+==>  Preparing: SELECT id,paper_name,paper_type,subject_id,class_id,creator_id,total_score,duration,publish_time,deadline,status,description,create_time,update_time,deleted FROM exam_paper WHERE deleted=0 AND (creator_id = ?) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 3(Long), 100(Long)
+<==    Columns: id, paper_name, paper_type, subject_id, class_id, creator_id, total_score, duration, publish_time, deadline, status, description, create_time, update_time, deleted
+<==        Row: 14, 高一语文周测, 1, 1, 3, 3, 13.00, 60, 2026-11-02 17:42:28, null, 1, 尽快做完, 2026-11-02 17:37:12, 2026-11-02 17:42:28, 0
+<==        Row: 12, 12, 1, 1, 3, 3, 10.00, 60, 2026-09-20 10:49:11, 2026-09-24 00:00:00, 2, 12, 2026-09-20 10:49:08, 2026-09-20 12:05:32, 0
+<==        Row: 11, 1, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:54:12, 2026-09-24 00:00:00, 1, 1, 2026-09-19 21:53:43, 2026-09-19 21:54:12, 0
+<==        Row: 10, 故事默写, 1, 1, 3, 3, 10.00, 60, 2026-09-19 21:03:31, 2026-09-29 00:00:00, 1, 快点做完, 2026-09-19 21:03:29, 2026-09-19 21:03:31, 0
+<==        Row: 9, 语文古诗默写, 1, 1, 3, 3, 20.00, 60, 2026-09-19 12:24:19, 2026-09-24 00:00:00, 1, 尽快做完, 2026-09-19 12:24:10, 2026-09-19 12:24:19, 0
+<==        Row: 8, 古诗默写, 1, 1, 3, 3, 10.00, 60, null, 2026-09-30 00:00:00, 0, 尽快完成, 2026-09-17 16:59:39, 2026-09-17 16:59:39, 0
+<==        Row: 4, 数学, 1, 2, 1, 3, 5.00, 60, 2026-08-03 15:28:17, null, 1, 111, 2026-08-03 15:28:15, 2026-08-03 15:28:17, 0
+<==      Total: 7
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@42838c2f]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6616fc91] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1361542071 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+==> Parameters: 3(Long)
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@108523ac] was not registered for synchronization because synchronization is not active
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+JDBC Connection [HikariProxyConnection@852886240 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE id=? AND deleted=0
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6616fc91]
+==> Parameters: 3(Long)
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3941b49c] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1759655249 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+<==    Columns: id, role_code, role_name, description, create_time
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==        Row: 3, teacher01, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 李耀, 3, null, 1, null, 1314520, teacher01@test.com, 0, 2026-11-03 11:37:00, 2026-07-30 17:29:45, 2026-11-03 11:37:01, 0
+<==      Total: 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3941b49c]
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@108523ac]
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@50d55fc0] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@1777638965 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+==>  Preparing: SELECT id,role_code,role_name,description,create_time FROM sys_role WHERE id=?
+==> Parameters: 3(Long)
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@27e1e323] was not registered for synchronization because synchronization is not active
+JDBC Connection [HikariProxyConnection@321930775 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT * FROM sys_teacher_class WHERE teacher_id = ?
+<==    Columns: id, role_code, role_name, description, create_time
+==> Parameters: 3(Long)
+<==        Row: 3, TEACHER, 教师, 教学与学情管理, 2026-07-30 17:29:45
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@50d55fc0]
+<==    Columns: id, teacher_id, class_id, subject_id, create_time
+Creating a new SqlSession
+<==        Row: 9, 3, 3, 1, 2026-09-19 13:02:11
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660e62c9] was not registered for synchronization because synchronization is not active
+<==      Total: 1
+JDBC Connection [HikariProxyConnection@475990679 wrapping com.mysql.cj.jdbc.ConnectionImpl@11e1157b] will not be managed by Spring
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@27e1e323]
+==>  Preparing: SELECT * FROM exam_answer WHERE paper_id = ?
+==> Parameters: 14(Long)
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@78e88e2d] was not registered for synchronization because synchronization is not active
+<==    Columns: id, paper_id, student_id, submit_type, duration, total_score, status, submit_time, start_time, create_time, update_time
+<==        Row: 13, 14, 11, 1, 13, 3.00, 2, 2026-11-03 09:35:43, 2026-11-03 09:35:29, 2026-11-03 09:35:29, 2026-11-03 10:07:11
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@660e62c9]
+JDBC Connection [HikariProxyConnection@1101620758 wrapping com.mysql.cj.jdbc.ConnectionImpl@7d598281] will not be managed by Spring
+==>  Preparing: SELECT COUNT(*) AS total FROM sys_user WHERE deleted = 0 AND (role_id = ? AND class_id IN (?))
+==> Parameters: 4(Long), 3(Long)
+<==    Columns: total
+<==        Row: 20
+<==      Total: 1
+==>  Preparing: SELECT id,username,password,real_name,role_id,class_id,status,avatar,phone,email,grade_level,last_login,create_time,update_time,deleted FROM sys_user WHERE deleted=0 AND (role_id = ? AND class_id IN (?)) ORDER BY create_time DESC LIMIT ?
+==> Parameters: 4(Long), 3(Long), 200(Long)
+<==    Columns: id, username, password, real_name, role_id, class_id, status, avatar, phone, email, grade_level, last_login, create_time, update_time, deleted
+<==        Row: 11, student01, $2a$10$JY6eidaMO425Qx6G3Tn0Be6GNv3.3FlGgKWlGJKQHZO/YKC1a71jG, 学生01, 4, 3, 1, null, 1, null, 1, 2026-11-03 09:35:21, 2026-07-30 17:29:45, 2026-11-03 09:35:21, 0
+<==        Row: 12, student02, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生02, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:22, 2026-07-30 17:29:45, 2026-09-19 21:08:22, 0
+<==        Row: 13, student03, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生03, 4, 3, 1, null, null, null, 1, 2026-09-19 21:08:44, 2026-07-30 17:29:45, 2026-09-19 21:08:44, 0
+<==        Row: 14, student04, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生04, 4, 3, 1, null, null, null, 1, 2026-09-19 21:12:53, 2026-07-30 17:29:45, 2026-09-19 21:12:53, 0
+<==        Row: 15, student05, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生05, 4, 3, 1, null, null, null, 1, 2026-09-19 13:08:44, 2026-07-30 17:29:45, 2026-09-19 13:08:44, 0
+<==        Row: 16, student06, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生06, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 17, student07, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生07, 4, 3, 1, null, null, null, 1, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 18, student08, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生08, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 19, student09, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生09, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 20, student10, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生10, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 21, student11, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生11, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 22, student12, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生12, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 23, student13, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生13, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 24, student14, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生14, 4, 3, 1, null, null, null, 2, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 25, student15, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生15, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 26, student16, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生16, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 27, student17, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生17, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 28, student18, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生18, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 29, student19, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生19, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==        Row: 30, student20, $2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS, 学生20, 4, 3, 1, null, null, null, 3, null, 2026-07-30 17:29:45, 2026-09-19 13:02:11, 0
+<==      Total: 20
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@78e88e2d]

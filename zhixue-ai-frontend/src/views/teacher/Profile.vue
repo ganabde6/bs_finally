@@ -35,7 +35,11 @@
       <el-col :span="14">
         <el-card class="content-card">
           <template #header>
-            <div class="card-header"><span>所带学生</span></div>
+            <div class="card-header"><span>所带学生</span>
+              <el-select v-model="query.classId" placeholder="全部班级" clearable size="small" style="width:140px" @change="onClassChange">
+                <el-option v-for="(name, cid) in classMap" :key="cid" :label="name" :value="Number(cid)" />
+              </el-select>
+            </div>
           </template>
           <el-table :data="students" stripe v-loading="stuLoading" max-height="520">
             <el-table-column prop="realName" label="姓名" width="110" />
@@ -80,7 +84,7 @@ const saving = ref(false)
 const info = ref({})
 const students = ref([])
 const total = ref(0)
-const query = reactive({ current: 1, size: 20 })
+const query = reactive({ current: 1, size: 20, classId: null })
 const classMap = ref({}) // classId -> className
 const editVisible = ref(false)
 const editForm = reactive({ realName: '', phone: '', email: '' })
@@ -126,12 +130,17 @@ const load = async () => {
 const loadStudents = async () => {
   stuLoading.value = true
   try {
-    const res = await teacherPageStudents({ current: query.current, size: query.size })
+    const res = await teacherPageStudents({ current: query.current, size: query.size, classId: query.classId })
     students.value = (res.data && res.data.records) || []
     total.value = (res.data && res.data.total) || 0
   } finally {
     stuLoading.value = false
   }
+}
+
+const onClassChange = () => {
+  query.current = 1
+  loadStudents()
 }
 onMounted(async () => {
   load()

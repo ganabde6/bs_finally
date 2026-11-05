@@ -113,7 +113,8 @@ public class AnalysisEngine {
         AiStudyAnalysis exist = studyAnalysisMapper.selectOne(
                 new LambdaQueryWrapper<AiStudyAnalysis>()
                         .eq(AiStudyAnalysis::getStudentId, studentId)
-                        .eq(subjectId != null, AiStudyAnalysis::getSubjectId, subjectId));
+                        .eq(subjectId != null, AiStudyAnalysis::getSubjectId, subjectId)
+                        .isNull(subjectId == null, AiStudyAnalysis::getSubjectId));
         AiStudyAnalysis analysis = exist != null ? exist : new AiStudyAnalysis();
         analysis.setStudentId(studentId);
         analysis.setSubjectId(subjectId);
@@ -200,7 +201,8 @@ public class AnalysisEngine {
         AiClassAnalysis exist = classAnalysisMapper.selectOne(
                 new LambdaQueryWrapper<AiClassAnalysis>()
                         .eq(AiClassAnalysis::getClassId, classId)
-                        .eq(subjectId != null, AiClassAnalysis::getSubjectId, subjectId));
+                        .eq(subjectId != null, AiClassAnalysis::getSubjectId, subjectId)
+                        .isNull(subjectId == null, AiClassAnalysis::getSubjectId));
         AiClassAnalysis analysis = exist != null ? exist : new AiClassAnalysis();
         analysis.setClassId(classId);
         analysis.setSubjectId(subjectId);
