@@ -547,6 +547,22 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             throw new BizException("请选择学科");
         }
 
+        // 学科考纲适配:在入口统一改写 questionTypes,使 AI 出题与题库补齐(mode1/mode2)两条路径都遵守
+        // (如语文古诗文只出默写填空/简答,不出现选择、计算题)
+        String subjectName = null;
+        SysSubject subject = subjectMapper.selectById(subjectId);
+        if (subject != null) {
+            subjectName = subject.getSubjectName();
+        }
+        List<Integer> requestTypes = config.get("questionTypes") != null
+                ? ((List<?>) config.get("questionTypes")).stream()
+                    .map(t -> Integer.valueOf(t.toString())).collect(Collectors.toList())
+                : Arrays.asList(1, 2, 4, 5, 7);
+        @SuppressWarnings("unchecked")
+        List<String> reqKnowledgePoints = config.get("knowledgePoints") != null
+                ? (List<String>) config.get("knowledgePoints") : Collections.emptyList();
+        config.put("questionTypes", adaptTypesForSubject(subjectName, reqKnowledgePoints, requestTypes));
+
         List<ExamQuestion> selected = new ArrayList<>();
 
         // 优先由 AI 大模型按学科+知识点+题型+难度生成新题
@@ -598,6 +614,56 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         return result;
     }
 
+    /** 学科考纲适配:语文/英语不出现计算题;语文古诗文/文言文知识点只出默写填空与简答 */
+    private List<Integer> adaptTypesForSubject(String subjectName, List<String> knowledgePoints, List<Integer> types) {
+        if (types == null || types.isEmpty()) return types;
+        boolean isChinese = subjectName != null && subjectName.contains("语文");
+        boolean isEnglish = subjectName != null && (subjectName.contains("英语") || subjectName.contains("英文"));
+        if (!isChinese && !isEnglish) return types;
+        // 文科考纲:无计算题
+        List<Integer> adapted = types.stream()
+                .filter(t -> t != SystemConstants.Q_TYPE_CALC)
+                .collect(Collectors.toList());
+        if (isChinese && adapted.size() > 1) {
+            boolean ancient = knowledgePoints != null && knowledgePoints.stream().anyMatch(k -> {
+                if (k == null) return false;
+                return k.contains("古诗") || k.contains("古诗文") || k.contains("文言")
+                        || k.contains("默写") || k.contains("诗词") || k.contains("名句");
+            });
+            if (ancient) {
+                // 古诗文考纲:只出名句默写填空与字词/翻译/赏析简答,不出选择类题型
+                adapted = adapted.stream()
+                        .filter(t -> t == SystemConstants.Q_TYPE_FILL || t == SystemConstants.Q_TYPE_SHORT)
+                        .collect(Collectors.toList());
+                if (!adapted.contains(SystemConstants.Q_TYPE_FILL)) adapted.add(0, SystemConstants.Q_TYPE_FILL);
+                if (!adapted.contains(SystemConstants.Q_TYPE_SHORT)) adapted.add(SystemConstants.Q_TYPE_SHORT);
+            }
+        }
+        if (adapted.isEmpty()) {
+            adapted = Arrays.asList(SystemConstants.Q_TYPE_FILL, SystemConstants.Q_TYPE_SHORT);
+        }
+        return adapted;
+    }
+
+    /** 题型适配后重算配额:被移除题型的配额并入填空题,保证题量不缩水;返回 null 表示无配额约束 */
+    private Map<Integer, Integer> rebalanceTypeCounts(Map<Integer, Integer> typeCounts, List<Integer> allowedTypes) {
+        if (typeCounts == null || typeCounts.isEmpty()) return typeCounts;
+        int moved = 0;
+        Map<Integer, Integer> rebalanced = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Integer> e : typeCounts.entrySet()) {
+            if (e.getValue() == null || e.getValue() <= 0) continue;
+            if (allowedTypes.contains(e.getKey())) {
+                rebalanced.put(e.getKey(), e.getValue());
+            } else {
+                moved += e.getValue();
+            }
+        }
+        if (moved > 0 && allowedTypes.contains(SystemConstants.Q_TYPE_FILL)) {
+            rebalanced.merge(SystemConstants.Q_TYPE_FILL, moved, Integer::sum);
+        }
+        return rebalanced;
+    }
+
     /**
      * AI 大模型组卷：按学科+知识点+题型+难度生成全新题目并入库
      * <p>AI 返回 JSON 数组：[{"content","options","standardAnswer","analysis","questionType","difficulty","knowledgePoint"}]</p>
@@ -635,6 +701,11 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
         if (subject != null && subject.getSubjectName() != null) {
             subjectName = subject.getSubjectName();
         }
+
+        // 学科考纲适配:语文/英语不出现计算题,语文古诗文/文言文以默写填空、简答为主
+        questionTypes = adaptTypesForSubject(subjectName, knowledgePoints, questionTypes);
+        // 被移除题型的配额并入保留题型,避免题量缩水
+        typeCounts = rebalanceTypeCounts(typeCounts, questionTypes);
 
         List<ExamQuestion> result = new ArrayList<>();
         // 一次性加载该学科全部题目(归一化后),同时用于: 库内去重集合 + 提示词"已出过题"列表,
@@ -745,6 +816,30 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
                             q.setQuestionType(SystemConstants.Q_TYPE_SHORT);
                         }
                     }
+                    // 题型矫正2:AI 标注的题型与题目内容不符时按内容特征修正
+                    // ①选择题缺选项 → 按答案特征归为计算题(纯算式)或填空题
+                    // ②标注计算题但答案是长文本主观描述 → 归为简答题
+                    // ③理科简答题答案是纯数值/算式 → 归为计算题
+                    JSONArray corrOpts = obj.getJSONArray("options");
+                    int corrOptCount = corrOpts == null ? 0 : corrOpts.size();
+                    String corrAnswer = obj.getString("standardAnswer");
+                    if ((q.getQuestionType() == SystemConstants.Q_TYPE_SINGLE
+                            || q.getQuestionType() == SystemConstants.Q_TYPE_MULTI) && corrOptCount < 2) {
+                        int fixed = isMathLikeAnswer(corrAnswer)
+                                ? SystemConstants.Q_TYPE_CALC : SystemConstants.Q_TYPE_FILL;
+                        log.warn("AI 组卷第 {} 轮第 {} 题标注为选择题但仅 {} 个选项,按答案特征归为题型 {}",
+                                round + 1, i + 1, corrOptCount, fixed);
+                        q.setQuestionType(fixed);
+                    } else if (q.getQuestionType() == SystemConstants.Q_TYPE_CALC
+                            && corrAnswer != null && corrAnswer.length() > 30
+                            && corrAnswer.matches(".*[\\u4e00-\\u9fff].*")) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题标注为计算题但答案为长文本主观描述,归为简答题", round + 1, i + 1);
+                        q.setQuestionType(SystemConstants.Q_TYPE_SHORT);
+                    } else if (q.getQuestionType() == SystemConstants.Q_TYPE_SHORT
+                            && isScienceSubject(subjectName) && isMathLikeAnswer(corrAnswer)) {
+                        log.warn("AI 组卷第 {} 轮第 {} 题标注为简答题但答案为纯算式,归为计算题", round + 1, i + 1);
+                        q.setQuestionType(SystemConstants.Q_TYPE_CALC);
+                    }
                     // 过滤判断题(3):仅保留选择、填空、大题
                     if (q.getQuestionType() == SystemConstants.Q_TYPE_JUDGE) {
                         log.warn("AI 组卷第 {} 轮第 {} 题为判断题，已按规则过滤", round + 1, i + 1);
@@ -805,6 +900,19 @@ public class SelfPracticeServiceImpl implements SelfPracticeService {
             }
         }
         return result;
+    }
+
+    /** 判断是否理科类学科(以计算题为主要题型) */
+    private static boolean isScienceSubject(String subjectName) {
+        if (subjectName == null) return false;
+        return subjectName.contains("数学") || subjectName.contains("物理")
+                || subjectName.contains("化学") || subjectName.contains("生物");
+    }
+
+    /** 判断参考答案是否为纯数值/算式(不含汉字且长度受限) */
+    private static boolean isMathLikeAnswer(String std) {
+        if (std == null || std.isBlank() || std.length() > 40) return false;
+        return !std.matches(".*[\\u4e00-\\u9fff].*");
     }
 
     /**

@@ -25,7 +25,7 @@ public class LocalRuleAiServiceProvider implements AiServiceProvider {
         }
         for (String kw : FORBIDDEN_KEYWORDS) {
             if (content.contains(kw)) {
-                return "提问包含违规关键词:「" + kw + "」,已拦截";
+                return "包含违规关键词:「" + kw + "」";
             }
         }
         return null;

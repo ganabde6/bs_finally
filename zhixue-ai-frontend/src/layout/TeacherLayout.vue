@@ -11,6 +11,7 @@ const allMenus = [
   { path: '/teacher/question', title: '题库管理', icon: 'Files' },
   { path: '/teacher/aiGroup', title: '智能出题', icon: 'MagicStick' },
   { path: '/teacher/paper', title: '作业考试管理', icon: 'Document' },
+  { path: '/teacher/task', title: '任务派发', icon: 'Tickets' },
   { path: '/teacher/lsHomework', title: '听说作业', icon: 'Headset', englishOnly: true },
   { path: '/teacher/correct', title: '批改管理', icon: 'Edit' },
   { path: '/teacher/classAnalysis', title: '班级学情', icon: 'TrendCharts' },

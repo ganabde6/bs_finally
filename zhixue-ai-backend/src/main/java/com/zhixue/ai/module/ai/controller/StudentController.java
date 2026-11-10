@@ -3,6 +3,7 @@ package com.zhixue.ai.module.ai.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhixue.ai.common.result.Result;
 import com.zhixue.ai.module.ai.service.AiService;
+import com.zhixue.ai.module.ai.service.ContentRiskService;
 import com.zhixue.ai.module.exam.service.ExamService;
 import com.zhixue.ai.module.system.entity.SysClass;
 import com.zhixue.ai.module.system.entity.SysSubject;
@@ -30,6 +31,7 @@ public class StudentController {
 
     private final ExamService examService;
     private final AiService aiService;
+    private final ContentRiskService contentRiskService;
     private final SysUserMapper userMapper;
     private final SysClassMapper classMapper;
     private final SysTeacherClassMapper teacherClassMapper;
@@ -100,6 +102,19 @@ public class StudentController {
         return Result.success(examService.listStudentPapers(classId, studentId));
     }
 
+    /** 我的待办任务(教师派发的,未完成) */
+    @GetMapping("/tasks")
+    public Result<?> tasks() {
+        return Result.success(systemService.listMyPendingStudentTasks(SecurityUtils.getCurrentUserId()));
+    }
+
+    /** 完成我的任务待办 */
+    @PostMapping("/task/{recordId}/complete")
+    public Result<Void> completeTask(@PathVariable Long recordId) {
+        systemService.completeStudentTask(SecurityUtils.getCurrentUserId(), recordId);
+        return Result.success();
+    }
+
     /** 试卷详情(含题目,不含答案) */
     @GetMapping("/paper/{paperId}")
     public Result<Map<String, Object>> paperDetail(@PathVariable Long paperId) {
@@ -124,6 +139,14 @@ public class StudentController {
         if (raw != null) {
             raw.forEach((k, v) -> answers.put(Long.valueOf(k), v == null ? "" : v.toString()));
         }
+        // 内容风控:自动检测学生作答内容,违规自动拦截并记录
+        StringBuilder answerText = new StringBuilder();
+        answers.forEach((qid, text) -> {
+            if (text != null && !text.isBlank()) {
+                answerText.append(text);
+            }
+        });
+        contentRiskService.audit(answerText.toString(), "提交作答");
         Integer duration = (Integer) body.get("duration");
         examService.submitAnswer(answerId, duration, answers);
         // 自动触发 AI 批改
@@ -244,6 +267,8 @@ public class StudentController {
         String question = (String) body.get("question");
         Integer chatType = (Integer) body.get("chatType");
         String imageBase64 = (String) body.get("imageBase64");
+        // 内容风控:自动检测学生提问,违规自动拦截并记录(在控制器层执行,记录不受业务事务回滚影响)
+        contentRiskService.audit(question, "AI助学问答");
         return Result.success(aiService.tutorChat(SecurityUtils.getCurrentUserId(), question, chatType, imageBase64));
     }
 

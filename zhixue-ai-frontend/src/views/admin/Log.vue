@@ -20,7 +20,13 @@
       <el-table-column prop="username" label="用户" width="120" />
       <el-table-column prop="module" label="模块" width="120" />
       <el-table-column prop="operation" label="操作" show-overflow-tooltip />
-      <el-table-column prop="method" label="方法" show-overflow-tooltip />
+      <el-table-column label="方法" width="90">
+        <template #default="{ row }">
+          <el-tag v-if="httpMethod(row.method)" :type="httpMethod(row.method).type" size="small">{{ httpMethod(row.method).label }}</el-tag>
+          <span v-else-if="row.method" class="legacy-method">{{ legacyMethod(row.method) }}</span>
+          <span v-else class="text-muted">-</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="ip" label="IP" width="140" />
       <el-table-column prop="costMs" label="耗时(ms)" width="100" />
       <el-table-column prop="createTime" label="操作时间" width="180" />
@@ -37,8 +43,20 @@ import { pageLogs } from '@/api'
 const list = ref([])
 const total = ref(0)
 const loading = ref(false)
-const modules = ['用户管理', '角色管理', '班级管理', '学科管理', '题库管理', '试卷管理', '批改管理', 'AI配置', '公告管理', '风控管理']
+const modules = ['用户管理', '角色管理', '班级管理', '学科管理', '任课管理', '题库管理', '试卷管理', '批改管理', 'AI组卷', 'AI配置', '公告管理', '风控管理', '学员管理', '家校反馈', '数据大屏', '系统日志']
 const query = reactive({ current: 1, size: 10, module: null })
+
+// "方法"栏:把 HTTP 请求方法翻译成管理员能看懂的中文
+const HTTP_METHODS = {
+  GET: { type: 'info', label: '查询' },
+  POST: { type: 'success', label: '新增' },
+  PUT: { type: 'warning', label: '修改' },
+  PATCH: { type: 'warning', label: '修改' },
+  DELETE: { type: 'danger', label: '删除' }
+}
+const httpMethod = (m) => (m && HTTP_METHODS[String(m).toUpperCase()]) || null
+// 兼容旧数据:早期 method 存的是 Java 方法签名,只取末尾方法名展示
+const legacyMethod = (m) => String(m).split(/[#.]/).pop()
 
 onMounted(() => loadData())
 
@@ -53,3 +71,8 @@ const loadData = async () => {
   }
 }
 </script>
+
+<style scoped>
+.legacy-method { color: #909399; font-size: 12px; }
+.text-muted { color: #c0c4cc; }
+</style>

@@ -603,11 +603,6 @@ public class AiService {
     /** AI 答疑(文字/拍照/语音) */
     @Transactional
     public Map<String, Object> tutorChat(Long studentId, String question, Integer chatType, String imageBase64) {
-        // 内容风控
-        String risk = aiServiceProvider.moderateContent(question);
-        if (risk != null) {
-            throw new BizException(ResultCode.CONTENT_RISK_BLOCK.getCode(), risk);
-        }
         // 查询开关
         if (!isAiFeatureEnabled("enable_tutor")) {
             throw new BizException("AI 助学功能已关闭");
@@ -678,14 +673,6 @@ public class AiService {
     }
 
     // ===================== AI 模型配置 =====================
-
-    public List<AiModelConfig> listAiConfigs() {
-        return aiConfigMapper.selectList(null);
-    }
-
-    public void updateAiConfig(AiModelConfig config) {
-        aiConfigMapper.updateById(config);
-    }
 
     public String getAiConfigValue(String key) {
         AiModelConfig c = aiConfigMapper.selectOne(new LambdaQueryWrapper<AiModelConfig>()

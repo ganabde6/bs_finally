@@ -68,12 +68,12 @@
         </el-form-item>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="题目数量">
               <el-input-number v-model="form1.questionCount" :min="5" :max="30" :step="5" style="width:100%" />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="难度等级">
               <el-select v-model="form1.difficulty" style="width:100%">
                 <el-option label="基础" :value="1" />
@@ -83,18 +83,10 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="题型">
-              <el-select v-model="form1.questionTypes" multiple placeholder="选择题型" style="width:100%">
-                <el-option label="单选题" :value="1" />
-                <el-option label="多选题" :value="2" />
-                <el-option label="填空题" :value="4" />
-                <el-option label="简答题" :value="5" />
-                <el-option label="计算题" :value="7" />
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
+        <el-form-item label="题型匹配">
+          <span class="form-tip">由 AI 按学科考纲自动匹配题型(如语文古诗只出默写填空/简答,数理化以计算题为主),无需手动选择</span>
+        </el-form-item>
 
         <el-form-item label="错题优先推送">
           <el-switch v-model="form1.priorityErrors" active-text="开启" inactive-text="关闭" />
@@ -347,7 +339,7 @@ watch(
 
 // 校验
 const canGenerate1 = computed(() => {
-  return form1.value.subjectId && form1.value.questionTypes.length > 0
+  return form1.value.subjectId
 })
 
 const canGenerate2 = computed(() => {

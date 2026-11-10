@@ -54,7 +54,10 @@
     <!-- 新增/编辑 -->
     <el-dialog v-model="formVisible" :title="form.id ? '编辑用户' : '新增用户'" width="560">
       <el-form :model="form" label-width="100px">
-        <el-form-item label="账号" v-if="!form.id"><el-input v-model="form.username" /></el-form-item>
+        <el-form-item label="账号" v-if="!form.id">
+          <el-input :model-value="'系统自动生成'" disabled />
+          <span class="form-tip" style="font-size:12px;color:#909399">账号由系统按角色自动生成(如 student + 随机号),初始密码 123456,可通过"重置密码"修改</span>
+        </el-form-item>
         <el-form-item label="姓名"><el-input v-model="form.realName" /></el-form-item>
         <el-form-item label="角色"><el-select v-model="form.roleId"><el-option v-for="r in roles" :key="r.id" :label="r.roleName" :value="r.id" /></el-select></el-form-item>
         <el-form-item label="班级" v-if="form.roleId === 4"><el-select v-model="form.classId" clearable><el-option v-for="c in classes" :key="c.id" :label="c.className" :value="c.id" /></el-select></el-form-item>
@@ -188,7 +191,8 @@ const openEdit = (row) => {
 }
 
 const save = async () => {
-  if (!form.username || !form.realName || !form.roleId) {
+  // 账号由系统自动生成,仅需校验姓名与角色;编辑时保留原有账号校验
+  if ((!form.id && !form.username ? false : !form.username) || !form.realName || !form.roleId) {
     ElMessage.warning('请填写完整信息')
     return
   }

@@ -34,15 +34,16 @@ INSERT INTO sys_permission (id, parent_id, perm_code, perm_name, perm_type, path
 (303, 0, 'admin:role',        '角色权限',     1, '/admin/role',        'admin/Role',         'Lock',      3),
 (304, 0, 'admin:class',       '班级管理',     1, '/admin/class',       'admin/Class',        'OfficeBuilding',4),
 (305, 0, 'admin:course',      '课程管理',     1, '/admin/course',      'admin/Course',       'Reading',   5),
-(306, 0, 'admin:aiConfig',    'AI配置',       1, '/admin/aiConfig',    'admin/AiConfig',     'MagicStick',6),
+(306, 0, 'admin:homework',    '作业监测',     1, '/admin/homework',    'admin/HomeworkMonitor','DocumentChecked',6),
 (307, 0, 'admin:notice',      '公告管理',     1, '/admin/notice',      'admin/Notice',       'Bell',      7),
 (308, 0, 'admin:moderation',  '内容风控',     1, '/admin/moderation',  'admin/Moderation',   'WarnTriangleFilled',8),
-(309, 0, 'admin:log',         '系统日志',     1, '/admin/log',         'admin/Log',          'List',      9);
+(309, 0, 'admin:log',         '系统日志',     1, '/admin/log',         'admin/Log',          'List',      9),
+(310, 0, 'admin:task',        '任务派发',     1, '/admin/task',        'admin/Task',         'Memo',      10);
 
 -- ---------------------------- 角色-权限关联 ----------------------------
 INSERT INTO sys_role_permission (role_id, permission_id) VALUES
-(1, 301),(1, 302),(1, 303),(1, 304),(1, 305),(1, 306),(1, 307),(1, 308),(1, 309),
-(2, 301),(2, 302),(2, 304),(2, 305),(2, 307),(2, 308),(2, 309),
+(1, 301),(1, 302),(1, 303),(1, 304),(1, 305),(1, 306),(1, 307),(1, 308),(1, 309),(1, 310),
+(2, 301),(2, 302),(2, 304),(2, 305),(2, 306),(2, 307),(2, 308),(2, 309),(2, 310),
 (3, 201),(3, 202),(3, 203),(3, 204),(3, 205),(3, 206),
 (4, 101),(4, 102),(4, 103),(4, 104),(4, 105);
 
@@ -65,7 +66,9 @@ INSERT INTO sys_user (id, username, password, real_name, role_id, class_id, stat
 (1, 'admin',    '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '系统管理员', 1, NULL, 1, NULL),
 (2, 'schooladmin','$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS','校级管理员', 2, NULL, 1, NULL),
 (3, 'teacher01', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '张老师',     3, NULL, 1, NULL),
-(4, 'teacher02', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '李老师',     3, NULL, 1, NULL);
+(4, 'teacher02', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '李老师',     3, NULL, 1, NULL),
+(31, 'teacher03', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '王老师',    3, NULL, 1, NULL),
+(32, 'teacher04', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '赵老师',    3, NULL, 1, NULL);
 
 -- 学生:每班10名,共20名,ID从11开始
 INSERT INTO sys_user (id, username, password, real_name, role_id, class_id, status) VALUES
@@ -91,10 +94,12 @@ INSERT INTO sys_user (id, username, password, real_name, role_id, class_id, stat
 (30, 'student20', '$2a$10$GkNy7UyBquJhWj6953GnrOBtzsSLA3YVgMT4Cdd1EQ1fQPw6xYUsS', '学生20', 4, 2, 1);
 
 -- ---------------------------- 教师-班级-学科关系 ----------------------------
--- 张老师:1班语文、2班语文;李老师:1班数学、2班数学、物理、化学
+-- 每位教师只任教科目一致:张老师语文、李老师数学、王老师物理、赵老师化学
 INSERT INTO sys_teacher_class (teacher_id, class_id, subject_id) VALUES
 (3, 1, 1), (3, 2, 1),
-(4, 1, 2), (4, 2, 2), (4, 2, 4), (4, 2, 5);
+(4, 1, 2), (4, 2, 2),
+(31, 2, 4),
+(32, 2, 5);
 
 -- ---------------------------- 题库(每科5题,共25题) ----------------------------
 -- 语文(学科ID=1)
@@ -191,3 +196,15 @@ INSERT INTO sys_notice (title, content, target_role, publisher_id, publish_time,
 -- ---------------------------- 系统日志示例 ----------------------------
 INSERT INTO sys_log (user_id, username, module, operation, method, ip, cost_ms) VALUES
 (1, 'admin', '系统', '系统初始化', 'INIT', '127.0.0.1', 0);
+
+-- ---------------------------- 任务派发(示例数据) ----------------------------
+-- task_type: 1=管理员派发的教师任务 2=教师派发的学生任务
+INSERT INTO sys_task (id, title, content, task_type, target_teacher_id, target_class_id, deadline, status, complete_time, publisher_id, create_time) VALUES
+(1, '布置本周数学周测', '请本周内完成所教班级数学周测的命题并发布,重点覆盖当前进度章节。', 1, 4, NULL, '2026-11-14 18:00:00', 0, NULL, 1, '2026-11-08 09:00:00'),
+(2, '上传本月教学进度表', '请于11月15日前将所教班级的教学进度表整理上传,供校级汇总。', 1, NULL, NULL, '2026-11-15 17:00:00', 0, NULL, 1, '2026-11-09 10:30:00'),
+(3, '制定班级培优补差计划', '请结合班级学情制定培优补差计划,于11月20日前提交。', 1, 3, NULL, '2026-11-20 17:00:00', 1, '2026-11-09 16:00:00', 1, '2026-11-07 14:00:00'),
+(4, '完成本月错题整理', '请将本月数学错题整理到错题本,每题配一道同类变式题,下周五前交老师检查。', 2, NULL, 1, '2026-11-15 17:00:00', 0, NULL, 4, '2026-11-10 09:00:00');
+
+-- 学生任务完成记录(任务4:李老师所教 1 班全体学生的待办)
+INSERT INTO sys_task_record (task_id, student_id, status)
+SELECT 4, id, 0 FROM sys_user WHERE role_id = 4 AND class_id = 1;

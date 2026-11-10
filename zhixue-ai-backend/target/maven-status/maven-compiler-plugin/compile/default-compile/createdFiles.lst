@@ -57,6 +57,7 @@ com\zhixue\ai\module\ai\controller\StudentController.class
 com\zhixue\ai\module\exam\entity\ExamAnswer.class
 com\zhixue\ai\module\ai\mapper\AiLsHomeworkMapper.class
 com\zhixue\ai\module\ai\entity\AiCorrectRecord.class
+com\zhixue\ai\module\system\entity\SysTask.class
 com\zhixue\ai\module\ai\mapper\SelfPracticeRecordMapper.class
 com\zhixue\ai\common\result\ResultCode.class
 com\zhixue\ai\config\CorsConfig.class
@@ -77,6 +78,7 @@ com\zhixue\ai\module\ai\mapper\PkLsRoomMapper.class
 com\zhixue\ai\module\ai\mapper\AiTutorChatMapper.class
 com\zhixue\ai\security\SecurityUtils.class
 com\zhixue\ai\module\ai\mapper\PkAnswerRecordMapper.class
+com\zhixue\ai\common\log\SysLogAspect.class
 com\zhixue\ai\module\ai\controller\ListeningSpeakingController.class
 com\zhixue\ai\module\system\entity\SysSubject.class
 com\zhixue\ai\module\exam\mapper\ExamAnswerMapper.class
@@ -102,6 +104,10 @@ com\zhixue\ai\module\system\mapper\SysFileMapper.class
 com\zhixue\ai\module\ai\mapper\ExamRiskLogMapper.class
 com\zhixue\ai\module\ai\engine\WebSocketServer.class
 com\zhixue\ai\module\system\controller\CommonController.class
+com\zhixue\ai\module\system\mapper\SysTaskRecordMapper.class
+com\zhixue\ai\common\log\OperationLog.class
+com\zhixue\ai\module\ai\entity\ContentRiskLog.class
+com\zhixue\ai\module\ai\service\ContentRiskService.class
 com\zhixue\ai\module\ai\mapper\AiListeningSpeakingMapper.class
 com\zhixue\ai\module\exam\mapper\ExamQuestionMapper.class
 com\zhixue\ai\module\ai\entity\ExamRiskLog.class
@@ -113,12 +119,17 @@ com\zhixue\ai\ZhixueAiApplication.class
 com\zhixue\ai\module\system\entity\SysRolePermission.class
 com\zhixue\ai\config\WebMvcConfig.class
 com\zhixue\ai\module\ai\mapper\PkLsRecordMapper.class
+com\zhixue\ai\module\monitor\service\HomeworkMonitorService.class
 com\zhixue\ai\module\ai\service\SelfPracticeService.class
 com\zhixue\ai\module\system\entity\SysPermission.class
+com\zhixue\ai\module\ai\mapper\ContentRiskLogMapper.class
+com\zhixue\ai\config\JacksonConfig.class
 com\zhixue\ai\module\ai\engine\ApiAiServiceProvider.class
 com\zhixue\ai\module\ai\entity\PkLsRoom.class
 com\zhixue\ai\module\ai\mapper\AiStudyAnalysisMapper.class
 com\zhixue\ai\module\system\mapper\SysSubjectMapper.class
+com\zhixue\ai\module\system\mapper\SysTaskMapper.class
 com\zhixue\ai\module\exam\entity\ExamPaperQuestion.class
 com\zhixue\ai\module\ai\entity\AiTutorChat.class
 com\zhixue\ai\module\exam\entity\AiGenerateRecord.class
+com\zhixue\ai\module\system\entity\SysTaskRecord.class

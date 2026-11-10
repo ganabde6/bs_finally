@@ -25,6 +25,22 @@
       </el-timeline>
     </el-card>
     <el-card class="mt-20">
+      <template #header><span>教师任务</span></template>
+      <el-empty v-if="!tasks.length" description="暂无教师派发的任务" :image-size="60" />
+      <el-table v-else :data="tasks" stripe>
+        <el-table-column prop="title" label="任务" width="200" show-overflow-tooltip />
+        <el-table-column prop="content" label="要求" show-overflow-tooltip />
+        <el-table-column label="截止时间" width="180">
+          <template #default="{row}">{{ row.deadline || '不限时' }}</template>
+        </el-table-column>
+        <el-table-column label="操作" width="120">
+          <template #default="{row}">
+            <el-button type="primary" size="small" @click="completeTask(row.recordId)">完成</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+    <el-card class="mt-20">
       <template #header><span>我的待办</span></template>
       <el-table :data="pendingPapers" stripe>
         <el-table-column prop="paperName" label="名称" />
@@ -44,7 +60,8 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
-import { studentDashboard, studentPapers, studentNotices } from '@/api'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { studentDashboard, studentPapers, studentNotices, studentTasks, completeStudentTask } from '@/api'
 
 const cards = reactive([
   { label: '待完成作业/考试', value: 0 },
@@ -54,6 +71,7 @@ const cards = reactive([
 ])
 const notices = ref([])
 const pendingPapers = ref([])
+const tasks = ref([])
 
 onMounted(async () => {
   try {
@@ -67,8 +85,22 @@ onMounted(async () => {
     cards[1].value = res.data.answerCount
     cards[2].value = res.data.errorCount
   } catch {}
+  try {
+    const t = await studentTasks()
+    tasks.value = t.data || []
+  } catch {}
   const p = await studentPapers()
   pendingPapers.value = p.data || []
   cards[0].value = pendingPapers.value.length
 })
+
+const completeTask = async (recordId) => {
+  try {
+    await ElMessageBox.confirm('确定标记该任务为已完成?', '提示', { type: 'warning' })
+  } catch { return }
+  await completeStudentTask(recordId)
+  ElMessage.success('任务已完成')
+  const t = await studentTasks()
+  tasks.value = t.data || []
+}
 </script>

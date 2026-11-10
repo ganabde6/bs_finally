@@ -27,12 +27,12 @@ public class SystemService {
 
     private final SysUserMapper userMapper;
     private final SysRoleMapper roleMapper;
-    private final SysPermissionMapper permissionMapper;
-    private final SysRolePermissionMapper rolePermissionMapper;
     private final SysClassMapper classMapper;
     private final SysSubjectMapper subjectMapper;
     private final SysTeacherClassMapper teacherClassMapper;
     private final SysNoticeMapper noticeMapper;
+    private final SysTaskMapper taskMapper;
+    private final SysTaskRecordMapper taskRecordMapper;
     private final SysLogMapper logMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -84,13 +84,39 @@ public class SystemService {
     }
 
     public void addUser(SysUser user) {
+        // 账号未填写时由系统自动生成:角色前缀 + 6位随机数,冲突时重试
+        if (user.getUsername() == null || user.getUsername().isBlank()) {
+            user.setUsername(generateUsername(user.getRoleId()));
+        }
         if (userMapper.selectByUsername(user.getUsername()) != null) {
             throw new BizException("用户名已存在");
         }
         user.setPassword(passwordEncoder.encode(
-                user.getPassword() == null ? "123456" : user.getPassword()));
+                user.getPassword() == null || user.getPassword().isBlank()
+                        ? "123456" : user.getPassword()));
         if (user.getStatus() == null) user.setStatus(1);
         userMapper.insert(user);
+    }
+
+    /** 按角色生成账号:角色编码小写做前缀 + 6位随机数字(如 s382614/t102938),冲突时最多重试 10 次 */
+    private String generateUsername(Long roleId) {
+        String prefix = "u";
+        if (roleId != null) {
+            SysRole role = roleMapper.selectById(roleId);
+            if (role != null && role.getRoleCode() != null && !role.getRoleCode().isBlank()) {
+                prefix = role.getRoleCode().toLowerCase().replaceAll("[^a-z]", "");
+                if (prefix.isEmpty()) prefix = "u";
+            }
+        }
+        java.security.SecureRandom random = new java.security.SecureRandom();
+        for (int i = 0; i < 10; i++) {
+            String candidate = prefix + (100000 + random.nextInt(900000));
+            if (userMapper.selectByUsername(candidate) == null) {
+                return candidate;
+            }
+        }
+        // 兜底:时间戳保证唯一
+        return prefix + System.currentTimeMillis() % 1000000000L;
     }
 
     public void updateUser(SysUser user) {
@@ -141,71 +167,6 @@ public class SystemService {
 
     public List<SysRole> listRoles() {
         return roleMapper.selectList(null);
-    }
-
-    public void addRole(SysRole role) {
-        roleMapper.insert(role);
-    }
-
-    public void updateRole(SysRole role) {
-        roleMapper.updateById(role);
-    }
-
-    public void deleteRole(Long id) {
-        roleMapper.deleteById(id);
-    }
-
-    /** 分配角色权限 */
-    public void assignRolePermissions(Long roleId, List<Long> permissionIds) {
-        rolePermissionMapper.delete(new LambdaQueryWrapper<SysRolePermission>()
-                .eq(SysRolePermission::getRoleId, roleId));
-        for (Long pid : permissionIds) {
-            SysRolePermission rp = new SysRolePermission();
-            rp.setRoleId(roleId);
-            rp.setPermissionId(pid);
-            rolePermissionMapper.insert(rp);
-        }
-    }
-
-    public List<Long> getRolePermissionIds(Long roleId) {
-        return rolePermissionMapper.selectList(new LambdaQueryWrapper<SysRolePermission>()
-                .eq(SysRolePermission::getRoleId, roleId))
-                .stream().map(SysRolePermission::getPermissionId).collect(Collectors.toList());
-    }
-
-    // ============== 权限管理 ==============
-
-    public List<SysPermission> listPermissions() {
-        return permissionMapper.selectList(new LambdaQueryWrapper<SysPermission>()
-                .orderByAsc(SysPermission::getSort));
-    }
-
-    public List<SysPermission> treePermissions() {
-        List<SysPermission> all = listPermissions();
-        // 构建树
-        Map<Long, List<SysPermission>> childrenMap = new HashMap<>();
-        List<SysPermission> roots = new ArrayList<>();
-        for (SysPermission p : all) {
-            childrenMap.computeIfAbsent(p.getParentId(), k -> new ArrayList<>()).add(p);
-        }
-        for (SysPermission p : all) {
-            if (p.getParentId() == null || p.getParentId() == 0L) {
-                roots.add(p);
-            }
-        }
-        return roots;
-    }
-
-    public void addPermission(SysPermission perm) {
-        permissionMapper.insert(perm);
-    }
-
-    public void updatePermission(SysPermission perm) {
-        permissionMapper.updateById(perm);
-    }
-
-    public void deletePermission(Long id) {
-        permissionMapper.deleteById(id);
     }
 
     // ============== 班级管理 ==============
@@ -284,11 +245,50 @@ public class SystemService {
     }
 
     public void assignTeacherCourse(Long teacherId, Long classId, Long subjectId) {
+        // 每位教师只能任教科目一致(同一学科可教多个班级)
+        for (SysTeacherClass exist : teacherClassMapper.selectByTeacherId(teacherId)) {
+            if (exist.getClassId().equals(classId) && exist.getSubjectId().equals(subjectId)) {
+                throw new BizException("该教师已在该班级任此学科,请勿重复分配");
+            }
+            if (!exist.getSubjectId().equals(subjectId)) {
+                SysSubject s = subjectMapper.selectById(exist.getSubjectId());
+                String name = s != null ? s.getSubjectName() : "未知学科";
+                throw new BizException("每位教师只能任教科目一致,该教师已任教【" + name + "】,不能分配其他学科");
+            }
+        }
         SysTeacherClass tc = new SysTeacherClass();
         tc.setTeacherId(teacherId);
         tc.setClassId(classId);
         tc.setSubjectId(subjectId);
         teacherClassMapper.insert(tc);
+    }
+
+    public void updateTeacherCourse(Long id, Long classId, Long subjectId) {
+        SysTeacherClass row = teacherClassMapper.selectById(id);
+        if (row == null) {
+            throw new BizException("任课不存在");
+        }
+        boolean subjectChanged = !subjectId.equals(row.getSubjectId());
+        List<SysTeacherClass> all = teacherClassMapper.selectByTeacherId(row.getTeacherId());
+        for (SysTeacherClass other : all) {
+            if (other.getId().equals(id)) continue;
+            // 改学科后其他行会同步为新学科,按新学科判断重复
+            Long otherSubject = subjectChanged ? subjectId : other.getSubjectId();
+            if (other.getClassId().equals(classId) && otherSubject.equals(subjectId)) {
+                throw new BizException("该教师已在该班级任此学科,请勿重复分配");
+            }
+        }
+        row.setClassId(classId);
+        row.setSubjectId(subjectId);
+        teacherClassMapper.updateById(row);
+        if (subjectChanged) {
+            // 一师一科:同步该教师全部任课为新学科
+            for (SysTeacherClass other : all) {
+                if (other.getId().equals(id)) continue;
+                other.setSubjectId(subjectId);
+                teacherClassMapper.updateById(other);
+            }
+        }
     }
 
     public void removeTeacherCourse(Long id) {
@@ -302,11 +302,12 @@ public class SystemService {
                 new LambdaQueryWrapper<SysNotice>().orderByDesc(SysNotice::getCreateTime));
     }
 
-    /** 查询当前用户可见公告 */
+    /** 查询当前用户可见公告(已发布 且 目标为 全体/ALL 或 指定本角色) */
     public List<SysNotice> listVisibleNotices(String roleCode) {
         return noticeMapper.selectList(new LambdaQueryWrapper<SysNotice>()
                 .eq(SysNotice::getStatus, 1)
                 .and(w -> w.isNull(SysNotice::getTargetRole)
+                        .or().eq(SysNotice::getTargetRole, "ALL")
                         .or().eq(SysNotice::getTargetRole, roleCode))
                 .orderByDesc(SysNotice::getPublishTime));
     }
@@ -327,6 +328,183 @@ public class SystemService {
 
     public void deleteNotice(Long id) {
         noticeMapper.deleteById(id);
+    }
+
+    // ============== 任务派发 ==============
+
+    /** 管理端任务列表(管理员派发的教师任务,含目标教师姓名) */
+    public List<Map<String, Object>> listTasks() {
+        List<SysTask> tasks = taskMapper.selectList(new LambdaQueryWrapper<SysTask>()
+                .eq(SysTask::getTaskType, 1)
+                .orderByAsc(SysTask::getStatus)
+                .orderByDesc(SysTask::getCreateTime));
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (SysTask t : tasks) {
+            Map<String, Object> m = new HashMap<>();
+            m.put("id", t.getId());
+            m.put("title", t.getTitle());
+            m.put("content", t.getContent());
+            m.put("targetTeacherId", t.getTargetTeacherId());
+            m.put("targetTeacherName", t.getTargetTeacherId() == null ? "全体教师" : userName(t.getTargetTeacherId()));
+            m.put("deadline", t.getDeadline());
+            m.put("status", t.getStatus());
+            m.put("completeTime", t.getCompleteTime());
+            m.put("createTime", t.getCreateTime());
+            result.add(m);
+        }
+        return result;
+    }
+
+    public void addTask(SysTask task) {
+        task.setTaskType(1);
+        if (task.getStatus() == null) task.setStatus(0);
+        task.setPublisherId(SecurityUtils.getCurrentUserId());
+        if (task.getStatus() != 1) task.setCompleteTime(null);
+        taskMapper.insert(task);
+    }
+
+    public void updateTask(SysTask task) {
+        SysTask exist = taskMapper.selectById(task.getId());
+        if (exist == null) throw new BizException("任务不存在");
+        if (task.getStatus() != null && task.getStatus() == 1
+                && exist.getStatus() != null && exist.getStatus() == 0) {
+            task.setCompleteTime(LocalDateTime.now());
+        }
+        if (task.getCompleteTime() == null) task.setCompleteTime(exist.getCompleteTime());
+        task.setPublisherId(exist.getPublisherId());
+        taskMapper.updateById(task);
+    }
+
+    public void deleteTask(Long id) {
+        taskMapper.deleteById(id);
+    }
+
+    /** 当前教师的待完成任务(面向全体教师 + 指定本人的) */
+    public List<SysTask> listMyPendingTasks(Long teacherId) {
+        return taskMapper.selectList(new LambdaQueryWrapper<SysTask>()
+                .eq(SysTask::getStatus, 0)
+                .and(w -> w.isNull(SysTask::getTargetTeacherId)
+                        .or().eq(SysTask::getTargetTeacherId, teacherId))
+                .orderByDesc(SysTask::getCreateTime));
+    }
+
+    public void completeTask(Long teacherId, Long taskId) {
+        SysTask t = taskMapper.selectById(taskId);
+        if (t == null) throw new BizException("任务不存在");
+        if (t.getTargetTeacherId() != null && !t.getTargetTeacherId().equals(teacherId)) {
+            throw new BizException("该任务未派发给您");
+        }
+        t.setStatus(1);
+        t.setCompleteTime(LocalDateTime.now());
+        taskMapper.updateById(t);
+    }
+
+    // ============== 教师派发的学生任务 ==============
+
+    /** 教师向所教班级派发任务(为班级每个学生生成一条待办记录) */
+    public void dispatchStudentTask(Long teacherId, SysTask task) {
+        Long count = teacherClassMapper.selectCount(new LambdaQueryWrapper<SysTeacherClass>()
+                .eq(SysTeacherClass::getTeacherId, teacherId)
+                .eq(SysTeacherClass::getClassId, task.getTargetClassId()));
+        if (count == null || count == 0) {
+            throw new BizException("您未任教该班级,不能向其派发任务");
+        }
+        task.setTaskType(2);
+        task.setTargetTeacherId(null);
+        if (task.getStatus() == null) task.setStatus(0);
+        task.setPublisherId(teacherId);
+        taskMapper.insert(task);
+        List<SysUser> students = userMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getRoleId, 4L)
+                .eq(SysUser::getClassId, task.getTargetClassId()));
+        for (SysUser s : students) {
+            SysTaskRecord r = new SysTaskRecord();
+            r.setTaskId(task.getId());
+            r.setStudentId(s.getId());
+            r.setStatus(0);
+            taskRecordMapper.insert(r);
+        }
+    }
+
+    /** 教师派发的学生任务列表(含完成进度) */
+    public List<Map<String, Object>> listMyStudentTasks(Long teacherId) {
+        List<SysTask> tasks = taskMapper.selectList(new LambdaQueryWrapper<SysTask>()
+                .eq(SysTask::getTaskType, 2)
+                .eq(SysTask::getPublisherId, teacherId)
+                .orderByDesc(SysTask::getCreateTime));
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (SysTask t : tasks) {
+            List<SysTaskRecord> records = taskRecordMapper.selectList(new LambdaQueryWrapper<SysTaskRecord>()
+                    .eq(SysTaskRecord::getTaskId, t.getId()));
+            SysClass c = t.getTargetClassId() == null ? null : classMapper.selectById(t.getTargetClassId());
+            Map<String, Object> m = new HashMap<>();
+            m.put("id", t.getId());
+            m.put("title", t.getTitle());
+            m.put("content", t.getContent());
+            m.put("targetClassId", t.getTargetClassId());
+            m.put("targetClassName", c == null ? "未知班级" : c.getClassName());
+            m.put("deadline", t.getDeadline());
+            m.put("total", records.size());
+            m.put("completed", records.stream().filter(r -> r.getStatus() != null && r.getStatus() == 1).count());
+            m.put("createTime", t.getCreateTime());
+            result.add(m);
+        }
+        return result;
+    }
+
+    /** 教师删除自己派发的学生任务(连同学生记录) */
+    public void deleteStudentTask(Long teacherId, Long taskId) {
+        SysTask t = taskMapper.selectById(taskId);
+        if (t == null || t.getTaskType() == null || t.getTaskType() != 2) {
+            throw new BizException("任务不存在");
+        }
+        if (t.getPublisherId() == null || !t.getPublisherId().equals(teacherId)) {
+            throw new BizException("只能删除自己派发的任务");
+        }
+        taskRecordMapper.delete(new LambdaQueryWrapper<SysTaskRecord>().eq(SysTaskRecord::getTaskId, taskId));
+        taskMapper.deleteById(taskId);
+    }
+
+    /** 当前学生的待完成任务(未完成) */
+    public List<Map<String, Object>> listMyPendingStudentTasks(Long studentId) {
+        List<SysTaskRecord> records = taskRecordMapper.selectList(new LambdaQueryWrapper<SysTaskRecord>()
+                .eq(SysTaskRecord::getStudentId, studentId)
+                .eq(SysTaskRecord::getStatus, 0)
+                .orderByDesc(SysTaskRecord::getCreateTime));
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (SysTaskRecord r : records) {
+            SysTask t = taskMapper.selectById(r.getTaskId());
+            if (t == null) continue;
+            Map<String, Object> m = new HashMap<>();
+            m.put("recordId", r.getId());
+            m.put("taskId", t.getId());
+            m.put("title", t.getTitle());
+            m.put("content", t.getContent());
+            m.put("deadline", t.getDeadline());
+            m.put("createTime", t.getCreateTime());
+            result.add(m);
+        }
+        return result;
+    }
+
+    /** 学生完成自己的任务待办 */
+    public void completeStudentTask(Long studentId, Long recordId) {
+        SysTaskRecord r = taskRecordMapper.selectById(recordId);
+        if (r == null || !r.getStudentId().equals(studentId)) {
+            throw new BizException("任务待办不存在");
+        }
+        if (r.getStatus() != null && r.getStatus() == 1) {
+            throw new BizException("该任务已完成");
+        }
+        r.setStatus(1);
+        r.setCompleteTime(LocalDateTime.now());
+        taskRecordMapper.updateById(r);
+    }
+
+    private String userName(Long userId) {
+        SysUser u = userId == null ? null : userMapper.selectById(userId);
+        if (u == null) return "未知";
+        return u.getRealName() != null && !u.getRealName().isEmpty() ? u.getRealName() : u.getUsername();
     }
 
     // ============== 日志管理 ==============

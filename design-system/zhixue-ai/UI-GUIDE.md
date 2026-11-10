@@ -72,7 +72,7 @@
 
 ### admin（9 页）
 Dashboard(数据大屏) / User(用户管理) / Role(角色权限) / Class(班级管理) /
-Course(学科管理) / AiConfig(AI配置) / Notice(公告管理) / Moderation(内容风控) / Log(系统日志)
+Course(学科管理) / Homework(作业监测) / Notice(公告管理) / Moderation(内容风控) / Log(系统日志)
 
 ### student（12 页）
 Dashboard(学习首页) / PaperList(作业考试) / Tutor(AI答疑) / ListeningSpeaking(英语听说) /

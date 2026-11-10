@@ -1,15 +1,18 @@
 package com.zhixue.ai.module.exam.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zhixue.ai.common.log.OperationLog;
 import com.zhixue.ai.common.result.Result;
 import com.zhixue.ai.common.result.ResultCode;
 import com.zhixue.ai.module.ai.service.AiService;
+import com.zhixue.ai.module.ai.service.ContentRiskService;
 import com.zhixue.ai.module.ai.service.SelfPracticeService;
 import com.zhixue.ai.module.exam.entity.ExamPaper;
 import com.zhixue.ai.module.exam.entity.ExamQuestion;
 import com.zhixue.ai.module.exam.service.AiGroupTaskService;
 import com.zhixue.ai.module.exam.service.ExamService;
 import com.zhixue.ai.module.system.service.SystemService;
+import com.zhixue.ai.module.system.entity.SysTask;
 import com.zhixue.ai.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,7 @@ public class TeacherController {
 
     private final ExamService examService;
     private final AiService aiService;
+    private final ContentRiskService contentRiskService;
     private final SelfPracticeService selfPracticeService;
     private final SystemService systemService;
     private final AiGroupTaskService aiGroupTaskService;
@@ -35,6 +39,50 @@ public class TeacherController {
     private final com.zhixue.ai.module.system.mapper.SysClassMapper classMapper;
     private final com.zhixue.ai.module.system.mapper.SysTeacherClassMapper teacherClassMapper;
     private final com.zhixue.ai.module.system.mapper.SysSubjectMapper subjectMapper;
+
+    /** 当前教师可见的公告(全员公告 + 面向教师的已发布公告) */
+    @GetMapping("/notices")
+    public Result<?> notices() {
+        return Result.success(systemService.listVisibleNotices("TEACHER"));
+    }
+
+    /** 当前教师的待完成任务(管理员派发:面向全体教师 + 指定本人) */
+    @GetMapping("/tasks")
+    public Result<?> tasks() {
+        return Result.success(systemService.listMyPendingTasks(SecurityUtils.getCurrentUserId()));
+    }
+
+    @OperationLog(module = "任务管理", operation = "完成任务")
+    @PostMapping("/task/{id}/complete")
+    public Result<Void> completeTask(@PathVariable Long id) {
+        systemService.completeTask(SecurityUtils.getCurrentUserId(), id);
+        return Result.success();
+    }
+
+    // ============== 学生任务派发 ==============
+
+    @OperationLog(module = "任务管理", operation = "派发学生任务")
+    @PostMapping("/student-task")
+    public Result<Void> dispatchStudentTask(@RequestBody SysTask task) {
+        String text = (task.getTitle() == null ? "" : task.getTitle()) + " "
+                + (task.getContent() == null ? "" : task.getContent());
+        contentRiskService.audit(text, "派发学生任务");
+        systemService.dispatchStudentTask(SecurityUtils.getCurrentUserId(), task);
+        return Result.success();
+    }
+
+    @OperationLog(module = "任务管理", operation = "查询学生任务列表")
+    @GetMapping("/student-tasks")
+    public Result<?> studentTasks() {
+        return Result.success(systemService.listMyStudentTasks(SecurityUtils.getCurrentUserId()));
+    }
+
+    @OperationLog(module = "任务管理", operation = "删除学生任务")
+    @DeleteMapping("/student-task/{id}")
+    public Result<Void> deleteStudentTask(@PathVariable Long id) {
+        systemService.deleteStudentTask(SecurityUtils.getCurrentUserId(), id);
+        return Result.success();
+    }
 
     /** 个人信息:教师基本信息 + 我执教的班级/科目明细(供个人信息页展示) */
     @GetMapping("/profile")
@@ -156,18 +204,23 @@ public class TeacherController {
         return Result.success(examService.getQuestion(id));
     }
 
+    @OperationLog(module = "题库管理", operation = "新增题目")
     @PostMapping("/question")
     public Result<Void> addQuestion(@RequestBody ExamQuestion q) {
+        contentRiskService.audit(questionText(q), "新增题目");
         examService.addQuestion(q);
         return Result.success();
     }
 
+    @OperationLog(module = "题库管理", operation = "编辑题目")
     @PutMapping("/question")
     public Result<Void> updateQuestion(@RequestBody ExamQuestion q) {
+        contentRiskService.audit(questionText(q), "编辑题目");
         examService.updateQuestion(q);
         return Result.success();
     }
 
+    @OperationLog(module = "题库管理", operation = "删除题目")
     @DeleteMapping("/question/{id}")
     public Result<Void> deleteQuestion(@PathVariable Long id) {
         examService.deleteQuestion(id);
@@ -175,6 +228,7 @@ public class TeacherController {
     }
 
     /** 一键清空题库: 仅删除教师任教学科的题目,返回删除数量 */
+    @OperationLog(module = "题库管理", operation = "一键清空题库")
     @DeleteMapping("/questions/all")
     public Result<Map<String, Object>> deleteAllQuestions() {
         Long teacherId = SecurityUtils.getCurrentUserId();
@@ -187,6 +241,7 @@ public class TeacherController {
     }
 
     /** AI 智能组卷: 提交异步任务立即返回 taskId,由前端轮询状态接口获取结果 */
+    @OperationLog(module = "AI组卷", operation = "提交AI智能组卷任务")
     @PostMapping("/questions/ai-group")
     public Result<Map<String, Object>> aiGroup(@RequestBody Map<String, Object> body) {
         if (body.get("subjectId") == null) {
@@ -250,6 +305,7 @@ public class TeacherController {
     }
 
     /** 删除出题记录(仅删记录,不影响已生成的题目) */
+    @OperationLog(module = "AI组卷", operation = "删除出题记录")
     @DeleteMapping("/ai-group/records/{id}")
     public Result<Void> deleteAiGroupRecord(@PathVariable Long id) {
         Long teacherId = SecurityUtils.getCurrentUserId();
@@ -282,38 +338,45 @@ public class TeacherController {
         return Result.success(examService.getPaperDetailForTeacher(id));
     }
 
+    @OperationLog(module = "试卷管理", operation = "创建试卷")
     @PostMapping("/paper")
     public Result<Long> createPaper(@RequestBody Map<String, Object> body) {
         com.alibaba.fastjson2.JSON.parseObject(com.alibaba.fastjson2.JSON.toJSONString(body.get("paper")));
         ExamPaper paper = com.alibaba.fastjson2.JSON.parseObject(
                 com.alibaba.fastjson2.JSON.toJSONString(body.get("paper")), ExamPaper.class);
+        contentRiskService.audit(paperText(paper), "创建试卷");
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> questions = (List<Map<String, Object>>) body.get("questions");
         return Result.success(examService.createPaper(paper, questions));
     }
 
+    @OperationLog(module = "试卷管理", operation = "编辑试卷")
     @PutMapping("/paper")
     public Result<Void> updatePaper(@RequestBody Map<String, Object> body) {
         ExamPaper paper = com.alibaba.fastjson2.JSON.parseObject(
                 com.alibaba.fastjson2.JSON.toJSONString(body.get("paper")), ExamPaper.class);
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> questions = (List<Map<String, Object>>) body.get("questions");
+        contentRiskService.audit(paperText(paper), "编辑试卷");
         examService.updatePaper(paper, questions);
         return Result.success();
     }
 
+    @OperationLog(module = "试卷管理", operation = "删除试卷")
     @DeleteMapping("/paper/{id}")
     public Result<Void> deletePaper(@PathVariable Long id) {
         examService.deletePaper(id);
         return Result.success();
     }
 
+    @OperationLog(module = "试卷管理", operation = "发布试卷")
     @PutMapping("/paper/{id}/publish")
     public Result<Void> publishPaper(@PathVariable Long id) {
         examService.publishPaper(id);
         return Result.success();
     }
 
+    @OperationLog(module = "试卷管理", operation = "结束考试")
     @PutMapping("/paper/{id}/finish")
     public Result<Void> finishPaper(@PathVariable Long id) {
         examService.finishPaper(id);
@@ -348,12 +411,14 @@ public class TeacherController {
     }
 
     /** 批量 AI 批改 */
+    @OperationLog(module = "批改管理", operation = "批量AI批改")
     @PostMapping("/correct/{paperId}/batch")
     public Result<?> batchCorrect(@PathVariable Long paperId) {
         return Result.success(aiService.batchCorrectPaper(paperId));
     }
 
     /** 手动微调批改 */
+    @OperationLog(module = "批改管理", operation = "手动微调批改分数")
     @PutMapping("/correct/{correctId}/adjust")
     public Result<Void> adjustCorrect(@PathVariable Long correctId,
                                        @RequestBody Map<String, Object> body) {
@@ -364,6 +429,7 @@ public class TeacherController {
     }
 
     /** 触发答案雷同查重 */
+    @OperationLog(module = "题库管理", operation = "答案雷同查重")
     @PostMapping("/correct/{paperId}/similarity")
     public Result<?> similarityCheck(@PathVariable Long paperId) {
         int total = 0;
@@ -391,6 +457,63 @@ public class TeacherController {
     @GetMapping("/feedback/{studentId}")
     public Result<String> feedback(@PathVariable Long studentId) {
         return Result.success(aiService.generateComment(studentId));
+    }
+
+    /**
+     * 将 AI 学情反馈推送到企业微信群(群机器人 Webhook)
+     * @param studentId 学生ID
+     * @param body {webhookUrl: 企业微信群机器人 Webhook 地址}
+     */
+    @OperationLog(module = "家校反馈", operation = "推送学情反馈到企业微信")
+    @PostMapping("/feedback/{studentId}/push")
+    public Result<?> pushFeedback(@PathVariable Long studentId, @RequestBody Map<String, String> body) {
+        String webhookUrl = body == null ? null : body.get("webhookUrl");
+        if (webhookUrl == null || !webhookUrl.startsWith("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=")) {
+            return Result.error("Webhook 地址无效:请填写企业微信群机器人的 Webhook 地址");
+        }
+        String feedback = aiService.generateComment(studentId);
+        if (feedback == null || feedback.isBlank()) {
+            return Result.error("AI 反馈生成失败,无法推送");
+        }
+        // 内容风控:对外推送前检测反馈内容,违规自动拦截并记录
+        contentRiskService.audit(feedback, "家校反馈");
+        // 企业微信群机器人 markdown 消息,限制 4096 字节
+        String content = "**【智汇云课堂·学情反馈】**\n" + feedback;
+        byte[] max4096 = content.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        if (max4096.length > 4096) {
+            content = new String(max4096, 0, 4090, java.nio.charset.StandardCharsets.UTF_8) + "...";
+        }
+        cn.hutool.json.JSONObject msg = cn.hutool.json.JSONUtil.createObj()
+                .set("msgtype", "markdown")
+                .set("markdown", cn.hutool.json.JSONUtil.createObj().set("content", content));
+        String resp = cn.hutool.http.HttpUtil.post(webhookUrl, msg.toString(), 10000);
+        cn.hutool.json.JSONObject respObj;
+        try {
+            respObj = cn.hutool.json.JSONUtil.parseObj(resp);
+        } catch (Exception e) {
+            return Result.error("企业微信响应异常,请稍后重试");
+        }
+        if (respObj.getInt("errcode", -1) == 0) {
+            return Result.success("推送成功,请到企业微信群查看");
+        }
+        return Result.error("推送失败:企业微信返回 " + respObj.getStr("errmsg", "未知错误"));
+    }
+
+    /** 拼接题目全部文本字段,供内容风控检测 */
+    private String questionText(ExamQuestion q) {
+        return String.join(" ",
+                q.getContent() == null ? "" : q.getContent(),
+                q.getOptions() == null ? "" : q.getOptions(),
+                q.getStandardAnswer() == null ? "" : q.getStandardAnswer(),
+                q.getAnalysis() == null ? "" : q.getAnalysis(),
+                q.getKnowledgePoint() == null ? "" : q.getKnowledgePoint());
+    }
+
+    /** 拼接试卷标题与说明,供内容风控检测 */
+    private String paperText(ExamPaper paper) {
+        return String.join(" ",
+                paper.getPaperName() == null ? "" : paper.getPaperName(),
+                paper.getDescription() == null ? "" : paper.getDescription());
     }
 
     // ============== 班级自主学习概况 ==============
@@ -421,6 +544,7 @@ public class TeacherController {
     }
 
     /** 教师添加学生 */
+    @OperationLog(module = "学员管理", operation = "教师添加学生")
     @PostMapping("/student")
     public Result<Void> addStudent(@RequestBody com.zhixue.ai.module.system.entity.SysUser student) {
         Long teacherId = SecurityUtils.getCurrentUserId();
@@ -429,6 +553,7 @@ public class TeacherController {
     }
 
     /** 教师编辑学生 */
+    @OperationLog(module = "学员管理", operation = "教师编辑学生")
     @PutMapping("/student")
     public Result<Void> updateStudent(@RequestBody com.zhixue.ai.module.system.entity.SysUser student) {
         Long teacherId = SecurityUtils.getCurrentUserId();
@@ -437,6 +562,7 @@ public class TeacherController {
     }
 
     /** 教师删除学生 */
+    @OperationLog(module = "学员管理", operation = "教师删除学生")
     @DeleteMapping("/student/{id}")
     public Result<Void> deleteStudent(@PathVariable Long id) {
         Long teacherId = SecurityUtils.getCurrentUserId();
@@ -445,6 +571,7 @@ public class TeacherController {
     }
 
     /** 教师重置学生密码 */
+    @OperationLog(module = "学员管理", operation = "教师重置学生密码")
     @PutMapping("/student/{id}/reset-password")
     public Result<Void> resetStudentPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
         Long teacherId = SecurityUtils.getCurrentUserId();

@@ -3,6 +3,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\engine\Ana
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\impl\LsHomeworkServiceImpl.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\exception\GlobalExceptionHandler.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\AiErrorBook.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysTaskMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\PkLsController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\config\WebMvcConfig.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\entity\ExamQuestion.java
@@ -10,6 +11,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\PkR
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\utils\JsonUtils.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\entity\ExamPaperQuestion.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\entity\ExamPaper.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysTaskRecord.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\impl\PkServiceImpl.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\ExamRiskLog.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysUserMapper.java
@@ -31,6 +33,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\im
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\AiTutorChat.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiLsHomeworkQuestionMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\PkLsRoom.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysTaskRecordMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiClassAnalysisMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiListeningSpeakingRecordMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysRoleMapper.java
@@ -52,8 +55,10 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\service\SystemService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiTutorChatMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\engine\ApiAiServiceProvider.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysTask.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysUser.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\StudentController.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\log\OperationLog.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysTeacherClass.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\constant\SystemConstants.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysRolePermission.java
@@ -61,6 +66,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\im
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\controller\AdminController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysRole.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\PkRoom.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\config\JacksonConfig.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\mapper\ExamPaperMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysFileMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\PkService.java
@@ -82,6 +88,8 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\monitor\servi
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\engine\VariantEngine.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\engine\WebSocketServer.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\PkLsRoomMapper.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\monitor\service\HomeworkMonitorService.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\log\SysLogAspect.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiListeningSpeakingMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiErrorBookMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\entity\SysFile.java
@@ -95,7 +103,9 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\config\WebSocketConf
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\controller\TeacherController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\entity\ExamAnswer.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\ListeningSpeakingService.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\ContentRiskLogMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\common\utils\FileUploadUtils.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\ContentRiskLog.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\engine\RiskEngine.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\LsHomeworkController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\UserCheckInMapper.java
@@ -121,3 +131,4 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiL
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysTeacherClassMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\AiCorrectRecord.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\entity\AiLsHomeworkRecord.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\ContentRiskService.java

@@ -714,6 +714,27 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         return null;
     }
 
+    /**
+     * 按学科生成考纲题型指引:约束各学科只出符合考试惯例的题型
+     * @return 指引文本;通用学科返回 null(不加指引)
+     */
+    private String buildCurriculumGuidance(String subjectName) {
+        if (subjectName == null) return null;
+        if (subjectName.contains("语文")) {
+            return "【语文学科考纲要求】语文绝对不出现计算题、纯数学运算题。\n"
+                    + "若知识点涉及古诗词、古诗文、文言文、默写、名句:只允许出两种题型——\n"
+                    + "①名句默写填空(给出上句或下句/作者篇目,学生填写诗句,答案必须是原句,questionType=4);\n"
+                    + "②字词解释、句子翻译、诗句赏析简答题(questionType=5)。\n"
+                    + "古诗文绝对禁止出单选题、多选题、计算题,即使请求的题型列表里有也一律跳过。\n"
+                    + "若知识点涉及现代文阅读/课文理解:出简答题为主,一般理解性内容可用单选题。\n";
+        }
+        if (subjectName.contains("英语") || subjectName.contains("英文")) {
+            return "【英语学科考纲要求】英语绝对不出现计算题。\n"
+                    + "以语法词汇单选题、完形/语法填空题、阅读理解、书面表达(作文)为主。\n";
+        }
+        return null;
+    }
+
     @Override
     public String generateExamQuestions(String subjectName, java.util.List<String> knowledgePoints,
                                         java.util.List<Integer> questionTypes, Integer difficulty, int count,
@@ -730,6 +751,12 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             userMsg.append("【知识点】").append(String.join("、", knowledgePoints)).append("\n");
         } else {
             userMsg.append("【知识点】由你根据学科特点自行选择\n");
+        }
+
+        // 学科考纲指引:约束各学科命题惯例(如语文古诗文考默写而非选择/计算)
+        String curriculum = buildCurriculumGuidance(subjectName);
+        if (curriculum != null) {
+            userMsg.append(curriculum).append("\n");
         }
 
         String typeLabel;

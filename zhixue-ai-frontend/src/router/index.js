@@ -36,6 +36,7 @@ const routes = [
       { path: 'aiGroup', name: 'TeacherAiGroup', component: () => import('@/views/teacher/AiGroup.vue'), meta: { title: '智能出题' } },
       { path: 'paper', name: 'TeacherPaper', component: () => import('@/views/teacher/Paper.vue'), meta: { title: '作业考试管理' } },
       { path: 'paper/edit/:id?', name: 'TeacherPaperEdit', component: () => import('@/views/teacher/PaperEdit.vue'), meta: { title: '组卷' } },
+      { path: 'task', name: 'TeacherTask', component: () => import('@/views/teacher/Task.vue'), meta: { title: '任务派发' } },
       { path: 'correct', name: 'TeacherCorrect', component: () => import('@/views/teacher/Correct.vue'), meta: { title: '批改管理' } },
       { path: 'correct/:answerId', name: 'TeacherCorrectDetail', component: () => import('@/views/teacher/CorrectDetail.vue'), meta: { title: '批改详情' } },
       { path: 'classAnalysis', name: 'TeacherClassAnalysis', component: () => import('@/views/teacher/ClassAnalysis.vue'), meta: { title: '班级学情' } },
@@ -54,11 +55,11 @@ const routes = [
     children: [
       { path: 'dashboard', name: 'AdminDashboard', component: () => import('@/views/admin/Dashboard.vue'), meta: { title: '数据大屏' } },
       { path: 'user', name: 'AdminUser', component: () => import('@/views/admin/User.vue'), meta: { title: '用户管理' } },
-      { path: 'role', name: 'AdminRole', component: () => import('@/views/admin/Role.vue'), meta: { title: '角色权限' } },
       { path: 'class', name: 'AdminClass', component: () => import('@/views/admin/Class.vue'), meta: { title: '班级管理' } },
       { path: 'course', name: 'AdminCourse', component: () => import('@/views/admin/Course.vue'), meta: { title: '课程管理' } },
-      { path: 'aiConfig', name: 'AdminAiConfig', component: () => import('@/views/admin/AiConfig.vue'), meta: { title: 'AI配置' } },
+      { path: 'homework', name: 'AdminHomework', component: () => import('@/views/admin/HomeworkMonitor.vue'), meta: { title: '作业监测' } },
       { path: 'notice', name: 'AdminNotice', component: () => import('@/views/admin/Notice.vue'), meta: { title: '公告管理' } },
+      { path: 'task', name: 'AdminTask', component: () => import('@/views/admin/Task.vue'), meta: { title: '任务派发' } },
       { path: 'moderation', name: 'AdminModeration', component: () => import('@/views/admin/Moderation.vue'), meta: { title: '内容风控' } },
       { path: 'log', name: 'AdminLog', component: () => import('@/views/admin/Log.vue'), meta: { title: '系统日志' } }
     ]

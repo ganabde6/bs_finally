@@ -39,6 +39,17 @@
       </el-col>
     </el-row>
 
+    <!-- 最新公告 -->
+    <el-card class="content-card mt-20" v-if="notices.length">
+      <template #header><span>最新公告</span></template>
+      <el-timeline>
+        <el-timeline-item v-for="n in notices.slice(0, 5)" :key="n.id" :timestamp="n.publishTime">
+          <h4>{{ n.title }}</h4>
+          <p style="color:#606266">{{ n.content }}</p>
+        </el-timeline-item>
+      </el-timeline>
+    </el-card>
+
     <!-- 中部 2:1: 提交趋势 + 待办事项 -->
     <el-row :gutter="20" class="mt-20">
       <el-col :span="16">
@@ -50,7 +61,19 @@
       <el-col :span="8">
         <el-card class="content-card todo-card">
           <template #header><span>待办事项</span></template>
-          <template v-if="pendingList.length">
+          <div v-if="tasks.length" class="todo-group">
+            <div class="todo-group-title">管理员任务</div>
+            <div v-for="t in tasks" :key="t.id" class="todo-item">
+              <el-icon class="todo-task-icon"><Bell /></el-icon>
+              <div class="todo-info">
+                <div class="todo-name">{{ t.title }}</div>
+                <div class="todo-meta">{{ t.content ? (t.content.length > 24 ? t.content.slice(0, 24) + '…' : t.content) : '—' }}{{ t.deadline ? ' · 截止 ' + t.deadline : '' }}</div>
+              </div>
+              <el-button size="small" @click="completeTask(t.id)">完成</el-button>
+            </div>
+          </div>
+          <div v-if="pendingList.length" class="todo-group">
+            <div class="todo-group-title">待批改作业</div>
             <div v-for="item in pendingList" :key="item.paperId" class="todo-item" @click="$router.push(`/teacher/correct?paperId=${item.paperId}`)">
               <el-badge :value="item.pendingCount" type="warning" class="todo-badge" />
               <div class="todo-info">
@@ -58,8 +81,8 @@
                 <div class="todo-meta">{{ item.className }} · 待批改 {{ item.pendingCount }} 份</div>
               </div>
             </div>
-          </template>
-          <el-empty v-else description="太棒了,所有作业已批改完毕!" :image-size="80" />
+          </div>
+          <el-empty v-if="!tasks.length && !pendingList.length" description="太棒了,所有事项均已完成!" :image-size="80" />
         </el-card>
       </el-col>
     </el-row>
@@ -117,9 +140,10 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, markRaw } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import * as echarts from 'echarts'
-import { Edit, Document, EditPen, TrendCharts, Files, User, Headset } from '@element-plus/icons-vue'
-import { teacherDashboard } from '@/api'
+import { Edit, Document, EditPen, TrendCharts, Files, User, Headset, Bell } from '@element-plus/icons-vue'
+import { teacherDashboard, teacherNotices, teacherTasks, completeTeacherTask } from '@/api'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
@@ -129,6 +153,9 @@ const pendingList = computed(() => stats.value.pendingList || [])
 const recentPapers = computed(() => stats.value.recentPapers || [])
 const lsStats = computed(() => stats.value.lsStats || {})
 const classCount = computed(() => new Set((stats.value.recentPapers || []).map(p => p.className).filter(c => c && c !== '未分配班级')).size)
+
+const notices = ref([])
+const tasks = ref([])
 
 const greeting = computed(() => {
   const h = new Date().getHours()
@@ -194,6 +221,14 @@ onMounted(async () => {
     const res = await teacherDashboard()
     stats.value = res.data || {}
   } catch {}
+  try {
+    const n = await teacherNotices()
+    notices.value = n.data || []
+  } catch {}
+  try {
+    const t = await teacherTasks()
+    tasks.value = t.data || []
+  } catch {}
   await nextTick()
   drawTrend(stats.value.submitTrend || [])
   drawScore(stats.value.scoreDistribution || [])
@@ -205,6 +240,16 @@ onBeforeUnmount(() => {
   trendInstance?.dispose()
   scoreInstance?.dispose()
 })
+
+const completeTask = async (id) => {
+  try {
+    await ElMessageBox.confirm('确定标记该任务为已完成?', '提示', { type: 'warning' })
+  } catch { return }
+  await completeTeacherTask(id)
+  ElMessage.success('任务已完成')
+  const t = await teacherTasks()
+  tasks.value = t.data || []
+}
 </script>
 
 <style scoped>
@@ -254,6 +299,14 @@ onBeforeUnmount(() => {
 }
 .quick-title { font-size: 14px; font-weight: 600; color: var(--color-foreground, #303133); }
 .quick-desc { font-size: 12px; color: #909399; text-align: center; }
+
+.todo-group { margin-bottom: 4px; }
+.todo-group-title {
+  font-size: 12px;
+  color: #909399;
+  padding: 0 4px 6px;
+}
+.todo-task-icon { color: #0D9488; font-size: 16px; flex-shrink: 0; }
 
 @media (max-width: 1200px) {
   .quick-grid { grid-template-columns: repeat(3, 1fr); }

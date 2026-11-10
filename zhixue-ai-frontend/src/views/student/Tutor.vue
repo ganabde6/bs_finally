@@ -12,7 +12,8 @@
         <div v-for="msg in messages" :key="msg.id" :class="['msg', msg.role]">
           <div class="bubble">
             <span v-if="msg.attachment" class="attachment-tag"> {{ msg.attachment }}</span>
-            {{ msg.content }}
+            <span v-if="msg.role === 'assistant'" class="rich" v-html="renderRich(msg.content)"></span>
+            <template v-else>{{ msg.content }}</template>
           </div>
           <div class="time">{{ msg.createTime }}</div>
         </div>
@@ -50,7 +51,7 @@
       <div class="mt-20" style="text-align:right">
         <el-button type="primary" :loading="polishing" @click="doPolish">AI 润色</el-button>
       </div>
-      <el-input v-if="polishResult" v-model="polishResult" type="textarea" :rows="10" readonly class="mt-20" />
+      <div v-if="polishResult" class="polish-result rich mt-20" v-html="renderRich(polishResult)"></div>
       
       <!-- 润色后对话区 -->
       <div v-if="polishResult" class="mt-20" style="border-top:1px solid #E8F1F4;padding-top:16px">
@@ -58,7 +59,8 @@
         <div class="polish-chat-box" ref="polishChatBox">
           <div v-for="msg in polishChatMessages" :key="msg.id" :class="['msg', msg.role]">
             <div class="bubble">
-              {{ msg.content }}
+              <span v-if="msg.role === 'assistant'" class="rich" v-html="renderRich(msg.content)"></span>
+              <template v-else>{{ msg.content }}</template>
             </div>
           </div>
           <div v-if="!polishChatMessages.length" style="color:#909399;font-size:13px;text-align:center;padding:20px">
@@ -79,6 +81,7 @@ import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Paperclip, Promotion, Microphone, VideoPause, Camera, ChatDotRound } from '@element-plus/icons-vue'
 import { tutorChat, chatHistory, polishEssay, polishEssayWithImage } from '@/api'
+import { renderRich } from '@/utils/richRender'
 
 const messages = ref([])
 const question = ref('')
@@ -354,4 +357,13 @@ const scrollBottom = async () => {
 .bubble { display: inline-block; padding: 10px 16px; border-radius: 8px; max-width: 70%; text-align: left; white-space: pre-wrap; }
 .time { color: #c0c4cc; font-size: 12px; margin-top: 4px; }
 .attachment-tag { display: block; font-size: 12px; margin-bottom: 4px; opacity: 0.8; }
+.rich { line-height: 1.8; }
+.rich :deep(p) { margin: 6px 0; }
+.rich :deep(h1), .rich :deep(h2), .rich :deep(h3) { margin: 10px 0 6px; font-size: 1.05em; }
+.rich :deep(ul), .rich :deep(ol) { padding-left: 20px; margin: 6px 0; }
+.rich :deep(pre) { background: #F4F8FA; padding: 10px; border-radius: 6px; overflow-x: auto; }
+.rich :deep(code) { background: #F4F8FA; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+.rich :deep(.katex-display) { margin: 10px 0; overflow-x: auto; }
+.rich :deep(.katex) { font-size: 1.05em; }
+.polish-result { background: #F0FDFA; padding: 20px; border-radius: 8px; border: 1px dashed #0D9488; white-space: normal; }
 </style>

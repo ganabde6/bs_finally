@@ -294,6 +294,23 @@ CREATE TABLE exam_risk_log (
   KEY idx_answer (answer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='考试风控日志表';
 
+-- ---------------------------- 内容风控记录表 ----------------------------
+DROP TABLE IF EXISTS content_risk_log;
+CREATE TABLE content_risk_log (
+  id          BIGINT      NOT NULL AUTO_INCREMENT,
+  user_id     BIGINT,
+  username    VARCHAR(50),
+  role_code   VARCHAR(30)  COMMENT '角色编码: SUPER_ADMIN/SCHOOL_ADMIN/TEACHER/STUDENT',
+  source      VARCHAR(50)  COMMENT '内容入口: 新增题目/提交作答/创建试卷/家校反馈/发布公告/AI助学问答等',
+  content     TEXT         COMMENT '违规内容原文',
+  risk_reason VARCHAR(200) COMMENT '违规原因(本地规则/AI审核)',
+  ip          VARCHAR(50),
+  create_time DATETIME    DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_user (user_id),
+  KEY idx_time (create_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='内容风控记录表';
+
 -- ---------------------------- 系统操作日志表 ----------------------------
 DROP TABLE IF EXISTS sys_log;
 CREATE TABLE sys_log (
@@ -324,6 +341,40 @@ CREATE TABLE sys_notice (
   create_time  DATETIME     DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公告表';
+
+-- ---------------------------- 任务派发表 ----------------------------
+DROP TABLE IF EXISTS sys_task;
+CREATE TABLE sys_task (
+  id                BIGINT       NOT NULL AUTO_INCREMENT,
+  title             VARCHAR(100) NOT NULL,
+  content           TEXT,
+  task_type         TINYINT      DEFAULT 1 COMMENT '1=管理员派发的教师任务 2=教师派发的学生任务',
+  target_teacher_id BIGINT       COMMENT '目标教师ID(教师任务,空表示全体教师)',
+  target_class_id   BIGINT       COMMENT '目标班级ID(学生任务)',
+  deadline          DATETIME     COMMENT '截止时间',
+  status            TINYINT      DEFAULT 0 COMMENT '0待完成 1已完成(教师任务用)',
+  complete_time     DATETIME,
+  publisher_id      BIGINT       COMMENT '派发人ID(管理员或教师)',
+  create_time       DATETIME     DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_teacher (target_teacher_id),
+  KEY idx_class (target_class_id),
+  KEY idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='任务派发表(管理员→教师 / 教师→学生班级)';
+
+-- ---------------------------- 学生任务完成记录表 ----------------------------
+DROP TABLE IF EXISTS sys_task_record;
+CREATE TABLE sys_task_record (
+  id            BIGINT   NOT NULL AUTO_INCREMENT,
+  task_id       BIGINT   NOT NULL,
+  student_id    BIGINT   NOT NULL,
+  status        TINYINT  DEFAULT 0 COMMENT '0待完成 1已完成',
+  complete_time DATETIME,
+  create_time   DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_task_student (task_id, student_id),
+  KEY idx_student (student_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生任务完成记录表';
 
 -- ---------------------------- AI模型配置表 ----------------------------
 DROP TABLE IF EXISTS ai_model_config;
