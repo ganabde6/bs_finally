@@ -8,6 +8,9 @@ export const updateProfile = (data) => request.put('/api/auth/profile', data)
 export const changePassword = (data) => request.put('/api/auth/password', data)
 export const logout = () => request.post('/api/auth/logout')
 
+// ============ AI 向导(免登录) ============
+export const guideChat = (data) => request.post('/api/guide/chat', data, { timeout: 120000 })
+
 // ============ 公共 ============
 export const uploadFile = (file) => {
   const fd = new FormData()

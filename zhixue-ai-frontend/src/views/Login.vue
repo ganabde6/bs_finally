@@ -224,27 +224,6 @@
       <!-- 底部信息 -->
       <div class="footer-info">© 2024 智汇云课堂</div>
 
-      <!-- 右下角机器人装饰 + AI 思考气泡 -->
-      <div class="robot-wrap" aria-hidden="true">
-        <div class="robot-bubble">
-          <span></span><span></span><span></span>
-        </div>
-        <svg class="robot" width="64" height="64" viewBox="0 0 72 72">
-          <line x1="36" y1="11" x2="36" y2="19" stroke="#9AA0B0" stroke-width="3"/>
-          <circle cx="36" cy="9" r="3.5" fill="#FF6900"/>
-          <rect x="18" y="19" width="36" height="26" rx="8" fill="#4A4E5A"/>
-          <rect x="24" y="25" width="24" height="14" rx="4" fill="#23252E"/>
-          <circle cx="31" cy="32" r="3" fill="#7FE3F0"/>
-          <circle cx="41" cy="32" r="3" fill="#7FE3F0"/>
-          <rect x="13" y="48" width="9" height="15" rx="4.5" fill="#5A5F6E"/>
-          <rect x="50" y="48" width="9" height="15" rx="4.5" fill="#5A5F6E"/>
-          <rect x="24" y="47" width="24" height="17" rx="6" fill="#5A5F6E"/>
-          <rect x="30" y="52" width="12" height="6" rx="2" fill="#8A8FA0"/>
-          <rect x="26" y="64" width="9" height="6" rx="2" fill="#4A4E5A"/>
-          <rect x="37" y="64" width="9" height="6" rx="2" fill="#4A4E5A"/>
-        </svg>
-      </div>
-
       <!-- 文档弹窗:用户协议 / 隐私政策 / 帮助中心 -->
       <el-dialog v-model="docVisible" :title="docMeta.title" width="640px" align-center class="doc-dialog">
         <div class="doc-body">
@@ -976,71 +955,6 @@ const handleRegister = async () => {
   bottom: 20px;
   font-size: 12px;
   color: #bbb;
-}
-
-/* 右下角机器人装饰(浮动 + AI 思考气泡) */
-.robot-wrap {
-  position: absolute;
-  right: 28px;
-  bottom: 20px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.robot {
-  display: block;
-  opacity: 0.9;
-  animation: robotFloat 4.5s ease-in-out infinite;
-}
-
-/* AI 思考气泡:三点依次脉冲 */
-.robot-bubble {
-  position: absolute;
-  top: -16px;
-  right: 0;
-  background: #fff;
-  border: 1px solid #F0F1F4;
-  border-radius: 12px;
-  padding: 7px 10px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 12px rgba(31, 35, 41, 0.08);
-}
-
-/* 气泡指向尾巴 */
-.robot-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -4.5px;
-  right: 12px;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-right: 1px solid #F0F1F4;
-  border-bottom: 1px solid #F0F1F4;
-  transform: rotate(45deg);
-}
-
-.robot-bubble span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #FF6900;
-  animation: bubbleDot 1.4s ease-in-out infinite;
-}
-
-.robot-bubble span:nth-child(2) { animation-delay: 0.2s; }
-.robot-bubble span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes bubbleDot {
-  0%, 100% { opacity: 0.3; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-2px); }
-}
-
-@keyframes robotFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
 }
 
 /* ===== 响应式 ===== */

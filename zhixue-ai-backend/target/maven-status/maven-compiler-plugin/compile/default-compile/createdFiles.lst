@@ -5,6 +5,7 @@ com\zhixue\ai\module\ai\service\impl\ListeningSpeakingServiceImpl.class
 com\zhixue\ai\module\ai\entity\AiLsHomework.class
 com\zhixue\ai\module\ai\mapper\PkRoomMapper.class
 com\zhixue\ai\module\system\entity\SysClass.class
+com\zhixue\ai\module\ai\controller\GuideController.class
 com\zhixue\ai\module\ai\mapper\AiVariantQuestionMapper.class
 com\zhixue\ai\security\LoginUser.class
 com\zhixue\ai\common\exception\BizException.class

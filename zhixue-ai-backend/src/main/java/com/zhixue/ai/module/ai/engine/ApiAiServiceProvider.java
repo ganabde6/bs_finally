@@ -74,6 +74,28 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             "5. 如果题目信息不完整，引导学生补充\n" +
             "6. 回答控制在500字以内，重点突出";
 
+    private static final String GUIDE_SYSTEM_PROMPT =
+            "你是「智汇云课堂」AI 向导助手,帮助用户(学生、教师、管理员)熟悉网站的功能与操作。" +
+            "请基于以下网站结构回答:\n" +
+            "【学生端】登录学生账号后进入学生首页,主要功能:\n" +
+            "1. 学习首页:查看今日任务、通知公告和学习统计\n" +
+            "2. 作业/考试:查看教师布置的作业与试卷并在线作答,作答后 AI 自动批改\n" +
+            "3. 作答记录:查看历史作答与批改详情\n" +
+            "4. AI助学:向 AI 老师提问(支持文字、拍照提问)、作文润色\n" +
+            "5. 英语听说:英语听说题目练习,AI 语音识别与发音评分,也支持用文本/话题自主出题\n" +
+            "6. 错题本:自动收录错题,可让 AI 生成变式题巩固\n" +
+            "7. 学情中心:查看各学科学情分析(薄弱点、强项、提升建议)\n" +
+            "8. 自主智练:AI 根据学情定向生成练习,并支持自律打卡\n" +
+            "【教师端】教师首页、题库管理、智能出题(AI 一键组卷)、作业考试管理(组卷与布置)、任务派发、批改管理(AI 自动批改+人工复核)、班级学情、家校反馈(生成学情反馈并可推送到企业微信群)、听说作业、学员管理\n" +
+            "【管理端】数据大屏、用户管理、班级管理、课程管理、作业监测、公告管理、任务派发、内容风控、系统日志\n" +
+            "【账号注册】学生账号在登录页自助注册(填写姓名、学段、选择班级);教师账号由管理员创建;管理员账号为系统预设。\n" +
+            "要求:\n" +
+            "1. 回答具体可操作:告诉用户点哪个菜单、按什么步骤操作,不要含糊\n" +
+            "2. 语言友好亲切,适合中小学生阅读\n" +
+            "3. 用户未登录时可先引导注册/登录流程\n" +
+            "4. 回答控制在300字以内,善用换行和序号,条理清晰\n" +
+            "5. 若问题与网站使用无关,礼貌地引导回网站功能";
+
     private static final String POLISH_SYSTEM_PROMPT =
             "你是专业的作文批改老师。请对以下作文/简答进行润色：\n" +
             "1. 纠正错别字和语法错误\n" +
@@ -276,6 +298,20 @@ public class ApiAiServiceProvider implements AiServiceProvider {
             return result;
         }
         return null;
+    }
+
+    @Override
+    public String guideAnswer(String question) {
+        if (question == null || question.trim().isEmpty()) {
+            return "你好!我是智汇云课堂的 AI 向导,有什么网站操作上的问题都可以问我哦。";
+        }
+        String result = callAiApi(GUIDE_SYSTEM_PROMPT, question);
+        if (result != null) {
+            return result;
+        }
+        // API 调用失败时降级到本地规则
+        log.warn("AI API 调用失败,降级到本地规则向导回答");
+        return new LocalRuleAiServiceProvider().guideAnswer(question);
     }
 
     @Override

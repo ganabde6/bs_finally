@@ -14,6 +14,13 @@ public interface AiServiceProvider {
     String moderateContent(String content);
 
     /**
+     * AI 网站使用向导(免登录,回答网站功能与操作引导问题)
+     * @param question 用户提问
+     * @return AI 回答
+     */
+    String guideAnswer(String question);
+
+    /**
      * AI 助学答疑(基于学生学情上下文)
      * @param question 学生提问
      * @param context  学情上下文(错题、薄弱点等)

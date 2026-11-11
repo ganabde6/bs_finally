@@ -73,6 +73,7 @@ D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\Pk
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\AiVariantQuestionMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\exam\service\AiGroupTaskService.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\system\mapper\SysNoticeMapper.java
+D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\GuideController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\mapper\PkRoomMapper.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\controller\ListeningSpeakingController.java
 D:\bs_finally\zhixue-ai-backend\src\main\java\com\zhixue\ai\module\ai\service\impl\SelfPracticeServiceImpl.java

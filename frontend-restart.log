@@ -3,7 +3,7 @@
 > vite
 
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1245[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1324[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://100.92.212.25:[1m5173[22m/[39m
@@ -11,15 +11,3 @@
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.2.101:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.88.1:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
-[2m15:08:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
-[2m15:08:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
-[2m15:08:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
-[2m15:08:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:09:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:09:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:09:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:21:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
-[2m15:22:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:22:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-[2m15:32:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue, /src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
-^C^C

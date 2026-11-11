@@ -52,9 +52,10 @@ public class SecurityConfig {
             .cors().and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-                // 放行:登录、注册、静态资源、swagger、上传文件访问
+                // 放行:登录、注册、AI 向导(免登录)、静态资源、swagger、上传文件访问
                 .antMatchers(
                         "/api/auth/**",
+                        "/api/guide/**",
                         "/api/common/subjects",
                         "/api/common/classes",
                         "/upload/**",
