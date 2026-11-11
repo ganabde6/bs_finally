@@ -11,3 +11,7 @@
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.2.101:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.88.1:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m17:36:58[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
+[2m17:36:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.vue[22m
+[2m17:37:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
+[2m17:37:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
