@@ -369,7 +369,7 @@ const pollAiGroup = (taskId, timeoutMs) => {
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 4px;
   padding: 12px;
 }
@@ -418,7 +418,7 @@ const pollAiGroup = (taskId, timeoutMs) => {
 
 .record-question-item {
   padding: 10px 12px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 4px;
   margin-bottom: 10px;
 }
@@ -449,6 +449,6 @@ const pollAiGroup = (taskId, timeoutMs) => {
 .rq-answer {
   margin-top: 6px;
   font-size: 13px;
-  color: #67c23a;
+  color: #409EFF;
 }
 </style>

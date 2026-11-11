@@ -46,7 +46,7 @@
           <el-button :icon="Camera">拍照/上传手写作文</el-button>
         </el-upload>
         <el-tag v-if="polishImageName" type="info" closable @close="clearPolishImage"><el-icon style="margin-right:4px"><Paperclip /></el-icon>{{ polishImageName }}</el-tag>
-        <img v-if="polishImagePreview" :src="polishImagePreview" style="max-height:120px;max-width:200px;border-radius:4px;border:1px solid #E8F1F4" />
+        <img v-if="polishImagePreview" :src="polishImagePreview" style="max-height:120px;max-width:200px;border-radius:4px;border:1px solid #E8ECF1" />
       </div>
       <div class="mt-20" style="text-align:right">
         <el-button type="primary" :loading="polishing" @click="doPolish">AI 润色</el-button>
@@ -54,8 +54,8 @@
       <div v-if="polishResult" class="polish-result rich mt-20" v-html="renderRich(polishResult)"></div>
       
       <!-- 润色后对话区 -->
-      <div v-if="polishResult" class="mt-20" style="border-top:1px solid #E8F1F4;padding-top:16px">
-        <div style="font-weight:600;margin-bottom:12px;color:#134E4A"><el-icon style="vertical-align:-2px;margin-right:6px"><ChatDotRound /></el-icon>与 AI 继续讨论作文</div>
+      <div v-if="polishResult" class="mt-20" style="border-top:1px solid #E8ECF1;padding-top:16px">
+        <div style="font-weight:600;margin-bottom:12px;color:#1F2329"><el-icon style="vertical-align:-2px;margin-right:6px"><ChatDotRound /></el-icon>与 AI 继续讨论作文</div>
         <div class="polish-chat-box" ref="polishChatBox">
           <div v-for="msg in polishChatMessages" :key="msg.id" :class="['msg', msg.role]">
             <div class="bubble">
@@ -348,12 +348,12 @@ const scrollBottom = async () => {
 </script>
 
 <style scoped>
-.chat-box { max-height: 400px; overflow-y: auto; padding: 10px; background: #E8F1F4; border-radius: 8px; min-height: 200px; }
-.polish-chat-box { max-height: 300px; overflow-y: auto; padding: 10px; background: #E8F1F4; border-radius: 8px; min-height: 80px; }
+.chat-box { max-height: 400px; overflow-y: auto; padding: 10px; background: #E8ECF1; border-radius: 8px; min-height: 200px; }
+.polish-chat-box { max-height: 300px; overflow-y: auto; padding: 10px; background: #E8ECF1; border-radius: 8px; min-height: 80px; }
 .msg { margin: 12px 0; }
 .msg.user { text-align: right; }
-.msg.assistant .bubble { background: #fff; border: 1px solid #E8F1F4; }
-.msg.user .bubble { background: #0D9488; color: #fff; }
+.msg.assistant .bubble { background: #fff; border: 1px solid #E8ECF1; }
+.msg.user .bubble { background: #FF6900; color: #fff; }
 .bubble { display: inline-block; padding: 10px 16px; border-radius: 8px; max-width: 70%; text-align: left; white-space: pre-wrap; }
 .time { color: #c0c4cc; font-size: 12px; margin-top: 4px; }
 .attachment-tag { display: block; font-size: 12px; margin-bottom: 4px; opacity: 0.8; }
@@ -365,5 +365,5 @@ const scrollBottom = async () => {
 .rich :deep(code) { background: #F4F8FA; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
 .rich :deep(.katex-display) { margin: 10px 0; overflow-x: auto; }
 .rich :deep(.katex) { font-size: 1.05em; }
-.polish-result { background: #F0FDFA; padding: 20px; border-radius: 8px; border: 1px dashed #0D9488; white-space: normal; }
+.polish-result { background: #F7F8FA; padding: 20px; border-radius: 8px; border: 1px dashed #FF6900; white-space: normal; }
 </style>

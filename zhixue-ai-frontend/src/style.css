@@ -1,33 +1,40 @@
 /* ============================================================
    智汇云课堂 - 全局设计系统
-   依据 ui-ux-pro-max 设计规范生成 (AI-Native UI / Education Teal)
+   设计依据: design-taste-frontend 规范(暖橙主色 / 全站零绿) 2026-11
    设计系统源: design-system/zhixue-ai/MASTER.md
    ============================================================ */
 
 /* ---------- 设计令牌 ---------- */
 :root {
-  /* 品牌色:教育青绿 + 课程琥珀 */
-  --color-primary: #0D9488;
-  --color-primary-dark: #0A766D;
+  /* 品牌色:小米橙(与登录页一致)+ 墨黑中性底,全站零绿 */
+  --color-primary: #FF6900;
+  --color-primary-dark: #CC5400;
   --color-on-primary: #FFFFFF;
-  --color-secondary: #2DD4BF;
-  --color-accent: #D97706;
-  --color-background: #F0FDFA;
-  --color-foreground: #134E4A;
-  --color-muted: #E8F1F4;
-  --color-border: #5EEAD4;
+  --color-secondary: #FF964D;
+  --color-accent: #FFB480;
+  --color-background: #F7F8FA;
+  --color-foreground: #1F2329;
+  --color-muted: #E8ECF1;
+  --color-border: #E8ECF1;
   --color-destructive: #DC2626;
-  --color-ring: #0D9488;
-  --color-text-secondary: #60757A;
+  --color-ring: #FF6900;
+  --color-text-secondary: #5C6470;
 
-  /* Element Plus 主题色覆盖(主色 → 品牌青绿) */
-  --el-color-primary: #0D9488;
-  --el-color-primary-light-3: #56B4AC;
-  --el-color-primary-light-5: #86C9C3;
-  --el-color-primary-light-7: #B6DFDB;
-  --el-color-primary-light-8: #CFE9E7;
-  --el-color-primary-light-9: #E7F4F3;
-  --el-color-primary-dark-2: #0A766D;
+  /* Element Plus 主题色覆盖(主色 → 小米橙;成功/答对 → 蓝,全站零绿) */
+  --el-color-primary: #FF6900;
+  --el-color-primary-light-3: #FF964D;
+  --el-color-primary-light-5: #FFB480;
+  --el-color-primary-light-7: #FFD2B3;
+  --el-color-primary-light-8: #FFE1CC;
+  --el-color-primary-light-9: #FFF0E6;
+  --el-color-primary-dark-2: #CC5400;
+  --el-color-success: #409EFF;
+  --el-color-success-light-3: #79B8FF;
+  --el-color-success-light-5: #A0CFFF;
+  --el-color-success-light-7: #C6E2FF;
+  --el-color-success-light-8: #D9ECFF;
+  --el-color-success-light-9: #ECF5FF;
+  --el-color-success-dark-2: #337ECC;
 
   /* 圆角 */
   --el-border-radius-base: 8px;
@@ -70,7 +77,7 @@ a { text-decoration: none; color: inherit; }
 /* 按钮:统一圆角与按压反馈 */
 .el-button { border-radius: 8px; font-weight: 500; transition: all 0.2s ease; }
 .el-button:active { transform: scale(0.97); }
-.el-button--primary { box-shadow: 0 2px 8px rgba(13, 148, 136, 0.28); }
+.el-button--primary { box-shadow: 0 2px 8px rgba(255, 105, 0, 0.25); }
 
 /* 输入框/选择器:焦点光晕 */
 .el-input__wrapper,
@@ -81,16 +88,16 @@ a { text-decoration: none; color: inherit; }
 }
 .el-input__wrapper.is-focus,
 .el-select__wrapper.is-focused {
-  box-shadow: 0 0 0 1px var(--el-color-primary) inset, 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset, 0 0 0 3px rgba(255, 105, 0, 0.15) !important;
 }
 
 /* 表格:表头质感与斑马纹 */
 .el-table {
   border-radius: 10px;
   overflow: hidden;
-  --el-table-header-bg-color: #F3FBF8;
-  --el-table-header-text-color: #134E4A;
-  --el-table-border-color: #E8F1F4;
+  --el-table-header-bg-color: #FAFBFC;
+  --el-table-header-text-color: #1F2329;
+  --el-table-border-color: #E8ECF1;
 }
 .el-table th.el-table__cell { font-weight: 600; }
 
@@ -146,7 +153,7 @@ a { text-decoration: none; color: inherit; }
   overflow: hidden;
   border: none;
   border-radius: 16px;
-  background: linear-gradient(135deg, #FFFFFF 0%, #F3FBF8 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAFBFC 100%);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .stat-card::before {
@@ -167,7 +174,7 @@ a { text-decoration: none; color: inherit; }
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(45, 212, 191, 0.16) 0%, rgba(45, 212, 191, 0) 70%);
+  background: radial-gradient(circle, rgba(255, 150, 77, 0.14) 0%, rgba(255, 150, 77, 0) 70%);
   pointer-events: none;
 }
 .stat-card .el-card__body { padding: 24px 20px; }
@@ -178,6 +185,7 @@ a { text-decoration: none; color: inherit; }
   font-family: 'Poppins', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   line-height: 1.15;
   letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
   margin-bottom: 6px;
 }
 .stat-card .label {
@@ -197,7 +205,7 @@ a { text-decoration: none; color: inherit; }
 }
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(13, 148, 136, 0.14);
+  box-shadow: 0 12px 24px rgba(255, 105, 0, 0.16);
 }
 
 /* ---------- 可访问性:焦点可见 ---------- */
@@ -212,5 +220,5 @@ a { text-decoration: none; color: inherit; }
 
 /* ---------- 滚动条 ---------- */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: #C3D6D2; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #9FBEB8; }
+::-webkit-scrollbar-thumb { background: #C9CDD4; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #A8ADB8; }

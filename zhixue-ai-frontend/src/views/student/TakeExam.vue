@@ -145,7 +145,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.question-item { padding: 16px 0; border-bottom: 1px dashed #E8F1F4; }
+.question-item { padding: 16px 0; border-bottom: 1px dashed #E8ECF1; }
 .question-title { font-size: 15px; line-height: 1.8; }
 .option-item { display: block; margin: 8px 0; }
 .ml-10 { margin-left: 10px; }

@@ -807,6 +807,7 @@ const drawRadar = () => {
     },
     series: [{
       type: 'radar',
+      itemStyle: { color: '#FF6900' },
       data: [{
         value: [result.value.pronunciationScore, result.value.fluencyScore, result.value.grammarScore, result.value.contentScore],
         areaStyle: { opacity: 0.35 },
@@ -844,6 +845,7 @@ const drawTrend = () => {
       name: '总分',
       type: 'line',
       smooth: true,
+      itemStyle: { color: '#FF6900' },
       data: items.map(r => r.totalScore),
       areaStyle: { opacity: 0.15 }
     }]
@@ -964,7 +966,7 @@ const handleResize = () => {
   border-radius: 10px;
   padding: 14px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 
 .panel-header {
@@ -1025,13 +1027,13 @@ const handleResize = () => {
 }
 
 .question-list::-webkit-scrollbar-thumb {
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 2px;
 }
 
 .question-item {
   padding: 10px 12px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 8px;
   margin-bottom: 8px;
   cursor: pointer;
@@ -1041,7 +1043,7 @@ const handleResize = () => {
 
 .question-item:hover {
   border-color: #409eff;
-  background: #E8F1F4;
+  background: #E8ECF1;
 }
 
 .question-item.active {
@@ -1101,8 +1103,8 @@ const handleResize = () => {
 }
 
 .tag-diff-1 {
-  background: #f0f9eb;
-  color: #67c23a;
+  background: #ECF5FF;
+  color: #409EFF;
 }
 
 .tag-diff-2 {
@@ -1129,7 +1131,7 @@ const handleResize = () => {
 }
 
 .right-area::-webkit-scrollbar-thumb {
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 3px;
 }
 
@@ -1158,7 +1160,7 @@ const handleResize = () => {
 
 .question-content-card {
   background: #f8f9fb;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 8px;
   padding: 14px;
   margin-bottom: 14px;
@@ -1206,7 +1208,7 @@ const handleResize = () => {
 
 /* 录音区 */
 .record-section {
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 8px;
   padding: 14px;
   margin-bottom: 14px;
@@ -1266,9 +1268,9 @@ const handleResize = () => {
 .wave-canvas {
   width: 100%;
   height: 50px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 6px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 
 .wave-canvas.active {
@@ -1283,7 +1285,7 @@ const handleResize = () => {
 
 /* 上传区 */
 .upload-section {
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 8px;
   padding: 14px;
   margin-bottom: 14px;
@@ -1346,7 +1348,7 @@ const handleResize = () => {
   min-height: 200px;
 }
 
-.score-good { color: #67c23a; font-weight: 600; }
+.score-good { color: #409EFF; font-weight: 600; }
 .score-mid { color: #e6a23c; font-weight: 600; }
 .score-bad { color: #f56c6c; font-weight: 600; }
 

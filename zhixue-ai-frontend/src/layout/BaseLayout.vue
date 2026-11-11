@@ -148,7 +148,7 @@ const savePwd = async () => {
 <style scoped>
 .layout { height: 100vh; }
 .aside {
-  background: linear-gradient(180deg, #0B3B37 0%, #134E4A 100%);
+  background: linear-gradient(180deg, #1F2329 0%, #2A2F3A 100%);
   transition: width 0.3s;
   overflow: hidden;
 }
@@ -166,12 +166,12 @@ const savePwd = async () => {
   width: 32px;
   height: 32px;
   border-radius: 9px;
-  background: linear-gradient(135deg, #2DD4BF, #0D9488);
+  background: linear-gradient(135deg, #FF964D, #FF6900);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.45);
+  box-shadow: 0 2px 8px rgba(255, 105, 0, 0.4);
 }
 .logo-text { letter-spacing: 1px; }
 .header {
@@ -179,10 +179,10 @@ const savePwd = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #E8F1F4;
+  border-bottom: 1px solid #E8ECF1;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
-.main { background: #F0FDFA; padding: 20px; overflow-y: auto; }
+.main { background: #F7F8FA; padding: 20px; overflow-y: auto; }
 .el-menu { border-right: none; background: transparent; }
 .el-menu :deep(.el-menu-item),
 .el-menu :deep(.el-sub-menu__title) {
@@ -202,11 +202,11 @@ const savePwd = async () => {
 }
 .el-menu :deep(.el-menu-item:hover),
 .el-menu :deep(.el-sub-menu__title:hover) {
-  background: rgba(45, 212, 191, 0.12);
+  background: rgba(255, 150, 77, 0.14);
   color: #fff;
 }
 .el-menu :deep(.el-menu-item.is-active) {
-  background: rgba(45, 212, 191, 0.2);
+  background: rgba(255, 150, 77, 0.22);
   color: #fff;
   font-weight: 600;
 }
@@ -219,16 +219,16 @@ const savePwd = async () => {
   width: 3px;
   height: 20px;
   border-radius: 0 3px 3px 0;
-  background: #2DD4BF;
-  box-shadow: 0 0 8px rgba(45, 212, 191, 0.8);
+  background: #FF6900;
+  box-shadow: 0 0 8px rgba(255, 105, 0, 0.7);
 }
 .el-menu :deep(.el-menu-item.is-active .el-icon) {
-  background: linear-gradient(135deg, #2DD4BF, #0D9488);
+  background: linear-gradient(135deg, #FF964D, #FF6900);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.5);
+  box-shadow: 0 2px 8px rgba(255, 105, 0, 0.45);
 }
-.el-menu :deep(.el-menu--popup) { background: #134E4A; }
+.el-menu :deep(.el-menu--popup) { background: #262B34; }
 .el-menu :deep(.el-menu--popup .el-menu-item) { color: rgba(255, 255, 255, 0.72); }
 .el-menu :deep(.el-menu--popup .el-menu-item.is-active) { color: #fff; }
-.el-breadcrumb :deep(.el-breadcrumb__inner) { color: #134E4A; font-weight: 500; }
+.el-breadcrumb :deep(.el-breadcrumb__inner) { color: #1F2329; font-weight: 500; }
 </style>

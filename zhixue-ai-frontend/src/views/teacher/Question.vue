@@ -382,5 +382,5 @@ const clearAll = async () => {
 .preview-label { font-size: 13px; font-weight: 600; color: #909399; margin-bottom: 6px; }
 .preview-content { font-size: 14px; line-height: 1.8; color: #303133; }
 .preview-option { padding: 6px 10px; border-radius: 6px; font-size: 14px; line-height: 1.6; }
-.preview-option.correct { background: #F0F9EB; color: #67C23A; font-weight: 500; }
+.preview-option.correct { background: #ECF5FF; color: #409EFF; font-weight: 500; }
 </style>

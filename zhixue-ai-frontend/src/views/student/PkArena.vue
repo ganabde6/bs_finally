@@ -535,7 +535,7 @@ function copyRoomCode() {
 }
 
 .member-avatar {
-  background: #0D9488;
+  background: #FF6900;
   color: #fff;
   font-weight: 600;
 }

@@ -518,7 +518,7 @@ function formatDuration(seconds) {
 .points-text {
   font-size: 16px;
   font-weight: 600;
-  color: #0D9488;
+  color: #FF6900;
 }
 
 .badges {
@@ -553,12 +553,12 @@ function formatDuration(seconds) {
 }
 
 .mode-card:hover {
-  border-color: #0D9488;
+  border-color: #FF6900;
   transform: translateY(-2px);
 }
 
 .mode-card.active {
-  border-color: #0D9488;
+  border-color: #FF6900;
   background: #ecf5ff;
 }
 
@@ -595,7 +595,7 @@ function formatDuration(seconds) {
 .kp-container {
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   border-radius: 4px;
   padding: 12px;
 }
@@ -609,7 +609,7 @@ function formatDuration(seconds) {
   text-align: center;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #E8F1F4;
+  border-top: 1px solid #E8ECF1;
 }
 
 .type-config {

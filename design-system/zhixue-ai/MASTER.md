@@ -7,7 +7,7 @@
 ---
 
 **Project:** zhixue-ai
-**Generated:** 2026-08-10 14:17:38
+**Updated:** 2026-11-11(全站换色:小米橙 / 墨黑中性底 / 零绿)
 **Category:** AI/Chatbot Platform
 
 ---
@@ -18,30 +18,26 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#0D9488` | `--color-primary` |
+| Primary | `#FF6900` | `--color-primary` |
 | On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#2DD4BF` | `--color-secondary` |
-| Accent/CTA | `#D97706` | `--color-accent` |
-| Background | `#F0FDFA` | `--color-background` |
-| Foreground | `#134E4A` | `--color-foreground` |
-| Muted | `#E8F1F4` | `--color-muted` |
-| Border | `#5EEAD4` | `--color-border` |
+| Secondary | `#FF964D` | `--color-secondary` |
+| Accent/CTA | `#FFB480` | `--color-accent` |
+| Background | `#F7F8FA` | `--color-background` |
+| Foreground | `#1F2329` | `--color-foreground` |
+| Muted | `#E8ECF1` | `--color-muted` |
+| Border | `#E8ECF1` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
-| Ring | `#0D9488` | `--color-ring` |
+| Ring | `#FF6900` | `--color-ring` |
+| Success(答对/成功) | `#409EFF` | `--el-color-success` |
 
-**Color Notes:** Education teal + course amber + grade green
+**Color Notes:** 小米橙品牌色(与登录页一致)+ 墨黑中性底;全站禁止绿色(主题与功能色均不含绿),成功/答对统一用蓝色。
+Element Plus 主色衍生:light-3 `#FF964D` / light-5 `#FFB480` / light-7 `#FFD2B3` / light-8 `#FFE1CC` / light-9 `#FFF0E6` / dark-2 `#CC5400`。
+ECharts 品牌色板(多序列图表,无绿):`#FF6900, #409EFF, #9B59F5, #F7BA1E, #F56C6C, #22B8CF`。
 
 ### Typography
 
-- **Heading Font:** Baloo 2
-- **Body Font:** Comic Neue
-- **Mood:** kids, education, playful, friendly, colorful, learning
-- **Google Fonts:** [Baloo 2 + Comic Neue](https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Comic+Neue:wght@300;400;700&display=swap)
-
-**CSS Import:**
-```css
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Comic+Neue:wght@300;400;700&display=swap');
-```
+- **Font stack:** `Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif`(见 `style.css` body;不加载外部字体,离线可用)
+- **Mood:** warm orange, clean, professional, friendly education
 
 ### Spacing Variables
 
@@ -73,7 +69,7 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #D97706;
+  background: #FF6900;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -90,8 +86,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #0D9488;
-  border: 2px solid #0D9488;
+  color: #FF6900;
+  border: 2px solid #FF6900;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -104,7 +100,7 @@
 
 ```css
 .card {
-  background: #F0FDFA;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -123,16 +119,16 @@
 ```css
 .input {
   padding: 12px 16px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #E4E7ED;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 200ms ease;
 }
 
 .input:focus {
-  border-color: #0D9488;
+  border-color: #FF6900;
   outline: none;
-  box-shadow: 0 0 0 3px #0D948820;
+  box-shadow: 0 0 0 3px #FF690020;
 }
 ```
 
@@ -154,9 +150,25 @@
 }
 ```
 
----
+### Sidebar / Header(BaseLayout)
 
-## Style Guidelines
+```css
+.aside {
+  background: linear-gradient(180deg, #1F2329 0%, #2A2F3A 100%);
+}
+/* 菜单激活态:rgba(255, 150, 77, 0.22) 底 + #FF6900 左侧指示条 */
+/* 顶栏底边线 #E8ECF1;主区背景 #F7F8FA */
+```
+
+### Stat Card(全局 .stat-card)
+
+- 背景:白色 → `#FAFBFC` 135° 渐变
+- 顶条:4px,`linear-gradient(90deg, #FF6900, #FF964D)`
+- 右下装饰光斑:`rgba(255, 150, 77, 0.14)` 径向渐变
+- 悬停:`translateY(-4px)` + `0 12px 24px rgba(255, 105, 0, 0.16)`
+- 数字:`font-variant-numeric: tabular-nums`
+
+### Style Guidelines
 
 **Style:** AI-Native UI
 
@@ -180,6 +192,7 @@
 
 - ❌ Heavy chrome
 - ❌ Slow response feedback
+- ❌ 任何绿色(主题色、功能色、图表色一律不含绿;答对/成功 = 蓝 `#409EFF`)
 
 ### Additional Forbidden Patterns
 
@@ -206,3 +219,4 @@ Before delivering any UI code, verify:
 - [ ] Responsive: 375px, 768px, 1024px, 1440px
 - [ ] No content hidden behind fixed navbars
 - [ ] No horizontal scroll on mobile
+- [ ] 全站零绿:grep 校验无青绿系 hex(#0D9488/#2DD4BF/#0F766E/#0B3B37/#134E4A/#67C23A/#F0F9EB/#E8F1F4 等)

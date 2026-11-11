@@ -7,15 +7,18 @@
 
 | 角色 | 值 | 变量 |
 |------|-----|------|
-| 主色 | #0D9488 | `var(--color-primary)` |
-| 次色 | #2DD4BF | `var(--color-secondary)` |
-| 强调色 | #D97706 | `var(--color-accent)` |
-| 背景 | #F0FDFA | `var(--color-background)` |
-| 前景文字 | #134E4A | `var(--color-foreground)` |
-| 弱化色 | #E8F1F4 | `var(--color-muted)` |
-| 次要文字 | #60757A | `var(--color-text-secondary)` |
+| 主色 | #FF6900 | `var(--color-primary)` |
+| 次色 | #FF964D | `var(--color-secondary)` |
+| 强调色 | #FFB480 | `var(--color-accent)` |
+| 背景 | #F7F8FA | `var(--color-background)` |
+| 前景文字 | #1F2329 | `var(--color-foreground)` |
+| 弱化色 | #E8ECF1 | `var(--color-muted)` |
+| 次要文字 | #5C6470 | `var(--color-text-secondary)` |
+| 成功/答对 | #409EFF | `var(--el-color-success)` |
 | 间距 | 4/8/16/24/32px | `--space-xs/sm/md/lg/xl` |
 | 阴影 | sm/md/lg | `--shadow-sm/md/lg` |
+
+> 全站零绿:主题、功能、图表均不使用绿色;答对/成功/已掌握 = 蓝(#409EFF)。
 
 ## 2. 页面通用结构（所有页面统一）
 
@@ -56,14 +59,14 @@
 
 ## 5. 图表卡片
 
-`<el-card>` + `#header` 标题 + 固定高度（300px 左右）容器，ECharts 主色用 #0D9488。
+`<el-card>` + `#header` 标题 + 固定高度（300px 左右）容器，ECharts 主色用 #FF6900；多序列图表用品牌色板 #FF6900 / #409EFF / #9B59F5 / #F7BA1E / #F56C6C / #22B8CF（无绿）。
 
 ## 6. 交互/动效规范（技能 Pre-Delivery Checklist）
 
 - ❌ 禁止用 emoji 当图标 → 用 Element Plus 图标（已全局注册）
 - ✅ 可点击元素 `cursor:pointer`
 - ✅ 悬停过渡 150-300ms
-- ✅ 文字对比度 ≥ 4.5:1（前景 #134E4A on 白底可满足）
+- ✅ 文字对比度 ≥ 4.5:1（前景 #1F2329 on 白底可满足）
 - ✅ 焦点可见（全局 :focus-visible 已生效）
 - ✅ prefers-reduced-motion 尊重（全局已生效）
 - ✅ 响应式 375/768/1024/1440px：栅格用 el-row/el-col，避免固定宽度溢出

@@ -283,7 +283,7 @@ const save = async (publish = false) => {
 .sel-idx {
   width: 20px; height: 20px;
   border-radius: 50%;
-  background: #0D9488;
+  background: #FF6900;
   color: #fff;
   font-size: 12px;
   display: inline-flex;
@@ -303,12 +303,12 @@ const save = async (publish = false) => {
 .selected-footer {
   margin-top: 12px;
   padding: 10px 12px;
-  background: #F3FBF8;
+  background: #FAFBFC;
   border-radius: 8px;
   text-align: center;
   font-size: 14px;
 }
-.selected-footer strong { color: #0D9488; font-size: 16px; }
+.selected-footer strong { color: #FF6900; font-size: 16px; }
 .mb-10 { margin-bottom: 10px; }
 .mt-10 { margin-top: 10px; }
 </style>

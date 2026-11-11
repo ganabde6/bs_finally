@@ -167,8 +167,8 @@ const greeting = computed(() => {
 })
 
 const quickEntries = [
-  { title: '题库管理', desc: '维护题目与知识点', path: '/teacher/question', icon: markRaw(Files), color: '#0D9488' },
-  { title: '发布作业/考试', desc: '新建并发布作业', path: '/teacher/paper', icon: markRaw(Document), color: '#67C23A' },
+  { title: '题库管理', desc: '维护题目与知识点', path: '/teacher/question', icon: markRaw(Files), color: '#FF6900' },
+  { title: '发布作业/考试', desc: '新建并发布作业', path: '/teacher/paper', icon: markRaw(Document), color: '#409EFF' },
   { title: '批改管理', desc: 'AI 批改与人工复核', path: '/teacher/correct', icon: markRaw(EditPen), color: '#E6A23C' },
   { title: '班级学情', desc: '成绩与知识点分析', path: '/teacher/classAnalysis', icon: markRaw(TrendCharts), color: '#409EFF' },
   { title: '听说作业', desc: '英语听说训练布置', path: '/teacher/lsHomework', icon: markRaw(Headset), color: '#F56C6C' },
@@ -190,8 +190,8 @@ const drawTrend = (data) => {
     xAxis: { type: 'category', data: data.map(d => d.date), boundaryGap: false },
     yAxis: { type: 'value', minInterval: 1 },
     series: [
-      { name: '提交数', type: 'line', smooth: true, data: data.map(d => d.submitted), itemStyle: { color: '#0D9488' }, areaStyle: { color: 'rgba(13,148,136,0.12)' } },
-      { name: '按时提交', type: 'line', smooth: true, data: data.map(d => d.onTime), itemStyle: { color: '#67C23A' } }
+      { name: '提交数', type: 'line', smooth: true, data: data.map(d => d.submitted), itemStyle: { color: '#FF6900' }, areaStyle: { color: 'rgba(255,105,0,0.12)' } },
+      { name: '按时提交', type: 'line', smooth: true, data: data.map(d => d.onTime), itemStyle: { color: '#409EFF' } }
     ]
   })
 }
@@ -201,6 +201,7 @@ const drawScore = (data) => {
   const hasData = data.some(d => d.value > 0)
   scoreInstance = echarts.init(scoreChart.value)
   scoreInstance.setOption({
+    color: ['#FF6900', '#F7BA1E', '#409EFF', '#9B59F5', '#F56C6C'],
     tooltip: { trigger: 'item' },
     legend: { bottom: 0 },
     series: [{
@@ -288,14 +289,14 @@ const completeTask = async (id) => {
   gap: 6px;
   padding: 18px 8px;
   border-radius: 12px;
-  background: linear-gradient(180deg, #FAFDFC 0%, #F3FBF8 100%);
-  border: 1px solid #EDF2F0;
+  background: linear-gradient(180deg, #FAFBFC 0%, #FAFBFC 100%);
+  border: 1px solid #E8ECF1;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .quick-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 8px 18px rgba(255, 105, 0, 0.12);
 }
 .quick-title { font-size: 14px; font-weight: 600; color: var(--color-foreground, #303133); }
 .quick-desc { font-size: 12px; color: #909399; text-align: center; }
@@ -306,7 +307,7 @@ const completeTask = async (id) => {
   color: #909399;
   padding: 0 4px 6px;
 }
-.todo-task-icon { color: #0D9488; font-size: 16px; flex-shrink: 0; }
+.todo-task-icon { color: #FF6900; font-size: 16px; flex-shrink: 0; }
 
 @media (max-width: 1200px) {
   .quick-grid { grid-template-columns: repeat(3, 1fr); }

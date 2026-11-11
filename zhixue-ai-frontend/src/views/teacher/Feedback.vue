@@ -150,6 +150,6 @@ const doPush = async () => {
 </script>
 
 <style scoped>
-.feedback-box { background: #F0FDFA; padding: 24px; border-radius: 8px; line-height: 1.8; white-space: pre-wrap; border: 1px dashed #0D9488; }
+.feedback-box { background: #F7F8FA; padding: 24px; border-radius: 8px; line-height: 1.8; white-space: pre-wrap; border: 1px dashed #FF6900; }
 .student-count { margin-left: 10px; color: #909399; font-size: 13px; }
 </style>

@@ -3,56 +3,23 @@
 > vite
 
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1621[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1245[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://100.92.212.25:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.66.176:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.2.101:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.88.1:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
-[2m10:09:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/admin/Moderation.vue[22m
-[2m10:09:25[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m11:36:29[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m11:39:40[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/router/index.js[22m
-[2m11:39:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/layout/AdminLayout.vue[22m
-[2m11:39:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/admin/AiConfig.vue[22m
-[2m12:05:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/admin/Course.vue[22m
-[2m12:48:38[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m12:48:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/admin/Course.vue[22m
-[2m12:48:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/admin/Course.vue[22m
-[2m14:07:37[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/subjects[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:07:37[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/classes[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:07:37[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/common/roles[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:07:45[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/subjects[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:07:45[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/classes[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:07:45[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/common/roles[39m
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1134:18)
-    at afterConnectMultiple (node:net:1715:7)
-[2m14:46:50[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m14:46:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/teacher/Dashboard.vue[22m
-[2m16:39:16[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m16:39:16[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/router/index.js[22m
-[2m16:39:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/layout/AdminLayout.vue[22m
-[2m16:43:28[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m16:43:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/teacher/Dashboard.vue, /src/views/teacher/Dashboard.vue?vue&type=style&index=0&scoped=187ec00c&lang.css[22m
-[2m17:19:58[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m17:19:58[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/router/index.js[22m
-[2m17:19:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/layout/TeacherLayout.vue[22m
-[2m17:21:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/Dashboard.vue[22m
-[2m17:21:14[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
+[2m15:08:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
+[2m15:08:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
+[2m15:08:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
+[2m15:08:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:09:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:09:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:09:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:21:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
+[2m15:22:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:22:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m15:32:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue, /src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+^C^C

@@ -18,7 +18,7 @@
     <div v-if="analysis">
       <el-row :gutter="20">
         <el-col :span="6"><el-card class="stat-card"><div class="num">{{ analysis.avgScore }}</div><div class="label">班级平均分</div></el-card></el-col>
-        <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#67C23A">{{ analysis.passRate }}%</div><div class="label">及格率</div></el-card></el-col>
+        <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#409EFF">{{ analysis.passRate }}%</div><div class="label">及格率</div></el-card></el-col>
         <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#E6A23C">{{ analysis.excellentRate }}%</div><div class="label">优秀率</div></el-card></el-col>
         <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#F56C6C">{{ layering.length }}</div><div class="label">分层组数</div></el-card></el-col>
       </el-row>
@@ -90,6 +90,7 @@ const loadAnalysis = async () => {
 const drawPie = () => {
   const chart = echarts.init(pieChart.value)
   chart.setOption({
+    color: ['#FF6900', '#F7BA1E', '#409EFF', '#F56C6C', '#9B59F5'],
     tooltip: { trigger: 'item' },
     legend: { bottom: 0 },
     series: [{
@@ -106,7 +107,7 @@ const drawBar = () => {
     tooltip: {},
     xAxis: { type: 'category', data: errors, axisLabel: { rotate: 30 } },
     yAxis: { type: 'value' },
-    series: [{ type: 'bar', data: errors.map(() => Math.floor(Math.random() * 10) + 1) }]
+    series: [{ type: 'bar', data: errors.map(() => Math.floor(Math.random() * 10) + 1), itemStyle: { color: '#409EFF' } }]
   })
 }
 </script>

@@ -439,14 +439,14 @@ const artsSubjects = new Set(['语文', '英语', '历史', '地理', '政治', 
 
 // 预设学科固定列表（按顺序展示，每个学科独立主题色）
 const presetSubjects = [
-  { name: '数学', icon: 'Odometer', themeColor: '#0d9488', themeBg: '#e7f4f3' },
+  { name: '数学', icon: 'Odometer', themeColor: '#FF6900', themeBg: '#FFF0E6' },
   { name: '语文', icon: 'Reading', themeColor: '#f56c6c', themeBg: '#fef0f0' },
-  { name: '英语', icon: 'ChatLineRound', themeColor: '#67c23a', themeBg: '#f0f9eb' },
+  { name: '英语', icon: 'ChatLineRound', themeColor: '#409EFF', themeBg: '#ECF5FF' },
   { name: '物理', icon: 'Lightning', themeColor: '#e6a23c', themeBg: '#fdf6ec' },
   { name: '化学', icon: 'MagicStick', themeColor: '#909399', themeBg: '#f4f4f5' },
-  { name: '生物', icon: 'Cherry', themeColor: '#67c23a', themeBg: '#f0f9eb' },
+  { name: '生物', icon: 'Cherry', themeColor: '#409EFF', themeBg: '#ECF5FF' },
   { name: '历史', icon: 'Memo', themeColor: '#e6a23c', themeBg: '#fdf6ec' },
-  { name: '地理', icon: 'Location', themeColor: '#0d9488', themeBg: '#e7f4f3' },
+  { name: '地理', icon: 'Location', themeColor: '#FF6900', themeBg: '#FFF0E6' },
   { name: '政治', icon: 'ScaleToOriginal', themeColor: '#f56c6c', themeBg: '#fef0f0' }
 ]
 
@@ -731,7 +731,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   border-radius: 12px;
   cursor: pointer;
   transition: box-shadow 0.2s, transform 0.2s;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
   overflow: hidden;
   padding: 20px;
 }
@@ -784,7 +784,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   gap: 20px;
   margin-bottom: 14px;
   padding: 10px 14px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 8px;
 }
 .sc-stats-all { background: #f0f0f5; }
@@ -805,13 +805,13 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 .sc-progress-wrap { margin-bottom: 10px; }
 .sc-progress {
   height: 6px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 3px;
   overflow: hidden;
 }
 .sc-progress-bar {
   height: 100%;
-  background: #67c23a;
+  background: #409EFF;
   border-radius: 3px;
   transition: width 0.4s;
 }
@@ -833,7 +833,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   padding: 14px 18px;
   background: #fff;
   border-radius: 8px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .filter-search { flex: 0 0 auto; }
 .filter-input { width: 260px; }
@@ -852,7 +852,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   display: flex;
   gap: 4px;
   margin-bottom: 20px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 6px;
   padding: 4px;
   width: fit-content;
@@ -879,7 +879,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 }
 .tab-icon { font-size: 15px; }
 .tab-count {
-  background: #E8F1F4;
+  background: #E8ECF1;
   padding: 1px 8px;
   border-radius: 10px;
   font-size: 12px;
@@ -896,7 +896,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .error-card:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
@@ -907,7 +907,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 }
 .status-0 .ec-status-bar { background: #f56c6c; }
 .status-1 .ec-status-bar { background: #e6a23c; }
-.status-2 .ec-status-bar { background: #67c23a; }
+.status-2 .ec-status-bar { background: #409EFF; }
 
 .ec-main {
   flex: 1;
@@ -923,7 +923,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 .ec-index-wrap {
   width: 30px;
   height: 30px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -995,7 +995,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .vg-header {
   display: flex;
@@ -1009,7 +1009,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 .vg-expand-icon {
   width: 26px;
   height: 26px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -1041,7 +1041,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   background: #fafafa;
   border-radius: 6px;
   margin-top: 10px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .vc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .vc-tag {
@@ -1057,7 +1057,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   line-height: 1.7;
   font-size: 14px;
   color: #303133;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .vc-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
 
@@ -1074,7 +1074,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
 .empty-circle {
   width: 80px;
   height: 80px;
-  background: #E8F1F4;
+  background: #E8ECF1;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1108,7 +1108,7 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   margin-top: 4px;
 }
 .answer-box {
-  background: #E8F1F4;
+  background: #E8ECF1;
   padding: 14px 16px;
   border-radius: 6px;
   border-left: 3px solid #409eff;
@@ -1136,18 +1136,18 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   flex-wrap: wrap;
 }
 .variant-content {
-  background: #E8F1F4;
+  background: #E8ECF1;
   padding: 16px;
   border-radius: 6px;
   white-space: pre-wrap;
   line-height: 1.7;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .variant-full {
   background: #fafafa;
   padding: 16px;
   border-radius: 6px;
-  border: 1px dashed #E8F1F4;
+  border: 1px dashed #E8ECF1;
   line-height: 1.7;
 }
 .variant-full strong {
@@ -1176,13 +1176,13 @@ const markReviewed = async (id, status) => { try { await reviewError(id, status)
   font-size: 14px;
   color: #303133;
   line-height: 1.7;
-  background: #E8F1F4;
+  background: #E8ECF1;
   padding: 12px 14px;
   border-radius: 6px;
-  border: 1px solid #E8F1F4;
+  border: 1px solid #E8ECF1;
 }
 .detail-answer {
-  border-left: 3px solid #67c23a;
+  border-left: 3px solid #409EFF;
 }
 .detail-analysis {
   border-left: 3px solid #409eff;

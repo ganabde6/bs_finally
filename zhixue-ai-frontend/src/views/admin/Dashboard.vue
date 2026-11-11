@@ -9,13 +9,13 @@
     <!-- 核心指标卡 -->
     <el-row :gutter="20">
       <el-col :span="6"><el-card class="stat-card"><div class="num">{{ stats.studentCount || 0 }}</div><div class="label">学生总数</div></el-card></el-col>
-      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#67C23A">{{ stats.teacherCount || 0 }}</div><div class="label">教师总数</div></el-card></el-col>
+      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#409EFF">{{ stats.teacherCount || 0 }}</div><div class="label">教师总数</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#E6A23C">{{ stats.classCount || 0 }}</div><div class="label">班级总数</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#909399">{{ stats.subjectCount || 0 }}</div><div class="label">学科总数</div></el-card></el-col>
     </el-row>
     <el-row :gutter="20" class="mt-20">
       <el-col :span="6"><el-card class="stat-card"><div class="num">{{ stats.paperCount || 0 }}</div><div class="label">试卷/作业总数</div></el-card></el-col>
-      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#67C23A">{{ stats.correctRate || 0 }}%</div><div class="label">批改完成率</div></el-card></el-col>
+      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#409EFF">{{ stats.correctRate || 0 }}%</div><div class="label">批改完成率</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#E6A23C">{{ stats.errorCount || 0 }}</div><div class="label">错题总数</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#F56C6C">{{ stats.highRiskCount || 0 }}</div><div class="label">高危风控预警</div></el-card></el-col>
     </el-row>
@@ -88,7 +88,7 @@ const drawPaper = (data) => {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: data.map(d => d.subject) },
     yAxis: { type: 'value' },
-    series: [{ type: 'bar', data: data.map(d => d.count), itemStyle: { color: '#0D9488' } }]
+    series: [{ type: 'bar', data: data.map(d => d.count), itemStyle: { color: '#FF6900' } }]
   })
 }
 
@@ -98,13 +98,14 @@ const drawRank = (data) => {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'value' },
     yAxis: { type: 'category', data: data.map(d => d.className).reverse() },
-    series: [{ type: 'bar', data: data.map(d => d.avgScore).reverse(), itemStyle: { color: '#67C23A' } }]
+    series: [{ type: 'bar', data: data.map(d => d.avgScore).reverse(), itemStyle: { color: '#409EFF' } }]
   })
 }
 
 const drawRisk = (data) => {
   const chart = echarts.init(riskChart.value)
   chart.setOption({
+    color: ['#FF6900', '#F7BA1E', '#409EFF', '#9B59F5', '#F56C6C', '#22B8CF'],
     tooltip: { trigger: 'item' },
     legend: { bottom: 0 },
     series: [{

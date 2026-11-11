@@ -137,7 +137,7 @@ const pageLoading = ref(false)
 
 // 进度条颜色
 const accuracyColor = computed(() => {
-  if (accuracy.value >= 60) return '#67C23A'
+  if (accuracy.value >= 60) return '#409EFF'
   if (accuracy.value >= 30) return '#E6A23C'
   return '#F56C6C'
 })
@@ -306,7 +306,7 @@ async function handleCheckIn() {
 .points-text {
   font-size: 16px;
   font-weight: 600;
-  color: #0D9488;
+  color: #FF6900;
 }
 
 .badges {
@@ -389,8 +389,8 @@ async function handleCheckIn() {
 }
 
 .result-correct {
-  color: #67C23A;
-  background: #f0f9eb;
+  color: #409EFF;
+  background: #ECF5FF;
   padding: 10px;
   border-radius: 4px;
 }
@@ -435,7 +435,7 @@ async function handleCheckIn() {
 .accuracy-text {
   font-size: 24px;
   font-weight: 700;
-  color: #0D9488;
+  color: #FF6900;
 }
 
 .checkin-area {

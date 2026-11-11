@@ -14,7 +14,7 @@
     <!-- 核心指标卡 -->
     <el-row :gutter="20">
       <el-col :span="6"><el-card class="stat-card"><div class="num">{{ summary.homeworkCount || 0 }}</div><div class="label">作业总数(已发布)</div></el-card></el-col>
-      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#67C23A">{{ summary.completionRate || 0 }}%</div><div class="label">提交完成率({{ summary.submittedCount || 0 }}/{{ summary.assignedCount || 0 }})</div></el-card></el-col>
+      <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#409EFF">{{ summary.completionRate || 0 }}%</div><div class="label">提交完成率({{ summary.submittedCount || 0 }}/{{ summary.assignedCount || 0 }})</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#E6A23C">{{ summary.pendingCorrectCount || 0 }}</div><div class="label">待批改(批改完成率 {{ summary.correctRate || 0 }}%)</div></el-card></el-col>
       <el-col :span="6"><el-card class="stat-card"><div class="num" style="color:#F56C6C">{{ summary.pendingCount || 0 }}</div><div class="label">未提交人次(平均 {{ summary.avgScore || 0 }} 分)</div></el-card></el-col>
     </el-row>

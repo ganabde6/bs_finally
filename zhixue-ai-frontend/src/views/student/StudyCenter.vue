@@ -16,7 +16,7 @@
           <el-card class="stat-card"><div class="num" style="color:#F56C6C">{{ weakPoints.length }}</div><div class="label">薄弱知识点</div></el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="stat-card"><div class="num" style="color:#67C23A">{{ strongPoints.length }}</div><div class="label">优势模块</div></el-card>
+          <el-card class="stat-card"><div class="num" style="color:#409EFF">{{ strongPoints.length }}</div><div class="label">优势模块</div></el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="stat-card"><div class="num" style="color:#E6A23C">{{ trend.length }}</div><div class="label">已完成测评</div></el-card>
@@ -120,7 +120,7 @@ const drawTrend = () => {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: trend.value.map(t => t.paper) },
     yAxis: { type: 'value' },
-    series: [{ name: '成绩', type: 'line', data: trend.value.map(t => t.score), smooth: true, areaStyle: {} }]
+    series: [{ name: '成绩', type: 'line', data: trend.value.map(t => t.score), smooth: true, itemStyle: { color: '#FF6900' }, areaStyle: {} }]
   })
 }
 
@@ -135,6 +135,7 @@ const drawRadar = () => {
     },
     series: [{
       type: 'radar',
+      itemStyle: { color: '#FF6900' },
       data: [{
         value: allPoints.map(p => strongPoints.value.includes(p) ? 90 : 40),
         name: '掌握度'

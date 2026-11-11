@@ -155,17 +155,17 @@ const saveAdjust = async (r) => {
 </script>
 
 <style scoped>
-.correct-item { padding: 16px 0; border-bottom: 1px dashed #E8F1F4; }
+.correct-item { padding: 16px 0; border-bottom: 1px dashed #E8ECF1; }
 .question-box { font-size: 15px; line-height: 1.8; }
-.answer-box { background: #E8F1F4; padding: 10px; border-radius: 4px; margin-top: 6px; white-space: pre-wrap; }
-.score-detail { background: #FAFDFC; border: 1px solid #EDF2F0; border-radius: 8px; padding: 10px 14px; margin-top: 6px; }
-.score-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px dashed #EDF2F0; }
+.answer-box { background: #E8ECF1; padding: 10px; border-radius: 4px; margin-top: 6px; white-space: pre-wrap; }
+.score-detail { background: #FAFBFC; border: 1px solid #E8ECF1; border-radius: 8px; padding: 10px 14px; margin-top: 6px; }
+.score-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px dashed #E8ECF1; }
 .score-row:last-child { border-bottom: none; }
 .score-label { font-weight: 600; min-width: 120px; }
 .score-desc { color: #606266; flex: 1; }
-pre { background: #E8F1F4; padding: 10px; border-radius: 4px; margin-top: 6px; font-size: 12px; }
+pre { background: #E8ECF1; padding: 10px; border-radius: 4px; margin-top: 6px; font-size: 12px; }
 .ml-10 { margin-left: 10px; }
-.class-view { margin-top: 12px; padding: 12px; background: #FAFDFC; border: 1px solid #EDF2F0; border-radius: 8px; }
+.class-view { margin-top: 12px; padding: 12px; background: #FAFBFC; border: 1px solid #E8ECF1; border-radius: 8px; }
 .cv-stat { display: flex; flex-wrap: wrap; }
 .mt-10 { margin-top: 10px; }
 </style>

@@ -89,7 +89,7 @@
       <div v-if="currentChallenge">
         <div style="margin-bottom: 16px">
           <div style="font-weight: 600; margin-bottom: 8px">题目：{{ currentChallenge.questionTitle }}</div>
-          <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentChallenge.questionContent }}</div>
+          <div style="background: #E8ECF1; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentChallenge.questionContent }}</div>
         </div>
         <el-upload
           :auto-upload="false"
@@ -311,7 +311,7 @@ onMounted(() => {
 }
 .rank-1 { background: #FFD700; color: #fff; }
 .rank-2 { background: #C0C0C0; color: #fff; }
-.score-good { color: #67c23a; font-weight: 600; }
+.score-good { color: #409EFF; font-weight: 600; }
 .score-mid { color: #e6a23c; font-weight: 600; }
 .score-bad { color: #f56c6c; font-weight: 600; }
 </style>

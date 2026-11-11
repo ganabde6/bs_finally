@@ -173,13 +173,13 @@ onMounted(() => { load(); loadSubjects() })
 .filter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
 .filter-label { font-size: 14px; color: #606266; }
 .summary-bar { margin-bottom: 16px; }
-.question-item { padding: 14px 0; border-bottom: 1px dashed #E8F1F4; }
+.question-item { padding: 14px 0; border-bottom: 1px dashed #E8ECF1; }
 .question-item:last-of-type { border-bottom: none; }
 .q-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .q-index { font-weight: 600; }
 .q-content { font-size: 14px; line-height: 1.7; margin-bottom: 10px; white-space: pre-wrap; }
 .q-line { font-size: 13px; line-height: 1.8; }
 .q-label { color: #909399; margin-right: 4px; }
-.ans-ok { color: #67C23A; }
+.ans-ok { color: #409EFF; }
 .ans-bad { color: #F56C6C; }
 </style>

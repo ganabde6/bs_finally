@@ -64,7 +64,7 @@
               <div v-for="opt in parseOptions(q.options)" :key="opt.key" class="ca-option-row">
                 <span class="ca-opt-key" :class="{ 'ca-opt-right': isRightOption(q, opt.key) }">{{ opt.key }}. {{ opt.value }}</span>
                 <el-progress :percentage="optPct(q, opt.key)" :stroke-width="14"
-                             :color="isRightOption(q, opt.key) ? '#67C23A' : '#E6A23C'" style="flex:1" />
+                             :color="isRightOption(q, opt.key) ? '#409EFF' : '#E6A23C'" style="flex:1" />
                 <span class="ca-opt-count">{{ optCount(q, opt.key) }} 人{{ isRightOption(q, opt.key) ? '(正确答案)' : '' }}</span>
               </div>
               <div class="ca-std-answer">正确答案:{{ q.standardAnswer }}</div>
@@ -211,7 +211,7 @@ const optPct = (q, key) => {
 .ca-options { padding: 4px 0 12px; }
 .ca-option-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .ca-opt-key { width: 220px; font-size: 13px; flex-shrink: 0; }
-.ca-opt-key.ca-opt-right { color: #67C23A; font-weight: 600; }
+.ca-opt-key.ca-opt-right { color: #409EFF; font-weight: 600; }
 .ca-opt-count { font-size: 13px; color: #606266; width: 110px; text-align: right; flex-shrink: 0; }
-.ca-std-answer { font-size: 13px; color: #67C23A; margin-top: 6px; }
+.ca-std-answer { font-size: 13px; color: #409EFF; margin-top: 6px; }
 </style>

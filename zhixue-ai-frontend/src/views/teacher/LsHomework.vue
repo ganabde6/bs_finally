@@ -117,14 +117,14 @@
           <el-tag size="small" type="info">{{ currentQuestion.questionType }}</el-tag>
           <el-tag size="small" :type="diffType(currentQuestion.difficulty)" style="margin-left: 8px">{{ diffLabel(currentQuestion.difficulty) }}</el-tag>
         </div>
-        <div style="background: #E8F1F4; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap" v-html="renderLatex(currentQuestion.content)"></div>
+        <div style="background: #E8ECF1; padding: 12px; border-radius: 4px; margin-bottom: 10px; white-space: pre-wrap" v-html="renderLatex(currentQuestion.content)"></div>
         <div v-if="currentQuestion.referenceText">
           <div style="font-weight: 600; margin-bottom: 6px">参考文本：</div>
           <div style="background: #ecf5ff; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentQuestion.referenceText }}</div>
         </div>
         <div v-if="currentQuestion.scorePoints">
           <div style="font-weight: 600; margin-top: 10px; margin-bottom: 6px">评分要点：</div>
-          <div style="background: #f0f9eb; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentQuestion.scorePoints }}</div>
+          <div style="background: #ECF5FF; padding: 12px; border-radius: 4px; white-space: pre-wrap">{{ currentQuestion.scorePoints }}</div>
         </div>
       </div>
     </el-dialog>
@@ -301,7 +301,7 @@ onMounted(() => {
   font-size: 18px;
   font-weight: 600;
 }
-.score-good { color: #67c23a; font-weight: 600; }
+.score-good { color: #409EFF; font-weight: 600; }
 .score-mid { color: #e6a23c; font-weight: 600; }
 .score-bad { color: #f56c6c; font-weight: 600; }
 </style>
