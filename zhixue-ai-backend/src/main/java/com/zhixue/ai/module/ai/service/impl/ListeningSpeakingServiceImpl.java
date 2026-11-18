@@ -16,12 +16,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 高考英语听说练习服务实现
@@ -64,6 +69,80 @@ public class ListeningSpeakingServiceImpl implements ListeningSpeakingService {
             throw new BizException("题目不存在");
         }
         return question;
+    }
+
+    /** TTS 朗读音频脚本(PowerShell SAPI 生成英语朗读 wav) */
+    @Value("${ai.tts.script:D:/bs_finally/asr/speak.ps1}")
+    private String ttsScript;
+
+    /** TTS 生成锁:防止同一题目并发重复生成 */
+    private final Object ttsLock = new Object();
+
+    @Override
+    public String getTtsAudioUrl(Long questionId) {
+        AiListeningSpeaking question = getQuestionDetail(questionId);
+        String text = (question.getReferenceText() != null && !question.getReferenceText().trim().isEmpty())
+                ? question.getReferenceText() : question.getContent();
+        if (text == null || text.trim().isEmpty()) {
+            throw new BizException("该题暂无可朗读文本");
+        }
+        text = text.trim();
+        // 缓存文件名带文本哈希:题目文本变更后缓存自动失效
+        String hash = Integer.toHexString(text.hashCode());
+        String relPath = "tts/q" + questionId + "-" + hash + ".wav";
+        File wav = new File(new File(uploadDir).getAbsoluteFile(), relPath);
+        if (wav.exists() && wav.length() > 1000) {
+            return "/upload/" + relPath;
+        }
+        synchronized (ttsLock) {
+            if (wav.exists() && wav.length() > 1000) {
+                return "/upload/" + relPath;
+            }
+            File textFile = null;
+            try {
+                if (!wav.getParentFile().exists() && !wav.getParentFile().mkdirs()) {
+                    throw new BizException("无法创建朗读音频目录");
+                }
+                textFile = File.createTempFile("tts-", ".txt");
+                Files.write(textFile.toPath(), text.getBytes(StandardCharsets.UTF_8));
+                ProcessBuilder pb = new ProcessBuilder("powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                        "-File", ttsScript, textFile.getAbsolutePath(), wav.getAbsolutePath());
+                Process p = pb.start();
+                String out;
+                try (BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        sb.append(line).append('\n');
+                    }
+                    out = sb.toString();
+                }
+                if (!p.waitFor(60, TimeUnit.SECONDS)) {
+                    p.destroyForcibly();
+                    throw new BizException("朗读音频生成超时,请稍后重试");
+                }
+                if (p.exitValue() != 0 || !wav.exists() || wav.length() <= 1000) {
+                    throw new BizException("朗读音频生成失败: " + out.trim());
+                }
+                log.info("TTS 朗读音频已生成: {} ({} 字节)", relPath, wav.length());
+                return "/upload/" + relPath;
+            } catch (BizException e) {
+                if (wav.exists()) {
+                    wav.delete();
+                }
+                throw e;
+            } catch (Exception e) {
+                if (wav.exists()) {
+                    wav.delete();
+                }
+                log.error("TTS 朗读音频生成异常: {}", e.getMessage(), e);
+                throw new BizException("朗读音频生成失败: " + e.getMessage());
+            } finally {
+                if (textFile != null) {
+                    textFile.delete();
+                }
+            }
+        }
     }
 
     @Override

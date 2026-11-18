@@ -1,0 +1,134 @@
+{
+  "devices": [
+    {
+      "index": 0,
+      "name": "Microsoft 声音映射器 - Input",
+      "rate": 44100,
+      "backend": "MME"
+    },
+    {
+      "index": 1,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 44100,
+      "backend": "MME"
+    },
+    {
+      "index": 2,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 44100,
+      "backend": "MME"
+    },
+    {
+      "index": 6,
+      "name": "主声音捕获驱动程序",
+      "rate": 44100,
+      "backend": "Windows DirectSound"
+    },
+    {
+      "index": 7,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 44100,
+      "backend": "Windows DirectSound"
+    },
+    {
+      "index": 8,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 44100,
+      "backend": "Windows DirectSound"
+    },
+    {
+      "index": 14,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 48000,
+      "backend": "Windows WASAPI"
+    },
+    {
+      "index": 15,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 48000,
+      "backend": "Windows WASAPI"
+    },
+    {
+      "index": 16,
+      "name": "Microphone Array (网易虚拟麦克风阵列（前置）)",
+      "rate": 48000,
+      "backend": "Windows WDM-KS"
+    },
+    {
+      "index": 20,
+      "name": "Input ()",
+      "rate": 48000,
+      "backend": "Windows WDM-KS"
+    },
+    {
+      "index": 22,
+      "name": "麦克风阵列 1 ()",
+      "rate": 48000,
+      "backend": "Windows WDM-KS"
+    },
+    {
+      "index": 23,
+      "name": "麦克风阵列 2 ()",
+      "rate": 48000,
+      "backend": "Windows WDM-KS"
+    },
+    {
+      "index": 24,
+      "name": "麦克风阵列 3 ()",
+      "rate": 16000,
+      "backend": "Windows WDM-KS"
+    }
+  ],
+  "tests": {
+    "[MME] 麦克风阵列 (适用于数字麦克风的英特尔® 智音技术) @44100": {
+      "ok": true,
+      "peak": 0.0112,
+      "rms": 0.00054
+    },
+    "[MME] 麦克风阵列 (网易虚拟音频设备) @44100": {
+      "ok": true,
+      "peak": 0.0,
+      "rms": 1e-05
+    },
+    "[Windows DirectSound] 麦克风阵列 (适用于数字麦克风的英特尔® 智音技术) @44100": {
+      "ok": true,
+      "peak": 1.0,
+      "rms": 0.42455
+    },
+    "[Windows DirectSound] 麦克风阵列 (网易虚拟音频设备) @44100": {
+      "ok": true,
+      "peak": 1.0,
+      "rms": 0.33019
+    },
+    "[Windows WASAPI] 麦克风阵列 (网易虚拟音频设备) @48000": {
+      "ok": true,
+      "peak": 0.0,
+      "rms": 0.0
+    },
+    "[Windows WASAPI] 麦克风阵列 (适用于数字麦克风的英特尔® 智音技术) @48000": {
+      "ok": true,
+      "peak": 0.2471,
+      "rms": 0.02611
+    },
+    "[Windows WDM-KS] Microphone Array (网易虚拟麦克风阵列（前置）) @48000": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "[Windows WDM-KS] Input () @48000": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "[Windows WDM-KS] 麦克风阵列 1 () @48000": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "[Windows WDM-KS] 麦克风阵列 2 () @48000": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "[Windows WDM-KS] 麦克风阵列 3 () @16000": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    }
+  }
+}

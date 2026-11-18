@@ -1,0 +1,7 @@
+﻿STEP1 LOGIN ok: user=
+STEP2 TTS url: /upload/tts/q3-6726d89d.wav
+STEP3 TTS wav downloaded: 1225808 bytes
+STEP4 PLAY exit= meter peak=0.7933 on [扬声器 (适用于 MIPI SoundWire® 音频的英特尔® 智音技术)]
+STEP5 SUBMIT http=OK took 42316ms
+STEP5 SUBMIT json: {"code":200,"message":"操作成功","data":{"questionId":3,"createTime":"2026-11-12 00:57:44","grammarScore":20.0,"aiFeedback":"发音较清晰，前半段与原文匹配较好，但后半段内容偏离。复述过短，缺少Tom难过、次日敲门、老妇人送狗回家和道谢等细节，流利度受影响。语法基本正确，句式完整。建议先听记关键词sad、next morning、knock、old lady、park、thanked，再按顺序用完整句子复述，避免改成“Lucky自己回来”。","contentScore":13.0,"id":6,"fluencyScore":17.0,"totalScore":68.0,"audioPath":"/upload/audio/2026/11/12/db6475145e3e41a89ef3ccc50c05db09.wav","pronunciationScore":18.0,"recognizedText":"Tom had a little dog named Lucky. One day, Lucky ran away from home. Tom looked for him everywhere, but he could not find him. In the end, Lucky came back by himself at night."},"timestamp":1794416264901}
+STEP6 RECORDS count=6

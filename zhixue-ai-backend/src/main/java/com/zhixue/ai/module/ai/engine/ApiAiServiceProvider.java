@@ -9,10 +9,17 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 第三方 AI API 服务实现
@@ -49,6 +56,24 @@ public class ApiAiServiceProvider implements AiServiceProvider {
 
     @Value("${ai.deepseek.model:deepseek-chat}")
     private String deepSeekModel;
+
+    /**
+     * 本地 Whisper 语音识别(优先使用,失败时回退 DashScope 云端 API)
+     */
+    @Value("${ai.asr.local-enabled:true}")
+    private boolean asrLocalEnabled;
+
+    @Value("${ai.asr.python:E:/python/app/python.exe}")
+    private String asrPython;
+
+    @Value("${ai.asr.script:D:/bs_finally/asr/transcribe.py}")
+    private String asrScript;
+
+    @Value("${ai.asr.model:D:/bs_finally/asr/models/base.en.pt}")
+    private String asrModel;
+
+    @Value("${ai.asr.timeout-seconds:110}")
+    private long asrTimeoutSeconds;
 
     /**
      * RestTemplate:连接 10s,读取 300s(AI 生成题耗时长,放宽超时兜底;前端超时也已同步放宽)
@@ -607,7 +632,60 @@ public class ApiAiServiceProvider implements AiServiceProvider {
         if (base64Audio == null || base64Audio.isEmpty()) {
             return null;
         }
+        if (asrLocalEnabled) {
+            String local = tryLocalWhisper(base64Audio, format);
+            if (local != null) {
+                log.info("本地 Whisper 识别成功, {} 字符", local.length());
+                return local;
+            }
+            log.warn("本地 Whisper 识别失败,回退 DashScope API");
+        }
         return callAiAudioApi(base64Audio, format);
+    }
+
+    /**
+     * 本地 Whisper 语音识别:音频写入临时文件,子进程运行 Python 脚本识别
+     *
+     * @return 识别文本;失败返回 null(回退云端 API)
+     */
+    private String tryLocalWhisper(String base64Audio, String format) {
+        File tmp = null;
+        try {
+            byte[] bytes = Base64.getDecoder().decode(base64Audio);
+            String ext = (format == null || format.isEmpty()) ? "wav" : format;
+            tmp = File.createTempFile("asr-", "." + ext);
+            Files.write(tmp.toPath(), bytes);
+            ProcessBuilder pb = new ProcessBuilder(asrPython, asrScript, tmp.getAbsolutePath(), asrModel);
+            Process p = pb.start();
+            String out;
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    sb.append(line).append('\n');
+                }
+                out = sb.toString();
+            }
+            boolean done = p.waitFor(asrTimeoutSeconds, TimeUnit.SECONDS);
+            if (!done) {
+                p.destroyForcibly();
+                log.error("本地 Whisper 识别超时({}s),放弃", asrTimeoutSeconds);
+                return null;
+            }
+            if (p.exitValue() != 0) {
+                log.error("本地 Whisper 识别失败,退出码={}", p.exitValue());
+                return null;
+            }
+            String text = out.trim();
+            return text.isEmpty() ? null : text;
+        } catch (Exception e) {
+            log.error("本地 Whisper 识别异常: {}", e.getMessage(), e);
+            return null;
+        } finally {
+            if (tmp != null && tmp.exists()) {
+                tmp.delete();
+            }
+        }
     }
 
     /**

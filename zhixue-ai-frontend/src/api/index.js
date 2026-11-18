@@ -82,6 +82,7 @@ export const submitListeningSpeaking = (id, file, supplementText) => {
   })
 }
 export const listeningSpeakingRecords = () => request.get('/api/student/listening-speaking/records')
+export const lsTtsAudio = (id) => request.get(`/api/student/listening-speaking/${id}/tts-audio`)
 export const uploadAudioFile = (file) => {
   const fd = new FormData()
   fd.append('file', file)

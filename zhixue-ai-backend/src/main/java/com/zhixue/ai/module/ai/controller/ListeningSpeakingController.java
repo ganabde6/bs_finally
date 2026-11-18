@@ -33,6 +33,12 @@ public class ListeningSpeakingController {
         return Result.success(listeningSpeakingService.getQuestionDetail(id));
     }
 
+    /** 听力题 TTS 朗读音频(首次请求生成,之后走缓存),返回可播放 URL */
+    @GetMapping("/{id}/tts-audio")
+    public Result<String> ttsAudio(@PathVariable Long id) {
+        return Result.success(listeningSpeakingService.getTtsAudioUrl(id));
+    }
+
     /** 提交音频作答(音频文件 + 文字补充) */
     @PostMapping("/{id}/submit")
     public Result<Map<String, Object>> submit(@PathVariable Long id,

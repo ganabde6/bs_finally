@@ -1,0 +1,109 @@
+{
+  "devices": [
+    {
+      "index": 0,
+      "name": "Microsoft 声音映射器 - Input",
+      "rate": 44100
+    },
+    {
+      "index": 1,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 44100
+    },
+    {
+      "index": 2,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 44100
+    },
+    {
+      "index": 6,
+      "name": "主声音捕获驱动程序",
+      "rate": 44100
+    },
+    {
+      "index": 7,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 44100
+    },
+    {
+      "index": 8,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 44100
+    },
+    {
+      "index": 14,
+      "name": "麦克风阵列 (网易虚拟音频设备)",
+      "rate": 48000
+    },
+    {
+      "index": 15,
+      "name": "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)",
+      "rate": 48000
+    },
+    {
+      "index": 16,
+      "name": "Microphone Array (网易虚拟麦克风阵列（前置）)",
+      "rate": 48000
+    },
+    {
+      "index": 20,
+      "name": "Input ()",
+      "rate": 48000
+    },
+    {
+      "index": 22,
+      "name": "麦克风阵列 1 ()",
+      "rate": 48000
+    },
+    {
+      "index": 23,
+      "name": "麦克风阵列 2 ()",
+      "rate": 48000
+    },
+    {
+      "index": 24,
+      "name": "麦克风阵列 3 ()",
+      "rate": 16000
+    }
+  ],
+  "tests": {
+    "Microsoft 声音映射器 - Input": {
+      "ok": true,
+      "peak": 0.3733,
+      "rms": 0.05003
+    },
+    "麦克风阵列 (适用于数字麦克风的英特尔® 智音技术)": {
+      "ok": false,
+      "error": "OSError(-9997, 'Invalid sample rate')"
+    },
+    "麦克风阵列 (网易虚拟音频设备)": {
+      "ok": false,
+      "error": "OSError(-9997, 'Invalid sample rate')"
+    },
+    "主声音捕获驱动程序": {
+      "ok": true,
+      "peak": 0.9341,
+      "rms": 0.02427
+    },
+    "Microphone Array (网易虚拟麦克风阵列（前置）)": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "Input ()": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "麦克风阵列 1 ()": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "麦克风阵列 2 ()": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    },
+    "麦克风阵列 3 ()": {
+      "ok": false,
+      "error": "OSError(-9999, 'Unanticipated host error')"
+    }
+  }
+}

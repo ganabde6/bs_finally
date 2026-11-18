@@ -1,0 +1,6 @@
+umio-ocr/UmiOCR_Paddle_2.1.5.7z.exe filter=lfs diff=lfs merge=lfs -text
+asr/models/base.en.pt filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.7z filter=lfs diff=lfs merge=lfs -text

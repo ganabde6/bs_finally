@@ -3,15 +3,24 @@
 > vite
 
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1324[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1455[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://100.92.212.25:[1m5173[22m/[39m
-  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.66.176:[1m5173[22m/[39m
-  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.2.101:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.88.1:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://10.103.8.252:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
-[2m17:36:58[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/api/index.js[22m
-[2m17:36:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.vue[22m
-[2m17:37:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue[22m
-[2m17:37:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/Login.vue?vue&type=style&index=0&scoped=08aaad4e&lang.css[22m
+[2m23:31:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:31:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:31:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:31:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:31:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:31:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:32:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:32:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:32:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:33:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:33:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:43:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+[2m23:43:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/student/ListeningSpeaking.vue[22m
+^C^C

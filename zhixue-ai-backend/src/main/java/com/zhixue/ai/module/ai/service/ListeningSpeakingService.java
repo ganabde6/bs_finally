@@ -26,6 +26,9 @@ public interface ListeningSpeakingService {
     /** 上传音频文件到 upload/audio/ 目录,返回相对路径 */
     String uploadAudio(MultipartFile file);
 
+    /** 生成(或取缓存)听力题 TTS 朗读音频,返回可播放 URL(/upload/tts/xxx.wav) */
+    String getTtsAudioUrl(Long questionId);
+
     // ===================== 学生自主出题 =====================
 
     /** AI 自定义文本出题 */

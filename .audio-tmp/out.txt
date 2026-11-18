@@ -1,0 +1,2 @@
+APARTMENT=STA
+GetDefault(capture): hr=0x80070057;id=
